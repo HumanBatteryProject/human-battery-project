@@ -23,6 +23,9 @@
 .ill .st-sil{stroke:var(--silver,#B6BDBC)}.ill .st-blu{stroke:var(--blue,#218BBE)}.ill .st-tea{stroke:var(--teal,#2AAFC0)}
 .ill .st-grn{stroke:var(--green,#157A5C)}.ill .st-cop{stroke:var(--copper,#B4653A)}
 .ill .fl-sil{fill:var(--silver,#B6BDBC)}.ill .fl-blu{fill:var(--blue,#218BBE)}.ill .fl-tea{fill:var(--teal,#2AAFC0)}
+.fig .ill text.disp,.fig .ill g.disp text{font-family:var(--display,'Michroma',ui-sans-serif,sans-serif)}
+.ill .fl-ste{fill:var(--steel,#6E908C)}.ill .st-ste{stroke:var(--steel,#6E908C)}
+.ill .fl-ice{fill:var(--ice,#ECF3F4)}
 .ill .fl-grn{fill:var(--green,#157A5C)}.ill .fl-cop{fill:var(--copper,#B4653A)}.ill .fl-car{fill:var(--carbon,#05090C)}
 </style>
 </head>
@@ -177,26 +180,28 @@
 
 
     <figure class="fig">
-    <svg class="ill" viewBox="0 0 252 124" role="img" aria-labelledby="sysT sysD">
+    <svg class="ill" viewBox="0 0 300 150" role="img" aria-labelledby="sysT sysD">
     <title id="sysT">The four subsystems drawn as one system with fuel flowing through it</title>
-    <desc id="sysD">Fuel enters on the left through Charge. Charge fills a central store. Output draws from that store on the right. Drain leaks away from the side in copper. Reserve runs underneath as the foundation all three stand on.</desc>
+    <desc id="sysD">Fuel enters on the left through Charge. Charge fills a central store. Output draws from that store on the right. Drain leaks away upward in copper. Reserve runs underneath as the foundation all three stand on.</desc>
     <g stroke-width="1.8">
-    <rect x="30" y="52" width="48" height="32" rx="3" fill="none" class="nf st-blu" stroke-width="1.8"/>
-    <rect x="100" y="40" width="52" height="48" rx="4" fill="none" class="nf st-sil" stroke-width="1.8"/>
-    <rect x="176" y="52" width="48" height="32" rx="3" fill="none" class="nf st-tea" stroke-width="1.8"/>
-    <rect x="140" y="6" width="48" height="24" rx="3" fill="none" class="nf st-cop" stroke-width="1.8"/>
-    <rect x="26" y="96" width="198" height="16" rx="4" fill="none" class="nf st-grn" stroke-width="1.8"/>
+    <rect x="46" y="64" width="70" height="36" rx="3" fill="none" class="nf st-blu"/>
+    <rect x="140" y="52" width="60" height="60" rx="4" fill="none" class="nf st-sil"/>
+    <rect x="224" y="64" width="70" height="36" rx="3" fill="none" class="nf st-tea"/>
+    <rect x="140" y="4" width="60" height="30" rx="3" fill="none" class="nf st-cop"/>
+    <rect x="46" y="120" width="248" height="22" rx="4" fill="none" class="nf st-grn"/>
     </g>
-    <g class="fl-blu" aria-hidden="true"><rect x="106" y="78" width="40" height="5" rx="1"/><rect x="106" y="70" width="40" height="5" rx="1"/><rect x="106" y="62" width="40" height="5" rx="1"/></g>
-    <g fill="none" class="nf st-grn" stroke-width="1.2" aria-hidden="true"><path d="M54 96V84M126 96V88M200 96V84"/></g>
-    <g fill="none" class="nf st-sil" stroke-width="1.6" aria-hidden="true"><path d="M6 68h16"/><path d="M78 68h16"/><path d="M152 68h18"/></g>
-    <g class="fl-sil" aria-hidden="true"><polygon points="27,68 21,65 21,71"/><polygon points="99,68 93,65 93,71"/><polygon points="175,68 169,65 169,71"/></g>
-    <g aria-hidden="true"><path d="M152 52h12v-16" fill="none" class="nf st-cop" stroke-width="1.6" stroke-linejoin="round"/><polygon points="164,31 161,38 167,38" class="fl-cop"/></g>
-    <g font-size="8" text-anchor="middle">
-    <text x="54" y="72" class="fl-blu">Charge</text><text x="200" y="72" class="fl-tea">Output</text>
-    <text x="164" y="22" class="fl-cop">Drain</text><text x="125" y="107" class="fl-grn">Reserve</text>
+    <g class="fl-blu" aria-hidden="true"><rect x="147" y="96" width="46" height="6" rx="1"/><rect x="147" y="86" width="46" height="6" rx="1"/><rect x="147" y="76" width="46" height="6" rx="1"/></g>
+    <g fill="none" class="nf st-grn" stroke-width="1.2" aria-hidden="true"><path d="M81 120V100M170 120v-8M259 120v-20"/></g>
+    <g fill="none" class="nf st-sil" stroke-width="1.6" aria-hidden="true"><path d="M2 82h34M116 82h14M200 82h12"/></g>
+    <g class="fl-sil" aria-hidden="true"><polygon points="42,82 36,79 36,85"/><polygon points="136,82 130,79 130,85"/><polygon points="218,82 212,79 212,85"/></g>
+    <g aria-hidden="true"><path d="M170 51v-9" fill="none" class="nf st-cop" stroke-width="1.6"/><polygon points="170,35 166.5,42 173.5,42" class="fl-cop"/></g>
+    <g class="disp" font-size="9.5">
+    <text x="54" y="87" class="fl-blu">Charge</text>
+    <text x="232" y="87" class="fl-tea">Output</text>
+    <text x="147" y="25" class="fl-cop">Drain</text>
+    <text x="54" y="136" class="fl-grn">Reserve</text>
     </g>
-    <g class="fl-sil" font-size="6.5"><text x="126" y="52" text-anchor="middle">Store</text><text x="6" y="60">Fuel in</text></g>
+    <g class="fl-sil" font-size="6.5"><text x="147" y="66">Store</text><text x="2" y="77">Fuel in</text></g>
     </svg>
     <figcaption>The four subsystems are one system, not a list. Fuel enters through Charge, is held in the store, and is spent as Output. Drain leaks capacity away from the side. Reserve is the foundation the other three stand on.</figcaption>
     </figure>
@@ -272,6 +277,73 @@
   </div>
 </section>
 
+<figure class="fig">
+<svg class="ill" viewBox="0 0 300 142" role="img" aria-labelledby="resT resD">
+<title id="resT">Example of one marker moving from outside the program target band to inside it</title>
+<desc id="resD">An example only. HbA1c at day 0 reads 6.1, sitting to the right of both the laboratory reference range and the narrower program target band. At day 90 it reads 5.2, inside the target band. The laboratory range is the wider, lighter band; the program target is the narrower one.</desc>
+<rect x="50" y="56" width="130.3" height="28" rx="2" class="fl-sil" fill-opacity=".13"/>
+<rect x="96" y="56" width="53.7" height="28" rx="2" class="fl-blu" fill-opacity=".24"/>
+<rect x="96" y="56" width="53.7" height="28" rx="2" fill="none" class="nf st-blu" stroke-width="1.3"/>
+<path d="M50 70h235" fill="none" class="nf st-sil" stroke-width="1" stroke-opacity=".4" aria-hidden="true"/>
+<g aria-hidden="true"><path d="M204 70h-48" fill="none" class="nf st-sil" stroke-width="1.6"/><polygon points="150,70 156,67 156,73" class="fl-sil"/></g>
+<circle cx="211" cy="70" r="6" class="fl-cop"/><circle cx="142" cy="70" r="6" class="fl-blu"/>
+<g class="fl-sil" font-size="7" text-anchor="middle"><text x="211" y="46">Day 0</text><text x="142" y="46">Day 90</text></g>
+<g font-size="7.5" text-anchor="middle"><text x="211" y="100" class="fl-cop">6.1</text><text x="142" y="100" class="fl-blu">5.2</text></g>
+<text x="2" y="31" class="disp fl-blu" font-size="11">HbA1c</text>
+<text x="2" y="14" class="fl-cop disp" font-size="5.5" letter-spacing="1.2">EXAMPLE ONLY</text>
+<g aria-hidden="true"><rect x="50" y="110" width="12" height="8" rx="1" class="fl-sil" fill-opacity=".13"/><rect x="50" y="124" width="12" height="8" rx="1" class="fl-blu" fill-opacity=".24"/><rect x="50" y="124" width="12" height="8" rx="1" fill="none" class="nf st-blu" stroke-width="1"/></g>
+<g class="fl-sil" font-size="6.5"><text x="68" y="117">Laboratory reference range</text><text x="68" y="131">Program target band</text></g>
+</svg>
+<figcaption>An example of a single marker moving. At day 0 this HbA1c sits outside the program target band, and outside the laboratory range too. At day 90 it sits inside the target. The wider, lighter band is what a laboratory calls normal, which is a lower bar than the target. Example only, not a promised result.</figcaption>
+</figure>
+<figure class="fig">
+<svg class="ill" viewBox="0 0 300 172" role="img" aria-labelledby="scoT scoD">
+<title id="scoT">Example Battery Score readout at day 0 beside day 90</title>
+<desc id="scoD">An example only. Two panels side by side. Day 0 shows a composite Battery Score of 48 with subsystem scores of Charge 44, Drain 52, Output 51 and Reserve 45. Day 90 shows a composite of 71 with Charge 74, Drain 68, Output 70 and Reserve 72.</desc>
+<text x="2" y="14" class="fl-cop disp" font-size="5.5" letter-spacing="1.2">EXAMPLE ONLY</text>
+<rect x="2" y="24" width="142" height="142" rx="4" fill="none" class="nf st-sil" stroke-width="1.2" stroke-opacity=".4"/>
+<rect x="156" y="24" width="142" height="142" rx="4" fill="none" class="nf st-sil" stroke-width="1.2" stroke-opacity=".4"/>
+<text x="14" y="44" class="disp fl-sil" font-size="8">Day 0</text>
+<text x="168" y="44" class="disp fl-sil" font-size="8">Day 90</text>
+<text x="14" y="82" class="disp fl-ice" font-size="26">48</text>
+<text x="168" y="82" class="disp fl-ice" font-size="26">71</text>
+<text x="14" y="94" class="fl-sil" font-size="6">Battery Score</text>
+<text x="168" y="94" class="fl-sil" font-size="6">Battery Score</text>
+<text x="14" y="110" class="disp fl-blu" font-size="6.5">Charge</text>
+<rect x="62" y="104" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="62" y="104" width="24.6" height="7" rx="1.5" class="fl-blu"/>
+<text x="136" y="110" class="fl-sil" font-size="6" text-anchor="end">44</text>
+<text x="14" y="124" class="disp fl-ste" font-size="6.5">Drain</text>
+<rect x="62" y="118" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="62" y="118" width="29.1" height="7" rx="1.5" class="fl-ste"/>
+<text x="136" y="124" class="fl-sil" font-size="6" text-anchor="end">52</text>
+<text x="14" y="138" class="disp fl-tea" font-size="6.5">Output</text>
+<rect x="62" y="132" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="62" y="132" width="28.6" height="7" rx="1.5" class="fl-tea"/>
+<text x="136" y="138" class="fl-sil" font-size="6" text-anchor="end">51</text>
+<text x="14" y="152" class="disp fl-grn" font-size="6.5">Reserve</text>
+<rect x="62" y="146" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="62" y="146" width="25.2" height="7" rx="1.5" class="fl-grn"/>
+<text x="136" y="152" class="fl-sil" font-size="6" text-anchor="end">45</text>
+<text x="168" y="110" class="disp fl-blu" font-size="6.5">Charge</text>
+<rect x="216" y="104" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="216" y="104" width="41.4" height="7" rx="1.5" class="fl-blu"/>
+<text x="290" y="110" class="fl-sil" font-size="6" text-anchor="end">74</text>
+<text x="168" y="124" class="disp fl-ste" font-size="6.5">Drain</text>
+<rect x="216" y="118" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="216" y="118" width="38.1" height="7" rx="1.5" class="fl-ste"/>
+<text x="290" y="124" class="fl-sil" font-size="6" text-anchor="end">68</text>
+<text x="168" y="138" class="disp fl-tea" font-size="6.5">Output</text>
+<rect x="216" y="132" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="216" y="132" width="39.2" height="7" rx="1.5" class="fl-tea"/>
+<text x="290" y="138" class="fl-sil" font-size="6" text-anchor="end">70</text>
+<text x="168" y="152" class="disp fl-grn" font-size="6.5">Reserve</text>
+<rect x="216" y="146" width="56" height="7" rx="1.5" class="fl-sil" fill-opacity=".16"/>
+<rect x="216" y="146" width="40.3" height="7" rx="1.5" class="fl-grn"/>
+<text x="290" y="152" class="fl-sil" font-size="6" text-anchor="end">72</text>
+</svg>
+<figcaption>An example of the readout a client receives: one composite Battery Score with the four subsystems beneath it, shown at day 0 and again at day 90. Example only, not a promised result.</figcaption>
+</figure>
 <section id="model">
   <div class="wrap">
     <h2>The model, and how sure we are of each part</h2>
@@ -380,6 +452,34 @@
       <li>A daily accountability thread with the rest of your cohort</li>
       <li>A written plan for what happens after day 90</li>
     </ul>
+<figure class="fig">
+<svg class="ill" viewBox="0 0 300 182" role="img" aria-labelledby="logT logD">
+<title id="logT">The daily log as it appears on a phone</title>
+<desc id="logD">A phone screen headed Today. Two rows of tap chips for food and movement, then five domain scales each rated on a five point row, and a counter reading four of five. There is no save button; the log writes as you go.</desc>
+<rect x="20" y="6" width="100" height="170" rx="12" fill="none" class="nf st-sil" stroke-width="1.8"/>
+<rect x="26" y="20" width="88" height="150" rx="4" fill="none" class="nf st-sil" stroke-width="1" stroke-opacity=".35"/>
+<text x="34" y="35" class="disp fl-ice" font-size="8">Today</text>
+<g fill="none" class="nf st-blu" stroke-width="1.4" aria-hidden="true">
+<rect x="34" y="43" width="30" height="11" rx="5.5"/><rect x="68" y="43" width="24" height="11" rx="5.5"/><rect x="96" y="43" width="14" height="11" rx="5.5"/>
+<rect x="34" y="58" width="22" height="11" rx="5.5"/><rect x="60" y="58" width="28" height="11" rx="5.5"/><rect x="92" y="58" width="18" height="11" rx="5.5"/>
+</g>
+<path d="M34 78h76" fill="none" class="nf st-sil" stroke-width="1" stroke-opacity=".3" aria-hidden="true"/>
+<g class="fl-sil" font-size="5.5">
+<text x="34" y="90">Sleep</text><text x="34" y="104">Light</text><text x="34" y="118">Food</text><text x="34" y="132">Move</text><text x="34" y="146">Mood</text>
+</g>
+<g aria-hidden="true">
+<circle cx="72" cy="87" r="2.4" class="fl-tea"/><circle cx="80" cy="87" r="2.4" class="fl-tea"/><circle cx="88" cy="87" r="2.4" class="fl-tea"/><circle cx="96" cy="87" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="104" cy="87" r="2.4" class="fl-sil" fill-opacity=".25"/>
+<circle cx="72" cy="101" r="2.4" class="fl-tea"/><circle cx="80" cy="101" r="2.4" class="fl-tea"/><circle cx="88" cy="101" r="2.4" class="fl-tea"/><circle cx="96" cy="101" r="2.4" class="fl-tea"/><circle cx="104" cy="101" r="2.4" class="fl-sil" fill-opacity=".25"/>
+<circle cx="72" cy="115" r="2.4" class="fl-tea"/><circle cx="80" cy="115" r="2.4" class="fl-tea"/><circle cx="88" cy="115" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="96" cy="115" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="104" cy="115" r="2.4" class="fl-sil" fill-opacity=".25"/>
+<circle cx="72" cy="129" r="2.4" class="fl-tea"/><circle cx="80" cy="129" r="2.4" class="fl-tea"/><circle cx="88" cy="129" r="2.4" class="fl-tea"/><circle cx="96" cy="129" r="2.4" class="fl-tea"/><circle cx="104" cy="129" r="2.4" class="fl-sil" fill-opacity=".25"/>
+<circle cx="72" cy="143" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="80" cy="143" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="88" cy="143" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="96" cy="143" r="2.4" class="fl-sil" fill-opacity=".25"/><circle cx="104" cy="143" r="2.4" class="fl-sil" fill-opacity=".25"/>
+</g>
+<text x="34" y="163" class="disp fl-ice" font-size="7">4 of 5</text>
+<g fill="none" class="nf st-sil" stroke-width="1" stroke-opacity=".45" aria-hidden="true"><path d="M136 48h-18M136 106h-18M136 160h-18"/></g>
+<g class="fl-sil" font-size="7.5"><text x="142" y="51">Tap, never type</text><text x="142" y="109">It saves as you go</text><text x="142" y="163">Under a minute</text></g>
+</svg>
+<figcaption>The daily log. Tap chips instead of typing, five domain scales, and no Save button because it writes as you go. Target is under sixty seconds on a phone.</figcaption>
+</figure>
   </div>
 </section>
 
