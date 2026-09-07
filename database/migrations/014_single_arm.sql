@@ -1,7 +1,7 @@
 -- =====================================================================
 -- 014  Single-arm cohort design
 --
--- Cohorts run 25-30 participants, all starting on the same date with the
+-- Cohorts run 30 participants, all starting on the same date with the
 -- same protocol. The study_arm column and its 'not_applicable' default
 -- are retained: a future cohort may adopt a staggered design, and
 -- dropping the column would make old and new cohorts incomparable.

@@ -47,7 +47,7 @@ Without this the sign-in link will bounce.
 
 ## Creating a client
 
-There is no self-signup, by design: twenty-five to thirty seats is a reviewed list. To enroll someone:
+There is no self-signup, by design: thirty seats is a reviewed list. To enroll someone:
 
 1. Supabase → Authentication → Users → Invite user, with their email.
 2. Insert their `profiles` row with the same `id` as the auth user.

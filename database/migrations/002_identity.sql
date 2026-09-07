@@ -1,5 +1,5 @@
 -- =====================================================================
--- 002  Identity, cohorts, pods, enrolment
+-- 002  Identity, cohorts, pods, enrollment
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -64,7 +64,7 @@ create table pods (
 create index pods_coach_idx on pods (coach_id);
 
 -- ---------------------------------------------------------------------
--- memberships — a client's enrolment in a cohort
+-- memberships — a client's enrollment in a cohort
 -- ---------------------------------------------------------------------
 create table memberships (
   id              uuid primary key default gen_random_uuid(),

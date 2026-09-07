@@ -18,7 +18,7 @@ Modern medicine is extraordinary at acute care: trauma, infection, cardiac event
 
 ## The program
 
-Ninety days. Twenty-five seats in the first cohort. $1,000.
+Ninety days. Thirty seats in the first cohort. $1,000.
 
 **Blood drawn twice**: day 0 and day 90, through a partner laboratory under a physician-signed requisition. The panel is read as four subsystems rather than a wall of numbers:
 

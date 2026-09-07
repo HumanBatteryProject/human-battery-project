@@ -14,7 +14,7 @@ How it's handled here: installment plans use a recurring price, and `invoice.pai
 | Two payments | $500 × 2 | At checkout, then day 30 |
 | Three payments | $333.33, $333.33, $333.34 | At checkout, then day 30 and day 60 |
 
-Installments are billed on the client's **day 30 and day 60**, not on the 1st of the month. Calendar billing means someone who enrols on the 26th pays again five days later, which forces proration and turns into refund arguments. Because a cohort has one fixed start date, everyone's day 30 is the same date anyway, the tidiness without the edge case.
+Installments are billed on the client's **day 30 and day 60**, not on the 1st of the month. Calendar billing means someone who enrolls on the 26th pays again five days later, which forces proration and turns into refund arguments. Because a cohort has one fixed start date, everyone's day 30 is the same date anyway, the tidiness without the edge case.
 
 The final payment lands a month before the program ends, so you are never chasing money from someone who has already finished.
 
@@ -73,7 +73,7 @@ That index is deliberately **not** partial. A partial unique index cannot satisf
 
 ## Access control
 
-Checkout requires an application with `status = 'accepted'`. Twenty-five seats is a reviewed list, not an open shopping cart, and this prevents someone finding the endpoint and enrolling themselves.
+Checkout requires an application with `status = 'accepted'`. Thirty seats is a reviewed list, not an open shopping cart, and this prevents someone finding the endpoint and enrolling themselves.
 
 Application statuses: `new` → `reviewing` → `accepted` → `enrolled`, plus `waitlisted`, `declined`, `withdrawn`.
 

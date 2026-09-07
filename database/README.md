@@ -59,7 +59,7 @@ RLS means a missed `WHERE` clause in a route handler produces a rejected query, 
 | `profiles` | One row per user. Extends `auth.users`. Carries role and state of residence. |
 | `cohorts` | A ninety-day run. Seats, dates, price. |
 | `pods` | Coach-led group inside a cohort. Exists from day one so scaling to hundreds is a data change, not a migration. |
-| `memberships` | A client's enrolment. `day_zero` anchors every relative date. |
+| `memberships` | A client's enrollment. `day_zero` anchors every relative date. |
 
 `profiles.state` exists because Washington's My Health My Data Act, Nevada SB 370 and the Texas TDPSA apply based on where the client lives, not where the business operates. Capture it at signup and apply the strictest applicable regime.
 

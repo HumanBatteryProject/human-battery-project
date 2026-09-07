@@ -24,7 +24,7 @@ create index if not exists payments_subscription_idx
 
 -- 'accepted' is the state between reviewing an application and the
 -- person paying. Only an accepted application can reach checkout —
--- twenty-five seats is a reviewed list, not an open shopping cart.
+-- thirty seats is a reviewed list, not an open shopping cart.
 alter table applications
   drop constraint if exists applications_status_check;
 alter table applications

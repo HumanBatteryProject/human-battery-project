@@ -8,7 +8,7 @@ Project context for Claude Code. Read this before doing anything in this repo.
 
 The Human Battery Project: a 90-day measured health program. Participants get bloodwork at day 0 and day 90, follow a protocol, and log daily in a portal. The logged data is structured so it can support longitudinal research years later.
 
-Cohorts are 25-30 people, one shared start date, $1,000. A new cohort every 90 days. Participants pay for their own lab work, food and supplements.
+Cohorts are 30 people, one shared start date, $1,000. A new cohort every 90 days. Participants pay for their own lab work, food and supplements.
 
 **The person directing this work is not a programmer.** Explain what you are about to do in plain language before doing it. When something goes wrong, say what broke and what you are going to try, not a stack trace.
 
