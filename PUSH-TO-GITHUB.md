@@ -9,7 +9,7 @@ github.com → New repository.
 
 - Name: `human-battery-project`
 - **Private**
-- Do **not** add a README, .gitignore, or licence — this repo already has them,
+- Do **not** add a README, .gitignore, or licence. This repo already has them,
   and adding them creates a conflict on the first push.
 
 ## 2. Push
@@ -52,7 +52,7 @@ pre-launch checklist.
 
 `public/portal/config.js` ships with placeholder values and needs your real
 Supabase URL and anon key. The anon key is designed to be exposed in the
-browser — row-level security is what protects the data — so committing it is
+browser, row-level security is what protects the data, so committing it is
 not a security problem.
 
 The `service_role` key is different. It bypasses row-level security entirely.

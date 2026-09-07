@@ -9,7 +9,7 @@ about the database. Write a new numbered file instead.
 ## The portal config is a real file with fake values
 
 `public/portal/config.js` is committed with placeholders. Replace the values
-locally, and do not commit real keys — the anon key is technically safe to
+locally, and do not commit real keys: the anon key is technically safe to
 expose, but keeping the file clean means nobody has to think about which key
 is which.
 
@@ -22,7 +22,7 @@ runs server-side and reads from environment variables.
 ## Changing the Battery Score
 
 Do not edit an existing `score_methods` row. Publish a new version, and never
-activate a new method mid-cohort — changing the methodology between day 0 and
+activate a new method mid-cohort: changing the methodology between day 0 and
 day 90 invalidates the comparison for every client in that cohort.
 
 ## Evidence tiers

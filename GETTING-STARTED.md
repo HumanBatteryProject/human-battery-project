@@ -4,11 +4,11 @@ Written for someone who directs the work rather than writes the code.
 
 ---
 
-## Part 1 — Set up your machine
+## Part 1: Set up your machine
 
 ### Install Claude Code
 
-**Mac, Linux, or Windows with WSL** — open Terminal and run:
+**Mac, Linux, or Windows with WSL**: open Terminal and run:
 
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
@@ -22,7 +22,7 @@ claude --version
 
 **Prefer not to use a terminal at all?** There is a desktop app for macOS, Windows and Linux that runs Claude Code with a graphical interface. Get it from claude.com. Everything in this guide works the same way there.
 
-**Note on accounts:** Claude Code needs a paid plan — Pro, Max, Team, Enterprise, or an Anthropic Console account with API credits. The free plan does not include it.
+**Note on accounts:** Claude Code needs a paid plan, Pro, Max, Team, Enterprise, or an Anthropic Console account with API credits. The free plan does not include it.
 
 If anything goes wrong, run `claude doctor` and it will tell you what is missing.
 
@@ -33,9 +33,9 @@ Windows: download Git for Windows from git-scm.com.
 
 ---
 
-## Part 2 — Get the code onto your machine
+## Part 2: Get the code onto your machine
 
-**First, put the repo on GitHub.** Follow `PUSH-TO-GITHUB.md` in this folder — create an empty private repo, add the remote, push.
+**First, put the repo on GitHub.** Follow `PUSH-TO-GITHUB.md` in this folder, create an empty private repo, add the remote, push.
 
 **Then, on whatever machine you will work from:**
 
@@ -49,7 +49,7 @@ That last command starts Claude Code inside the project. It reads `CLAUDE.md` au
 
 ---
 
-## Part 3 — Accounts to create
+## Part 3: Accounts to create
 
 Do these before you start building. Each takes a few minutes.
 
@@ -65,7 +65,7 @@ You do not need a lab partner or a domain to start building. You do need them be
 
 ---
 
-## Part 4 — Your first session
+## Part 4: Your first session
 
 Start Claude Code in the project folder and paste this:
 
@@ -75,43 +75,43 @@ That gives you a shared starting point and confirms it can see everything.
 
 ---
 
-## Part 5 — The build order
+## Part 5: The build order
 
 Work through these one at a time. Each is a separate session, and you should confirm the previous one works before moving on.
 
-### Step 1 — Get the database running
+### Step 1: Get the database running
 
-> I need to set up the Supabase database. Walk me through creating the project, then tell me exactly which migration files to run and in what order. Do not run them yourself — I will paste them into the Supabase SQL editor. Tell me what to check after each one to know it worked.
+> I need to set up the Supabase database. Walk me through creating the project, then tell me exactly which migration files to run and in what order. Do not run them yourself. I will paste them into the Supabase SQL editor. Tell me what to check after each one to know it worked.
 
-### Step 2 — Get the site deployed
+### Step 2: Get the site deployed
 
 > The site is ready to deploy to Cloudflare Pages. Walk me through connecting the repo, what settings to use, and which environment variables I need. Tell me where to find each value.
 
-### Step 3 — Make the application form work
+### Step 3: Make the application form work
 
 > The application form on the marketing page posts to /api/waitlist. Help me test that it actually saves to Supabase and sends the confirmation email through Resend. If something fails, tell me what broke in plain language.
 
-### Step 4 — Turn on the portal
+### Step 4: Turn on the portal
 
 > Help me fill in public/portal/config.js and configure Supabase auth so the magic-link login works. Then walk me through creating one test client so I can log in and try the daily log myself.
 
-### Step 5 — Build the onboarding flow
+### Step 5: Build the onboarding flow
 
 This is the biggest missing piece.
 
-> Build the onboarding flow for the portal. When someone logs in for the first time, they should be walked through consent capture — separate checkboxes for terms, health data, and research use, with research clearly optional — and then the intake questionnaire. Nobody should reach the daily log before their consents are recorded. Follow the existing portal patterns and the rules in CLAUDE.md.
+> Build the onboarding flow for the portal. When someone logs in for the first time, they should be walked through consent capture, separate checkboxes for terms, health data, and research use, with research clearly optional, and then the intake questionnaire. Nobody should reach the daily log before their consents are recorded. Follow the existing portal patterns and the rules in CLAUDE.md.
 
-### Step 6 — Build the admin console
+### Step 6: Build the admin console
 
 > Build an admin console at /portal/admin/. I need to enroll clients into a cohort, enter lab results for a panel, see the roster sorted by adherence, and write coach notes. It should only be reachable by someone whose profile role is admin. Follow the existing portal patterns.
 
-### Step 7 — Payments
+### Step 7: Payments
 
 > Help me set up Stripe in test mode, create the webhook endpoint, and run a full test checkout on the three-payment plan using a test clock so I can confirm it stops after the third installment.
 
 ---
 
-## Part 6 — How to work with it well
+## Part 6: How to work with it well
 
 **Say what you want, not how to build it.** "Add a way for coaches to see who has not logged in three days" works better than trying to describe the code.
 
@@ -133,9 +133,9 @@ That way you can always go back. If something breaks badly:
 
 ---
 
-## Part 7 — The things that will bite you
+## Part 7: The things that will bite you
 
-**Migrations run once.** Files 001–009 will error if you run them twice, because the tables already exist. That error is expected on a second run, not a sign something is wrong. Use a fresh Supabase project if you need to start over.
+**Migrations run once.** Files 001-009 will error if you run them twice, because the tables already exist. That error is expected on a second run, not a sign something is wrong. Use a fresh Supabase project if you need to start over.
 
 **Environment variables need a redeploy.** Adding a variable in Cloudflare does nothing until you redeploy. If a function suddenly cannot reach Supabase, this is usually why.
 
@@ -147,11 +147,11 @@ That way you can always go back. If something breaks badly:
 
 ---
 
-## Part 8 — Before cohort 01 opens
+## Part 8: Before cohort 01 opens
 
 None of this is code, and all of it blocks launch:
 
-- Attorney review of the four legal pages. They carry a visible draft banner — remove it only after review.
+- Attorney review of the four legal pages. They carry a visible draft banner, remove it only after review.
 - Lab partner chosen, panel priced, and the abnormal-result referral protocol written down.
 - The real out-of-pocket lab cost on the pricing section.
 - A decision on whether payment-plan balances are enforced on withdrawal, and terms that say the true thing.
@@ -163,8 +163,8 @@ None of this is code, and all of it blocks launch:
 
 ## Reference
 
-- Claude Code docs — https://code.claude.com/docs
-- Supabase docs — https://supabase.com/docs
-- Cloudflare Pages — https://developers.cloudflare.com/pages
-- Resend — https://resend.com/docs
-- Stripe — https://stripe.com/docs
+- Claude Code docs: https://code.claude.com/docs
+- Supabase docs: https://supabase.com/docs
+- Cloudflare Pages: https://developers.cloudflare.com/pages
+- Resend: https://resend.com/docs
+- Stripe: https://stripe.com/docs

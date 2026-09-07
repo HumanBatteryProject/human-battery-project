@@ -3,8 +3,8 @@
 Marketing site, client portal, database, and brand assets. One repo, one deploy.
 
 **New here?**
-- [HOW-TO-USE-CLAUDE-CODE.md](HOW-TO-USE-CLAUDE-CODE.md) — plain-language guide. Start here.
-- [GETTING-STARTED.md](GETTING-STARTED.md) — the same thing with more detail.
+- [HOW-TO-USE-CLAUDE-CODE.md](HOW-TO-USE-CLAUDE-CODE.md), plain-language guide. Start here.
+- [GETTING-STARTED.md](GETTING-STARTED.md), the same thing with more detail.
 
 Static HTML and CSS with no build step. Cloudflare Pages serves it; Supabase holds the data; Cloudflare Functions handle the form and payments.
 
@@ -33,7 +33,7 @@ functions/api/              Cloudflare Pages Functions (server-side)
   _payments.js              pricing + plan config
 
 database/
-  migrations/001–015.sql    run in order, once, on a clean Supabase project
+  migrations/001-015.sql    run in order, once, on a clean Supabase project
   README.md                 schema documentation
 
 brand/
@@ -63,7 +63,7 @@ git push -u origin main
 
 **2. Create the database**
 
-Supabase → SQL Editor. Run `database/migrations/*.sql` **in numerical order**, one at a time. Files 001–009 are not safe to run twice; 010 and later are.
+Supabase → SQL Editor. Run `database/migrations/*.sql` **in numerical order**, one at a time. Files 001-009 are not safe to run twice; 010 and later are.
 
 **3. Connect Cloudflare Pages**
 
@@ -80,7 +80,7 @@ Workers & Pages → Create → Pages → Connect to Git.
 | Name | Where it comes from |
 |---|---|
 | `SUPABASE_URL` | Supabase → Settings → API |
-| `SUPABASE_SERVICE_KEY` | same page, `service_role` key — **server-side only** |
+| `SUPABASE_SERVICE_KEY` | same page, `service_role` key, **server-side only** |
 | `STRIPE_SECRET_KEY` | Stripe → Developers → API keys |
 | `STRIPE_WEBHOOK_SECRET` | Stripe → Webhooks, after creating the endpoint |
 | `FROM_EMAIL` | e.g. `hello@thehumanbatteryproject.com`, verified in Resend |
@@ -91,7 +91,7 @@ Redeploy after adding them.
 
 **5. Fill in `public/portal/config.js`**
 
-The project URL and the **anon** key. The anon key is meant to be public — row-level security is what protects the data. The service key never goes in this file.
+The project URL and the **anon** key. The anon key is meant to be public, row-level security is what protects the data. The service key never goes in this file.
 
 **6. Supabase auth settings**
 
@@ -113,11 +113,11 @@ Put secrets in `.dev.vars` at the repo root (gitignored).
 
 ## Before this goes live
 
-- [ ] Attorney review of all four legal pages. They carry a visible draft banner — remove it only after review.
+- [ ] Attorney review of all four legal pages. They carry a visible draft banner, remove it only after review.
 - [ ] Lab partner selected, panel priced, and the abnormal-result referral protocol written down.
 - [ ] Confirm the expected out-of-pocket lab cost and put the real number on the pricing section.
 - [ ] Decide whether payment-plan balances are actually enforced on withdrawal, and make the terms say the true thing.
-- [ ] Sign off on the program-optimal bands in `010_seed.sql` — they define what "good" means for every client.
+- [ ] Sign off on the program-optimal bands in `010_seed.sql`. They define what "good" means for every client.
 - [ ] Prospective registration (OSF or ClinicalTrials.gov) if results will ever be published. It has to happen before data collection, not after.
 - [ ] IRB review or a documented exemption.
 
