@@ -164,8 +164,8 @@ footer p{max-width:58ch;margin:0}
 .sym{display:grid;gap:.25rem .9rem;padding:.85rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
 @media(min-width:640px){.sym{grid-template-columns:1fr auto;gap:.9rem 2rem}}
 .sym b{font-weight:600;color:#fff;font-size:.99rem;line-height:1.4}
-.sym span{font-family:var(--display);font-size:.6rem;letter-spacing:.05em;white-space:nowrap}
-.sym span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.5rem;vertical-align:.05em;background:currentColor}
+.sym span{font-family:var(--display);font-size:clamp(.92rem,1.7vw,1.05rem);letter-spacing:.05em;white-space:nowrap}
+.sym span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.6rem;vertical-align:-.02em;background:currentColor}
 .sym[data-sys="charge"] span{color:var(--blue)}
 .sym[data-sys="drain"] span{color:var(--silver)}
 .sym[data-sys="output"] span{color:var(--teal)}
