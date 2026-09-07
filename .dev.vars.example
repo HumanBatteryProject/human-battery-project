@@ -1,0 +1,8 @@
+# Copy to .dev.vars for local development. Never commit .dev.vars.
+SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+SUPABASE_SERVICE_KEY=
+STRIPE_SECRET_KEY=sk_test_
+STRIPE_WEBHOOK_SECRET=whsec_
+RESEND_API_KEY=
+FROM_EMAIL=hello@thehumanbatteryproject.com
+NOTIFY_EMAIL=
