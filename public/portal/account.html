@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>You — The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who">ACCOUNT</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="body" style="display:none">
+    <section class="card">
+      <h2>You</h2>
+      <div class="field"><label class="lab" for="name">Name</label><input id="name" type="text"></div>
+      <div class="field"><label class="lab" for="email">Email</label><input id="email" type="email" disabled></div>
+      <div class="field"><label class="lab" for="state">State</label><input id="state" type="text"></div>
+      <button class="btn btn-sm" id="save">Save</button>
+    </section>
+
+    <section class="card">
+      <h2>What you agreed to</h2>
+      <div id="consents"></div>
+      <p class="tiny mt" style="margin-bottom:0">Research consent is optional and always was. Turning it off stops any future research use of your data. It changes nothing about the program.</p>
+    </section>
+
+    <section class="card">
+      <h2>Your data</h2>
+      <p class="quiet">Everything you have logged, and every result, belongs to you.</p>
+      <button class="btn btn-sm" id="export">Download everything</button>
+      <p class="tiny mt">To delete your account and all of your data, email <a href="mailto:privacy@thehumanbatteryproject.com">privacy@thehumanbatteryproject.com</a>. We respond within 45 days and usually within two.</p>
+    </section>
+
+    <button class="btn mt" id="signout">Sign out</button>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, currentProfile, signOut, el, toast } from './app.js';
+await requireAuth();
+
+const p = await currentProfile();
+el('#name').value = p.full_name || '';
+el('#email').value = p.email || '';
+el('#state').value = p.state || '';
+
+el('#save').addEventListener('click', async () => {
+  const { error } = await sb.from('profiles').update({
+    full_name: el('#name').value.trim(),
+    state: el('#state').value.trim(),
+  }).eq('id', p.id);
+  toast(error ? error.message : 'Saved', error ? 'err' : 'ok');
+});
+
+// consents
+const { data: docs } = await sb.from('consent_documents')
+  .select('id, kind, version, title, is_required').is('retired_at', null);
+const { data: mine } = await sb.from('client_consents')
+  .select('id, document_id, granted, withdrawn_at');
+const held = Object.fromEntries((mine||[]).filter(c=>!c.withdrawn_at).map(c=>[c.document_id,c]));
+
+const cc = el('#consents');
+(docs||[]).forEach(d => {
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = '<label>' + d.title +
+    '<div class="tiny">' + (d.is_required ? 'Required for the program' : 'Optional \u2014 you can turn this off') +
+    ' \u00b7 version ' + d.version + '</div></label>';
+  if (d.is_required) {
+    const s = document.createElement('span');
+    s.className = 'tiny';
+    s.style.color = 'var(--teal)';
+    s.textContent = held[d.id] ? 'AGREED' : 'NOT YET';
+    row.appendChild(s);
+  } else {
+    const t = document.createElement('button');
+    t.className = 'tog' + (held[d.id] ? ' on' : '');
+    t.innerHTML = '<i></i>';
+    t.addEventListener('click', async () => {
+      const on = !t.classList.contains('on');
+      t.classList.toggle('on', on);
+      if (on) {
+        await sb.from('client_consents').insert({ client_id: p.id, document_id: d.id, granted: true });
+        toast('Research consent on');
+      } else if (held[d.id]) {
+        await sb.from('client_consents').update({ withdrawn_at: new Date().toISOString() })
+          .eq('id', held[d.id].id);
+        toast('Research consent withdrawn');
+      }
+    });
+    row.appendChild(t);
+  }
+  cc.appendChild(row);
+});
+
+// export
+el('#export').addEventListener('click', async () => {
+  el('#export').innerHTML = '<span class="spinner"></span> Building';
+  const [logs, foods, ex, beh, prac, labs, res, fx, scores] = await Promise.all([
+    sb.from('daily_logs').select('*'),
+    sb.from('log_foods').select('*'),
+    sb.from('log_exercises').select('*'),
+    sb.from('log_behaviors').select('*'),
+    sb.from('log_practices').select('*'),
+    sb.from('lab_panels').select('*'),
+    sb.from('lab_results').select('*'),
+    sb.from('functional_tests').select('*'),
+    sb.from('battery_scores').select('*'),
+  ]);
+  const blob = new Blob([JSON.stringify({
+    exported_at: new Date().toISOString(),
+    profile: p,
+    daily_logs: logs.data, log_foods: foods.data, log_exercises: ex.data,
+    log_behaviors: beh.data, log_practices: prac.data,
+    lab_panels: labs.data, lab_results: res.data,
+    functional_tests: fx.data, battery_scores: scores.data,
+  }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'human-battery-export-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  el('#export').textContent = 'Download everything';
+});
+
+el('#signout').addEventListener('click', signOut);
+el('#loading').style.display = 'none';
+el('#body').style.display = 'block';
+</script>
+</body></html>

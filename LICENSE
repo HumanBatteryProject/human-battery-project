@@ -1,0 +1,11 @@
+Copyright (c) 2026 The Human Battery Project. All rights reserved.
+
+This repository is private and proprietary. The program protocol, the Battery
+Score methodology, the brand assets, and the written content are not licensed
+for reuse.
+
+Third-party components retain their own licences:
+  Michroma      — SIL Open Font License 1.1
+  Newsreader    — SIL Open Font License 1.1
+  Supabase JS   — MIT
+  Stripe SDK    — MIT

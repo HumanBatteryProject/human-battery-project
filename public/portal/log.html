@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Today — The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who" id="datelabel"></span>
+</div></header>
+
+<main class="wrap">
+
+  <div id="daypicker" class="card flat" style="padding:.4rem 0 1rem">
+    <div class="chips">
+      <button class="chip on" id="pick-today">Today</button>
+      <button class="chip" id="pick-yesterday">Yesterday</button>
+    </div>
+    <p class="tiny" style="margin:.7rem 0 0">You can log today or yesterday. Older days are closed &mdash; a log written a week later is a guess, and guesses ruin the data.</p>
+  </div>
+
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="form" style="display:none">
+
+    <!-- ===== PROTOCOL ===== -->
+    <section class="card">
+      <h2>Did you do it</h2>
+      <div id="practices"></div>
+    </section>
+
+    <!-- ===== FOOD ===== -->
+    <section class="card">
+      <h2>What you ate</h2>
+      <p class="tiny" style="margin:-.3rem 0 .3rem">Tap everything that applies. Nothing is off limits to log.</p>
+      <div id="foods"></div>
+      <div class="row" style="margin-top:.6rem">
+        <label for="sugar">Added sugar today</label>
+        <button class="tog" id="sugar" aria-pressed="false"><i></i></button>
+      </div>
+      <div class="row">
+        <label for="alcohol">Alcohol, drinks</label>
+        <input id="alcohol" type="number" min="0" max="30" step="1" inputmode="numeric" value="0">
+      </div>
+    </section>
+
+    <!-- ===== MOVEMENT ===== -->
+    <section class="card">
+      <h2>How you moved</h2>
+      <div class="chips" id="modalities"></div>
+      <div id="ex-detail" style="display:none">
+        <div class="row" style="margin-top:.5rem">
+          <label for="ex-min">Minutes</label>
+          <input id="ex-min" type="number" min="0" max="600" step="5" inputmode="numeric">
+        </div>
+        <div class="row">
+          <label>How hard</label>
+        </div>
+        <div class="chips" id="intensity"></div>
+      </div>
+      <p class="tiny mt" id="restday-note">A rest day is a real answer. Log it and move on.</p>
+    </section>
+
+    <!-- ===== SLEEP + LIGHT ===== -->
+    <section class="card">
+      <h2>Sleep and light</h2>
+      <div class="row">
+        <label for="bed">In bed at</label>
+        <input id="bed" type="time">
+      </div>
+      <div class="row">
+        <label for="wake">Woke at</label>
+        <input id="wake" type="time">
+      </div>
+      <div class="row">
+        <label for="light-min">Morning light, minutes</label>
+        <input id="light-min" type="number" min="0" max="240" step="5" inputmode="numeric">
+      </div>
+      <div class="row">
+        <label for="screens">Last screen at</label>
+        <input id="screens" type="time">
+      </div>
+      <div style="padding-top:.9rem">
+        <label class="lab">How well you slept</label>
+        <div class="scale5" id="sleepq"></div>
+        <div class="scale-ends"><span>Badly</span><span>Well</span></div>
+      </div>
+    </section>
+
+    <!-- ===== BEHAVIOURAL DOMAINS ===== -->
+    <section class="card">
+      <h2>The five</h2>
+      <p class="tiny" style="margin:-.3rem 0 1rem">Blood gets measured twice. These get measured every day. They are the part nobody else tracks.</p>
+      <div id="behaviors"></div>
+    </section>
+
+    <!-- ===== WATER + NOTE ===== -->
+    <section class="card">
+      <h2>Anything else</h2>
+      <div class="row">
+        <label for="water">Water, glasses</label>
+        <input id="water" type="number" min="0" max="30" step="1" inputmode="numeric">
+      </div>
+      <div style="padding-top:.9rem">
+        <label class="lab" for="note">Note, optional</label>
+        <textarea id="note" placeholder="Only if something is worth saying. Nobody needs a paragraph."></textarea>
+      </div>
+    </section>
+
+    <div class="card center" id="summary">
+      <div class="quiet" style="font-size:.9rem">Today&rsquo;s five</div>
+      <div style="font-family:var(--display);font-size:2rem;color:#fff;margin:.4rem 0"><span id="five">0</span><span style="font-size:1rem;color:var(--steel)"> / 5</span></div>
+      <div class="tiny" id="savestate">Saved automatically</div>
+    </div>
+
+    <a class="btn" href="/portal/">Done for today</a>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, activeMembership, getOrCreateLog, foods, practices,
+         BEHAVIOR_DOMAINS, MODALITIES, localDateStr, yesterdayStr, fmtDate,
+         el, toast, autosave } from './app.js';
+
+await requireAuth();
+
+let membership = await activeMembership();
+let date = localDateStr();
+let log = null;
+let picked = { practices:new Set(), foods:new Set(), modality:null, behaviors:{} };
+
+el('#datelabel').textContent = fmtDate(date);
+
+// -------------------------------------------------- save
+const saveLog = autosave(async (patch) => {
+  el('#savestate').textContent = 'Saving';
+  const { error } = await sb.from('daily_logs').update(patch).eq('id', log.id);
+  el('#savestate').textContent = error ? 'Not saved' : 'Saved automatically';
+  if (error) toast(error.message, 'err');
+});
+
+function recalcFive() {
+  // The Daily Five: the practices flagged as non-negotiable that were hit.
+  const five = Array.from(picked.practices).filter(id => dailyFiveIds.has(id)).length;
+  const capped = Math.min(5, five);
+  el('#five').textContent = capped;
+  saveLog({ daily_five_score: capped, adherence_pct: (capped/5)*100 });
+}
+
+// -------------------------------------------------- load
+let dailyFiveIds = new Set();
+
+async function load(forDate) {
+  date = forDate;
+  el('#datelabel').textContent = fmtDate(date);
+  el('#loading').style.display = 'block';
+  el('#form').style.display = 'none';
+
+  log = await getOrCreateLog(membership, date);
+
+  const [fs, ps] = await Promise.all([foods(), practices()]);
+  dailyFiveIds = new Set(ps.filter(p => p.is_daily_five).map(p => p.id));
+
+  // ---- practices
+  const pc = el('#practices');
+  pc.innerHTML = '';
+  const { data: donePractices } = await sb.from('log_practices')
+    .select('practice_id, completed').eq('daily_log_id', log.id);
+  picked.practices = new Set((donePractices||[]).filter(r=>r.completed).map(r=>r.practice_id));
+
+  ps.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `<label>${p.name}${p.is_daily_five ? ' <span class="tiny" style="color:var(--teal)">&middot; one of five</span>' : ''}
+      <div class="tiny" style="margin-top:.15rem">${p.rationale_established ? p.rationale_established.slice(0,72) + '&hellip;' : (p.description||'')}</div></label>`;
+    const t = document.createElement('button');
+    t.className = 'tog' + (picked.practices.has(p.id) ? ' on' : '');
+    t.innerHTML = '<i></i>';
+    t.addEventListener('click', async () => {
+      const on = !t.classList.contains('on');
+      t.classList.toggle('on', on);
+      on ? picked.practices.add(p.id) : picked.practices.delete(p.id);
+      await sb.from('log_practices').upsert(
+        { daily_log_id: log.id, practice_id: p.id, completed: on },
+        { onConflict: 'daily_log_id,practice_id' });
+      recalcFive();
+    });
+    row.appendChild(t);
+    pc.appendChild(row);
+  });
+
+  // ---- foods, grouped by tier
+  const fc = el('#foods');
+  fc.innerHTML = '';
+  const { data: loggedFoods } = await sb.from('log_foods')
+    .select('food_id').eq('daily_log_id', log.id);
+  picked.foods = new Set((loggedFoods||[]).map(r=>r.food_id));
+
+  const tiers = [
+    ['daily','Every day'],
+    ['approved','Eat freely'],
+    ['occasional','Now and then'],
+    ['excluded','Off protocol'],
+  ];
+  tiers.forEach(([tier,label]) => {
+    const items = fs.filter(f=>f.tier===tier);
+    if (!items.length) return;
+    const h = document.createElement('div');
+    h.className='lab'; h.style.marginTop='1rem'; h.textContent = label;
+    fc.appendChild(h);
+    const box = document.createElement('div'); box.className='chips';
+    items.forEach(f => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (tier==='excluded'?' off-protocol':'') + (tier==='daily'?' tier-daily':'') +
+                    (picked.foods.has(f.id)?' on':'');
+      b.textContent = f.name;
+      b.addEventListener('click', async () => {
+        const on = !b.classList.contains('on');
+        b.classList.toggle('on', on);
+        if (on) {
+          picked.foods.add(f.id);
+          await sb.from('log_foods').insert({
+            daily_log_id: log.id, food_id: f.id, meal: 'snack',
+            quantity: 1, unit: f.default_unit, off_protocol: tier==='excluded' });
+        } else {
+          picked.foods.delete(f.id);
+          await sb.from('log_foods').delete()
+            .eq('daily_log_id', log.id).eq('food_id', f.id);
+        }
+        const tCount = fs.filter(x=>picked.foods.has(x.id) && x.is_tryptophan_source).length;
+        saveLog({ tryptophan_sources: tCount });
+      });
+      box.appendChild(b);
+    });
+    fc.appendChild(box);
+  });
+
+  // ---- movement
+  const mc = el('#modalities'); mc.innerHTML='';
+  const { data: exRows } = await sb.from('log_exercises')
+    .select('id, modality, duration_min, intensity').eq('daily_log_id', log.id);
+  const existing = exRows && exRows.length ? exRows[0] : null;
+  picked.modality = existing ? existing.modality : null;
+
+  const rest = document.createElement('button');
+  rest.className = 'chip' + (existing===null && log.id ? '' : '');
+  rest.textContent = 'Rest day';
+  rest.addEventListener('click', async () => {
+    await sb.from('log_exercises').delete().eq('daily_log_id', log.id);
+    picked.modality = null;
+    Array.from(mc.children).forEach(c=>c.classList.remove('on'));
+    rest.classList.add('on');
+    el('#ex-detail').style.display='none';
+    toast('Rest day logged');
+  });
+  mc.appendChild(rest);
+
+  MODALITIES.forEach(m => {
+    const b=document.createElement('button');
+    b.className='chip'+(picked.modality===m.key?' on':'');
+    b.textContent=m.label;
+    b.addEventListener('click', async () => {
+      Array.from(mc.children).forEach(c=>c.classList.remove('on'));
+      b.classList.add('on');
+      picked.modality=m.key;
+      el('#ex-detail').style.display='block';
+      await sb.from('log_exercises').delete().eq('daily_log_id', log.id);
+      await sb.from('log_exercises').insert({
+        daily_log_id: log.id, modality: m.key,
+        duration_min: parseInt(el('#ex-min').value)||null });
+    });
+    mc.appendChild(b);
+  });
+  if (picked.modality) {
+    el('#ex-detail').style.display='block';
+    el('#ex-min').value = existing.duration_min || '';
+  }
+  el('#ex-min').addEventListener('change', async () => {
+    if (!picked.modality) return;
+    await sb.from('log_exercises').update({ duration_min: parseInt(el('#ex-min').value)||null })
+      .eq('daily_log_id', log.id);
+  });
+
+  const ic = el('#intensity'); ic.innerHTML='';
+  ['easy','moderate','hard','max'].forEach(v=>{
+    const b=document.createElement('button');
+    b.className='chip'+(existing && existing.intensity===v?' on':'');
+    b.textContent=v;
+    b.addEventListener('click', async ()=>{
+      Array.from(ic.children).forEach(c=>c.classList.remove('on'));
+      b.classList.add('on');
+      await sb.from('log_exercises').update({ intensity: v }).eq('daily_log_id', log.id);
+    });
+    ic.appendChild(b);
+  });
+
+  // ---- sleep, light, simple fields
+  const toTime = (ts) => ts ? new Date(ts).toTimeString().slice(0,5) : '';
+  el('#bed').value = toTime(log.bedtime);
+  el('#wake').value = toTime(log.waketime);
+  el('#screens').value = toTime(log.last_screen_at);
+  el('#light-min').value = log.morning_light_min ?? '';
+  el('#water').value = log.water_ml ? Math.round(log.water_ml/250) : '';
+  el('#alcohol').value = log.alcohol_units ?? 0;
+  el('#note').value = log.note ?? '';
+  el('#sugar').classList.toggle('on', !!log.added_sugar);
+  el('#sugar').setAttribute('aria-pressed', String(!!log.added_sugar));
+
+  const stamp = (v) => v ? new Date(date + 'T' + v + ':00').toISOString() : null;
+  el('#bed').addEventListener('change', ()=>saveLog({ bedtime: stamp(el('#bed').value) }));
+  el('#wake').addEventListener('change', ()=>saveLog({ waketime: stamp(el('#wake').value) }));
+  el('#screens').addEventListener('change', ()=>saveLog({ last_screen_at: stamp(el('#screens').value) }));
+  el('#light-min').addEventListener('change', ()=>saveLog({ morning_light_min: parseInt(el('#light-min').value)||null }));
+  el('#water').addEventListener('change', ()=>saveLog({ water_ml: (parseInt(el('#water').value)||0)*250 }));
+  el('#alcohol').addEventListener('change', ()=>saveLog({ alcohol_units: parseFloat(el('#alcohol').value)||0 }));
+  el('#note').addEventListener('input', ()=>saveLog({ note: el('#note').value.trim() || null }));
+  el('#sugar').addEventListener('click', ()=>{
+    const on = !el('#sugar').classList.contains('on');
+    el('#sugar').classList.toggle('on', on);
+    el('#sugar').setAttribute('aria-pressed', String(on));
+    saveLog({ added_sugar: on });
+  });
+
+  // ---- sleep quality 1-5
+  const sq = el('#sleepq'); sq.innerHTML='';
+  [1,2,3,4,5].forEach(n=>{
+    const b=document.createElement('button');
+    b.textContent=n;
+    if (log.sleep_quality===n) b.classList.add('on');
+    b.addEventListener('click',()=>{
+      Array.from(sq.children).forEach(c=>c.classList.remove('on'));
+      b.classList.add('on');
+      saveLog({ sleep_quality: n });
+    });
+    sq.appendChild(b);
+  });
+
+  // ---- the five behavioural domains
+  const bc = el('#behaviors'); bc.innerHTML='';
+  const { data: behRows } = await sb.from('log_behaviors')
+    .select('domain, score').eq('daily_log_id', log.id);
+  const behMap = Object.fromEntries((behRows||[]).map(r=>[r.domain, r.score]));
+
+  BEHAVIOR_DOMAINS.forEach(d=>{
+    const wrap=document.createElement('div');
+    wrap.style.marginBottom='1.3rem';
+    wrap.innerHTML = `<label class="lab">${d.label}</label>
+      <div class="tiny" style="margin:-.2rem 0 .5rem">${d.q}</div>`;
+    const sc=document.createElement('div'); sc.className='scale5';
+    [0,1,2,3,4].forEach(n=>{
+      const b=document.createElement('button');
+      b.textContent=n;
+      if (behMap[d.key]===n) b.classList.add('on');
+      b.addEventListener('click', async ()=>{
+        Array.from(sc.children).forEach(c=>c.classList.remove('on'));
+        b.classList.add('on');
+        await sb.from('log_behaviors').upsert(
+          { daily_log_id: log.id, domain: d.key, score: n },
+          { onConflict: 'daily_log_id,domain' });
+      });
+      sc.appendChild(b);
+    });
+    wrap.appendChild(sc);
+    const ends=document.createElement('div'); ends.className='scale-ends';
+    ends.innerHTML='<span>None</span><span>A lot</span>';
+    wrap.appendChild(ends);
+    bc.appendChild(wrap);
+  });
+
+  el('#five').textContent = log.daily_five_score ?? 0;
+  el('#loading').style.display='none';
+  el('#form').style.display='block';
+}
+
+// -------------------------------------------------- day switching
+el('#pick-today').addEventListener('click', ()=>{
+  el('#pick-today').classList.add('on'); el('#pick-yesterday').classList.remove('on');
+  load(localDateStr());
+});
+el('#pick-yesterday').addEventListener('click', ()=>{
+  el('#pick-yesterday').classList.add('on'); el('#pick-today').classList.remove('on');
+  load(yesterdayStr());
+});
+
+await load(date);
+</script>
+</body></html>

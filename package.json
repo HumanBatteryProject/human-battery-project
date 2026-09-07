@@ -1,0 +1,17 @@
+{
+  "name": "human-battery-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Human Battery Project — marketing site, client portal, and database",
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-flag=nodejs_compat",
+    "deploy": "wrangler pages deploy public"
+  },
+  "dependencies": {
+    "stripe": "^18.5.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

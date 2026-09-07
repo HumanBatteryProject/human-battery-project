@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Sign in — The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<main class="wrap" style="max-width:26rem;padding-top:3.5rem">
+  <div class="center" style="margin-bottom:2.4rem">
+    <img src="/assets/02-mark.svg" alt="" style="width:118px;margin:0 auto 1.4rem;display:block">
+    <h1>Your portal</h1>
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label class="lab" for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
+    </div>
+    <button class="btn btn-solid" id="send">Email me a sign-in link</button>
+    <p class="tiny mt center">No password. We email you a link and it signs you in.</p>
+  </div>
+
+  <div id="msg" class="card" style="display:none"></div>
+
+  <p class="tiny center mt"><a href="/">Back to the main site</a></p>
+</main>
+
+<script type="module">
+import { sb, el, toast } from './app.js';
+
+const params = new URLSearchParams(location.search);
+const next = params.get('next') || '/portal/';
+
+// Already signed in? Go straight through.
+const { data: { session } } = await sb.auth.getSession();
+if (session) location.href = next;
+
+el('#send').addEventListener('click', async () => {
+  const email = el('#email').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    toast('Check that email address', 'err');
+    return;
+  }
+  const btn = el('#send');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Sending';
+
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: location.origin + next },
+  });
+
+  if (error) {
+    toast(error.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'Email me a sign-in link';
+    return;
+  }
+  const m = el('#msg');
+  m.style.display = 'block';
+  m.innerHTML = '<h3 style="margin-bottom:.6rem">Check your email</h3>' +
+    '<p class="quiet" style="margin:0">We sent a link to <b>' + email + '</b>. ' +
+    'Open it on this device and you will be signed in. It expires in an hour.</p>';
+  btn.style.display = 'none';
+});
+
+el('#email').addEventListener('keydown', (e) => { if (e.key === 'Enter') el('#send').click(); });
+</script>
+</body></html>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="245 100 660 780" width="660" height="780" role="img"><title>HBP mark</title>
+<defs>
+<radialGradient id="gTeal" cx="34%" cy="28%" r="78%">
+<stop offset="0%" stop-color="#8FE3E6"/><stop offset="26%" stop-color="#2AAFC0"/>
+<stop offset="68%" stop-color="#0B6D70"/><stop offset="100%" stop-color="#04383D"/></radialGradient>
+<radialGradient id="gBlue" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#9FD4F5"/><stop offset="22%" stop-color="#3E9EE0"/>
+<stop offset="62%" stop-color="#1A6FB2"/><stop offset="100%" stop-color="#0A3A63"/></radialGradient>
+<radialGradient id="gSilver" cx="34%" cy="26%" r="80%">
+<stop offset="0%" stop-color="#FFFFFF"/><stop offset="24%" stop-color="#DCE4E4"/>
+<stop offset="62%" stop-color="#AEB7B6"/><stop offset="100%" stop-color="#5E7473"/></radialGradient>
+<radialGradient id="gGreen" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#4FCB9C"/><stop offset="24%" stop-color="#1E9A6E"/>
+<stop offset="64%" stop-color="#075B46"/><stop offset="100%" stop-color="#02271D"/></radialGradient>
+<linearGradient id="gMetal" x1="0%" y1="0%" x2="100%" y2="10%">
+<stop offset="0%" stop-color="#57696B"/><stop offset="18%" stop-color="#C9D2D2"/>
+<stop offset="38%" stop-color="#F2F7F7"/><stop offset="58%" stop-color="#AFBAB9"/>
+<stop offset="80%" stop-color="#7E908F"/><stop offset="100%" stop-color="#3E4E50"/></linearGradient>
+<linearGradient id="gMetalV" x1="0%" y1="0%" x2="12%" y2="100%">
+<stop offset="0%" stop-color="#E8F0F0"/><stop offset="30%" stop-color="#B6BDBC"/>
+<stop offset="62%" stop-color="#7A8C8B"/><stop offset="100%" stop-color="#445658"/></linearGradient>
+<linearGradient id="gOrbit" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#1F7FB0"/><stop offset="30%" stop-color="#9FB4B8"/>
+<stop offset="55%" stop-color="#E4EDEE"/><stop offset="78%" stop-color="#6E908C"/>
+<stop offset="100%" stop-color="#154A63"/></linearGradient>
+<linearGradient id="gHuman" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#B4F2E8"/><stop offset="24%" stop-color="#37C1BE"/>
+<stop offset="60%" stop-color="#199B78"/><stop offset="100%" stop-color="#0C7A55"/></linearGradient>
+<linearGradient id="gBattery" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#A6DBF7"/><stop offset="24%" stop-color="#3A9BD8"/>
+<stop offset="64%" stop-color="#1C72AB"/><stop offset="100%" stop-color="#125889"/></linearGradient>
+<radialGradient id="gGloss" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+<stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+</defs>
+<ellipse cx="575.0" cy="480" rx="272" ry="272" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(0 575.0 480)"/>
+<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(58 575.0 480)"/>
+<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(-58 575.0 480)"/>
+<rect x="569.0" y="140" width="12" height="670" rx="6" fill="url(#gMetalV)"/>
+<path d="M 523.9 331.3 Q 499.8 391.3 444.5 429.6 L 493.2 463.6 Q 510.1 398.6 558.3 355.3 Z" fill="url(#gMetal)"/>
+<path d="M 501.6 528.4 Q 590.4 498.1 682.7 506.9 L 678.5 459.1 Q 589.2 483.7 496.4 469.2 Z" fill="url(#gMetal)"/>
+<path d="M 681.3 504.0 Q 648.7 564.1 591.4 601.4 L 626.7 634.0 Q 659.3 573.9 716.6 536.6 Z" fill="url(#gMetal)"/>
+<path d="M 594.0 602.4 Q 576.3 477.4 591.0 352.4 L 549.0 352.4 Q 563.7 477.4 546.0 602.4 Z" fill="url(#gMetal)"/>
+<circle cx="570.0" cy="128.0" r="23.0" fill="url(#gMetalV)"/>
+<ellipse cx="563.1" cy="119.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
+<circle cx="570.0" cy="816.0" r="23.0" fill="url(#gMetalV)"/>
+<ellipse cx="563.1" cy="807.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
+<circle cx="570.0" cy="302.0" r="70.0" fill="url(#gTeal)"/>
+<circle cx="570.0" cy="302.0" r="70.0" fill="none" stroke="url(#gMetalV)" stroke-width="7.0" opacity="0.9"/>
+<ellipse cx="549.0" cy="274.0" rx="28.0" ry="18.9" fill="url(#gGloss)" transform="rotate(-24 549.0 274.0)"/>
+<circle cx="428.0" cy="505.0" r="99.0" fill="url(#gBlue)"/>
+<circle cx="428.0" cy="505.0" r="99.0" fill="none" stroke="url(#gMetalV)" stroke-width="9.9" opacity="0.9"/>
+<ellipse cx="398.3" cy="465.4" rx="39.6" ry="26.7" fill="url(#gGloss)" transform="rotate(-24 398.3 465.4)"/>
+<circle cx="738.0" cy="478.0" r="80.0" fill="url(#gSilver)"/>
+<circle cx="738.0" cy="478.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
+<ellipse cx="714.0" cy="446.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 714.0 446.0)"/>
+<circle cx="570.0" cy="660.0" r="80.0" fill="url(#gGreen)"/>
+<circle cx="570.0" cy="660.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
+<ellipse cx="546.0" cy="628.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 546.0 628.0)"/>
+</svg>

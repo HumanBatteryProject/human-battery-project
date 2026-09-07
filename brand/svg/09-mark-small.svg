@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="195 90 760 800" width="760" height="800" role="img"><title>HBP mark, small-size reduction</title>
+<defs>
+<radialGradient id="gTeal" cx="34%" cy="28%" r="78%">
+<stop offset="0%" stop-color="#8FE3E6"/><stop offset="26%" stop-color="#2AAFC0"/>
+<stop offset="68%" stop-color="#0B6D70"/><stop offset="100%" stop-color="#04383D"/></radialGradient>
+<radialGradient id="gBlue" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#9FD4F5"/><stop offset="22%" stop-color="#3E9EE0"/>
+<stop offset="62%" stop-color="#1A6FB2"/><stop offset="100%" stop-color="#0A3A63"/></radialGradient>
+<radialGradient id="gSilver" cx="34%" cy="26%" r="80%">
+<stop offset="0%" stop-color="#FFFFFF"/><stop offset="24%" stop-color="#DCE4E4"/>
+<stop offset="62%" stop-color="#AEB7B6"/><stop offset="100%" stop-color="#5E7473"/></radialGradient>
+<radialGradient id="gGreen" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#4FCB9C"/><stop offset="24%" stop-color="#1E9A6E"/>
+<stop offset="64%" stop-color="#075B46"/><stop offset="100%" stop-color="#02271D"/></radialGradient>
+<linearGradient id="gMetal" x1="0%" y1="0%" x2="100%" y2="10%">
+<stop offset="0%" stop-color="#57696B"/><stop offset="18%" stop-color="#C9D2D2"/>
+<stop offset="38%" stop-color="#F2F7F7"/><stop offset="58%" stop-color="#AFBAB9"/>
+<stop offset="80%" stop-color="#7E908F"/><stop offset="100%" stop-color="#3E4E50"/></linearGradient>
+<linearGradient id="gMetalV" x1="0%" y1="0%" x2="12%" y2="100%">
+<stop offset="0%" stop-color="#E8F0F0"/><stop offset="30%" stop-color="#B6BDBC"/>
+<stop offset="62%" stop-color="#7A8C8B"/><stop offset="100%" stop-color="#445658"/></linearGradient>
+<linearGradient id="gOrbit" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#1F7FB0"/><stop offset="30%" stop-color="#9FB4B8"/>
+<stop offset="55%" stop-color="#E4EDEE"/><stop offset="78%" stop-color="#6E908C"/>
+<stop offset="100%" stop-color="#154A63"/></linearGradient>
+<linearGradient id="gHuman" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#B4F2E8"/><stop offset="24%" stop-color="#37C1BE"/>
+<stop offset="60%" stop-color="#199B78"/><stop offset="100%" stop-color="#0C7A55"/></linearGradient>
+<linearGradient id="gBattery" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#A6DBF7"/><stop offset="24%" stop-color="#3A9BD8"/>
+<stop offset="64%" stop-color="#1C72AB"/><stop offset="100%" stop-color="#125889"/></linearGradient>
+<radialGradient id="gGloss" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+<stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+</defs>
+<rect x="561.0" y="200" width="28" height="560" rx="14" fill="url(#gMetalV)"/>
+<path d="M 517.4 335.4 Q 495.0 386.2 446.8 419.0 L 502.3 457.8 Q 516.6 401.3 556.7 362.8 Z" fill="url(#gMetalV)"/>
+<path d="M 511.9 531.7 Q 592.1 505.8 675.0 511.0 L 670.2 456.4 Q 589.5 475.8 506.0 464.2 Z" fill="url(#gMetalV)"/>
+<path d="M 673.4 507.7 Q 642.9 558.8 594.4 593.2 L 634.6 630.3 Q 665.1 579.2 713.6 544.8 Z" fill="url(#gMetalV)"/>
+<path d="M 597.4 594.3 Q 583.2 476.9 593.9 359.5 L 546.1 359.5 Q 556.8 476.9 542.6 594.3 Z" fill="url(#gMetalV)"/>
+<circle cx="570.0" cy="198.0" r="34.5" fill="url(#gMetalV)"/>
+<circle cx="570.0" cy="856.0" r="34.5" fill="url(#gMetalV)"/>
+<circle cx="570.0" cy="302.0" r="79.8" fill="#159BA6"/>
+<circle cx="428.0" cy="505.0" r="112.9" fill="#2585C4"/>
+<circle cx="738.0" cy="478.0" r="91.2" fill="#B6BDBC"/>
+<circle cx="570.0" cy="660.0" r="91.2" fill="#0E7A5A"/>
+</svg>

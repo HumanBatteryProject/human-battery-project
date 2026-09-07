@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Results — The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who">RESULTS</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="empty" class="card" style="display:none">
+    <h2>Nothing here yet</h2>
+    <p class="quiet">Your results appear once your blood has been drawn and the panel has been entered. Day 0 first, then day 90 beside it.</p>
+  </div>
+  <div id="body" style="display:none"></div>
+
+  <div class="card" id="disclaimer" style="display:none">
+    <p class="tiny" style="margin:0">These numbers are not a diagnosis and the Battery Score is not a medical test. It is a tracking index built for this program. Anything outside your laboratory's reference range gets referred to a physician &mdash; that is a rule, not a judgement call.</p>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/labs.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, el } from './app.js';
+await requireAuth();
+
+const SUB = {
+  charge:  ['Charge','s-charge','How well fuel becomes energy'],
+  drain:   ['Drain','s-drain','What is consuming capacity'],
+  output:  ['Output','s-output','What you can spend'],
+  reserve: ['Reserve','s-reserve','What the system is built from'],
+};
+
+const { data: panels } = await sb.from('lab_panels')
+  .select('id, draw_point, drawn_on').order('drawn_on');
+
+if (!panels || !panels.length) {
+  el('#loading').style.display='none';
+  el('#empty').style.display='block';
+} else {
+  const { data: results } = await sb.from('lab_results')
+    .select('panel_id, value, unit, flag, lab_markers(slug,name,subsystem,unit,optimal_low,optimal_high,sort_order)');
+
+  const day0 = panels.find(p=>p.draw_point==='day_0');
+  const day90 = panels.find(p=>p.draw_point==='day_90');
+
+  const byMarker = {};
+  (results||[]).forEach(r=>{
+    const m = r.lab_markers; if (!m) return;
+    byMarker[m.slug] = byMarker[m.slug] || { m, d0:null, d90:null };
+    if (day0 && r.panel_id===day0.id) byMarker[m.slug].d0 = r;
+    if (day90 && r.panel_id===day90.id) byMarker[m.slug].d90 = r;
+  });
+
+  let html = '';
+  if (!day90) {
+    html += '<div class="card"><h2>Day 0</h2><p class="quiet" style="margin:0">' +
+      'This is your starting point. Day 90 will sit next to it when it comes back.</p></div>';
+  }
+
+  Object.entries(SUB).forEach(([key,[label,cls,desc]]) => {
+    const rows = Object.values(byMarker)
+      .filter(x=>x.m.subsystem===key)
+      .sort((a,b)=>(a.m.sort_order||0)-(b.m.sort_order||0));
+    if (!rows.length) return;
+
+    html += '<section class="card"><h2><span class="sysdot '+cls+'"></span>'+label+'</h2>' +
+            '<p class="tiny" style="margin:-.5rem 0 .8rem">'+desc+'</p><table><thead><tr>' +
+            '<th>Marker</th><th style="text-align:right">Day 0</th>' +
+            (day90 ? '<th style="text-align:right">Day 90</th><th style="text-align:right">Change</th>' : '') +
+            '</tr></thead><tbody>';
+
+    rows.forEach(x=>{
+      const v0 = x.d0 ? Number(x.d0.value) : null;
+      const v90 = x.d90 ? Number(x.d90.value) : null;
+      let changeCell = '';
+      if (day90) {
+        if (v0 != null && v90 != null) {
+          const d = v90 - v0;
+          const pct = v0 !== 0 ? Math.round((d/Math.abs(v0))*100) : null;
+          const inBandNow = x.m.optimal_low != null && x.m.optimal_high != null
+            ? (v90 >= x.m.optimal_low && v90 <= x.m.optimal_high) : null;
+          const wasInBand = x.m.optimal_low != null && x.m.optimal_high != null
+            ? (v0 >= x.m.optimal_low && v0 <= x.m.optimal_high) : null;
+          let cls2 = 'flat';
+          if (inBandNow === true && wasInBand === false) cls2 = 'up';
+          else if (inBandNow === false && wasInBand === true) cls2 = 'down';
+          changeCell = '<td class="num '+cls2+'">' + (d>0?'+':'') + d.toFixed(2) +
+                       (pct!=null ? ' <span class="tiny">('+(pct>0?'+':'')+pct+'%)</span>' : '') + '</td>';
+        } else {
+          changeCell = '<td class="num flat">&mdash;</td>';
+        }
+      }
+      const band = (x.m.optimal_low!=null && x.m.optimal_high!=null)
+        ? '<div class="tiny">target '+x.m.optimal_low+'&ndash;'+x.m.optimal_high+' '+(x.m.unit||'')+'</div>' : '';
+      html += '<tr><td>'+x.m.name+band+'</td>' +
+              '<td class="num">'+(v0!=null?v0:'&mdash;')+'</td>' +
+              (day90 ? '<td class="num">'+(v90!=null?v90:'&mdash;')+'</td>'+changeCell : '') +
+              '</tr>';
+    });
+    html += '</tbody></table></section>';
+  });
+
+  // functional testing
+  const { data: fx } = await sb.from('functional_tests')
+    .select('draw_point, tested_on, method, vo2max, rer_fasted, rer_fed, lactate_fixed_load_mmol, hr_recovery_60s')
+    .order('tested_on');
+  if (fx && fx.length) {
+    const f0 = fx.find(f=>f.draw_point==='day_0');
+    const f90 = fx.find(f=>f.draw_point==='day_90');
+    html += '<section class="card"><h2><span class="sysdot s-charge"></span>Charge \u2014 the reaction</h2>' +
+            '<p class="tiny" style="margin:-.5rem 0 .8rem">Oxygen in, water and CO2 out. The part blood cannot show.</p><table><tbody>';
+    const rows = [
+      ['VO2 max','vo2max','mL/kg/min'],
+      ['Fasted RER','rer_fasted',''],
+      ['Lactate at load','lactate_fixed_load_mmol','mmol/L'],
+      ['Heart rate recovery','hr_recovery_60s','bpm in 60s'],
+    ];
+    rows.forEach(([label,key,unit])=>{
+      const a = f0 ? f0[key] : null, b = f90 ? f90[key] : null;
+      if (a==null && b==null) return;
+      html += '<tr><td>'+label+(unit?'<div class="tiny">'+unit+'</div>':'')+'</td>' +
+              '<td class="num">'+(a??'&mdash;')+'</td>' +
+              '<td class="num">'+(b??'&mdash;')+'</td></tr>';
+    });
+    html += '</tbody></table>';
+    if (f0 && f90 && f0.method !== f90.method) {
+      html += '<p class="tiny mt" style="color:#F0C4AC;margin-bottom:0">These two tests used different methods, so the change between them is not directly comparable.</p>';
+    }
+    html += '</section>';
+  }
+
+  el('#body').innerHTML = html;
+  el('#loading').style.display='none';
+  el('#body').style.display='block';
+  el('#disclaimer').style.display='block';
+}
+</script>
+</body></html>

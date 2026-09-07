@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Your portal — The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who" id="who"></span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="body" style="display:none">
+
+    <div class="card status" id="daycard">
+      <div class="day" id="progday">&mdash;</div>
+      <div class="of" id="ofninety">OF NINETY</div>
+      <div class="track" style="margin-top:1.2rem"><i id="progbar" style="width:0%"></i></div>
+      <div class="tiny" id="phase"></div>
+    </div>
+
+    <a class="btn btn-solid" id="logcta" href="/portal/log.html">Log today</a>
+
+    <section class="card mt">
+      <h2>Sticking with it</h2>
+      <div style="display:flex;gap:1.4rem;align-items:baseline">
+        <div>
+          <div style="font-family:var(--display);font-size:1.7rem;color:#fff"><span id="adh">&mdash;</span><span style="font-size:.85rem;color:var(--steel)">%</span></div>
+          <div class="tiny">days logged</div>
+        </div>
+        <div>
+          <div style="font-family:var(--display);font-size:1.7rem;color:#fff" id="avgfive">&mdash;</div>
+          <div class="tiny">average five</div>
+        </div>
+      </div>
+      <div id="dots" style="display:flex;gap:4px;margin-top:1.1rem"></div>
+      <p class="tiny mt" style="margin-bottom:0">Last two weeks. A missed day is a missed day, not a failure &mdash; the number that matters is the percentage, and it only goes up from here.</p>
+    </section>
+
+    <section class="card" id="scorecard" style="display:none">
+      <h2>Your battery</h2>
+      <div id="scores"></div>
+      <a class="btn btn-sm mt" href="/portal/labs.html">See the markers</a>
+    </section>
+
+    <section class="card" id="nextcard">
+      <h2>What is next</h2>
+      <div id="next"></div>
+    </section>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, currentProfile, activeMembership, programDay,
+         adherenceStats, localDateStr, el } from './app.js';
+
+await requireAuth();
+const profile = await currentProfile();
+if (profile) el('#who').textContent = profile.full_name.split(' ')[0].toUpperCase();
+
+const m = await activeMembership();
+
+if (!m || !m.day_zero) {
+  el('#progday').textContent = '\u2014';
+  el('#ofninety').textContent = 'NOT STARTED';
+  el('#phase').textContent = 'Your cohort has not begun. You will see day 1 here when it does.';
+  el('#logcta').style.display = 'none';
+} else {
+  const day = programDay(m.day_zero);
+  const shown = day ?? (new Date() < new Date(m.day_zero) ? 0 : 90);
+  el('#progday').textContent = shown || '\u2014';
+  el('#progbar').style.width = Math.min(100, (shown/90)*100) + '%';
+
+  const phase = shown <= 30 ? 'Phase one \u2014 stop the drain'
+              : shown <= 60 ? 'Phase two \u2014 recharge'
+              : 'Phase three \u2014 build capacity';
+  el('#phase').textContent = phase;
+
+  // Has today been logged?
+  const { data: todayLog } = await sb.from('daily_logs')
+    .select('id, daily_five_score').eq('log_date', localDateStr()).maybeSingle();
+  if (todayLog) {
+    el('#logcta').textContent = 'Update today \u2014 ' + (todayLog.daily_five_score ?? 0) + ' of 5';
+    el('#logcta').classList.remove('btn-solid');
+  }
+
+  // Adherence
+  const st = await adherenceStats(m.id);
+  el('#adh').textContent = st.pct ?? '\u2014';
+  el('#avgfive').textContent = st.avgFive != null ? st.avgFive.toFixed(1) : '\u2014';
+
+  const dots = el('#dots');
+  const byDate = Object.fromEntries(st.recent.map(r => [r.log_date, r]));
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    const rec = byDate[key];
+    const dot = document.createElement('div');
+    const score = rec ? (rec.daily_five_score ?? 0) : null;
+    dot.style.cssText = 'flex:1;height:24px;border-radius:2px;' +
+      (score === null ? 'background:rgba(182,189,188,.14)'
+       : score >= 4 ? 'background:#218BBE'
+       : score >= 2 ? 'background:rgba(33,139,190,.55)'
+       : 'background:rgba(180,101,58,.5)');
+    dot.title = key + (rec ? ' \u2014 ' + score + '/5' : ' \u2014 not logged');
+    dots.appendChild(dot);
+  }
+
+  // Battery Score, if a panel has been scored
+  const { data: scores } = await sb.from('battery_scores')
+    .select('composite, charge_score, drain_score, output_score, reserve_score, computed_at')
+    .order('computed_at', { ascending: true });
+  if (scores && scores.length) {
+    el('#scorecard').style.display = 'block';
+    const latest = scores[scores.length - 1];
+    const first = scores[0];
+    const parts = [
+      ['Charge','charge_score','s-charge'],
+      ['Drain','drain_score','s-drain'],
+      ['Output','output_score','s-output'],
+      ['Reserve','reserve_score','s-reserve'],
+    ];
+    let html = '<div class="center" style="margin-bottom:1.2rem">' +
+      '<div style="font-family:var(--display);font-size:2.6rem;color:#fff">' +
+      (latest.composite ?? '\u2014') + '</div><div class="tiny">battery score</div>';
+    if (scores.length > 1 && first.composite != null && latest.composite != null) {
+      const d = (latest.composite - first.composite).toFixed(1);
+      html += '<div class="tiny ' + (d > 0 ? 'up' : d < 0 ? 'down' : 'flat') +
+              '" style="margin-top:.3rem">' + (d > 0 ? '+' : '') + d + ' since day 0</div>';
+    }
+    html += '</div>';
+    parts.forEach(([label, key, cls]) => {
+      const v = latest[key];
+      html += '<div class="row"><label><span class="sysdot ' + cls + '"></span>' + label + '</label>' +
+              '<span style="font-variant-numeric:tabular-nums">' + (v ?? '\u2014') + '</span></div>';
+    });
+    el('#scores').innerHTML = html;
+  }
+
+  // What's next
+  const next = [];
+  if (!todayLog) next.push('Log today. It takes under a minute.');
+  if (shown <= 7) next.push('Book your day 0 blood draw if you have not yet.');
+  if (shown >= 83 && shown <= 90) next.push('Book your day 90 draw \u2014 same lab, same fasting state, same hour of the morning.');
+  if (!scores || !scores.length) next.push('Your day 0 results will appear here once they are back and entered.');
+  if (!next.length) next.push('Nothing outstanding. Keep going.');
+  el('#next').innerHTML = next.map(n => '<p class="quiet" style="margin-bottom:.6rem">' + n + '</p>').join('');
+}
+
+el('#loading').style.display = 'none';
+el('#body').style.display = 'block';
+</script>
+</body></html>
