@@ -2,6 +2,8 @@
 
 Marketing site, client portal, database, and brand assets. One repo, one deploy.
 
+**New here?** Read [GETTING-STARTED.md](GETTING-STARTED.md) — it covers installing Claude Code, the accounts you need, and the build order with prompts you can paste.
+
 Static HTML and CSS with no build step. Cloudflare Pages serves it; Supabase holds the data; Cloudflare Functions handle the form and payments.
 
 ---
@@ -37,6 +39,11 @@ brand/
   HBP-Brand-Guide.pdf
 
 docs/                       model, panel spec, evidence tiers, build list
+
+CLAUDE.md                   project context — Claude Code reads this automatically
+GETTING-STARTED.md          setup and build order
+PUSH-TO-GITHUB.md           first push
+CONTRIBUTING.md             rules that are expensive to break
 ```
 
 ---
