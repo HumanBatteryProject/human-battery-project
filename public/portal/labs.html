@@ -24,7 +24,7 @@
   <div id="body" style="display:none"></div>
 
   <div class="card" id="disclaimer" style="display:none">
-    <p class="tiny" style="margin:0">These numbers are not a diagnosis and the Battery Score is not a medical test. It is a tracking index built for this program. Anything outside your laboratory's reference range gets referred to a physician &mdash; that is a rule, not a judgement call.</p>
+    <p class="tiny" style="margin:0">These numbers are not a diagnosis and the Battery Score is not a medical test. It is a tracking index built for this program. Anything outside your laboratory's reference range gets referred to a physician. That is a rule, not a judgement call.</p>
   </div>
 </main>
 
@@ -107,7 +107,7 @@ if (!panels || !panels.length) {
         }
       }
       const band = (x.m.optimal_low!=null && x.m.optimal_high!=null)
-        ? '<div class="tiny">target '+x.m.optimal_low+'&ndash;'+x.m.optimal_high+' '+(x.m.unit||'')+'</div>' : '';
+        ? '<div class="tiny">target '+x.m.optimal_low+'-'+x.m.optimal_high+' '+(x.m.unit||'')+'</div>' : '';
       html += '<tr><td>'+x.m.name+band+'</td>' +
               '<td class="num">'+(v0!=null?v0:'&mdash;')+'</td>' +
               (day90 ? '<td class="num">'+(v90!=null?v90:'&mdash;')+'</td>'+changeCell : '') +
