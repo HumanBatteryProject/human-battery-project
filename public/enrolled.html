@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Your seat is confirmed | The Human Battery Project</title>
+<meta name="description" content="Your payment went through and your seat is confirmed.">
+<meta name="theme-color" content="#05090C">
+<link rel="icon" href="/assets/mark-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<link rel="stylesheet" href="/styles.css?v=4">
+<style>
+/* These three are a sequence, so they hold one column at every width
+   rather than taking the two-column .checks grid used on the home page. */
+.checks.seq{grid-template-columns:1fr;gap:1.15rem;max-width:var(--measure,64ch)}
+.next-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin:2.2rem 0 1.9rem}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project"></a>
+    <a class="btn" href="/portal/">Your portal</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <img class="mark" src="/assets/02-mark.svg" alt="">
+    <h1>Your seat is confirmed</h1>
+    <p class="lede narrow">Your payment went through. You are enrolled.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What happens next</h2>
+    <ul class="checks seq">
+      <li><b>A confirmation email.</b> It goes to the address you paid with.</li>
+      <li><b>Your blood draw.</b> You book it through your portal, at a partner draw site near you. You pay the laboratory directly.</li>
+      <li><b>The protocol, before day one.</b> The full written protocol covers food, training, light, sleep, cold and heat, phased across the ninety days.</li>
+    </ul>
+
+    <div class="next-actions">
+      <a class="btn btn-solid" href="/portal/">Open your portal</a>
+    </div>
+
+    <p class="note">Your portal is where you book the draw, read the protocol and log each day. If anything here looks wrong, email <a href="mailto:hello@thehumanbatteryproject.com">hello@thehumanbatteryproject.com</a> and we will sort it out.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav>
+      <a href="/privacy.html">Privacy policy</a>
+      <a href="/consumer-health-data.html">Consumer health data privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/disclaimer.html">Medical disclaimer</a>
+    </nav>
+    <p class="disclaimer">The Human Battery Project is a health coaching and research program. It does not provide medical care, does not diagnose or treat any condition, and is not a substitute for advice from your physician. The Battery Score is a tracking index built for this program and is not a diagnostic measure. Individual results vary and no particular outcome is promised. Statements on this site have not been evaluated by the Food and Drug Administration.</p>
+    <p class="quiet">&copy; <span id="yr">2026</span> The Human Battery Project</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

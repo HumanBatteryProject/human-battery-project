@@ -70,7 +70,7 @@ export async function onRequestPost({ request, env }) {
             currency: CURRENCY,
             unit_amount: amounts[0],
             product_data: {
-              name: 'The Human Battery Project — 90 day program',
+              name: 'The Human Battery Project: 90 day program',
               description: 'Includes bloodwork at day 0 and day 90.',
             },
           },
@@ -95,7 +95,7 @@ export async function onRequestPost({ request, env }) {
               interval_count: plan.interval_count,
             },
             product_data: {
-              name: `The Human Battery Project — ${plan.installments} payments`,
+              name: `The Human Battery Project: ${plan.installments} payments`,
             },
           },
         },
