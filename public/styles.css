@@ -284,7 +284,7 @@ body.plain{--fs-base:21px;line-height:1.72}
 .voice{font-style:italic;color:var(--teal);font-size:var(--fs-lg);text-align:center;
   max-width:36ch;margin:2.8rem auto;line-height:1.5;text-wrap:balance}
 .bridge{margin-top:2.2rem}
-.bridge .fact{font-size:var(--fs-lg);color:#DCE7E8;max-width:48ch;margin:1.7rem 0;line-height:1.5}
+.bridge .fact{color:#DCE7E8;max-width:var(--measure);margin:1.8rem 0}
 
 /* ---------- what we do ---------- */
 #what h3{margin:2.3rem 0 .55rem}
