@@ -47,7 +47,7 @@ export async function onRequestPost({ request, env }) {
   const common = {
     customer_email: email,
     client_reference_id: application.id,
-    success_url: `${origin}/enrolled.html?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${origin}/enrolled?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/#apply`,
     metadata: {
       plan: planKey,
