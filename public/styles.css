@@ -284,6 +284,9 @@ body.plain{--fs-base:21px;line-height:1.72}
 .bridge{margin-top:2.2rem}
 .bridge .fact{font-size:var(--fs-lg);color:#DCE7E8;max-width:48ch;margin:1.7rem 0;line-height:1.5}
 
+/* ---------- what we do ---------- */
+#what h3{margin:2.3rem 0 .55rem}
+
 /* ---------- phone analogy ---------- */
 .phone-eq,.part p.phone-eq,.cell p.phone-eq{color:var(--teal);margin:.75rem 0 0}
 
