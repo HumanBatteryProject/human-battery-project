@@ -277,3 +277,17 @@ body.plain{--fs-base:21px;line-height:1.72}
 .cred .names{font-size:var(--fs-base);line-height:1.65;color:#CBD9DA;margin:0 0 .6rem;max-width:none}
 .cred .what{font-size:var(--fs-sm);line-height:1.55;color:var(--steel);margin:0;max-width:none}
 .cred.wide{grid-column:1 / -1}
+
+/* ---------- reader voice + bridge ---------- */
+.voice{font-style:italic;color:var(--teal);font-size:var(--fs-lg);text-align:center;
+  max-width:36ch;margin:2.8rem auto;line-height:1.5;text-wrap:balance}
+.bridge{margin-top:2.2rem}
+.bridge .fact{font-size:var(--fs-lg);color:#DCE7E8;max-width:48ch;margin:1.7rem 0;line-height:1.5}
+
+/* ---------- phone analogy ---------- */
+.phone-list{display:grid;gap:1.6rem;margin-top:2.2rem}
+.phone-list .pl{padding-left:1.2rem;border-left:2px solid var(--rule-2)}
+.phone-list h3{margin:0 0 .4rem;color:#fff}
+.phone-list p{margin:0;max-width:var(--measure)}
+.phone-eq,.part p.phone-eq,.cell p.phone-eq{color:var(--teal);margin:.75rem 0 0}
+
