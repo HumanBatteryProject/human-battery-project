@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#05090C">
 <link rel="icon" href="/assets/mark-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/mark-192.png">
-<link rel="stylesheet" href="/styles.css?v=10">
+<link rel="stylesheet" href="/styles.css?v=11">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -34,7 +34,30 @@
 <header class="top">
   <div class="wrap">
     <a class="brand" href="/"><img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project"></a>
-    <a class="btn" href="#apply">Apply</a>
+    <nav class="mainnav" aria-label="Sections">
+      <details class="menu">
+        <summary>The program</summary>
+        <div class="menu-panel">
+          <a href="#what">What is The Human Battery Project</a>
+          <a href="#panel">What is measured</a>
+          <a href="#phases">The ninety days</a>
+          <a href="#included">What you get</a>
+          <a href="#cost">What it costs</a>
+          <a href="#fit">Who it is for</a>
+        </div>
+      </details>
+      <details class="menu">
+        <summary>The science</summary>
+        <div class="menu-panel">
+          <a href="#story">The Human Battery</a>
+          <a href="#bridge">Real electricity</a>
+          <a href="#symptoms">What a low battery sounds like</a>
+          <a href="#model">The model</a>
+          <a href="#faq">Questions</a>
+        </div>
+      </details>
+      <a class="btn" href="#apply">Apply</a>
+    </nav>
   </div>
 </header>
 
@@ -471,7 +494,7 @@
 </figure>
 </section>
 
-<section>
+<section id="phases">
   <div class="wrap">
     <h2>Ninety days, in three phases</h2>
     <p>Each phase has one job. You do not get the whole protocol on day one, because nobody sustains that. You get the next thing.</p>
@@ -524,7 +547,7 @@
   </div>
 </section>
 
-<section>
+<section id="included">
   <div class="wrap">
     <h2>What you get</h2>
     <ul class="checks">
@@ -569,7 +592,7 @@
   </div>
 </section>
 
-<section>
+<section id="fit">
   <div class="wrap">
     <h2>Who this is built for</h2>
     <ul class="checks">
@@ -589,7 +612,7 @@
   </div>
 </section>
 
-<section>
+<section id="cost">
   <div class="wrap">
     <p class="price-head">$1,000</p>
     <p class="quiet">Thirty seats per cohort. A new cohort begins every ninety days.</p>
@@ -615,7 +638,7 @@
   </div>
 </section>
 
-<section>
+<section id="faq">
   <div class="wrap">
     <h2>Questions</h2>
     <div class="faq narrow" style="margin-inline:0">
@@ -783,6 +806,27 @@ form.addEventListener('submit', function(e){
     btn.textContent = 'Send application';
   });
 });
+</script>
+<script>
+// Section menus. Close on outside click, on choosing a link, and on Escape.
+(function(){
+  var menus = document.querySelectorAll('details.menu');
+  function closeAll(except){
+    menus.forEach(function(d){ if(d !== except) d.removeAttribute('open'); });
+  }
+  menus.forEach(function(d){
+    d.addEventListener('toggle', function(){ if(d.open) closeAll(d); });
+  });
+  document.addEventListener('click', function(e){
+    menus.forEach(function(d){ if(d.open && !d.contains(e.target)) d.removeAttribute('open'); });
+  });
+  document.querySelectorAll('.menu-panel a').forEach(function(a){
+    a.addEventListener('click', function(){ closeAll(null); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeAll(null);
+  });
+})();
 </script>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <meta property="og:description" content="You've tried everything. So why don't you feel better? Everyone had an answer. None of them worked.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=10">
+<link rel="stylesheet" href="/styles.css?v=11">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -31,7 +31,29 @@
 <header class="top">
   <div class="wrap">
     <a class="brand" href="/"><img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project"></a>
-    <a class="btn" href="#apply">Apply</a>
+    <nav class="mainnav" aria-label="Sections">
+      <details class="menu">
+        <summary>The program</summary>
+        <div class="menu-panel">
+          <a href="#what">What is The Human Battery Project</a>
+          <a href="#parts">Four things we check</a>
+          <a href="#how">How it works</a>
+          <a href="#cost">What it costs</a>
+          <a href="#fit">This is for you if</a>
+        </div>
+      </details>
+      <details class="menu">
+        <summary>The science</summary>
+        <div class="menu-panel">
+          <a href="#story">The Human Battery</a>
+          <a href="#bridge">It is real</a>
+          <a href="#tired">What a low battery feels like</a>
+          <a href="#honest">What we are not going to tell you</a>
+          <a href="#influences">Whose work this is built on</a>
+        </div>
+      </details>
+      <a class="btn" href="#apply">Apply</a>
+    </nav>
   </div>
 </header>
 
@@ -757,6 +779,27 @@ form.addEventListener('submit', function(e){
     btn.textContent = 'Send it';
   });
 });
+</script>
+<script>
+// Section menus. Close on outside click, on choosing a link, and on Escape.
+(function(){
+  var menus = document.querySelectorAll('details.menu');
+  function closeAll(except){
+    menus.forEach(function(d){ if(d !== except) d.removeAttribute('open'); });
+  }
+  menus.forEach(function(d){
+    d.addEventListener('toggle', function(){ if(d.open) closeAll(d); });
+  });
+  document.addEventListener('click', function(e){
+    menus.forEach(function(d){ if(d.open && !d.contains(e.target)) d.removeAttribute('open'); });
+  });
+  document.querySelectorAll('.menu-panel a').forEach(function(a){
+    a.addEventListener('click', function(){ closeAll(null); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeAll(null);
+  });
+})();
 </script>
 </body>
 </html>
