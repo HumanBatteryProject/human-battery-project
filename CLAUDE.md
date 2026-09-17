@@ -24,6 +24,22 @@ Cohorts are 30 people, one shared start date, $1,000. A new cohort every 90 days
 
 ---
 
+## The canonical model
+
+`docs/HBP-Foundational-Model.md` is the foundational statement of what the program
+is built on. Every protocol element, every line of marketing copy, every answer the
+AI coach gives and every claim in the book answers to it. **Where anything else in
+this project conflicts with that document, that document wins.**
+
+Two constraints from it are easy to break by accident:
+
+- **Light is biological timing information.** It must never be described as
+  electricity charging the body, or as working like a solar panel.
+- **The body is not one battery.** It is a coordinated network of trillions of
+  cellular batteries, each needing the voltage appropriate to its own tissue.
+
+---
+
 ## Rules that must not be broken
 
 **1. The service key never enters `public/`.**
@@ -76,6 +92,7 @@ functions/api/       server-side: waitlist, checkout, stripe-webhook
 database/migrations/ 001-015, run in order, once
 brand/               v4 logo system + guide
 docs/                the model, panel spec, evidence tiers, build list
+                     HBP-Foundational-Model.md is canonical and outranks the rest
 ```
 
 ---
