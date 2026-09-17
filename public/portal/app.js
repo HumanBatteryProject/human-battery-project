@@ -2,7 +2,7 @@
 // Portal runtime
 //
 // The anon key is safe in the browser. Row-level security is what
-// enforces access — a client can only ever read their own rows, and the
+// enforces access, a client can only ever read their own rows, and the
 // database rejects anything else regardless of what this file asks for.
 // Never put the service key here.
 // =====================================================================
@@ -44,14 +44,14 @@ export async function signOut() {
 export async function activeMembership() {
   const { data } = await sb
     .from('memberships')
-    .select('id, day_zero, status, cohort_id, cohorts(code, name, starts_on, ends_on)')
+    .select('id, day_zero, status, tier, cohort_id, cohorts(code, name, starts_on, ends_on)')
     .in('status', ['active', 'enrolled'])
     .order('created_at', { ascending: false })
     .limit(1);
   return data && data.length ? data[0] : null;
 }
 
-// Program day N = day_zero + (N-1). Local date, not UTC — a log entry
+// Program day N = day_zero + (N-1). Local date, not UTC, a log entry
 // belongs to the day the person actually lived, not the UTC day.
 export function programDay(dayZero, forDate = new Date()) {
   if (!dayZero) return null;
@@ -101,7 +101,7 @@ export async function getOrCreateLog(membership, dateStr) {
 }
 
 // ---------------------------------------------------------------------
-// Adherence — a percentage, never a streak. A broken streak makes people
+// Adherence, a percentage, never a streak. A broken streak makes people
 // quit. A 78% makes them push for 85%.
 // ---------------------------------------------------------------------
 export async function adherenceStats(membershipId) {
@@ -129,7 +129,7 @@ export async function adherenceStats(membershipId) {
 }
 
 // ---------------------------------------------------------------------
-// Reference data — cached in memory for the session
+// Reference data, cached in memory for the session
 // ---------------------------------------------------------------------
 const cache = {};
 

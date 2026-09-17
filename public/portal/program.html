@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Your program, The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+<style>
+.doc{display:flex;gap:1rem;align-items:center;padding:1.1rem 0;border-bottom:1px solid var(--rule)}
+.doc:last-child{border-bottom:0}
+.doc .ic{width:38px;height:46px;flex:none;border:1px solid var(--rule-2);border-radius:3px;position:relative;background:rgba(14,37,48,.5)}
+.doc .ic::after{content:"PDF";position:absolute;bottom:5px;left:0;right:0;text-align:center;font-family:var(--display);font-size:.46rem;letter-spacing:.06em;color:var(--teal)}
+.doc .meta{flex:1;min-width:0}
+.doc h3{margin:0 0 .25rem;font-size:.8rem}
+.doc p{margin:0;font-size:.88rem;color:var(--steel);line-height:1.45}
+.doc .btn{width:auto;padding:.6rem .85rem;font-size:.58rem;flex:none}
+.tierbadge{display:inline-block;font-family:var(--display);font-size:.6rem;letter-spacing:.12em;padding:.42rem .7rem;border:1px solid var(--teal);color:var(--teal);border-radius:2px;margin-bottom:.9rem}
+.seq{font-family:var(--display);font-size:.6rem;letter-spacing:.08em;color:var(--blue);text-align:center;padding:1rem 0;line-height:1.9}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who">PROGRAM</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="locked" class="card" style="display:none">
+    <h2>Not yet</h2>
+    <p class="quiet">Your program documents unlock once your seat is confirmed and your tier has been set. If you have paid and this still shows, email admin@thehumanbatteryproject.com.</p>
+  </div>
+
+  <div id="body" style="display:none">
+    <div class="card">
+      <span class="tierbadge" id="tierbadge"></span>
+      <h2 style="border:0;padding:0;margin-bottom:.4rem">Your 90 days</h2>
+      <p class="quiet" id="tierline"></p>
+      <div class="seq">LIGHT &rarr; WATER &rarr; MOVEMENT &rarr; FOOD<br>&rarr; MOVEMENT &rarr; LIGHT &rarr; DARKNESS</div>
+      <p class="tiny" style="margin:0">That sequence is the protocol. Everything in the documents below is detail underneath it.</p>
+    </div>
+
+    <section class="card">
+      <h2>Your documents</h2>
+      <div id="docs"></div>
+    </section>
+
+    <section class="card">
+      <h2>Start here</h2>
+      <p class="quiet" style="margin-bottom:.6rem">Read the circadian section of your protocol first. It is the first section, on purpose. If you do nothing else in week one, do that.</p>
+      <p class="quiet" style="margin:0">Then the Dietary Guidelines, then the rest of your protocol. Print them if you can. Paper survives a dead phone.</p>
+    </section>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/program.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, activeMembership, el, toast } from './app.js';
+await requireAuth();
+
+const TIER_COPY = {
+  pro:          ['PRO', 'You are already doing all of it. This is the full stack, sequenced and measured.'],
+  advanced:     ['ADVANCED', 'You already train and already do some of this. This closes the gaps.'],
+  intermediate: ['INTERMEDIATE', 'You know what you should be doing and do some of it. This turns sometimes into every day.'],
+  beginner:     ['BEGINNER', 'One thing a month. By day 90 you will be doing more than you thought possible.'],
+};
+
+const m = await activeMembership();
+
+// The registry query is RLS-gated: an unenrolled user gets zero rows,
+// an enrolled one gets their tier plus shared. We do not filter by tier
+// in JS, because the database already has, and doing it twice invites
+// the two to disagree.
+const { data: docs, error } = await sb
+  .from('program_documents')
+  .select('id, slug, title, description, storage_path, tier, sort_order')
+  .order('sort_order');
+
+el('#loading').style.display = 'none';
+
+if (error || !docs || !docs.length) {
+  el('#locked').style.display = 'block';
+} else {
+  const tierKey = (docs.find(d => d.tier) || {}).tier || (m && m.tier);
+  const [label, line] = TIER_COPY[tierKey] || ['', ''];
+  el('#tierbadge').textContent = label;
+  el('#tierline').textContent = line;
+
+  const list = el('#docs');
+  docs.forEach(d => {
+    const row = document.createElement('div');
+    row.className = 'doc';
+    row.innerHTML = `<div class="ic"></div>
+      <div class="meta"><h3>${d.title}</h3><p>${d.description || ''}</p></div>`;
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = 'Open';
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      // Signed URL, 10 minutes. Storage RLS decides whether it is granted.
+      const { data: signed, error: sErr } = await sb.storage
+        .from('program-docs')
+        .createSignedUrl(d.storage_path, 600);
+      if (sErr || !signed) {
+        toast('Could not open that document', 'err');
+        btn.disabled = false; btn.textContent = 'Open';
+        return;
+      }
+      await sb.from('document_downloads').insert({ document_id: d.id, client_id: (await sb.auth.getUser()).data.user.id });
+      window.open(signed.signedUrl, '_blank', 'noopener');
+      btn.disabled = false; btn.textContent = 'Open';
+    });
+    row.appendChild(btn);
+    list.appendChild(row);
+  });
+
+  el('#body').style.display = 'block';
+}
+</script>
+</body></html>
