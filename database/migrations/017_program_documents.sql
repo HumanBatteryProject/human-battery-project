@@ -146,7 +146,8 @@ insert into program_documents (slug, title, description, storage_path, tier, sor
   ('protocol-advanced',     'Your Protocol: Advanced',     'The full 90-day protocol for your tier.', 'tier/advanced/HBP-Protocol-ADVANCED.pdf',         'advanced',     1),
   ('protocol-intermediate', 'Your Protocol: Intermediate', 'The full 90-day protocol for your tier.', 'tier/intermediate/HBP-Protocol-INTERMEDIATE.pdf', 'intermediate', 1),
   ('protocol-beginner',     'Your Protocol: Beginner',     'The full 90-day protocol for your tier.', 'tier/beginner/HBP-Protocol-BEGINNER.pdf',         'beginner',     1),
-  ('dietary-guidelines',    'Dietary Guidelines',          'The approved food list, the daily non-negotiables, and how to build a plate.', 'shared/HBP-Dietary-Guidelines.pdf', null, 2)
+  ('dietary-guidelines',    'Dietary Guidelines',          'The approved food list, the daily non-negotiables, and how to build a plate.', 'shared/HBP-Dietary-Guidelines.pdf', null, 2),
+  ('tests-explained',       'Your Tests Explained',        'What every marker on the panel measures, and why it is there.', 'shared/HBP-Your-Tests-Explained.pdf', null, 3)
 on conflict (slug) do nothing;
 
 comment on table program_documents is

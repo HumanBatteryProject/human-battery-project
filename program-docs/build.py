@@ -423,8 +423,10 @@ def render_tier(key):
     HTML(string=html, base_url="/home/claude/hbp-tierdocs/").write_pdf(path)
     return path
 
-for k in TIERS:
-    print(render_tier(k))
+if __name__ == '__main__':
+    from tier_doc import render_tier as _rt
+    for k in TIERS:
+        print(_rt(k))
 
 # =====================================================================
 # DIETARY GUIDELINES — shared across all tiers
@@ -452,7 +454,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 <div class="page">
   <div class="kicker">01 &nbsp;/&nbsp; THE PRINCIPLES</div>
   <h1>How we eat</h1>
-  <p class="lede">Protein first. Fat for fuel. Vegetables for volume. Nothing from a package with more than one ingredient. No snacking. And a window, so the body gets hours every day with nothing to process.</p>
+  <p class="lede">Protein first. Fat for fuel. Carbohydrates last, and small. Nothing from a package with more than one ingredient. No snacking. And a window, so the body gets hours every day with nothing to process.</p>
   <h3>Light before food</h3>
   <p>You do not eat until you have been outside. Morning light sets the clock. Food arrives after. Every tier, every day, no exceptions.</p>
   <h3>Protein at every meal</h3>
@@ -532,7 +534,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <div class="kicker">06 &nbsp;/&nbsp; BUILDING A PLATE</div>
   <h1>Meal construction</h1>
   <h3>The formula</h3>
-  <p>Protein the size of your palm, or two palms for Pro and Advanced. Vegetables to fill half the plate. Fat over everything. Salt. For Intermediate and Beginner, one fist of starch at the midday meal.</p>
+  <p>Protein and fat are most of every meal, roughly 40 percent each. Carbohydrates are the last 20 percent. Protein the size of your palm, or two palms for Pro and Advanced. Fat over everything. Salt.</p>
   <h3>Breakfast, the first meal</h3>
   <p>Sardines straight from the tin with lemon and olive oil, or eggs in butter. Greens on the side. A forkful of sauerkraut. This is the same meal most days and that is the point. Decision fatigue is how programs die.</p>
   <h3>The main meal</h3>
@@ -546,5 +548,74 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 
 </body></html>"""
 
-HTML(string=DIET_HTML, base_url="/home/claude/hbp-tierdocs/").write_pdf(f"{OUT}/HBP-Dietary-Guidelines.pdf")
-print(f"{OUT}/HBP-Dietary-Guidelines.pdf")
+if __name__ == "__main__":
+    from diet_doc import diet_doc
+    print(diet_doc())
+
+# =====================================================================
+# YOUR TESTS, EXPLAINED — shared across all tiers
+# =====================================================================
+
+MARKERS = {
+ "charge": ("CHARGE", "#218BBE", "How well your body turns fuel into energy", [
+  ("Fasting glucose", "The sugar in your blood after not eating overnight.", "It is the baseline. If it is high while you are fasting, your body is having trouble putting fuel away."),
+  ("Fasting insulin", "The hormone that moves sugar out of your blood and into your cells.", "This goes up years before glucose does. High insulin means your cells are ignoring the signal, and your body is shouting louder to be heard. It is the earliest warning we have."),
+  ("HbA1c", "Your average blood sugar over the last three months.", "One number that shows the whole quarter, not just this morning. Ninety days is exactly one HbA1c cycle, which is why the program is ninety days."),
+  ("HOMA-IR", "A calculation from glucose and insulin together.", "It tells us how hard your body is working to keep sugar normal. A high number means the fuel is in the tank but cannot get to the engine."),
+  ("Triglycerides", "Fat traveling in your blood.", "When you eat more fuel than you burn, especially sugar, it turns into this. High triglycerides mean the fuel system is overloaded."),
+  ("Triglyceride to HDL ratio", "Triglycerides divided by your good cholesterol.", "One of the best simple signs of whether your cells are handling fuel well. Low is good."),
+ ]),
+ "drain": ("DRAIN", "#6E908C", "What is quietly using up your energy in the background", [
+  ("hs-CRP", "A protein your liver makes when there is inflammation anywhere in the body.", "This is the main drain marker. Inflammation is like an app running in the background on your phone. You did not open it, but it is using battery all day."),
+  ("GGT", "A liver enzyme.", "It rises when the liver is stressed by alcohol, sugar, or oxidative load. It is one of the earliest signs the drain is on."),
+  ("ALT", "A liver enzyme.", "Tells us whether the liver, your main fuel-processing organ, is under strain."),
+  ("AST", "A liver and muscle enzyme.", "Read alongside ALT. Together they show whether the liver is keeping up."),
+  ("Uric acid", "A waste product from breaking down certain foods and from fructose.", "High uric acid tracks with high sugar intake and with inflammation. It is a drain marker that moves fast when the diet changes."),
+  ("White blood cell count", "The number of immune cells in your blood.", "Slightly high all the time means the immune system never gets to rest. That is a constant, quiet drain."),
+  ("Homocysteine", "An amino acid that builds up when your B vitamins are low or not working.", "High homocysteine is hard on blood vessels and points to a methylation problem, which affects how your cells repair."),
+  ("AA to EPA ratio", "The balance between an inflammatory fat and an anti-inflammatory fat in your cells.", "This is the fat side of the drain. It comes from what you eat, and it moves when you eat sardines instead of seed oils."),
+  ("Kynurenine to tryptophan ratio", "How much of an important amino acid is being burned up by inflammation.", "When inflammation is high, your body diverts tryptophan away from where it should go. This ratio shows the diversion. It also connects to some of the newest research in the model."),
+ ]),
+ "output": ("OUTPUT", "#2AAFC0", "How much power you can actually spend", [
+  ("TSH", "The signal your brain sends to your thyroid.", "The thyroid sets the speed of every cell. TSH tells us if the brain is having to shout to get it going."),
+  ("Free T3", "The active thyroid hormone.", "This is the one your cells actually use. Low free T3 feels like cold hands, slow thinking, and no drive, even when TSH looks fine."),
+  ("Free T4", "The storage form of thyroid hormone.", "Your body converts T4 to T3. Reading both tells us if the conversion is working."),
+  ("Total testosterone", "The main drive and repair hormone, in both men and women.", "Low testosterone feels like no motivation, slow recovery, and no strength gains. Scored against your own sex's range."),
+  ("Free testosterone", "The testosterone that is actually available to your cells.", "Total can look fine while free is low. This is the number that matches how you feel."),
+  ("DHEA-S", "A hormone from the adrenal glands that your body makes other hormones from.", "It is a reserve measure for the whole hormone system. It drops with age and with chronic stress."),
+  ("Morning cortisol", "Your main stress hormone, measured when it should be highest.", "Cortisol should be high in the morning and fall through the day. Too low in the morning means the system is worn down. Drawn at the same hour both times because it changes across the morning."),
+  ("IGF-1", "A growth and repair signal.", "Tells us how well your body is rebuilding. Too low means slow repair. Too high is not the goal either."),
+  ("SHBG", "A protein that binds hormones and controls how much is free.", "It explains the gap between total and free testosterone, and it moves with insulin, so it connects Output back to Charge."),
+ ]),
+ "reserve": ("RESERVE", "#157A5C", "What your batteries are built from", [
+  ("Omega-3 Index", "The percentage of your red blood cell membranes made of EPA and DHA.", "Required at day 0 and day 90. DHA is what the membranes that receive the light signal are built from, the retina most of all. Low DHA means the signal lands on a degraded receiver. This is the most responsive marker on the panel and the most direct check on whether the protocol is working. Done at home with a finger prick, not at the lab."),
+  ("25-OH vitamin D", "The storage form of vitamin D.", "The direct readout on the sun protocol. Almost everyone starts low. It affects immune function, hormones, and mood."),
+  ("Ferritin", "Your stored iron.", "Too low means the batteries cannot carry oxygen well. Too high can mean inflammation. Read together with iron saturation."),
+  ("Iron saturation", "How much of your iron-carrying protein is actually carrying iron.", "Ferritin tells us the stockpile. Saturation tells us what is in use. You need both to know the real story."),
+  ("Vitamin B12", "A vitamin your nerves and red blood cells depend on.", "Low B12 feels like fatigue and fog and tingling. It is common in people who do not eat much animal protein."),
+  ("Folate", "A B vitamin that works with B12 for repair and methylation.", "Read with B12 and homocysteine. The three together show whether the repair system has what it needs."),
+  ("RBC magnesium", "Magnesium inside your red blood cells, not just in the blood around them.", "Regular serum magnesium is almost always normal, even when you are low. This is the honest version. Magnesium runs hundreds of the reactions that make and use energy."),
+  ("Albumin", "The main protein in your blood.", "A simple measure of whether you have enough protein and whether your liver is making it. Low albumin means the raw material is short."),
+  ("HDL", "The good cholesterol.", "It is protective, and it is in Reserve because it is a marker of what your body has to work with, not a drain."),
+ ]),
+}
+
+FUNCTIONAL = [
+ ("VO₂max", "How much oxygen your body can take in and use when you are working as hard as you can.", "This is the Charge test that blood cannot show. Oxygen is the last step of the reaction that builds the voltage in every cell. VO₂max is the ceiling on that reaction for your whole body, and it is the strongest predictor of how long people live that exists. A lab test with a mask is best. A step test at home works if you do it the same way both times."),
+ ("Grip strength", "How hard you can squeeze.", "It is a stand-in for total body strength and it predicts health outcomes surprisingly well. Measured with a small device you squeeze three times. Takes one minute."),
+ ("Resting heart rate", "How fast your heart beats when you are completely at rest.", "Lower usually means a stronger, more efficient system. Take it first thing in the morning, before you get up."),
+ ("Blood pressure", "The force of blood against your artery walls.", "Read at the same time of day. It responds to sun, sleep, minerals and cold faster than almost anything else on this list."),
+]
+
+DRAW_RULES = [
+ ("Fast for 12 hours", "Nothing but water from the night before. Coffee counts as food for this. The morning glass with lemon and salt is fine."),
+ ("Same time of morning, both draws", "Between 7 and 9am. Cortisol and testosterone both change across the morning, and a 7am draw compared to an 11am draw shows a change that is not real."),
+ ("No alcohol for 48 hours", "It moves the liver enzymes and triglycerides."),
+ ("No hard training for 24 hours", "It moves AST, CRP, and cortisol."),
+ ("Drink your water", "Dehydration makes several markers read high. Have your morning glass and a full bottle before the draw."),
+ ("Same lab, both times", "Different labs use different machines and reference ranges. Day 0 and day 90 must come from the same place."),
+]
+
+if __name__ == '__main__':
+    from tests_doc import tests_doc
+    print(tests_doc())

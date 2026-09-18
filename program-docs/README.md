@@ -9,6 +9,7 @@ tier/advanced/HBP-Protocol-ADVANCED.pdf
 tier/intermediate/HBP-Protocol-INTERMEDIATE.pdf
 tier/beginner/HBP-Protocol-BEGINNER.pdf
 shared/HBP-Dietary-Guidelines.pdf
+shared/HBP-Your-Tests-Explained.pdf
 ```
 
 ## Upload
@@ -19,7 +20,9 @@ a client can only sign a URL for `shared/*` and `tier/<their tier>/*`.
 
 ## Regenerate
 
-`build.py` renders all five from the content inside it. Edit the content
+`build.py` renders the tier protocols. `tier_doc.py`, `diet_doc.py` and
+`tests_doc.py` render the rest, and all three import `build` and `design`.
+Together they produce all six documents. Edit the content
 there, run it, re-upload. Requires weasyprint and the brand fonts from
 `/brand/fonts`.
 
