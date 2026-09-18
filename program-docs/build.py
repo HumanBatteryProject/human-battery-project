@@ -36,7 +36,6 @@ FOUR_Q = {
  "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signalling to night signalling."),
  "evening": ("Q3",     "Protects that melatonin signal from blue light that would tell the body it is still daytime."),
  "night":   ("Q3, Q4", "Darkness is when repair signalling runs. Sleep timing and regularity are logged daily."),
- "ground":  ("none",   "No mechanism in the foundational model, nothing on the panel, nothing in the daily log."),
  "fast":    ("Q1, Q4", "Metabolic flexibility and substrate switching. Fasting glucose, insulin and HbA1c are on the panel."),
 }
 
@@ -60,11 +59,12 @@ def circadian(tier):
     W = {
      "morning": dict(
         h="Go outside as soon as you wake up",
+         rider="Barefoot if you can. This is part of the morning light block, not separate from it. We include it because it costs nothing, and because standing on grass keeps people outside for the full time when shoes and a doormat do not. We are not measuring it, and we are not claiming it does anything on its own.",
         why="Your body has a clock inside it. The clock does not know what time it is until it sees the sun. When morning light hits your eyes, it tells every cell in your body that the day has started. That one signal sets up your energy, your hunger, your hormones and your sleep for the whole day. If you skip it, your body runs on the wrong time all day, like a clock that was never set.",
         pro="Outside within 15 minutes of waking, before anything else. Thirty minutes on a clear day, forty-five when it is cloudy. Face east, toward where the sun comes up. Barefoot on grass, dirt or sand the whole time. No sunglasses. No looking through a window. It has to be real outdoor light in your eyes.",
         advanced="Outside within 30 minutes of waking. Twenty minutes on a clear day, forty when cloudy. Face east. Barefoot on the ground the whole time. No sunglasses, no window.",
         intermediate="Outside within 30 minutes of waking. Fifteen minutes minimum, twenty when cloudy. Barefoot on the ground when you can. Face east. No sunglasses.",
-        beginner="Outside within 30 minutes of waking up. Fifteen minutes minimum. Sit in a chair if you need to. Face toward the sun with your eyes open. No sunglasses. Not through a window, not from the car. Outside. Do this before coffee, before food, before your phone. This is the most important fifteen minutes of your entire day.",
+        beginner="Outside within 30 minutes of waking up. Fifteen minutes minimum. Sit in a chair if you need to. Shoes and socks off, bare feet on grass, dirt or sand if you have it. Face toward the sun with your eyes open. No sunglasses. Not through a window, not from the car. Outside. Do this before coffee, before food, before your phone. This is the most important fifteen minutes of your entire day.",
      ),
      "midday": dict(
         h="Get sun on your skin in the afternoon",
@@ -98,14 +98,6 @@ def circadian(tier):
         intermediate="Phone out of the bedroom. Router on a timer, off 10pm to 6am.",
         beginner="Your phone sleeps in another room. Starting tonight. Charge it in the kitchen. If you use it as an alarm, buy a ten-dollar alarm clock. Cover any small lights in the room, like the glow on a charger or a TV. As dark as you can get it.",
      ),
-     "ground": dict(
-        h="Stand barefoot on the ground",
-        why="The earth carries a natural electric charge. When your bare skin touches grass, soil or sand, your body connects to it. Shoes with rubber soles block that connection, and most people go weeks without ever touching the ground. We stack this with the morning light so it is one habit, not two. You are outside anyway. Take your shoes off.",
-        pro="Thirty minutes barefoot on the earth every morning, stacked with the light block. Grounding sheet on the bed at night.",
-        advanced="Twenty minutes barefoot every morning with the light block. Grounding sheet at night.",
-        intermediate="Fifteen minutes barefoot in the morning, most days. Grounding mat under the desk if you sit all day.",
-        beginner="During your morning fifteen minutes outside, take your shoes and socks off and stand or sit with your bare feet on grass, dirt or sand. Same fifteen minutes. No extra time.",
-     ),
      "fast": dict(
         h="Give your body hours with no food",
         why="Every time you eat, your body has to stop what it is doing and deal with the food. If you eat from the minute you wake up until right before bed, your body never gets a break to do repairs. Hours without food, especially overnight, is when the cleanup happens. Late eating is the worst, because your body is trying to wind down and you just handed it a job.",
@@ -116,12 +108,13 @@ def circadian(tier):
      ),
     }
     parts = [CIRCADIAN_INTRO]
-    for key in ["morning","midday","sunset","evening","night","ground","fast"]:
+    for key in ["morning","midday","sunset","evening","night","fast"]:
         b = W[key]
         parts.append(f"""
 <h3>{b['h']}</h3>
 <p><b>What to do:</b> {b[tier]}</p>
 <p class="why"><b>Why:</b> {b['why']}</p>
+{('<p class="why">' + b['rider'] + '</p>') if b.get('rider') else ''}
 {q_line(FOUR_Q[key])}""")
     parts.append('<div class="rule"><b>The rule that matters most:</b> light before food, every single day. Do not eat until you have been outside.</div>')
     return "\n".join(parts)
