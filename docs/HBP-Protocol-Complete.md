@@ -10,7 +10,7 @@ Your body is not one battery. It is a coordinated network of trillions of cellul
 
 **Light is timing information.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into the body. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
 
-**Water is the medium.** Structured, mineralized, and adequate. The cell does its work in water, not in spite of it.
+**Water is the medium.** Mineralized and adequate. The cell does its work in water, not in spite of it.
 
 **Food is the load.** It arrives after light has set the clock. Not before.
 
