@@ -16,10 +16,10 @@ Your body is not one battery. It is a coordinated network of trillions of cellul
 
 **The four subsystems** we measure at day 0 and day 90:
 
-- **CHARGE** — the reaction itself. Oxygen in, water and CO₂ out, and the voltage built in between. Measured by VO₂max, RER, and the blood markers that tell us whether fuel is even reaching the machinery.
-- **DRAIN** — what is consuming capacity in the background. Inflammatory load.
-- **OUTPUT** — what you can spend. The hormonal panel.
-- **RESERVE** — what the whole thing is built from. Substrate, membrane composition, minerals.
+- **CHARGE**: the reaction itself. Oxygen in, water and CO₂ out, and the voltage built in between. Measured by VO₂max, RER, and the blood markers that tell us whether fuel is even reaching the machinery.
+- **DRAIN**: what is consuming capacity in the background. Inflammatory load.
+- **OUTPUT**: what you can spend. The hormonal panel.
+- **RESERVE**: what the whole thing is built from. Substrate, membrane composition, minerals.
 
 **Coherence** is the point of all of it. Coherence is the ability of cells to maintain their proper
 electrical identity while coordinating their voltage, metabolism, timing and behaviour with the
@@ -41,7 +41,7 @@ That sequence is the protocol. Everything below is detail.
 
 ---
 
-## The daily rhythm — the same skeleton for every tier
+## The daily rhythm: the same skeleton for every tier
 
 *Tiers are assigned at intake by how you already live. Pro is someone already fasting, cold plunging, using a sauna and training seriously. Beginner is someone starting from the couch. You are placed where you are, not where you wish you were, and you move up when the tier you are in becomes easy.*
 
@@ -61,7 +61,7 @@ That sequence is the protocol. Everything below is detail.
 
 
 
-## Placement — how the tier is assigned at intake
+## Placement: how the tier is assigned at intake
 
 | | Pro | Advanced | Intermediate | Beginner |
 |---|---|---|---|---|
@@ -146,7 +146,7 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 Bed at the same time, wake at the same time, seven days, to the minute. Room at 62 to 65°F. Grounding sheet. Mouth tape. Total darkness. Nothing electronic in the room.
 
-## Testing — Pro runs the full instrument set
+## Testing: Pro runs the full instrument set
 
 - Omega-3 Index, day 0 and day 90
 - Grip strength, day 0 and day 90
@@ -156,53 +156,53 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 - Resting heart rate every morning, logged
 - Body composition by DEXA, day 0 and day 90
 
-## Supplements — Pro
+## Supplements: Pro
 
 **On waking, before the morning glass:**
-- Cowboy Colostrum — 1 scoop in water
+- Cowboy Colostrum: 1 scoop in water
 
 **With the morning glass:**
-- Spirulina powder — 1 tablespoon
-- Quicksilver Methyl B-Complex — 1 pump
-- Quicksilver NAD+ Platinum — 1 pump
+- Spirulina powder: 1 tablespoon
+- Quicksilver Methyl B-Complex: 1 pump
+- Quicksilver NAD+ Platinum: 1 pump
 
 **With the meal:**
-- Pure Encapsulations O.N.E. Multivitamin — 1 capsule
-- Pure Encapsulations EPA/DHA Essentials — 2,000 mg EPA+DHA regardless of baseline, because you are also eating two tins of sardines and the target is 10%, not 8%
-- Pure Encapsulations Vitamin D3/K2 liquid — 5,000 IU, adjusted after labs to land 25-OH-D at 60–80
-- Creatine monohydrate — 5 grams
-- Dragon Herbs Super Adaptogen — 3 capsules
-- Dragon Herbs He Shou Wu — 3 capsules
-- Dragon Herbs Deer Antler Drops — 1 dropper, 21 on 7 off
-- Dragon Herbs Cordyceps — 3 capsules
-- Dragon Herbs Duanwood Reishi — 3 capsules
-- Gaia Herbs Daytime HPA — 2 capsules
-- Gaia Herbs Turmeric Supreme Extra Strength — 1 capsule
-- Quicksilver Liposomal Glutathione — 1 pump under the tongue
-- Life Extension Taurine — 2 grams
+- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
+- Pure Encapsulations EPA/DHA Essentials: 2,000 mg EPA+DHA regardless of baseline, because you are also eating two tins of sardines and the target is 10%, not 8%
+- Pure Encapsulations Vitamin D3/K2 liquid: 5,000 IU, adjusted after labs to land 25-OH-D at 60–80
+- Creatine monohydrate: 5 grams
+- Dragon Herbs Super Adaptogen: 3 capsules
+- Dragon Herbs He Shou Wu: 3 capsules
+- Dragon Herbs Deer Antler Drops: 1 dropper, 21 on 7 off
+- Dragon Herbs Cordyceps: 3 capsules
+- Dragon Herbs Duanwood Reishi: 3 capsules
+- Gaia Herbs Daytime HPA: 2 capsules
+- Gaia Herbs Turmeric Supreme Extra Strength: 1 capsule
+- Quicksilver Liposomal Glutathione: 1 pump under the tongue
+- Life Extension Taurine: 2 grams
 
 **Pre-training:**
-- Dragon Herbs Cordyceps — 2 additional capsules
-- Creatine — additional 5 grams on heavy days
+- Dragon Herbs Cordyceps: 2 additional capsules
+- Creatine: additional 5 grams on heavy days
 
 **Afternoon, empty stomach:**
 - Dragon Herbs Spring Dragon Longevity Tea
-- Vital Proteins Collagen — 20 grams in the tea, with lemon
-- Dragon Herbs Goji & Schizandra Drops — 1 dropper
-- Gaia Herbs Daytime HPA — 2 capsules
+- Vital Proteins Collagen: 20 grams in the tea, with lemon
+- Dragon Herbs Goji & Schizandra Drops: 1 dropper
+- Gaia Herbs Daytime HPA: 2 capsules
 
 **Evening, two hours before bed:**
-- Chlorella powder — 1 tablespoon, alone
-- Pure Encapsulations Magnesium Glycinate — 400 mg
-- Pure Encapsulations Glycine — 3 grams
-- Pure Encapsulations l-Theanine — 200 mg
-- Pure Encapsulations Zinc 30 — 1 capsule
-- Gaia Herbs Nighttime HPA — 2 capsules
-- Dragon Herbs Lights Out — per label, nightly for the first two weeks, then as needed
+- Chlorella powder: 1 tablespoon, alone
+- Pure Encapsulations Magnesium Glycinate: 400 mg
+- Pure Encapsulations Glycine: 3 grams
+- Pure Encapsulations l-Theanine: 200 mg
+- Pure Encapsulations Zinc 30: 1 capsule
+- Gaia Herbs Nighttime HPA: 2 capsules
+- Dragon Herbs Lights Out: per label, nightly for the first two weeks, then as needed
 
 **Three mornings a week:**
-- Dragon Herbs Tonic Alchemy — 1 scoop, replacing the multivitamin those days
-- BioPure Ultra Binder — 1 scoop, an hour away from everything else
+- Dragon Herbs Tonic Alchemy: 1 scoop, replacing the multivitamin those days
+- BioPure Ultra Binder: 1 scoop, an hour away from everything else
 
 **The Pro Jing stack is the base stack.** You do not add it when tired. It is what you run. If you are still depleted on this, the problem is sleep or overtraining, and the fix is less, not more.
 
@@ -235,7 +235,7 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 - Extra virgin olive oil over everything
 
 **Second meal, by 3pm:**
-- Grass-fed beef, wild salmon, or lamb — 8 to 10 oz
+- Grass-fed beef, wild salmon, or lamb: 8 to 10 oz
 - Two cups of cruciferous vegetables
 - Avocado or olive oil
 - Sea salt
@@ -281,45 +281,45 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Grounding sheet. Nasal breathing. If you snore, mouth tape.
 
-## Supplements — Advanced
+## Supplements: Advanced
 
 **Morning, with the first meal:**
-- Pure Encapsulations O.N.E. Multivitamin — 1 capsule
-- Pure Encapsulations EPA/DHA Essentials — dosed to your baseline Omega-3 Index. Starting below 4%: 2,000 mg EPA+DHA. Starting 4–6%: 1,500 mg. Starting above 6%: 1,000 mg.
-- Pure Encapsulations Vitamin D3/K2 liquid — 5,000 IU D3 with 100 mcg K2, adjusted after day 0 labs to land serum 25-OH-D at 50–70
-- Creatine monohydrate — 5 grams in water
-- Dragon Herbs Super Adaptogen — 3 capsules
-- Spirulina powder — 1 tablespoon, stirred into the morning glass or a small amount of water
-- Cowboy Colostrum — 1 scoop in water on waking, before anything else
+- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
+- Pure Encapsulations EPA/DHA Essentials: dosed to your baseline Omega-3 Index. Starting below 4%: 2,000 mg EPA+DHA. Starting 4–6%: 1,500 mg. Starting above 6%: 1,000 mg.
+- Pure Encapsulations Vitamin D3/K2 liquid: 5,000 IU D3 with 100 mcg K2, adjusted after day 0 labs to land serum 25-OH-D at 50–70
+- Creatine monohydrate: 5 grams in water
+- Dragon Herbs Super Adaptogen: 3 capsules
+- Spirulina powder: 1 tablespoon, stirred into the morning glass or a small amount of water
+- Cowboy Colostrum: 1 scoop in water on waking, before anything else
 
 **Midday, with the second meal:**
-- Dragon Herbs Duanwood Reishi — 2 capsules
-- Gaia Herbs Turmeric Supreme Extra Strength — 1 capsule
-- Quicksilver Liposomal Glutathione — 1 pump, held under the tongue
+- Dragon Herbs Duanwood Reishi: 2 capsules
+- Gaia Herbs Turmeric Supreme Extra Strength: 1 capsule
+- Quicksilver Liposomal Glutathione: 1 pump, held under the tongue
 
 **Afternoon, empty stomach:**
-- Dragon Herbs Spring Dragon Longevity Tea — one cup. This is your afternoon ritual.
-- Vital Proteins Collagen Peptides — 20 grams in the tea, with a squeeze of lemon for the vitamin C
+- Dragon Herbs Spring Dragon Longevity Tea: one cup. This is your afternoon ritual.
+- Vital Proteins Collagen Peptides: 20 grams in the tea, with a squeeze of lemon for the vitamin C
 
 **Evening, two hours before bed:**
-- Chlorella powder — 1 tablespoon in water. Chlorella binds in the gut, so it goes in the evening, away from your other supplements.
-- Pure Encapsulations Magnesium Glycinate — 400 mg elemental
-- Pure Encapsulations Glycine — 3 grams
-- Gaia Herbs Nighttime HPA — 2 capsules
-- Dragon Herbs Lights Out — per label, on nights you need it
+- Chlorella powder: 1 tablespoon in water. Chlorella binds in the gut, so it goes in the evening, away from your other supplements.
+- Pure Encapsulations Magnesium Glycinate: 400 mg elemental
+- Pure Encapsulations Glycine: 3 grams
+- Gaia Herbs Nighttime HPA: 2 capsules
+- Dragon Herbs Lights Out: per label, on nights you need it
 
 **Weekly:**
-- Dragon Herbs Tonic Alchemy — one scoop, three mornings a week, in place of the multivitamin on those days
+- Dragon Herbs Tonic Alchemy: one scoop, three mornings a week, in place of the multivitamin on those days
 
-**The Jing stack — for the Advanced client who is running depleted:**
+**The Jing stack, for the Advanced client who is running depleted:**
 
 If you are training hard and still tired, you have spent your reserve. This is Jing depletion in the tonic herb tradition and adrenal depletion in the Western one. Same thing.
 
-- Dragon Herbs Super Adaptogen — 3 capsules morning, 3 midday
-- Dragon Herbs He Shou Wu — 3 capsules morning
-- Dragon Herbs Cordyceps — 2 capsules pre-training
-- Dragon Herbs Deer Antler Drops — 1 dropper morning, 21 days on, 7 days off
-- Gaia Herbs Daytime HPA — 2 capsules morning, 2 afternoon
+- Dragon Herbs Super Adaptogen: 3 capsules morning, 3 midday
+- Dragon Herbs He Shou Wu: 3 capsules morning
+- Dragon Herbs Cordyceps: 2 capsules pre-training
+- Dragon Herbs Deer Antler Drops: 1 dropper morning, 21 days on, 7 days off
+- Gaia Herbs Daytime HPA: 2 capsules morning, 2 afternoon
 
 Run this for thirty days, then drop back to the base stack.
 
@@ -352,7 +352,7 @@ Run this for thirty days, then drop back to the base stack.
 - Olive oil or butter
 
 **Midday meal:**
-- 6 to 8 oz protein — beef, chicken thigh, salmon, lamb
+- 6 to 8 oz protein: beef, chicken thigh, salmon, lamb
 - Two cups vegetables, half of them cruciferous
 - Sweet potato or white rice, one fist
 - Olive oil
@@ -395,32 +395,32 @@ Three sets of eight to twelve. Progress the variation when you clear twelve on a
 
 ## Sleep
 
-Fixed wake time. Fixed wind-down at 9pm — glasses on, screens off, magnesium taken. Room cool and dark.
+Fixed wake time. Fixed wind-down at 9pm, glasses on, screens off, magnesium taken. Room cool and dark.
 
-## Supplements — Intermediate
+## Supplements: Intermediate
 
 **Morning:**
-- Pure Encapsulations O.N.E. Multivitamin — 1 capsule
-- Life Extension Super Omega-3 EPA/DHA — dosed to baseline: 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above
-- Pure Encapsulations Vitamin D3/K2 — 5,000 IU with K2, adjusted after labs
-- Creatine monohydrate — 5 grams
-- Gaia Herbs Daytime HPA — 2 capsules
-- Spirulina and chlorella powder blend — 1 tablespoon in the morning glass
-- Cowboy Colostrum — 1 scoop on waking
+- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
+- Life Extension Super Omega-3 EPA/DHA: dosed to baseline: 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above
+- Pure Encapsulations Vitamin D3/K2: 5,000 IU with K2, adjusted after labs
+- Creatine monohydrate: 5 grams
+- Gaia Herbs Daytime HPA: 2 capsules
+- Spirulina and chlorella powder blend: 1 tablespoon in the morning glass
+- Cowboy Colostrum: 1 scoop on waking
 
 **Afternoon:**
-- Dragon Herbs Spring Dragon Longevity Tea — one cup
-- Vital Proteins Collagen — 15 grams
+- Dragon Herbs Spring Dragon Longevity Tea: one cup
+- Vital Proteins Collagen: 15 grams
 
 **Evening:**
-- Pure Encapsulations Magnesium Glycinate — 300 mg
-- Gaia Herbs Nighttime HPA — 2 capsules
+- Pure Encapsulations Magnesium Glycinate: 300 mg
+- Gaia Herbs Nighttime HPA: 2 capsules
 - Dragon Herbs Lights Out on nights you need it
 
 **The Jing stack for Intermediate, if tired:**
-- Dragon Herbs Super Adaptogen — 3 capsules morning
-- Gaia Herbs Daytime HPA — 2 morning, 2 afternoon
-- Dragon Herbs Cordyceps — 2 capsules before training
+- Dragon Herbs Super Adaptogen: 3 capsules morning
+- Gaia Herbs Daytime HPA: 2 morning, 2 afternoon
+- Dragon Herbs Cordyceps: 2 capsules before training
 
 ---
 
@@ -432,7 +432,7 @@ Fixed wake time. Fixed wind-down at 9pm — glasses on, screens off, magnesium t
 
 One habit at a time. Thirty days each. Nothing new until the last thing is automatic. You are not behind anyone. You are on a different road to the same place.
 
-## Days 1–30 — LIGHT AND WATER
+## Days 1–30: LIGHT AND WATER
 
 This is the whole protocol for a month.
 
@@ -449,13 +449,13 @@ This is the whole protocol for a month.
 No exercise prescription. No eating window. No food rules beyond the three-hour cutoff. If you are still eating fast food, you are still eating fast food this month. We are building the clock first.
 
 **Supplements, days 1–30:**
-- Life Extension Super Omega-3 — 2,000 mg EPA+DHA. Your baseline is almost certainly low.
-- Pure Encapsulations Vitamin D3 — 5,000 IU with K2
-- Pure Encapsulations Magnesium Glycinate — 300 mg evening
+- Life Extension Super Omega-3: 2,000 mg EPA+DHA. Your baseline is almost certainly low.
+- Pure Encapsulations Vitamin D3: 5,000 IU with K2
+- Pure Encapsulations Magnesium Glycinate: 300 mg evening
 
 Three bottles. Nothing else.
 
-## Days 31–60 — MOVEMENT AND THE WINDOW
+## Days 31–60: MOVEMENT AND THE WINDOW
 
 Light and water continue. Now we add.
 
@@ -466,10 +466,10 @@ Light and water continue. Now we add.
 **No snacks.** Three meals. This one rule does more than any other single change.
 
 **Resistance, twice a week:**
-- Sit-to-stand from a chair — as many as you can, three sets
-- Wall push-ups — three sets of ten
-- Band rows, seated — three sets of twelve
-- Hip hinge with a broomstick — three sets of ten
+- Sit-to-stand from a chair: as many as you can, three sets
+- Wall push-ups: three sets of ten
+- Band rows, seated: three sets of twelve
+- Hip hinge with a broomstick: three sets of ten
 
 Ten minutes. Progress each one when it feels easy.
 
@@ -482,10 +482,10 @@ Ten minutes. Progress each one when it feels easy.
 - Week 8: Sauerkraut or kimchi with dinner
 
 **Supplements, add:**
-- Creatine monohydrate — 5 grams morning
-- Gaia Herbs Daytime HPA — 2 capsules morning
+- Creatine monohydrate: 5 grams morning
+- Gaia Herbs Daytime HPA: 2 capsules morning
 
-## Days 61–90 — LOAD
+## Days 61–90: LOAD
 
 **Resistance, three days a week.** Same four movements, progressed:
 - Sit-to-stand → bodyweight squat → goblet squat
@@ -506,32 +506,32 @@ Ten minutes. Progress each one when it feels easy.
 **Sunset:** Add five minutes outside at sunset.
 
 **Supplements, add:**
-- Dragon Herbs Super Adaptogen — 2 capsules morning
-- Spirulina and chlorella powder blend — 1 teaspoon morning, building to 1 tablespoon by day 75
-- Gaia Herbs Nighttime HPA — 2 capsules evening
-- Dragon Herbs Lights Out — if sleep is still the problem
+- Dragon Herbs Super Adaptogen: 2 capsules morning
+- Spirulina and chlorella powder blend: 1 teaspoon morning, building to 1 tablespoon by day 75
+- Gaia Herbs Nighttime HPA: 2 capsules evening
+- Dragon Herbs Lights Out: if sleep is still the problem
 
 **Day 90:** Second blood draw. Same lab, same fasting state, same hour. Then we look at the numbers together.
 
-**The Jing stack for Beginner — days 61–90 only, if exhausted:**
-- Dragon Herbs Super Adaptogen — 3 capsules morning
-- Gaia Herbs Daytime HPA — 2 morning, 2 afternoon
-- Dragon Herbs Cordyceps — 2 capsules morning
+**The Jing stack for Beginner, days 61–90 only, if exhausted:**
+- Dragon Herbs Super Adaptogen: 3 capsules morning
+- Gaia Herbs Daytime HPA: 2 morning, 2 afternoon
+- Dragon Herbs Cordyceps: 2 capsules morning
 
 ---
 
-# THE STACKS — reference sheet
+# THE STACKS: reference sheet
 
-## Foundation — every tier, every day
+## Foundation: every tier, every day
 
 | Product | Dose | When |
 |---|---|---|
-| **EPA+DHA, triglyceride form** — Pure Encapsulations EPA/DHA Essentials or Life Extension Super Omega-3 | Dosed to baseline Omega-3 Index: under 4% → 2,000 mg · 4–6% → 1,500 mg · over 6% → 1,000 mg | Morning with food |
-| **Vitamin D3 + K2** — Pure Encapsulations D3/K2 liquid | 5,000 IU D3 + 100 mcg K2, adjusted to land 25-OH-D at 50–70 | Morning with food |
-| **Magnesium glycinate** — Pure Encapsulations | 300–400 mg elemental | Evening |
-| **Creatine monohydrate** — any micronized, Pure Encapsulations or Life Extension | 5 g | Morning |
+| **EPA+DHA, triglyceride form**: Pure Encapsulations EPA/DHA Essentials or Life Extension Super Omega-3 | Dosed to baseline Omega-3 Index: under 4% → 2,000 mg · 4–6% → 1,500 mg · over 6% → 1,000 mg | Morning with food |
+| **Vitamin D3 + K2**: Pure Encapsulations D3/K2 liquid | 5,000 IU D3 + 100 mcg K2, adjusted to land 25-OH-D at 50–70 | Morning with food |
+| **Magnesium glycinate**: Pure Encapsulations | 300–400 mg elemental | Evening |
+| **Creatine monohydrate**: any micronized, Pure Encapsulations or Life Extension | 5 g | Morning |
 
-## Charge — energy and mitochondria
+## Charge: energy and mitochondria
 
 | Product | Dose |
 |---|---|
@@ -541,7 +541,7 @@ Ten minutes. Progress each one when it feels easy.
 | Life Extension Taurine | 2 g |
 | Dragon Herbs Super Adaptogen | 3 capsules |
 
-## Drain — inflammation and detox
+## Drain: inflammation and detox
 
 | Product | Dose |
 |---|---|
@@ -551,7 +551,7 @@ Ten minutes. Progress each one when it feels easy.
 | BioPure Ultra Binder | 1 scoop away from food and supplements, Advanced and Pro, 3× week |
 | Quicksilver Liposomal Vitamin C | 1 pump |
 
-## Output — hormones and stress
+## Output: hormones and stress
 
 | Product | Dose |
 |---|---|
@@ -562,7 +562,7 @@ Ten minutes. Progress each one when it feels easy.
 | Dragon Herbs Duanwood Reishi | 2 capsules |
 | Life Extension Optimized Ashwagandha | 1 capsule if not using Gaia |
 
-## Reserve — substrate and structure
+## Reserve: substrate and structure
 
 | Product | Dose |
 |---|---|
@@ -574,7 +574,7 @@ Ten minutes. Progress each one when it feels easy.
 | Quicksilver Methyl B-Complex | 1 pump morning |
 | Dragon Herbs Goji & Schizandra Drops | 1 dropper |
 
-## Algae — the two that do different jobs
+## Algae: the two that do different jobs
 
 Spirulina and chlorella are not interchangeable, and the protocol uses them for different things at different times of day.
 
@@ -588,7 +588,7 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 **Spirulina source: Nutrex Hawaii Pure Hawaiian Spirulina powder.** Grown in Kona since 1983 in a biosecure zone certified free of pesticides, herbicides and industrial pollutants, on deep-ocean mineral water. Every lot is tested for lead, arsenic, cadmium, mercury and microcystins. Request the certificate of analysis for your lot; they provide it. California Gold Nutrition is the USP Verified alternative if Nutrex is unavailable.
 
-**Chlorella source: Sun Chlorella** — cracked cell wall, decades of published testing. Chlorella is the binder, so it concentrates whatever it is grown in; source matters even more than for spirulina.
+**Chlorella source: Sun Chlorella**: cracked cell wall, decades of published testing. Chlorella is the binder, so it concentrates whatever it is grown in; source matters even more than for spirulina.
 
 **Dose note.** The Nutrex label serving is one teaspoon, about 3 grams. This protocol uses one tablespoon, about 9 grams. Beginner starts at the label dose and builds.
 
@@ -596,7 +596,7 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 **On sourcing, whichever form.** Algae is the one supplement category where third-party heavy-metal and microcystin testing is a safety requirement rather than a preference. Contamination risk is real and it is source-dependent. Do not use any spirulina or chlorella product that cannot show you a certificate of analysis for the batch you are buying.
 
-## Sleep — for anyone who needs it
+## Sleep: for anyone who needs it
 
 | Product | Dose |
 |---|---|
@@ -605,20 +605,20 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 | Pure Encapsulations l-Theanine | 200 mg |
 | Gaia Herbs Nighttime HPA | 2 capsules |
 | Dragon Herbs Lights Out | per label |
-| Quicksilver Liposomal Melatonin | 1 pump — 0.3 to 0.5 mg, not the 5 mg most people take |
+| Quicksilver Liposomal Melatonin | 1 pump: 0.3 to 0.5 mg, not the 5 mg most people take |
 | Gaia Herbs SleepThru | 2 capsules, alternative to Nighttime HPA |
 
 ---
 
-# ENVIRONMENT — the equipment list
+# ENVIRONMENT: the equipment list
 
 ## Light
 
 | Item | Recommendation |
 |---|---|
-| **Evening glasses** | Ra Optics Sunset (amber) for evening, Night Shift (red) for the last hour. Or BLUblox Sleep+. Or TrueDark Twilight. Must block 460–490 nm — ask for the spectrum. |
+| **Evening glasses** | Ra Optics Sunset (amber) for evening, Night Shift (red) for the last hour. Or BLUblox Sleep+. Or TrueDark Twilight. Must block 460–490 nm: ask for the spectrum. |
 | **Daytime glasses** | Ra Optics Daylight for anyone under fluorescent light all day |
-| **Screen software** | Iris — iristech.co — on every computer, set to Health mode after sunset. f.lux is the free alternative. |
+| **Screen software** | Iris, iristech.co, on every computer, set to Health mode after sunset. f.lux is the free alternative. |
 | **Screen film** | BlockBlueLight or Ocushield film on monitors. BlockBlueLight TV screen filter on the television. |
 | **Bulbs** | Incandescent wherever you can still find them. Otherwise BlockBlueLight or Bon Charge red bulbs for the bedroom and living room. One red bulb lamp per room you use after dark. |
 | **Night lights** | Red only. Bon Charge. |
@@ -637,7 +637,7 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 | Item | Recommendation |
 |---|---|
-| **Daily bottled** | Crazy Water #4 — the mineral-dense one. Saratoga. Icelandic Glacial. |
+| **Daily bottled** | Crazy Water #4: the mineral-dense one. Saratoga. Icelandic Glacial. |
 | **Home system** | APEC or iSpring under-sink RO. Add Baja Gold Sea Salt, a quarter teaspoon per liter. |
 | **Daily volume** | Three liters minimum. Four or more on sauna, training and hot days. A 1-liter bottle you refill three times is the simplest way to count. |
 | **Salt** | Baja Gold for water and cooking. Nothing else. |
@@ -660,20 +660,20 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 ---
 
-# FOOD — the daily list
+# FOOD: the daily list
 
 ## Every day, every tier once you reach it
 
-1. **Sardines** — the single most important food in this program. DHA, calcium, selenium, and almost no mercury.
-2. **Pastured eggs** — choline, DHA, complete protein.
-3. **Leafy greens** — kale, chard, arugula, romaine.
-4. **Fermented vegetable** — sauerkraut, kimchi.
-5. **Extra virgin olive oil** — the fat that goes on everything.
-6. **Grass-fed butter** — for cooking.
-7. **Baja Gold sea salt** — minerals, not just sodium.
-8. **Wild salmon** — four times a week minimum.
-9. **Cruciferous vegetables** — broccoli, cauliflower, Brussels sprouts.
-10. **Avocado** — potassium and fat.
+1. **Sardines**, the single most important food in this program. DHA, calcium, selenium, and almost no mercury.
+2. **Pastured eggs**, choline, DHA, complete protein.
+3. **Leafy greens**, kale, chard, arugula, romaine.
+4. **Fermented vegetable**, sauerkraut, kimchi.
+5. **Extra virgin olive oil**, the fat that goes on everything.
+6. **Grass-fed butter**, for cooking.
+7. **Baja Gold sea salt**, minerals, not just sodium.
+8. **Wild salmon**, four times a week minimum.
+9. **Cruciferous vegetables**, broccoli, cauliflower, Brussels sprouts.
+10. **Avocado**, potassium and fat.
 
 ## The morning glass
 
@@ -689,7 +689,7 @@ Beef liver once. Bone broth twice. Grass-fed beef three times. Lamb once.
 
 ## Out
 
-Gluten. Seed oils — canola, soy, corn, sunflower, safflower, cottonseed, grapeseed. Added sugar in any form. Alcohol. Ultra-processed anything.
+Gluten. Seed oils, canola, soy, corn, sunflower, safflower, cottonseed, grapeseed. Added sugar in any form. Alcohol. Ultra-processed anything.
 
 Pro and Advanced remove nightshades, legumes and all grains. Intermediate keeps white rice and sweet potato. Beginner removes only gluten and seed oils, and only from week 9.
 
@@ -699,7 +699,7 @@ Every recipe is built from this list and nothing else. Twenty recipes at launch.
 
 ---
 
-# THE SCREENING — operational, not optional
+# THE SCREENING: operational, not optional
 
 This section is for the coach. It runs before anyone starts, and it is a rule.
 
@@ -714,7 +714,7 @@ This section is for the coach. It runs before anyone starts, and it is a rule.
 | SSRIs | Rhodiola, 5-HTP. |
 | Immunosuppressants | Colostrum, mushrooms, immune herbs. |
 | Lithium | Sauna, heavy sweating. Physician clearance. |
-| Bipolar diagnosis | Rhodiola is contraindicated — Gaia states this on the label. |
+| Bipolar diagnosis | Rhodiola is contraindicated: Gaia states this on the label. |
 
 ## Who skips what
 

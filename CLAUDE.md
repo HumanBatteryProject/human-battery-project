@@ -68,7 +68,7 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **11. Every function and agent verifies the Supabase JWT.** Never trust a user id from a request body. Every database webhook carries a shared secret header, kept in Supabase Vault and Cloudflare, never in a migration or the repo.
 
-**12. No em dashes** in anything a client reads.
+**12. No em dashes** in anything a client reads, and that includes every source in `corpus/`. A corpus document stops being internal the moment the loader runs: the coach retrieves from it and writes in its voice, so an em dash heavy source produces an em dash heavy coach, and that is almost impossible to trace back afterwards. Corpus sources follow the client-facing style rules because they become the agents' voice. Check every file before the loader runs, not after.
 
 **13. Test rows are deleted** before a phase is called done, and the deletion is stated.
 

@@ -20,7 +20,7 @@ public/                     everything served to the browser
   styles.css                marketing styles
   assets/                   logo files used by the site
   fonts/                    Michroma + Newsreader, self-hosted
-  portal/                   the client portal — see portal/README.md
+  portal/                   the client portal, see portal/README.md
     config.js               ← YOU FILL THIS IN
     app.js · portal.css
     login.html · index.html · log.html · labs.html · account.html
@@ -42,7 +42,7 @@ brand/
 
 docs/                       model, panel spec, evidence tiers, build list
 
-CLAUDE.md                   project context — Claude Code reads this automatically
+CLAUDE.md                   project context, Claude Code reads this automatically
 HOW-TO-USE-CLAUDE-CODE.md   plain-language guide to prompting
 GETTING-STARTED.md          setup and build order
 PUSH-TO-GITHUB.md           first push

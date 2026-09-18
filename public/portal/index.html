@@ -49,8 +49,9 @@
         <h2>Your kit has not been posted</h2>
         <p class="quiet">Day 1 is here and we do not have your Omega-3 kit confirmed as posted. The Omega-3 Index is the most responsive marker on your panel. Starting without a baseline means that comparison is gone for good, and no amount of testing later gets it back.</p>
         <p class="quiet">You can move your start to the next wave instead. Nothing is lost and nothing costs more.</p>
-        <p><button id="defer" class="btn btn-solid">Move me to the next wave</button>
-           <button id="startanyway" class="btn btn-sm">Start anyway, I have posted it</button></p>
+        <p><button id="defer" class="btn btn-solid">Move me to the next wave</button></p>
+        <p><button id="postedlate" class="btn btn-sm">I posted it, my record is out of date</button>
+           <button id="nobaseline" class="btn btn-sm">Start without a day 0 Omega-3</button></p>
         <p id="gatemsg" class="msg"></p>
       </section>
 
@@ -301,8 +302,9 @@ if (m && m.id) {
   });
 
   // Day 1 has arrived and nothing was confirmed.
+  const waived = !!m.omega3_baseline_waived_at;
   const started = m.day_zero && new Date(m.day_zero + 'T00:00:00') <= new Date();
-  if (started && !posted) {
+  if (started && !posted && !waived) {
     el('#kitgate').style.display = '';
     el('#defer').addEventListener('click', async () => {
       const msg = el('#gatemsg');
@@ -320,7 +322,31 @@ if (m && m.id) {
       el('#defer').style.display = 'none';
       el('#startanyway').style.display = 'none';
     });
-    el('#startanyway').addEventListener('click', () => el('#kitposted').click());
+    // Two different states, recorded differently. One says the record is
+    // stale, the other says there will never be a day 0 Omega-3 for this
+    // cycle. Collapsing them writes a confirmation that may be false.
+    el('#postedlate').addEventListener('click', async () => {
+      const { error } = await sb.from('memberships')
+        .update({ omega3_kit_posted_at: new Date().toISOString() }).eq('id', m.id);
+      const msg = el('#gatemsg');
+      if (error) { msg.className = 'msg err'; msg.textContent = 'That did not save. Tell us on the call.'; return; }
+      el('#kitgate').style.display = 'none';
+      el('#kitwrap').style.display = 'none';
+      el('#kitdone').style.display = '';
+    });
+
+    el('#nobaseline').addEventListener('click', async () => {
+      const msg = el('#gatemsg');
+      const { error } = await sb.from('memberships')
+        .update({ omega3_baseline_waived_at: new Date().toISOString() }).eq('id', m.id);
+      if (error) { msg.className = 'msg err'; msg.textContent = 'That did not save. Tell us on the call.'; return; }
+      msg.className = 'msg';
+      msg.textContent = 'Recorded. You have no day 0 Omega-3 Index, so it is left out of your Battery Score '
+        + 'rather than guessed at, and your day 90 comparison will show it as absent rather than unchanged.';
+      el('#defer').style.display = 'none';
+      el('#postedlate').style.display = 'none';
+      el('#nobaseline').style.display = 'none';
+    });
   }
 }
 </script>
