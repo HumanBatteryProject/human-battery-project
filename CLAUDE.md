@@ -60,6 +60,8 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **8. Light is timing information.** `docs/HBP-Foundational-Model.md` is canonical. Never describe light as charging the body, as energy absorbed, or as a solar panel. Morning light tells the body what time it is. That is the claim. The body is trillions of coordinated batteries, never one battery with a single charge. Tissue-appropriate voltage, never maximum voltage.
 
+**8b. The Omega-3 kit gate is posting, not the result.** The dried blood spot fixes the sample at collection, so a result that arrives in week two is still a day 0 number. What has to be true before day 1 is that the drop is on the card and the card is in the mail. This is why `minimum_lead_days` is 14 and not 28, and it must not drift back. The Omega-3 Index is the most responsive marker on the panel, so a client who has not posted by day 1 is offered a move to the next wave rather than starting without a baseline, because that comparison cannot be recovered later.
+
 **9. Never recommend manipulating potassium or other electrolytes to hyperpolarize the body.** Balance and correction of genuine deficiency only.
 
 **10. Protocol changes proposed by the trend agent are never applied automatically.** They land in the admin queue. A human approves. Only then does a PDF regenerate.

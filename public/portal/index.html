@@ -31,13 +31,27 @@
 
       <section class="card" id="firststeps" style="display:none">
         <h2>Before day one</h2>
+        <p class="quiet" style="margin-bottom:.8rem"><b>Your Omega-3 kit has to be collected and posted before day 1.</b> The result will come back during your first two weeks and that is fine. The dried blood spot fixes the sample the moment you collect it.</p>
         <ul class="quiet" style="margin:0;padding-left:1.1rem">
+          <li><b>Order the Omega-3 Index kit today</b> if you have not. It is the longest lead item on the list.</li>
+          <li>Collect the drop and post the card. This is the one that gates day 1.</li>
           <li>Book your blood draw. The requisition is in your documents.</li>
           <li>Read your tier protocol end to end, once.</li>
           <li>Get the glasses, the salt and the water sorted.</li>
           <li>Put the weekly call in your calendar.</li>
         </ul>
+        <p class="mt" id="kitwrap"><button id="kitposted" class="btn btn-sm">My kit is in the mail</button></p>
+        <p id="kitdone" class="msg ok" style="display:none">Kit posted. That is the day 1 gate cleared.</p>
         <a class="btn btn-sm mt" href="/portal/program.html">Open your documents</a>
+      </section>
+
+      <section class="card" id="kitgate" style="display:none">
+        <h2>Your kit has not been posted</h2>
+        <p class="quiet">Day 1 is here and we do not have your Omega-3 kit confirmed as posted. The Omega-3 Index is the most responsive marker on your panel. Starting without a baseline means that comparison is gone for good, and no amount of testing later gets it back.</p>
+        <p class="quiet">You can move your start to the next wave instead. Nothing is lost and nothing costs more.</p>
+        <p><button id="defer" class="btn btn-solid">Move me to the next wave</button>
+           <button id="startanyway" class="btn btn-sm">Start anyway, I have posted it</button></p>
+        <p id="gatemsg" class="msg"></p>
       </section>
 
       <section class="card" id="briefcard">
@@ -267,6 +281,46 @@ if (m && m.tier) {
     el('#callcard').style.display = '';
     el('#callwhen').textContent = 'Every ' + settings.weekly_call_day
       + (settings.weekly_call_time ? ' at ' + settings.weekly_call_time : '') + '. One hour, everyone together.';
+  }
+}
+// ---- the Omega-3 kit gate ----
+// The gate is posting the card, not the result returning. The dried blood
+// spot fixes the sample at collection, so a result that lands in week two
+// is still a day 0 number. What cannot be recovered is never collecting.
+if (m && m.id) {
+  const posted = !!m.omega3_kit_posted_at;
+  if (posted) { el('#kitwrap').style.display = 'none'; el('#kitdone').style.display = ''; }
+
+  el('#kitposted')?.addEventListener('click', async () => {
+    const { error } = await sb.from('memberships')
+      .update({ omega3_kit_posted_at: new Date().toISOString() }).eq('id', m.id);
+    if (error) return;
+    el('#kitwrap').style.display = 'none';
+    el('#kitdone').style.display = '';
+    el('#kitgate').style.display = 'none';
+  });
+
+  // Day 1 has arrived and nothing was confirmed.
+  const started = m.day_zero && new Date(m.day_zero + 'T00:00:00') <= new Date();
+  if (started && !posted) {
+    el('#kitgate').style.display = '';
+    el('#defer').addEventListener('click', async () => {
+      const msg = el('#gatemsg');
+      el('#defer').disabled = true;
+      const { data, error } = await sb.rpc('defer_day_zero', { p_membership_id: m.id });
+      if (error) {
+        msg.className = 'msg err';
+        msg.textContent = 'That did not go through. Tell us on the call and we will move it by hand.';
+        el('#defer').disabled = false; return;
+      }
+      msg.className = 'msg ok';
+      msg.textContent = 'Moved. Your day 1 is now ' + new Date(data + 'T00:00:00')
+        .toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+        + '. Get the kit posted before then.';
+      el('#defer').style.display = 'none';
+      el('#startanyway').style.display = 'none';
+    });
+    el('#startanyway').addEventListener('click', () => el('#kitposted').click());
   }
 }
 </script>

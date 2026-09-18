@@ -27,6 +27,14 @@ surrounding tissue and the entire organism. A cell can be individually healthy a
 step with the tissue around it. The circadian protocol is how coherence is supported. The daily
 behavioural log is how it is tracked.
 
+**The Omega-3 kit is posted before day 1, not resolved before day 1.** The dried blood spot fixes the
+sample at collection, so the result arriving during the first two weeks is still a day 0 number. What
+has to be true before day 1 is that the drop is on the card and the card is in the mail. It is ordered
+the day a client is accepted, before they pay, because it is the longest lead item on the list. If it
+has not been posted by day 1, the client moves to the next wave rather than starting without a
+baseline: the Omega-3 Index is the most responsive marker on the panel and that comparison cannot be
+recovered afterwards.
+
 **The order of operations every single day:** Light → Water → Movement → Food → Movement → Light → Darkness.
 
 That sequence is the protocol. Everything below is detail.

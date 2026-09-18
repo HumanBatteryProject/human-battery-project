@@ -44,7 +44,7 @@ export async function signOut() {
 export async function activeMembership() {
   const { data } = await sb
     .from('memberships')
-    .select('id, day_zero, status, tier, cohort_id, cohorts(code, name, starts_on, ends_on)')
+    .select('id, day_zero, status, tier, cycle, omega3_kit_posted_at, cohort_id, cohorts(code, name, starts_on, ends_on)')
     .in('status', ['active', 'enrolled'])
     .order('created_at', { ascending: false })
     .limit(1);
