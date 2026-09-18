@@ -82,7 +82,7 @@ const cc = el('#consents');
   const row = document.createElement('div');
   row.className = 'row';
   row.innerHTML = '<label>' + d.title +
-    '<div class="tiny">' + (d.is_required ? 'Required for the program' : 'Optional \u2014 you can turn this off') +
+    '<div class="tiny">' + (d.is_required ? 'Required for the program' : 'Optional, you can turn this off') +
     ' \u00b7 version ' + d.version + '</div></label>';
   if (d.is_required) {
     const s = document.createElement('span');

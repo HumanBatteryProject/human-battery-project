@@ -168,7 +168,7 @@ if (!m || !m.day_zero) {
        : score >= 4 ? 'background:#218BBE'
        : score >= 2 ? 'background:rgba(33,139,190,.55)'
        : 'background:rgba(180,101,58,.5)');
-    dot.title = key + (rec ? ' \u2014 ' + score + '/5' : ' \u2014 not logged');
+    dot.title = key + (rec ? ', ' + score + '/5' : ', not logged');
     dots.appendChild(dot);
   }
 
@@ -207,7 +207,7 @@ if (!m || !m.day_zero) {
   const next = [];
   if (!todayLog) next.push('Log today. It takes under a minute.');
   if (shown <= 7) next.push('Book your day 0 blood draw if you have not yet.');
-  if (shown >= 83 && shown <= 90) next.push('Book your day 90 draw \u2014 same lab, same fasting state, same hour of the morning.');
+  if (shown >= 83 && shown <= 90) next.push('Book your day 90 draw: same lab, same fasting state, same hour of the morning.');
   if (!scores || !scores.length) next.push('Your day 0 results will appear here once they are back and entered.');
   if (!next.length) next.push('Nothing outstanding. Keep going.');
   el('#next').innerHTML = next.map(n => '<p class="quiet" style="margin-bottom:.6rem">' + n + '</p>').join('');
