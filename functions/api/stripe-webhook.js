@@ -85,6 +85,8 @@ async function onCheckoutCompleted(env, stripe, session) {
   const clientId = await resolveClient(env, session.customer_details?.email || session.customer_email, meta);
 
   // Mark the application converted.
+  await enrolMembership(env, clientId, meta);
+
   if (meta.application_id) {
     await supabase(env, `applications?id=eq.${meta.application_id}`, {
       method: 'PATCH',
@@ -184,6 +186,61 @@ async function onRefund(env, charge) {
 }
 
 // ---------------------------------------------------------------------
+
+// Open enrollment. The clock starts at the next wave, the 1st or the 15th,
+// never before first_wave_date. next_wave_date() owns that rule so it can
+// change in program_settings without a deploy.
+async function enrolMembership(env, clientId, meta) {
+  if (!clientId) return;
+
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/next_wave_date`, {
+    method: 'POST',
+    headers: {
+      apikey: env.SUPABASE_SERVICE_KEY,
+      Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: '{}',
+  });
+  if (!res.ok) {
+    console.error('[webhook] next_wave_date failed', res.status, (await res.text()).slice(0, 300));
+    return;
+  }
+  const dayZero = await res.json();
+
+  // memberships.cohort_id is still required, so the membership joins the
+  // wave whose start date matches. The wave caps nothing.
+  const waves = await supabase(env, `cohorts?starts_on=eq.${dayZero}&select=id&limit=1`);
+  if (!waves.length) {
+    console.error(`[webhook] no wave row for ${dayZero}. Run create_waves().`);
+    return;
+  }
+
+  const existing = await supabase(
+    env,
+    `memberships?client_id=eq.${clientId}&select=id&order=created_at.desc&limit=1`
+  );
+
+  const patch = { status: 'enrolled', day_zero: dayZero };
+  if (meta.tier) patch.tier = meta.tier;
+
+  if (existing.length) {
+    await supabase(env, `memberships?id=eq.${existing[0].id}`, {
+      method: 'PATCH',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify(patch),
+    });
+    console.log(`[webhook] membership ${existing[0].id} enrolled, day_zero ${dayZero}`);
+    return;
+  }
+
+  await supabase(env, 'memberships', {
+    method: 'POST',
+    headers: { Prefer: 'return=minimal' },
+    body: JSON.stringify({ client_id: clientId, cohort_id: waves[0].id, cycle: 1, ...patch }),
+  });
+  console.log(`[webhook] membership created for ${clientId}, day_zero ${dayZero}`);
+}
 
 async function resolveClient(env, email, meta) {
   if (!email) return null;

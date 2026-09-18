@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Calls | The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who">CALLS</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="next" class="card" style="display:none">
+    <h2>The next call</h2>
+    <p id="when" class="big"></p>
+    <p id="sched" class="quiet"></p>
+    <p id="joinwrap" style="display:none"><a id="join" class="btn btn-solid" href="#" target="_blank" rel="noopener">Join the call</a></p>
+    <p id="nolink" class="quiet" style="display:none">The link is not set yet. It will appear here as soon as it is.</p>
+  </div>
+
+  <div id="askcard" class="card" style="display:none">
+    <h2>Ask something in advance</h2>
+    <p class="quiet">One hour, everyone together. Questions sent ahead get answered first.</p>
+    <textarea id="q" rows="3" placeholder="What would you like covered?"></textarea>
+    <p><button id="send" class="btn">Send the question</button></p>
+    <p id="qmsg" class="msg"></p>
+    <div id="mine" style="display:none">
+      <h3>Yours so far</h3>
+      <ul id="minelist" class="quiet"></ul>
+    </div>
+  </div>
+
+  <div id="pastcard" class="card" style="display:none">
+    <h2>Past calls</h2>
+    <div id="past"></div>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/calls.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Calls</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, activeMembership, el } from './app.js';
+await requireAuth();
+
+const settings = {};
+(await sb.from('program_settings').select('key,value')).data?.forEach(r => settings[r.key] = r.value);
+
+const now = new Date().toISOString();
+const { data: upcoming } = await sb.from('weekly_calls')
+  .select('id,scheduled_at,zoom_url,topic,questions_open')
+  .gte('scheduled_at', now).order('scheduled_at').limit(1);
+const { data: past } = await sb.from('weekly_calls')
+  .select('id,scheduled_at,topic,recording_url')
+  .lt('scheduled_at', now).order('scheduled_at', { ascending: false }).limit(12);
+
+el('#loading').style.display = 'none';
+el('#next').style.display = '';
+el('#askcard').style.display = '';
+
+const sched = [settings.weekly_call_day, settings.weekly_call_time, settings.weekly_call_timezone]
+  .filter(Boolean).join(' at ').replace(' at America/', ' ');
+el('#sched').textContent = sched ? `Every ${sched.replace('America/','')}. One hour.` : 'One hour, every week.';
+
+const call = upcoming && upcoming[0];
+if (call) {
+  el('#when').textContent = new Date(call.scheduled_at)
+    .toLocaleString([], { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+    + (call.topic ? `: ${call.topic}` : '');
+} else {
+  el('#when').textContent = 'Not scheduled yet.';
+}
+const link = (call && call.zoom_url) || settings.weekly_call_zoom_url;
+if (link) { el('#join').href = link; el('#joinwrap').style.display = ''; }
+else { el('#nolink').style.display = ''; }
+
+async function loadMine() {
+  const { data } = await sb.from('call_questions')
+    .select('question,submitted_at,answered').order('submitted_at', { ascending: false }).limit(10);
+  if (!data || !data.length) return;
+  el('#mine').style.display = '';
+  el('#minelist').innerHTML = data.map(q =>
+    `<li>${q.question.replace(/[<>]/g, '')} ${q.answered ? '<b>answered</b>' : ''}</li>`).join('');
+}
+await loadMine();
+
+el('#send').addEventListener('click', async () => {
+  const text = el('#q').value.trim();
+  const msg = el('#qmsg');
+  if (!text) { msg.className = 'msg err'; msg.textContent = 'Write the question first.'; return; }
+  const m = await activeMembership();
+  const { error } = await sb.from('call_questions')
+    .insert({ client_id: (await sb.auth.getUser()).data.user.id, call_id: call ? call.id : null, question: text });
+  if (error) { msg.className = 'msg err'; msg.textContent = 'That did not send. Try again.'; return; }
+  el('#q').value = '';
+  msg.className = 'msg ok'; msg.textContent = 'Sent. It will be answered on the call.';
+  await loadMine();
+});
+
+if (past && past.length) {
+  el('#pastcard').style.display = '';
+  el('#past').innerHTML = past.map(c => {
+    const d = new Date(c.scheduled_at).toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
+    const rec = c.recording_url
+      ? `<a href="${c.recording_url}" target="_blank" rel="noopener">Watch the recording</a>`
+      : '<span class="quiet">No recording</span>';
+    return `<div class="row"><b>${d}</b>${c.topic ? ' · ' + c.topic : ''}<br>${rec}</div>`;
+  }).join('');
+}
+</script>
+</body></html>

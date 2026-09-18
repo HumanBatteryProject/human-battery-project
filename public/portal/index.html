@@ -29,6 +29,42 @@
 
     <a class="btn btn-solid" id="logcta" href="/portal/log.html">Log today</a>
 
+      <section class="card" id="firststeps" style="display:none">
+        <h2>Before day one</h2>
+        <ul class="quiet" style="margin:0;padding-left:1.1rem">
+          <li>Book your blood draw. The requisition is in your documents.</li>
+          <li>Read your tier protocol end to end, once.</li>
+          <li>Get the glasses, the salt and the water sorted.</li>
+          <li>Put the weekly call in your calendar.</li>
+        </ul>
+        <a class="btn btn-sm mt" href="/portal/program.html">Open your documents</a>
+      </section>
+
+      <section class="card" id="briefcard">
+        <h2>Today</h2>
+        <p id="brief" class="quiet" style="margin-bottom:0">Your morning brief will appear here.</p>
+      </section>
+
+      <section class="card" id="callcard" style="display:none">
+        <h2>The weekly call</h2>
+        <p id="callwhen" class="quiet"></p>
+        <a class="btn btn-sm" href="/portal/calls.html">Calls and recordings</a>
+      </section>
+
+      <section class="card" id="tiercard" style="display:none">
+        <h2>Your tier</h2>
+        <p style="margin-bottom:.4rem"><span id="tierbadge" class="tier-pill"></span></p>
+        <p class="quiet" style="margin-bottom:.6rem">If your tier has started to feel easy, you can move up. Nothing resets and your clock keeps running.</p>
+        <button id="moveup" class="btn btn-sm">Ready to move up?</button>
+        <p id="tiermsg" class="msg"></p>
+      </section>
+
+      <section class="card" id="docscard">
+        <h2>Your documents</h2>
+        <p class="quiet" style="margin-bottom:.6rem">Your tier protocol, the dietary guidelines and your tests explained.</p>
+        <a class="btn btn-sm" href="/portal/program.html">Open documents</a>
+      </section>
+
     <section class="card mt">
       <h2>Sticking with it</h2>
       <div style="display:flex;gap:1.4rem;align-items:baseline">
@@ -62,6 +98,7 @@
   <li><a href="/portal/" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
   <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
   <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/calls.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Calls</a></li>
   <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
   <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
 </ul></nav>
@@ -76,27 +113,40 @@ if (profile) el('#who').textContent = profile.full_name.split(' ')[0].toUpperCas
 
 const m = await activeMembership();
 
+// Open enrollment: everyone runs their own clock from their own day zero,
+// which is the next 1st or 15th after they paid.
+const startsInFuture = m && m.day_zero && new Date(m.day_zero + 'T00:00:00') > new Date();
+
 if (!m || !m.day_zero) {
-  el('#progday').textContent = '\u2014';
+  el('#progday').textContent = '0';
   el('#ofninety').textContent = 'NOT STARTED';
-  el('#phase').textContent = 'Your cohort has not begun. You will see day 1 here when it does.';
+  el('#phase').textContent = 'Your start date appears here as soon as your seat is confirmed.';
   el('#logcta').style.display = 'none';
+} else if (startsInFuture) {
+  const days = Math.ceil((new Date(m.day_zero + 'T00:00:00') - new Date()) / 86400000);
+  const when = new Date(m.day_zero + 'T00:00:00')
+    .toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  el('#progday').textContent = days;
+  el('#ofninety').textContent = days === 1 ? 'DAY UNTIL YOU START' : 'DAYS UNTIL YOU START';
+  el('#phase').textContent = 'Day 1 is ' + when + '. Get your blood drawn before then.';
+  el('#logcta').style.display = 'none';
+  el('#firststeps').style.display = '';
 } else {
   const day = programDay(m.day_zero);
   const shown = day ?? (new Date() < new Date(m.day_zero) ? 0 : 90);
   el('#progday').textContent = shown || '\u2014';
   el('#progbar').style.width = Math.min(100, (shown/90)*100) + '%';
 
-  const phase = shown <= 30 ? 'Phase one \u2014 stop the drain'
-              : shown <= 60 ? 'Phase two \u2014 recharge'
-              : 'Phase three \u2014 build capacity';
+  const phase = shown <= 30 ? 'Phase one: stop the drain'
+              : shown <= 60 ? 'Phase two: recharge'
+              : 'Phase three: build capacity';
   el('#phase').textContent = phase;
 
   // Has today been logged?
   const { data: todayLog } = await sb.from('daily_logs')
     .select('id, daily_five_score').eq('log_date', localDateStr()).maybeSingle();
   if (todayLog) {
-    el('#logcta').textContent = 'Update today \u2014 ' + (todayLog.daily_five_score ?? 0) + ' of 5';
+    el('#logcta').textContent = 'Update today, ' + (todayLog.daily_five_score ?? 0) + ' of 5';
     el('#logcta').classList.remove('btn-solid');
   }
 
@@ -165,5 +215,59 @@ if (!m || !m.day_zero) {
 
 el('#loading').style.display = 'none';
 el('#body').style.display = 'block';
+// ---- tier badge and the request to move up ----
+const TIER_NEXT = { beginner: 'intermediate', intermediate: 'advanced', advanced: 'pro' };
+if (m && m.tier) {
+  el('#tiercard').style.display = '';
+  el('#tierbadge').textContent = m.tier.toUpperCase();
+  const next = TIER_NEXT[m.tier];
+  if (!next) {
+    el('#moveup').style.display = 'none';
+    el('#tiermsg').className = 'msg';
+    el('#tiermsg').textContent = 'Pro is the top tier. There is nowhere further to move.';
+  } else {
+    el('#moveup').addEventListener('click', async () => {
+      const msg = el('#tiermsg');
+      el('#moveup').disabled = true;
+      const day = programDay(m.day_zero);
+      const hist = await sb.from('tier_history').insert({
+        membership_id: m.id, from_tier: m.tier, to_tier: next,
+        program_day: day ?? null, reason: 'Requested from the dashboard',
+      });
+      if (hist.error) {
+        msg.className = 'msg err'; msg.textContent = 'That did not go through. Try again.';
+        el('#moveup').disabled = false; return;
+      }
+      const upd = await sb.from('memberships').update({ tier: next }).eq('id', m.id);
+      if (upd.error) {
+        msg.className = 'msg err'; msg.textContent = 'Recorded, but the change did not apply. Tell us on the call.';
+        return;
+      }
+      el('#tierbadge').textContent = next.toUpperCase();
+      msg.className = 'msg ok';
+      msg.textContent = 'Moved to ' + next + '. Your documents have already changed.';
+      el('#moveup').style.display = 'none';
+    });
+  }
+}
+
+// ---- the next weekly call ----
+{
+  const { data: calls } = await sb.from('weekly_calls')
+    .select('scheduled_at,topic').gte('scheduled_at', new Date().toISOString())
+    .order('scheduled_at').limit(1);
+  const settings = {};
+  (await sb.from('program_settings').select('key,value')).data?.forEach(r => settings[r.key] = r.value);
+  if (calls && calls.length) {
+    el('#callcard').style.display = '';
+    el('#callwhen').textContent = new Date(calls[0].scheduled_at)
+      .toLocaleString([], { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+      + (calls[0].topic ? '. ' + calls[0].topic : '');
+  } else if (settings.weekly_call_day) {
+    el('#callcard').style.display = '';
+    el('#callwhen').textContent = 'Every ' + settings.weekly_call_day
+      + (settings.weekly_call_time ? ' at ' + settings.weekly_call_time : '') + '. One hour, everyone together.';
+  }
+}
 </script>
 </body></html>

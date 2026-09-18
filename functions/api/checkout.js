@@ -24,8 +24,9 @@ export async function onRequestPost({ request, env }) {
   if (!isValidPlan(planKey)) return json({ error: 'Unknown plan' }, 400);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: 'Invalid email' }, 400);
 
-  // Only someone we have accepted can pay. This is a twenty-seat cohort,
-  // not an open shopping cart — an accepted application is the ticket.
+  // Only someone we have accepted can pay. Enrollment is open and
+  // uncapped, so there is no seat count to check. The accepted
+  // application is the gate, and the only one.
   const apps = await supabase(
     env,
     `applications?email=eq.${encodeURIComponent(email)}&status=eq.accepted&select=id,name,cohort_id`

@@ -72,7 +72,7 @@
     <p class="lede narrow">You&rsquo;re not looking for another thing to try. You&rsquo;re looking for an answer.</p>
     <p class="lede narrow">Your phone tells you when it hits 20%. Your body never has. Until now.</p>
     <div class="hero-actions">
-      <a class="btn btn-solid" href="#apply">Apply for the next cohort</a>
+      <a class="btn btn-solid" href="#apply">Apply to start</a>
       <a class="btn" href="#story">The Human Battery</a>
     </div>
   </div>
@@ -474,7 +474,7 @@
     </div>
 
     <div class="honest narrow" style="margin-inline:0">
-      <p><b>What we do not know.</b> We cannot tell you in advance what your numbers will do. Everyone in a cohort runs the same protocol at the same time, which means we cannot fully separate the effect of the protocol from the effect of being paid close attention to for ninety days. We will not pretend otherwise, and we will not present a cohort's results as proof that the protocol caused them.</p>
+      <p><b>What we do not know.</b> We cannot tell you in advance what your numbers will do. Everyone runs the same protocol, which means we cannot fully separate the effect of the protocol from the effect of being paid close attention to for ninety days. We will not pretend otherwise, and we will not present the group's results as proof that the protocol caused them.</p>
       <p>What we can tell you is exactly what changed, marker by marker, between two draws ninety days apart. That is a real thing to know about yourself, and almost nobody has it.</p>
       <p>Anyone in this field who tells you they are certain is selling you something. We would rather measure.</p>
     </div>
@@ -563,10 +563,9 @@
       <li>Your Battery Score at both ends, read as four subsystems and explained marker by marker</li>
       <li>The full written protocol (food, training, light, sleep, cold and heat) phased across ninety days</li>
       <li>An approved food list and a cookbook built only from it</li>
-      <li>A weekly group call for the whole cohort</li>
-      <li>A weekly one-to-one check-in for the length of the program</li>
+      <li>A weekly one-hour group call, open to everyone running the program</li>
       <li>Daily logging in your own portal, with a coach reading it</li>
-      <li>A daily accountability thread with the rest of your cohort</li>
+      <li>A daily accountability thread with everyone else running the program</li>
       <li>A written plan for what happens after day 90</li>
     </ul>
 <figure class="fig">
@@ -623,7 +622,7 @@
 <section id="cost">
   <div class="wrap">
     <p class="price-head">$1,000</p>
-    <p class="quiet">Thirty seats per cohort. A new cohort begins every ninety days.</p>
+    <p class="quiet">Start on the 1st or the 15th of any month. Your ninety days run on your own clock.</p>
     <div class="plans">
       <div class="plan">
         <h3>Paid in full</h3>
@@ -680,7 +679,7 @@
       </details>
       <details>
         <summary>What happens after day 90?</summary>
-        <div class="a"><p>You leave with a written maintenance plan and both sets of numbers. Some people repeat a cohort later to measure again; most do not need to.</p></div>
+        <div class="a"><p>You leave with a written maintenance plan and both sets of numbers. Some people run the ninety days again later to measure again; most do not need to.</p></div>
       </details>
     </div>
   </div>
@@ -688,8 +687,8 @@
 
 <section class="apply" id="apply">
   <div class="wrap">
-    <h2>Apply for the next cohort</h2>
-    <p>Thirty seats. Applying does not commit you to anything. We will send you the full protocol, the panel and the dates, and you decide from there.</p>
+    <h2>Apply to start</h2>
+    <p>Start on the 1st or the 15th. Applying does not commit you to anything. We will send you the full protocol, the panel and the dates, and you decide from there.</p>
 
     <form id="apply-form" class="narrow" style="margin-inline:0" novalidate>
       <div class="field" id="f-name">
@@ -729,7 +728,7 @@
 
       <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
 
-      <p class="note">We collect your name, email and state so we can tell you about cohort dates. No health questions on this form. Those come later, inside the portal, behind their own consent.</p>
+      <p class="note">We collect your name, email and state so we can tell you about start dates. No health questions on this form. Those come later, inside the portal, behind their own consent.</p>
     </form>
   </div>
 </section>
@@ -807,7 +806,7 @@ form.addEventListener('submit', function(e){
     msg.className = 'msg ok';
     msg.textContent = res.d && res.d.duplicate
       ? 'We already have your application. We have sent the confirmation again.'
-      : 'Application received. Check your email for the protocol and the cohort dates.';
+      : 'Application received. Check your email for the protocol and your start date.';
     btn.textContent = 'Sent';
   }).catch(function(err){
     msg.className = 'msg err';
