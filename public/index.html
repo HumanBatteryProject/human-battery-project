@@ -797,11 +797,13 @@ form.addEventListener('submit', function(e){
     form.reset();
     sel.value = '';
     msg.className = 'msg ok';
-    msg.textContent = 'Application received. Check your email for the protocol and the cohort dates.';
+    msg.textContent = res.d && res.d.duplicate
+      ? 'We already have your application. We have sent the confirmation again.'
+      : 'Application received. Check your email for the protocol and the cohort dates.';
     btn.textContent = 'Sent';
   }).catch(function(err){
     msg.className = 'msg err';
-    msg.textContent = err.message + '. Email hello@thehumanbatteryproject.com and we will add you by hand.';
+    msg.textContent = err.message + '. Email admin@thehumanbatteryproject.com and we will add you by hand.';
     btn.disabled = false;
     btn.textContent = 'Send application';
   });

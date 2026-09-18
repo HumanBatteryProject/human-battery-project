@@ -50,9 +50,21 @@ export async function onRequestPost({ request, env }) {
     body: JSON.stringify(row),
   });
 
+  // A second application from the same address is not a failure. There is a
+  // unique index on lower(email), so the insert is rejected with 23505 and the
+  // first application stands. Telling that person "we could not save that" is
+  // both wrong and the worst possible moment to show an error, because they are
+  // usually resubmitting precisely because they are unsure the first one worked.
+  let duplicate = false;
   if (!res.ok) {
-    console.error('supabase insert failed', res.status, await res.text());
-    return json({ error: 'We could not save that' }, 500);
+    const detail = await res.text();
+    if (res.status === 409 || detail.includes('23505')) {
+      duplicate = true;
+      console.log(`[waitlist] duplicate application from ${email}, the original is kept`);
+    } else {
+      console.error('supabase insert failed', res.status, detail);
+      return json({ error: 'We could not save that' }, 500);
+    }
   }
 
   // Email is best effort: the application is already saved, so a mail
@@ -117,7 +129,7 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  return json({ ok: true });
+  return json({ ok: true, duplicate });
 }
 
 export const onRequest = () => json({ error: 'Method not allowed' }, 405);
