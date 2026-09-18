@@ -1,4 +1,4 @@
-# Prompt for Claude Code
+# Prompt for Claude Code: Job 1 (align to the model) and Job 2 (the coach)
 
 Two jobs. Do them in order. Stop and show me at each checkpoint before continuing.
 
@@ -6,7 +6,7 @@ Two jobs. Do them in order. Stop and show me at each checkpoint before continuin
 
 ---
 
-## JOB 1 — Align the project to the foundational model
+## JOB 1: Align the project to the foundational model
 
 The foundational model corrects three things the existing materials get wrong. Fix all three everywhere they appear.
 
@@ -61,7 +61,7 @@ After the corrections above, regenerate all four tier PDFs and the dietary guide
 
 ---
 
-## JOB 2 — The AI health coach
+## JOB 2: The AI health coach
 
 Every enrolled client gets a coach inside their portal login. It answers questions about their protocol, reads their own data, and stays inside the Human Battery model. It is a coach, not a doctor, and the guardrails are the most important part of the build.
 
@@ -69,7 +69,7 @@ Every enrolled client gets a coach inside their portal login. It answers questio
 
 **Server side.** A new Cloudflare Pages Function at `functions/api/coach.js`. It receives the client's message, builds the system prompt from the pieces below, calls the Anthropic Messages API with the key from an environment variable `ANTHROPIC_API_KEY`, and returns the reply. The key never touches the browser.
 
-Use the `claude-sonnet-4-6` model. Set a max_tokens of 1024. Stream the response if the Cloudflare runtime makes that straightforward; if not, return it whole.
+Use the `claude-sonnet-5` model. Set a max_tokens of 1024. Stream the response if the Cloudflare runtime makes that straightforward; if not, return it whole.
 
 **Auth.** The function must verify the caller's Supabase JWT before doing anything. Extract the user id from it. Refuse with 401 if there is no valid session. Refuse with 403 if the user has no active or enrolled membership. Never trust a user id sent in the request body.
 
@@ -79,11 +79,11 @@ Use the `claude-sonnet-4-6` model. Set a max_tokens of 1024. Stream the response
 
 ### Database
 
-A migration `018_coach.sql`:
+A migration at the next free number, named `coach` (the number 018 is taken by open enrollment in `PROMPT-platform-v2.md`):
 
-- `coach_conversations` — id, client_id, started_at, last_message_at, title
-- `coach_messages` — id, conversation_id, role (user or assistant), content, created_at, tokens_in, tokens_out
-- `coach_usage` — client_id, date, message_count, for the rate limit
+- `coach_conversations`: id, client_id, started_at, last_message_at, title
+- `coach_messages`: id, conversation_id, role (user or assistant), content, created_at, tokens_in, tokens_out
+- `coach_usage`: client_id, date, message_count, for the rate limit
 
 Row-level security on all three, same pattern as everything else: a client reads and writes only their own. Staff can read all for coaching review. Include that policy explicitly.
 
@@ -95,7 +95,7 @@ This is the part that matters. Build it in `functions/api/_coach_prompt.js` from
 
 **2. The foundational model.** Include `docs/HBP-Foundational-Model.md` in full. This is the coach's understanding of the body.
 
-**3. The client's tier protocol.** Load the correct tier's content from `program-docs/build.py` structures, or from a text export of it. The coach references the client's own protocol, not a generic one. A Beginner never gets Pro advice.
+**3. The client's tier protocol.** Load the correct tier's content from the data structures in `program-docs/build.py`, or from a text export of it. The coach references the client's own protocol, not a generic one. A Beginner never gets Pro advice.
 
 **4. The client's data.** Pulled at request time: their tier, program day, last 14 days of log summary (adherence percentage, Daily Five average, which practices they have been missing, behavioral domain scores), and their most recent lab panel with Battery Score if one exists. The coach can say "you have missed morning light four of the last seven days" because it can see that.
 
@@ -115,7 +115,7 @@ This is the part that matters. Build it in `functions/api/_coach_prompt.js` from
 
 **6. The evidence tiers.** It knows the three tiers: established, contested, working model. When it explains why something is in the protocol, it says which tier the reasoning sits in. It can say "this is part of our working model and it is not settled science" out loud. That honesty is the brand.
 
-**7. Escalation.** When a question is outside what it can answer, it says so and points to the weekly check-in or to drmicah@thehumanbatteryproject.com. It never pretends.
+**7. Escalation.** When a question is outside what it can answer, it says so and points to the weekly call or to admin@thehumanbatteryproject.com. It never pretends.
 
 ### Logging
 
