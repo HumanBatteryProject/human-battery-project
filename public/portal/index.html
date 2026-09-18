@@ -45,6 +45,15 @@
         <a class="btn btn-sm mt" href="/portal/program.html">Open your documents</a>
       </section>
 
+      <section class="card" id="latebaseline" style="display:none">
+        <h2>Your kit, after all</h2>
+        <p class="quiet">You started without a day 0 Omega-3. Red cell fatty acids turn over across about four months, so a spot collected inside your first two weeks still reflects your pre-protocol membranes and still counts as a baseline. The date travels with the number, so your comparison will say which day it was collected rather than pretending it was day 0.</p>
+        <p><label class="tiny" for="colldate">The day you collected the drop</label><br>
+           <input type="date" id="colldate"></p>
+        <p><button id="recordcoll" class="btn btn-solid">Record my collection</button></p>
+        <p id="latemsg" class="msg"></p>
+      </section>
+
       <section class="card" id="kitgate" style="display:none">
         <h2>Your kit has not been posted</h2>
         <p class="quiet">Day 1 is here and we do not have your Omega-3 kit confirmed as posted. The Omega-3 Index is the most responsive marker on your panel. Starting without a baseline means that comparison is gone for good, and no amount of testing later gets it back.</p>
@@ -342,10 +351,41 @@ if (m && m.id) {
       if (error) { msg.className = 'msg err'; msg.textContent = 'That did not save. Tell us on the call.'; return; }
       msg.className = 'msg';
       msg.textContent = 'Recorded. You have no day 0 Omega-3 Index, so it is left out of your Battery Score '
-        + 'rather than guessed at, and your day 90 comparison will show it as absent rather than unchanged.';
+        + 'rather than guessed at, and your day 90 comparison will show it as absent rather than unchanged. '
+        + 'If you get the kit posted within your first two weeks, it still counts as your baseline. '
+        + 'Tell us and we will record it.';
       el('#defer').style.display = 'none';
       el('#postedlate').style.display = 'none';
       el('#nobaseline').style.display = 'none';
+    });
+  }
+}
+// ---- a waived baseline is recoverable up to day 14 ----
+// Red cell fatty acids turn over across roughly four months, so a spot
+// collected in week one still reflects pre-protocol membranes. The date
+// is stored, never rounded to day 0.
+if (m && m.id && m.omega3_baseline_waived_at && m.day_zero) {
+  const zero = new Date(m.day_zero + 'T00:00:00');
+  const lastDay = new Date(zero); lastDay.setDate(lastDay.getDate() + 14);
+  if (new Date() <= lastDay) {
+    el('#latebaseline').style.display = '';
+    const iso = d => d.toISOString().slice(0, 10);
+    el('#colldate').max = iso(lastDay);
+    el('#colldate').value = iso(new Date());
+    el('#recordcoll').addEventListener('click', async () => {
+      const msg = el('#latemsg');
+      const when = el('#colldate').value;
+      if (!when) { msg.className = 'msg err'; msg.textContent = 'Pick the day you collected it.'; return; }
+      const { data, error } = await sb.rpc('record_omega3_collection',
+        { p_membership_id: m.id, p_collected_on: when });
+      if (error) { msg.className = 'msg err'; msg.textContent = 'That did not save. Tell us on the call.'; return; }
+      const r = Array.isArray(data) ? data[0] : data;
+      msg.className = r && r.accepted ? 'msg ok' : 'msg err';
+      msg.textContent = r ? r.reason : 'That did not save.';
+      if (r && r.accepted) {
+        el('#recordcoll').style.display = 'none';
+        el('#colldate').disabled = true;
+      }
     });
   }
 }
