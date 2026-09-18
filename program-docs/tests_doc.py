@@ -217,5 +217,5 @@ def tests_doc():
 
 </body></html>"""
     path = f"{B.OUT}/HBP-Your-Tests-Explained.pdf"
-    HTML(string=html, base_url="/home/claude/hbp-tierdocs/").write_pdf(path)
+    HTML(string=html, base_url=B.BASE_URL).write_pdf(path)
     return path

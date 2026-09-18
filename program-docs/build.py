@@ -1,7 +1,13 @@
 import os
+from pathlib import Path
+
+# Fonts live in the repo, not in whatever sandbox this was first written in.
+# Resolved from this file so the builders run from any checkout.
+BASE_URL = (Path(__file__).resolve().parent.parent / 'public' / 'fonts').as_uri() + '/'
 from weasyprint import HTML
 
-OUT = "/home/claude/hbp-tierdocs/out"
+# Build output. Override with HBP_OUT if you want it elsewhere.
+OUT = os.environ.get('HBP_OUT', str(Path(__file__).resolve().parent / 'out'))
 os.makedirs(OUT, exist_ok=True)
 
 # =====================================================================
@@ -420,7 +426,7 @@ def render_tier(key):
 
 </body></html>"""
     path = f"{OUT}/HBP-Protocol-{name}.pdf"
-    HTML(string=html, base_url="/home/claude/hbp-tierdocs/").write_pdf(path)
+    HTML(string=html, base_url=BASE_URL).write_pdf(path)
     return path
 
 if __name__ == '__main__':
