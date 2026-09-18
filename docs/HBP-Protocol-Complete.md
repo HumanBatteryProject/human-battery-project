@@ -6,9 +6,9 @@
 
 ## The model, in one page
 
-Your body is a battery. Not as a figure of speech. Every cell holds a voltage across a membrane, and how well that charge is made, held, spent and lost decides how you feel.
+Your body is not one battery. It is a coordinated network of trillions of cellular batteries. Every cell holds a voltage across a membrane, and different tissues are built to hold different voltages. How well each one is made, held, spent and recovered decides how you feel. The goal is tissue-appropriate voltage, never maximum voltage.
 
-**Light is the charging input.** Photons enter through the eye and skin. DHA in the retina and in every cell membrane is the receiver. Without adequate DHA, the light signal hits a degraded antenna. Without the light, the antenna has nothing to receive. They are one system, and this protocol treats them that way.
+**Light is timing information.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into the body. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
 
 **Water is the medium.** Structured, mineralized, and adequate. The cell does its work in water, not in spite of it.
 
@@ -20,6 +20,12 @@ Your body is a battery. Not as a figure of speech. Every cell holds a voltage ac
 - **DRAIN** — what is consuming capacity in the background. Inflammatory load.
 - **OUTPUT** — what you can spend. The hormonal panel.
 - **RESERVE** — what the whole thing is built from. Substrate, membrane composition, minerals.
+
+**Coherence** is the point of all of it. Coherence is the ability of cells to maintain their proper
+electrical identity while coordinating their voltage, metabolism, timing and behaviour with the
+surrounding tissue and the entire organism. A cell can be individually healthy and still be out of
+step with the tissue around it. The circadian protocol is how coherence is supported. The daily
+behavioural log is how it is tracked.
 
 **The order of operations every single day:** Light → Water → Movement → Food → Movement → Light → Darkness.
 
@@ -564,7 +570,7 @@ Ten minutes. Progress each one when it feels easy.
 
 Spirulina and chlorella are not interchangeable, and the protocol uses them for different things at different times of day.
 
-**Spirulina in the morning.** One tablespoon of powder in the morning glass or a small glass of water. Spirulina is the energy and nutrition algae: dense protein, chlorophyll, and the pigments that feed the mitochondrial side of the model. It goes in with the light, at the start of the charging cycle.
+**Spirulina in the morning.** One tablespoon of powder in the morning glass or a small glass of water. Spirulina is the energy and nutrition algae: dense protein, chlorophyll, and the pigments that feed the mitochondrial side of the model. It goes in with the light, at the start of the day the light has just set.
 
 **Chlorella in the evening.** One tablespoon of powder in water, away from other supplements. Chlorella has a hard cell wall that binds in the gut, which is exactly why it is the elimination algae and exactly why it does not go in with things you want absorbed. Evening, on its own, is where it belongs.
 

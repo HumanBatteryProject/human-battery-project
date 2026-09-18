@@ -21,6 +21,41 @@ CIRCADIAN_INTRO = """
 <p class="seq">LIGHT → WATER → MOVEMENT → FOOD → MOVEMENT → LIGHT → DARKNESS</p>
 """
 
+# ---------------------------------------------------------------------
+# The four questions from docs/HBP-Foundational-Model.md. Every protocol
+# element must answer at least one:
+#   Q1 efficient mitochondrial ATP production
+#   Q2 normal ion gradients and membrane function
+#   Q3 communication and coherence between cells, tissues and circadian systems
+#   Q4 measurable through validated physiological outcomes
+# An element answering none is flagged for review, never silently dropped.
+# ---------------------------------------------------------------------
+FOUR_Q = {
+ "morning": ("Q3, Q4", "Sets the circadian clock every tissue runs on. Sleep timing and light exposure are logged daily."),
+ "midday":  ("Q3, Q4", "Holds the clock set. Vitamin D is on the panel and blood pressure is measured at both ends."),
+ "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signalling to night signalling."),
+ "evening": ("Q3",     "Protects that melatonin signal from blue light that would tell the body it is still daytime."),
+ "night":   ("Q3, Q4", "Darkness is when repair signalling runs. Sleep timing and regularity are logged daily."),
+ "ground":  ("none",   "No mechanism in the foundational model, nothing on the panel, nothing in the daily log."),
+ "fast":    ("Q1, Q4", "Metabolic flexibility and substrate switching. Fasting glucose, insulin and HbA1c are on the panel."),
+}
+
+SECTION_Q = {
+ "water":       ("Q2, Q4", "Minerals are the ions the pumps move. Sodium, potassium and RBC magnesium are on the panel."),
+ "movement":    ("Q1, Q4", "Builds mitochondrial number and respiratory capacity. VO2max, lactate and grip strength are measured at both ends."),
+ "food":        ("Q1, Q2, Q4", "Fuel handling, plus the fatty acids and protein the membranes are built from. Glucose, insulin, HbA1c, Omega-3 Index and albumin are on the panel."),
+ "heatcold":    ("Q1",    "Controlled stress that builds mitochondrial capacity. Nothing on our panel isolates it."),
+ "sleep":       ("Q3, Q4", "Recovery is when gradients are rebuilt and membranes repaired. Sleep timing and regularity are logged daily."),
+ "supplements": ("Q2, Q4", "Substrate for membranes and enzymes. Omega-3 Index, 25-OH vitamin D, RBC magnesium, B12 and ferritin are on the panel."),
+}
+
+def q_line(spec):
+    q, note = spec
+    if q == "none":
+        return f'<p class="fourq flagged"><b>Answers none of the four questions.</b> {note}</p>'
+    return f'<p class="fourq"><b>Answers {q}.</b> {note}</p>'
+
+
 def circadian(tier):
     W = {
      "morning": dict(
@@ -33,7 +68,7 @@ def circadian(tier):
      ),
      "midday": dict(
         h="Get sun on your skin in the afternoon",
-        why="Morning light sets the clock. Afternoon sun charges the battery. Sunlight on your skin makes vitamin D, which almost everyone is low on, and it releases a chemical that relaxes your blood vessels and lowers blood pressure. A little bit every day does more than a lot once a week. You are not trying to tan. You are trying to get the signal.",
+        why="Morning light sets your clock. Midday sun holds it there. It is also the only time of day your skin can make vitamin D, and sun on bare skin widens your blood vessels, which lowers blood pressure. We measure both at day 0 and day 90.",
         pro="Twenty to forty minutes of sun on as much skin as you can, around noon. Sized to your skin. Never let yourself burn.",
         advanced="Fifteen to thirty minutes of sun on your arms and torso around noon. Fair skin starts at ten minutes and builds up.",
         intermediate="Fifteen minutes of sun on your arms and face in the afternoon. Build up slowly if your skin is fair.",
@@ -86,7 +121,8 @@ def circadian(tier):
         parts.append(f"""
 <h3>{b['h']}</h3>
 <p><b>What to do:</b> {b[tier]}</p>
-<p class="why"><b>Why:</b> {b['why']}</p>""")
+<p class="why"><b>Why:</b> {b['why']}</p>
+{q_line(FOUR_Q[key])}""")
     parts.append('<div class="rule"><b>The rule that matters most:</b> light before food, every single day. Do not eat until you have been outside.</div>')
     return "\n".join(parts)
 
@@ -382,28 +418,34 @@ def render_tier(key):
   <div class="kicker">02 &nbsp;/&nbsp; WATER</div>
   <h1>Water and minerals</h1>
   {water(key)}
+{q_line(SECTION_Q["water"])}
   <div class="kicker" style="margin-top:9mm">03 &nbsp;/&nbsp; MOVEMENT</div>
   <h1>Movement</h1>
   {movement(key)}
+{q_line(SECTION_Q["movement"])}
 </div>
 
 <div class="page">
   <div class="kicker">04 &nbsp;/&nbsp; FOOD</div>
   <h1>Food</h1>
   {food(key)}
+{q_line(SECTION_Q["food"])}
   <p class="small" style="margin-top:5mm">The full approved food list, the daily non-negotiables and the cookbook are in the Dietary Guidelines document.</p>
   <div class="kicker" style="margin-top:8mm">05 &nbsp;/&nbsp; HEAT AND COLD</div>
   <h1>Heat and cold</h1>
   {heatcold(key)}
+{q_line(SECTION_Q["heatcold"])}
 </div>
 
 <div class="page">
   <div class="kicker">06 &nbsp;/&nbsp; SLEEP</div>
   <h1>Sleep</h1>
   {sleep(key)}
+{q_line(SECTION_Q["sleep"])}
   <div class="kicker" style="margin-top:9mm">07 &nbsp;/&nbsp; SUPPLEMENTS</div>
   <h1>Supplements</h1>
   {supplements(key)}
+{q_line(SECTION_Q["supplements"])}
 </div>
 
 <div class="page">

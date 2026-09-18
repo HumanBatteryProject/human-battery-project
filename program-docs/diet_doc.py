@@ -125,8 +125,8 @@ def diet_doc():
   <h3>Your mitochondria are sensors</h3>
   <p>The mitochondria in your cells do not just burn fuel. They read it. Douglas Wallace, who founded the field of mitochondrial medicine, describes them as environmental sensors. Food arriving in a cell is information about the world outside, not just calories.</p>
   <h3>Summer food and winter food are not the same</h3>
-  <p>Summer light is stronger and lasts longer. The food summer makes, fruit, berries, sweet things, carries that. In our model, the electrons in summer food carry more energy than the electrons in winter food, because they were made under a stronger sun. Your body reads that as summer: store, grow, be active, get ready for the cold.</p>
-  <p>Winter light is weaker. The food winter makes is fat and protein, roots, and animals that ate all summer. Lower power. Your body reads that as winter: burn stored fat, repair, rest.</p>
+  <p>Summer light is stronger and lasts longer. The food summer makes, fruit, berries, sweet things, carries that. In our model, what matters is not that summer food holds more energy, it is that it only exists when the sun is high. Sugar arriving is a message: the days are long. Your body reads that as summer: store, grow, be active, get ready for the cold.</p>
+  <p>Winter light is weaker. The food winter makes is fat and protein, roots, and animals that ate all summer. A different message. Your body reads that as winter: burn stored fat, repair, rest.</p>
   <h3>What happens when the signals disagree</h3>
   <p>Eat watermelon in January under a light bulb and your body receives summer food and winter light at the same time. The mitochondria cannot tell what season it is. In our model, that mismatch is one reason people gain weight through the winter and cannot get it off: the body is being told to store for a winter that, as far as the food is concerned, never comes.</p>
   <h3>What to do</h3>

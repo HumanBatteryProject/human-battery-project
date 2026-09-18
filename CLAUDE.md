@@ -139,6 +139,11 @@ docs/                the model, the spec, the protocol, the strategy
 - Reading level: `simple.html` at roughly grade 3, Beginner content at grade 3 to 4, measured with textstat.
 - Portal queries returning empty are almost always RLS, not the JavaScript.
 - An agent's output is checked against the guardrails above before it is shown as done.
+- Foundational-model audit: match any **sentence** that links light or sun to charge, energy,
+  power, fuel or battery. Never a keyword grep. A grep for `charging`, `solar panel` and
+  `charge the body` reported the tier documents clean while they still said "Afternoon sun
+  charges the battery" and "the electrons in summer food carry more energy". The rule is
+  conceptual, so the test has to read sentences, not look for words.
 
 ---
 

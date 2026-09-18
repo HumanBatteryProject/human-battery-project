@@ -32,7 +32,7 @@ EXTRA_CSS = """
 .tierrow>div{flex:1;border-radius:1.5mm;padding:3.2mm 3mm;color:#fff}
 .tierrow h3{margin:0 0 1.6mm;font-size:6.6pt;color:#fff}
 .tierrow p{font-size:8.2pt;margin:0;line-height:1.42;color:rgba(255,255,255,.92)}
-.why{font-size:9.2pt;color:#3D5A63;margin-bottom:3.2mm}
+.why{font-size:9.2pt;color:#3D5A63;margin-bottom:3.2mm}.fourq{font-size:7.4pt;line-height:1.45;color:#6E908C;margin:2mm 0 4mm;padding-left:3mm;border-left:1.5pt solid #B6BDBC}.fourq.flagged{color:#B4653A;border-left-color:#B4653A}
 .stepnum{font-family:'Michroma';font-size:14pt;color:#218BBE;width:12mm;flex:none;line-height:1}
 """
 

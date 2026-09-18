@@ -21,12 +21,12 @@ def render_tier(key):
     ph = "".join(f'<div class="phase"><div class="d">{d}</div><p>{t}</p></div>' for d, t in B.phases(key))
     body = {
         "circ":  B.circadian(key),
-        "water": B.water(key),
-        "move":  B.movement(key),
-        "food":  B.food(key) + '<p class="small" style="margin-top:4mm">The full approved food list, the daily non-negotiables and how to build a plate are in the Dietary Guidelines document.</p>',
-        "heat":  B.heatcold(key),
-        "sleep": B.sleep(key),
-        "supp":  B.supplements(key),
+        "water": B.water(key) + B.q_line(B.SECTION_Q["water"]),
+        "move":  B.movement(key) + B.q_line(B.SECTION_Q["movement"]),
+        "food":  B.food(key) + B.q_line(B.SECTION_Q["food"]) + '<p class="small" style="margin-top:4mm">The full approved food list, the daily non-negotiables and how to build a plate are in the Dietary Guidelines document.</p>',
+        "heat":  B.heatcold(key) + B.q_line(B.SECTION_Q["heatcold"]),
+        "sleep": B.sleep(key) + B.q_line(B.SECTION_Q["sleep"]),
+        "supp":  B.supplements(key) + B.q_line(B.SECTION_Q["supplements"]),
         "env":   '<p class="small">Dr. Pittman takes no commission on anything listed here. These are what he uses.</p>' + B.ENVIRONMENT,
         "days":  ph,
         "check": f'<ul class="check">{B.checklist(key)}</ul>',
@@ -46,6 +46,15 @@ h3{{color:#218BBE}}
   <div class="t">{name}</div>
   <div class="s">NINETY-DAY PROTOCOL</div>
   <div class="tag">{tag}</div>
+</div>
+<div class="page">
+{D.band(D.BLUE)}
+<div class="kicker">THE MODEL</div>
+<h1>Trillions of batteries, keeping time together</h1>
+<p>Your body is not one battery. It is a coordinated network of trillions of cellular batteries. Every cell holds a voltage across a membrane, and different tissues are built to hold different voltages. A neuron, a muscle cell and an immune cell are supposed to be different. The goal is the voltage appropriate to each tissue, never the maximum.</p>
+<p><b>Coherence</b> is the ability of cells to hold their proper electrical identity while coordinating their voltage, metabolism, timing and behaviour with the tissue around them and with the whole organism. A cell can be individually healthy and still be out of step with its neighbours. That is what the ninety days are for.</p>
+<p>Light is how the timing gets set. Morning light tells the body what hour it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into you. Food in season tells it what month it is.</p>
+<p>The circadian protocol is how coherence is supported. The daily log is how it is tracked. Every element in this document carries a note saying which of the four questions it answers, and where an element answers none of them, it says so.</p>
 </div>
 {pages}
 <div class="page">
