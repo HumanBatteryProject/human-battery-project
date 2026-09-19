@@ -192,7 +192,9 @@ def tests_doc():
   </div>
   <div class="lab" style="border-left-color:#157A5C">
     <h3>The Omega-3 Index</h3>
-    <p>Not done at the lab. Order the OmegaQuant Omega-3 Index kit online, about fifty dollars. It arrives in the mail. You prick your finger, put a drop on the card, and mail it back. Results in about a week. Do it the same week as your blood draw, both times.</p>
+    <p>Not done at the lab. Order the <b>Omega-3 Index Complete Test</b> from omegaquant.com, $109.95. It arrives in the mail. You prick your finger, put a drop on the card, and mail it back. Allow two to four weeks from ordering to result. Do it the same week as your blood draw, both times.</p>
+  <p><b>Buy two at once.</b> They are $93.46 each when you buy two or more, which saves about $33, and you need one for day 0 and one for day 90. The second kit is then already in your drawer when day 90 comes.</p>
+  <p><b>Buy Complete, not Basic.</b> Basic is $54.95 and reports the Omega-3 Index on its own. Complete also reports the AA to EPA ratio, which is on your panel under Drain and is the marker most likely to be missing from a standard lab menu. Saving fifty dollars here costs you a marker.</p>
   </div>
   <div class="lab" style="border-left-color:#218BBE">
     <h3>VO&#8322;max and grip</h3>

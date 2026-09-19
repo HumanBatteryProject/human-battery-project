@@ -46,7 +46,7 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **1. The Supabase secret key, the Anthropic key and the Voyage key never enter `public/`.** Everything under `public/` is served to the browser. The publishable key in `public/portal/config.js` is correct and safe. Row-level security protects the data.
 
-**2. Migrations are append-only.** Never edit a `.sql` file that has been run against production. Write a new numbered file at the next free number. 001 through 017 have run.
+**2. Migrations are append-only.** Never edit a `.sql` file that has been run against production. Write a new numbered file at the next free number. 001 through 023 have run.
 
 **3. Never change the Battery Score method mid-program.** `score_methods` rows are versioned. Publish a new version rather than editing one.
 

@@ -36,7 +36,9 @@ DAY_ONE = {
 STEPS = [
  ("Order your Omega-3 kit today",
   f"""<p>Go to <b>omegaquant.com</b>. Order the <b>{KIT_NAME}</b>. It costs {KIT_PRICE}. You order it yourself and it comes to you.</p>
-<p>Do this first. Do it today. It takes the longest of anything on this list. The kit takes three to five days to reach you. Then you mail it back. Then the lab runs it. Everything else here takes a week at most.</p>"""),
+<p>Do this first. Do it today. It takes the longest of anything on this list. The kit takes three to five days to reach you. Then you mail it back. Then the lab runs it. Allow two to four weeks from ordering to result. Everything else here takes a week at most.</p>
+<p><b>Buy two at once.</b> They are $93.46 each if you buy two or more. You need one now and one at day 90, so buying both saves you about $33 and the second one is already in your drawer when day 90 comes.</p>
+<p><b>Get Complete, not Basic.</b> Basic is cheaper and only gives one number. Complete also gives the AA to EPA ratio, which is on your panel and is hard to get anywhere else. Saving fifty dollars here costs you a marker.</p>"""),
  ("Book your blood test",
   """<p>Go to <b>anylabtestnow.com</b>. Find the one nearest you and book it yourself. You do not need to see a doctor first.</p>
 <p><b>Do not eat for 12 hours before. Go in the morning.</b> Water is fine. Some of these numbers move as the day goes on, so a test at 11am does not match a test at 7am. Pick a morning time. Book the same time again at day 90.</p>
