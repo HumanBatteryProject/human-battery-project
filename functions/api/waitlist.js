@@ -10,6 +10,28 @@ const json = (body, status = 200) =>
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+// The seven rows of the placement table in docs/HBP-Protocol-Complete.md.
+// The form sends one tier name per row. The tier itself is not computed
+// here: suggest_tier() in the database does that, on a trigger, so the
+// suggestion can never drift from the answers it came from.
+const PLACEMENT_KEYS = ['training', 'cold', 'sauna', 'fasting', 'food', 'morning_light', 'sleep'];
+const TIERS = ['beginner', 'intermediate', 'advanced', 'pro'];
+
+// Anything that is not seven valid answers is stored as no placement at
+// all. A partial or hand-edited set must not produce a tier: an applicant
+// placed on garbage gets the wrong protocol, and nothing downstream would
+// ever show that it happened.
+function cleanPlacement(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const out = {};
+  for (const k of PLACEMENT_KEYS) {
+    const v = raw[k];
+    if (typeof v !== 'string' || !TIERS.includes(v)) return null;
+    out[k] = v;
+  }
+  return out;
+}
+
 export async function onRequestPost({ request, env }) {
   let body;
   try {
@@ -27,11 +49,18 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Check the form and try again' }, 400);
   }
 
+  const placement = cleanPlacement(body.placement);
+  if (body.placement && !placement) {
+    console.warn(`[waitlist] placement from ${email} was rejected, storing the application without one`);
+  }
+
   const row = {
     name,
     email,
     state,
     source: source || null,
+    placement,
+    placement_version: placement ? 'placement-v1' : null,
     consent_contact: true,
     consent_version: 'contact-v1',
     submitted_at: new Date().toISOString(),
@@ -109,14 +138,14 @@ export async function onRequestPost({ request, env }) {
         'applicant',
         email,
         'Your application to The Human Battery Project',
-        `${name},\n\nWe have your application for cohort 01.\n\nNext: we will send the full protocol, the blood panel, and the cohort dates within two business days. Nothing is committed until you confirm your seat.\n\nReply to this email with any questions.\n\nThe Human Battery Project`
+        `${name},\n\nWe have your application.\n\nYou can start on the 1st or the 15th of any month. Next we will send you the protocol for your tier, the blood panel, what the lab will cost, and the start dates you can choose from. Nothing is committed until you pay.\n\nReply to this email with any questions.\n\nThe Human Battery Project`
       ),
       env.NOTIFY_EMAIL
         ? send(
             'notification',
             env.NOTIFY_EMAIL,
             `New application: ${name}`,
-            `Name: ${name}\nEmail: ${email}\nState: ${state}\nSource: ${source || 'none given'}\nSubmitted: ${row.submitted_at}`
+            `Name: ${name}\nEmail: ${email}\nState: ${state}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
           )
         : (emailProblems.push('NOTIFY_EMAIL is not set, so no notification was sent'), undefined),
     ]);

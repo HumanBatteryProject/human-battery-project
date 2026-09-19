@@ -9,7 +9,7 @@
 <meta property="og:description" content="You've tried everything. So why don't you feel better? Everyone had an answer. None of them worked.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=11">
+<link rel="stylesheet" href="/styles.css?v=12">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -664,7 +664,7 @@
 <section id="apply">
   <div class="wrap">
     <h2>Start on the 1st or the 15th</h2>
-    <p>30 spots. Everyone does the same plan. You start on the 1st or the 15th.</p>
+    <p>You start on the 1st or the 15th of any month. You pick which one.</p>
     <p>Filling this out does not sign you up for anything. We send you the whole plan, the list of tests, what the lab will cost, and the dates. Then you decide.</p>
 
     <form id="apply-form" novalidate>
@@ -693,6 +693,14 @@
         <input id="source" name="source" type="text">
       </div>
 
+
+      <div class="field" id="f-placement">
+        <label>Which protocol fits you</label>
+        <p class="placement-intro">Seven questions about how you live right now. There are no wrong answers. We are not testing you, we are working out which of the four protocols to send you. Answer honestly. People who answer these to look good get a protocol they cannot hold, quit in week three, and learn nothing. You can move up later.</p>
+        <div id="placement-questions"></div>
+        <span class="field-err">Answer all seven</span>
+      </div>
+
       <label class="consent" for="agree">
         <input id="agree" name="agree" type="checkbox" required>
         <span>It is okay to email me about this. I read the <a href="/privacy.html">privacy policy</a>.</span>
@@ -705,7 +713,7 @@
 
       <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
 
-      <p class="note">We only ask your name, email and state. We do not ask any health questions here.</p>
+      <p class="note">We ask your name, email, state, and the seven questions above. The seven are about your habits. We do not ask about symptoms, illnesses or medicines here, and we will not until you have signed up and said it is okay.</p>
     </form>
   </div>
 </section>
@@ -745,6 +753,96 @@ function bad(id, on){ document.getElementById(id).classList.toggle('bad', on); }
 });
 document.getElementById('agree').addEventListener('change', function(){ agreeErr.style.display = 'none'; });
 
+var PLACEMENT = [
+  ['training', 'How often do you train?', [
+    ['pro',          'Five or more days a week, structured, and it gets harder over time'],
+    ['advanced',     'Three or four days a week, and I keep it up'],
+    ['intermediate', 'One or two days a week, or on and off'],
+    ['beginner',     'I do not train, or I walk']]],
+  ['cold', 'Cold water?', [
+    ['pro',          'Weekly or more, plunges or cold showers'],
+    ['advanced',     'I have done it, but it is not a routine'],
+    ['intermediate', 'Once or twice, a long time ago'],
+    ['beginner',     'Never']]],
+  ['sauna', 'Sauna or heat?', [
+    ['pro',          'Weekly or more'],
+    ['advanced',     'Now and then'],
+    ['intermediate', 'Hardly ever'],
+    ['beginner',     'Never']]],
+  ['fasting', 'When do you eat?', [
+    ['pro',          'I keep set eating windows, or I do longer fasts'],
+    ['advanced',     'I have tried eating in a set window'],
+    ['intermediate', 'I eat when I am hungry'],
+    ['beginner',     'I eat a bit all day long']]],
+  ['food', 'What do you eat?', [
+    ['pro',          'Whole food. I read labels and I cook'],
+    ['advanced',     'Mostly clean, and I slip on weekends'],
+    ['intermediate', 'A mix of both'],
+    ['beginner',     'Mostly packaged food or restaurant food']]],
+  ['morning_light', 'Do you get outside in the morning?', [
+    ['pro',          'Every day. It is already a habit'],
+    ['advanced',     'Some mornings'],
+    ['intermediate', 'Hardly ever'],
+    ['beginner',     'No. I am inside until I leave for the day']]],
+  ['sleep', 'How is your sleep?', [
+    ['pro',          'Same time every night, same time every morning'],
+    ['advanced',     'Mostly regular'],
+    ['intermediate', 'All over the place'],
+    ['beginner',     'All over the place, and I am on my phone in bed']]]
+];
+
+var qWrap = document.getElementById('placement-questions');
+PLACEMENT.forEach(function(q, i){
+  var key = q[0], text = q[1], opts = q[2];
+  var fs = document.createElement('fieldset');
+  fs.className = 'placement-q';
+  fs.id = 'pq-' + key;
+  var lg = document.createElement('legend');
+  lg.textContent = (i + 1) + '. ' + text;
+  fs.appendChild(lg);
+  opts.forEach(function(o){
+    var lab = document.createElement('label');
+    lab.className = 'placement-opt';
+    var inp = document.createElement('input');
+    inp.type = 'radio';
+    inp.name = 'placement_' + key;
+    inp.value = o[0];
+    var sp = document.createElement('span');
+    sp.textContent = o[1];
+    lab.appendChild(inp);
+    lab.appendChild(sp);
+    fs.appendChild(lab);
+  });
+  qWrap.appendChild(fs);
+});
+
+// The order the options are written in is the order of the tier table, so
+// the answers would otherwise read top to bottom as hardest to easiest and
+// invite people to pick the top one. Shuffling is worse: it makes the form
+// feel random. Instead every question is flipped, easiest first, because
+// the honest answer for most applicants is nearer the bottom of the table.
+Array.prototype.forEach.call(qWrap.querySelectorAll('.placement-q'), function(fs){
+  var opts = Array.prototype.slice.call(fs.querySelectorAll('.placement-opt'));
+  opts.reverse().forEach(function(o){ fs.appendChild(o); });
+});
+
+function readPlacement(){
+  var out = {}, missing = false;
+  PLACEMENT.forEach(function(q){
+    var picked = qWrap.querySelector('input[name="placement_' + q[0] + '"]:checked');
+    var fs = document.getElementById('pq-' + q[0]);
+    if (picked) { out[q[0]] = picked.value; fs.classList.remove('bad'); }
+    else { missing = true; fs.classList.add('bad'); }
+  });
+  return missing ? null : out;
+}
+
+qWrap.addEventListener('change', function(e){
+  var fs = e.target.closest ? e.target.closest('.placement-q') : null;
+  if (fs) fs.classList.remove('bad');
+  bad('f-placement', false);
+});
+
 form.addEventListener('submit', function(e){
   e.preventDefault();
   msg.className = 'msg';
@@ -760,7 +858,13 @@ form.addEventListener('submit', function(e){
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { bad('f-email', true); ok = false; }
   if (!state) { bad('f-state', true); ok = false; }
   if (!agree) { agreeErr.style.display = 'block'; ok = false; }
-  if (!ok) return;
+  var placement = readPlacement();
+  if (!placement) { bad('f-placement', true); ok = false; }
+  if (!ok) {
+    var firstBad = form.querySelector('.field.bad, .placement-q.bad');
+    if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
 
   btn.disabled = true;
   btn.textContent = 'Sending';
@@ -771,7 +875,8 @@ form.addEventListener('submit', function(e){
     body: JSON.stringify({
       name: name, email: email, state: state,
       source: document.getElementById('source').value.trim(),
-      consent_contact: true
+      consent_contact: true,
+      placement: placement
     })
   }).then(function(r){
     return r.json().then(function(d){ return { ok: r.ok, d: d }; });
