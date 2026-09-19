@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css">
+<link rel="stylesheet" href="/portal/portal.css?v=2">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -17,6 +17,45 @@
 
 <main class="wrap">
   <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <section class="card" id="entry" style="display:none">
+    <h2>Enter your Omega-3 result</h2>
+    <p class="quiet" id="entry-why"></p>
+
+    <div class="field">
+      <label for="e-when">Which draw</label>
+      <select id="e-when"></select>
+    </div>
+
+    <div class="field">
+      <label for="e-date">The collection date on the report</label>
+      <input id="e-date" type="date">
+      <p class="tiny">The day you pricked your finger, not the day the result came back.</p>
+    </div>
+
+    <div class="field">
+      <label for="e-omega3">Omega-3 Index</label>
+      <input id="e-omega3" type="number" step="0.01" inputmode="decimal" placeholder="5.8">
+      <p class="tiny" id="hint-omega3"></p>
+    </div>
+
+    <div class="field">
+      <label for="e-ratio">AA:EPA ratio</label>
+      <input id="e-ratio" type="number" step="0.01" inputmode="decimal" placeholder="11.2">
+      <p class="tiny" id="hint-ratio"></p>
+    </div>
+
+    <div class="field">
+      <label for="e-file">Your report from OmegaQuant</label>
+      <input id="e-file" type="file" accept="application/pdf,image/jpeg,image/png,image/heic">
+      <p class="tiny">A PDF or a photo of it. We check what you typed against it, which is how a slip of the finger gets caught instead of sitting in your results for 90 days.</p>
+    </div>
+
+    <div id="e-msg" role="status" aria-live="polite"></div>
+
+    <button class="btn btn-solid" id="e-save" type="button">Save my result</button>
+    <p class="tiny mt" style="margin-bottom:0">Your number counts towards your Battery Score straight away. It stays marked as entered by you until we have checked it against your report.</p>
+  </section>
   <div id="empty" class="card" style="display:none">
     <h2>Nothing here yet</h2>
     <p class="quiet">Your results appear once your blood has been drawn and the panel has been entered. Day 0 first, then day 90 beside it.</p>
@@ -38,8 +77,138 @@
 </ul></nav>
 
 <script type="module">
-import { sb, requireAuth, el } from './app.js';
-await requireAuth();
+import { sb, requireAuth, el, activeMembership, toast } from './app.js';
+const session = await requireAuth();
+
+// ---------------------------------------------------------------------
+// Entering your own Omega-3 result.
+//
+// The kit is ordered by the client and OmegaQuant emails the result to
+// the client, so without this the number never reaches the program.
+//
+// Everything below is a convenience. Not one of the rules is enforced
+// here. The browser talks to Supabase directly, so a check in this file
+// is a hint to the person filling the form and nothing more. The rules
+// live in submit_client_result() in migration 026.
+// ---------------------------------------------------------------------
+const membership = await activeMembership();
+
+async function setUpEntry() {
+  if (!membership || !membership.day_zero) return;
+
+  const { data: markers } = await sb.from('lab_markers')
+    .select('slug, name, entry_hint, plausible_low, plausible_high')
+    .eq('client_enterable', true);
+  const hint = (slug) => (markers || []).find(m => m.slug === slug) || {};
+  el('#hint-omega3').textContent = hint('omega3-index').entry_hint || '';
+  el('#hint-ratio').textContent = hint('aa-epa-ratio').entry_hint || '';
+
+  // How far in they are. programDay() is deliberately null outside 1 to 90,
+  // which is right for the log and wrong here: someone entering a day 90
+  // result is usually past day 90. So this counts plainly.
+  const zero = new Date(membership.day_zero + 'T00:00:00');
+  const today = new Date();
+  const dayNumber = Math.round(
+    (new Date(today.getFullYear(), today.getMonth(), today.getDate()) - zero) / 86400000
+  ) + 1;
+
+  const { data: existing } = await sb.from('lab_panels')
+    .select('id, draw_point, lab_results(marker_id, source, verified_at, lab_markers(slug))')
+    .eq('membership_id', membership.id);
+
+  const hasOmega = (point) => {
+    const panel = (existing || []).find(p => p.draw_point === point);
+    if (!panel) return false;
+    return (panel.lab_results || []).some(r => r.lab_markers && r.lab_markers.slug === 'omega3-index');
+  };
+
+  // Day 90 is not offered early. Someone shown both boxes in week one will
+  // eventually put a starting number in the finishing box, and that error
+  // is invisible afterwards: both are just a number and a date.
+  const options = [];
+  if (!hasOmega('day_0')) options.push(['day_0', 'Day 0, my starting result']);
+  if (!hasOmega('day_90') && dayNumber >= 76) options.push(['day_90', 'Day 90, my finishing result']);
+
+  if (!options.length) {
+    // Both are in. Nothing to enter, so the card stays hidden.
+    return;
+  }
+
+  const sel = el('#e-when');
+  options.forEach(([v, label]) => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = label; sel.appendChild(o);
+  });
+
+  el('#entry-why').textContent = options.some(o => o[0] === 'day_0')
+    ? 'Your kit result comes to you, not to us, so you enter it here. Your day 0 number cannot be measured after the fact, so put it in as soon as it arrives.'
+    : 'Enter the result from your second kit here.';
+
+  el('#e-date').max = new Date().toISOString().slice(0, 10);
+  el('#entry').style.display = 'block';
+
+  const msg = el('#e-msg');
+  const show = (text, ok) => {
+    msg.textContent = text;
+    msg.style.display = 'block';
+    msg.style.color = ok ? '#B7E7D3' : '#F0C4AC';
+  };
+
+  el('#e-save').addEventListener('click', async () => {
+    const btn = el('#e-save');
+    const file = el('#e-file').files[0];
+    const values = {};
+    const omega3 = el('#e-omega3').value.trim();
+    const ratio = el('#e-ratio').value.trim();
+    if (omega3) values['omega3-index'] = omega3;
+    if (ratio) values['aa-epa-ratio'] = ratio;
+
+    if (!Object.keys(values).length) return show('Enter at least the Omega-3 Index.', false);
+    if (!el('#e-date').value) return show('Put in the collection date from the report.', false);
+    if (!file) return show('Attach your report before saving.', false);
+
+    btn.disabled = true;
+    btn.textContent = 'Saving';
+    try {
+      // The upload policy pins the first folder to the caller's own id, so
+      // this path is the only one the browser is allowed to write to.
+      const ext = (file.name.split('.').pop() || 'pdf').toLowerCase().slice(0, 5);
+      const path = `${session.user.id}/omega3-${el('#e-when').value}-${Date.now()}.${ext}`;
+      const up = await sb.storage.from('client-uploads').upload(path, file, { contentType: file.type });
+      if (up.error) throw new Error(up.error.message);
+
+      const { data, error } = await sb.rpc('submit_client_result', {
+        p_membership_id: membership.id,
+        p_draw_point: el('#e-when').value,
+        p_collected_on: el('#e-date').value,
+        p_document_path: path,
+        p_values: values,
+      });
+      if (error) throw new Error(error.message);
+
+      if (!data || !data.ok) {
+        // A rejection is a plain sentence written for the person holding
+        // the report, not a constraint name.
+        show((data && data.message) || 'We could not save that.', false);
+        btn.disabled = false;
+        btn.textContent = 'Save my result';
+        return;
+      }
+
+      show(data.message, true);
+      toast('Result saved');
+      btn.textContent = 'Saved';
+      setTimeout(() => location.reload(), 1200);
+    } catch (e) {
+      show('Something went wrong saving that. Try again, and if it keeps happening email admin@thehumanbatteryproject.com.', false);
+      console.error(e);
+      btn.disabled = false;
+      btn.textContent = 'Save my result';
+    }
+  });
+}
+
+await setUpEntry();
 
 const SUB = {
   charge:  ['Charge','s-charge','How well fuel becomes energy'],
@@ -105,14 +274,14 @@ if (!panels || !panels.length) {
           changeCell = '<td class="num '+cls2+'">' + (d>0?'+':'') + d.toFixed(2) +
                        (pct!=null ? ' <span class="tiny">('+(pct>0?'+':'')+pct+'%)</span>' : '') + '</td>';
         } else {
-          changeCell = '<td class="num flat">&mdash;</td>';
+          changeCell = '<td class="num flat"></td>';
         }
       }
       const band = (x.m.optimal_low!=null && x.m.optimal_high!=null)
         ? '<div class="tiny">target '+x.m.optimal_low+'-'+x.m.optimal_high+' '+(x.m.unit||'')+'</div>' : '';
       html += '<tr><td>'+x.m.name+band+'</td>' +
-              '<td class="num">'+(v0!=null?v0:'&mdash;')+'</td>' +
-              (day90 ? '<td class="num">'+(v90!=null?v90:'&mdash;')+'</td>'+changeCell : '') +
+              '<td class="num">'+(v0!=null?v0:'<span class="tiny">not yet</span>')+'</td>' +
+              (day90 ? '<td class="num">'+(v90!=null?v90:'<span class="tiny">not yet</span>')+'</td>'+changeCell : '') +
               '</tr>';
     });
     html += '</tbody></table></section>';
@@ -137,8 +306,8 @@ if (!panels || !panels.length) {
       const a = f0 ? f0[key] : null, b = f90 ? f90[key] : null;
       if (a==null && b==null) return;
       html += '<tr><td>'+label+(unit?'<div class="tiny">'+unit+'</div>':'')+'</td>' +
-              '<td class="num">'+(a??'&mdash;')+'</td>' +
-              '<td class="num">'+(b??'&mdash;')+'</td></tr>';
+              '<td class="num">'+(a??'<span class="tiny">not yet</span>')+'</td>' +
+              '<td class="num">'+(b??'<span class="tiny">not yet</span>')+'</td></tr>';
     });
     html += '</tbody></table>';
     if (f0 && f90 && f0.method !== f90.method) {

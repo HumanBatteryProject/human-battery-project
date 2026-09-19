@@ -3,7 +3,7 @@
 //
 // The program fee is a FIXED TOTAL that ends at day 90. It is a payment
 // plan, not a subscription. Billing it as a subscription would keep
-// charging people after the program ends — the single most common way
+// charging people after the program ends, the single most common way
 // this gets built wrong.
 //
 // Implementation: Subscription Schedules with a fixed iteration count
@@ -14,7 +14,7 @@
 export const CURRENCY = 'usd';
 
 // Single source of truth. Must match cohorts.price_cents in the database.
-export const PROGRAM_TOTAL_CENTS = 100000; // $1,000 — cohort 01 launch price
+export const PROGRAM_TOTAL_CENTS = 100000; // $1,000. Lives here rather than in program_settings only because Stripe needs it at request time.
 
 export const PLANS = {
   paid_in_full: {
@@ -51,7 +51,7 @@ export const PLANS = {
 
 // $1,000 / 3 = $333.333..., so the final installment absorbs the
 // remainder: 333.33 + 333.33 + 333.34 = exactly 1,000.00. Never bill
-// three equal thirds of a price that doesn't divide — you end up a cent
+// three equal thirds of a price that doesn't divide, and you end up a cent
 // short and the books never reconcile.
 export function installmentAmounts(planKey) {
   const plan = PLANS[planKey];

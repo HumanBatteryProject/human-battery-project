@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css">
+<link rel="stylesheet" href="/portal/portal.css?v=2">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -21,7 +21,7 @@
   <div id="body" style="display:none">
 
     <div class="card status" id="daycard">
-      <div class="day" id="progday">&mdash;</div>
+      <div class="day" id="progday"></div>
       <div class="of" id="ofninety">OF NINETY</div>
       <div class="track" style="margin-top:1.2rem"><i id="progbar" style="width:0%"></i></div>
       <div class="tiny" id="phase"></div>
@@ -42,6 +42,7 @@
         </ul>
         <p class="mt" id="kitwrap"><button id="kitposted" class="btn btn-sm">My kit is in the mail</button></p>
         <p id="kitdone" class="msg ok" style="display:none">Kit posted. That is the day 1 gate cleared.</p>
+        <p id="kitresult" style="display:none" class="tiny mt">Your result comes back to you by email, not to us. When it arrives, <a href="/portal/labs.html">put the numbers in here</a> so they count.</p>
         <a class="btn btn-sm mt" href="/portal/program.html">Open your documents</a>
       </section>
 
@@ -93,11 +94,11 @@
       <h2>Sticking with it</h2>
       <div style="display:flex;gap:1.4rem;align-items:baseline">
         <div>
-          <div style="font-family:var(--display);font-size:1.7rem;color:#fff"><span id="adh">&mdash;</span><span style="font-size:.85rem;color:var(--steel)">%</span></div>
+          <div style="font-family:var(--display);font-size:1.7rem;color:#fff"><span id="adh">0</span><span style="font-size:.85rem;color:var(--steel)">%</span></div>
           <div class="tiny">days logged</div>
         </div>
         <div>
-          <div style="font-family:var(--display);font-size:1.7rem;color:#fff" id="avgfive">&mdash;</div>
+          <div style="font-family:var(--display);font-size:1.7rem;color:#fff" id="avgfive">0</div>
           <div class="tiny">average five</div>
         </div>
       </div>
@@ -300,6 +301,20 @@ if (m && m.tier) {
 if (m && m.id) {
   const posted = !!m.omega3_kit_posted_at;
   if (posted) { el('#kitwrap').style.display = 'none'; el('#kitdone').style.display = ''; }
+
+  // The kit result is emailed to the client by OmegaQuant, so posting the
+  // card is only half of it. Once the card is in the mail the next thing
+  // that has to happen is the client typing the number in, and nothing
+  // reminds them of that unless this does.
+  if (posted || m.omega3_collected_on) {
+    const { data: own } = await sb.from('lab_results')
+      .select('id, lab_markers!inner(slug), lab_panels!inner(membership_id, draw_point)')
+      .eq('lab_markers.slug', 'omega3-index')
+      .eq('lab_panels.membership_id', m.id)
+      .eq('lab_panels.draw_point', 'day_0')
+      .limit(1);
+    if (!own || !own.length) el('#kitresult').style.display = '';
+  }
 
   el('#kitposted')?.addEventListener('click', async () => {
     const { error } = await sb.from('memberships')

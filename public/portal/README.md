@@ -20,7 +20,7 @@ portal/
   app.js          shared runtime: auth, dates, reference data, autosave
   portal.css      all styling
   login.html      passwordless email link
-  index.html      dashboard — program day, adherence, battery score
+  index.html      dashboard: program day, adherence, battery score
   log.html        the daily log
   labs.html       day 0 vs day 90, marker by marker
   account.html    profile, consent toggles, data export

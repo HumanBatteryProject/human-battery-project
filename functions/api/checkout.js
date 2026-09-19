@@ -3,7 +3,7 @@
 //
 // Creates a Stripe Checkout Session for one of the three payment shapes
 // and returns the hosted URL. Prices are computed server-side from
-// _payments.js — the client sends a plan key, never an amount.
+// _payments.js: the client sends a plan key, never an amount.
 // =====================================================================
 
 import Stripe from 'stripe';

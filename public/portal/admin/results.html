@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Check self-entered results | The Human Battery Project</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090C">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=2">
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/06-lockup-horizontal.svg" alt="The Human Battery Project">
+  <span class="who">STAFF</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for staff. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+
+  <div id="clear" class="card" style="display:none">
+    <h2>Nothing waiting</h2>
+    <p class="quiet">Every self-entered result has been checked against its report.</p>
+  </div>
+
+  <div id="body" style="display:none"></div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast } from '../app.js';
+await requireAuth();
+
+// The point of this screen is one comparison: the number the client typed
+// against the number on the report they uploaded. Everything else is
+// arrangement.
+const { data: me } = await sb.from('profiles').select('role').limit(1).single();
+if (!me || !['admin', 'coach', 'staff'].includes(me.role)) {
+  el('#loading').style.display = 'none';
+  el('#denied').style.display = 'block';
+} else {
+  const { data: rows, error } = await sb.from('lab_results')
+    .select('id, value, unit, created_at, lab_markers(name, slug, plausible_low, plausible_high, optimal_low, optimal_high), lab_panels(id, draw_point, drawn_on, document_path, profiles!lab_panels_client_id_fkey(full_name, email))')
+    .eq('source', 'client_entered')
+    .is('verified_at', null)
+    .order('created_at', { ascending: true });
+
+  el('#loading').style.display = 'none';
+
+  if (error) {
+    el('#body').innerHTML = '<div class="card"><h2>That did not load</h2><p class="quiet">' + error.message + '</p></div>';
+    el('#body').style.display = 'block';
+  } else if (!rows || !rows.length) {
+    el('#clear').style.display = 'block';
+  } else {
+    // Group by panel so one upload is opened once, not once per marker.
+    const panels = new Map();
+    rows.forEach((r) => {
+      const key = r.lab_panels.id;
+      if (!panels.has(key)) panels.set(key, { panel: r.lab_panels, results: [] });
+      panels.get(key).results.push(r);
+    });
+
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    let html = '<div class="card"><h2>' + rows.length + ' to check</h2>' +
+      '<p class="tiny" style="margin:0">Open the report, compare the number, mark it checked. ' +
+      'Marking it checked does not change the value. If the number is wrong, fix it in the database ' +
+      'and leave a note, because overwriting it here would hide that a client typed something else.</p></div>';
+
+    panels.forEach(({ panel, results }) => {
+      html += '<section class="card" data-panel="' + esc(panel.id) + '">' +
+        '<h2>' + esc(panel.profiles ? panel.profiles.full_name : 'Unknown') + '</h2>' +
+        '<p class="tiny" style="margin:-.5rem 0 .8rem">' + esc(panel.profiles ? panel.profiles.email : '') +
+        ' &middot; ' + esc(panel.draw_point.replace('_', ' ')) + ' &middot; collected ' + esc(panel.drawn_on) + '</p>' +
+        '<p><a class="btn btn-sm" href="#" data-doc="' + esc(panel.document_path || '') + '">Open the report</a></p>' +
+        '<table><tbody>';
+      results.forEach((r) => {
+        const m = r.lab_markers || {};
+        const band = (m.optimal_low != null && m.optimal_high != null)
+          ? '<div class="tiny">target ' + m.optimal_low + ' to ' + m.optimal_high + '</div>' : '';
+        html += '<tr data-result="' + esc(r.id) + '">' +
+          '<td>' + esc(m.name) + band + '</td>' +
+          '<td class="num">' + esc(r.value) + ' <span class="tiny">' + esc(r.unit) + '</span></td>' +
+          '<td class="num"><button class="btn btn-sm" data-verify="' + esc(r.id) + '">Matches</button></td>' +
+          '</tr>';
+      });
+      html += '</tbody></table></section>';
+    });
+
+    el('#body').innerHTML = html;
+    el('#body').style.display = 'block';
+
+    // Signed on demand rather than up front. A page full of live links to
+    // client medical documents is not a page anyone should leave open.
+    el('#body').addEventListener('click', async (e) => {
+      const link = e.target.closest('[data-doc]');
+      if (link) {
+        e.preventDefault();
+        const path = link.getAttribute('data-doc');
+        if (!path) return toast('No document on this panel', 'err');
+        const { data, error: se } = await sb.storage.from('client-uploads').createSignedUrl(path, 300);
+        if (se || !data) return toast('Could not open that document', 'err');
+        window.open(data.signedUrl, '_blank', 'noopener');
+        return;
+      }
+
+      const btn = e.target.closest('[data-verify]');
+      if (!btn) return;
+      btn.disabled = true;
+      const { data, error: ve } = await sb.rpc('verify_client_result', { p_result_id: btn.getAttribute('data-verify'), p_ok: true });
+      if (ve || !data || !data.ok) {
+        btn.disabled = false;
+        return toast((data && data.message) || 'That did not save', 'err');
+      }
+      btn.textContent = 'Checked';
+      toast('Marked as checked');
+    });
+  }
+}
+</script>
+</body></html>

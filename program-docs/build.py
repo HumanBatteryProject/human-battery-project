@@ -470,7 +470,7 @@ if __name__ == '__main__':
         print(_rt(k))
 
 # =====================================================================
-# DIETARY GUIDELINES — shared across all tiers
+# DIETARY GUIDELINES, shared across all tiers
 # =====================================================================
 
 DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
@@ -594,7 +594,7 @@ if __name__ == "__main__":
     print(diet_doc())
 
 # =====================================================================
-# YOUR TESTS, EXPLAINED — shared across all tiers
+# YOUR TESTS, EXPLAINED, shared across all tiers
 # =====================================================================
 
 MARKERS = {

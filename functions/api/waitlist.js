@@ -1,4 +1,4 @@
-// Cloudflare Pages Function — POST /api/waitlist
+// Cloudflare Pages Function. POST /api/waitlist
 // Env vars (Cloudflare dashboard > Settings > Environment variables):
 //   SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY, NOTIFY_EMAIL, FROM_EMAIL
 

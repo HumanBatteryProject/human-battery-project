@@ -62,7 +62,7 @@ export async function onRequestPost(context) {
         break;
 
       default:
-        // Unhandled types are acknowledged, not errored — otherwise
+        // Unhandled types are acknowledged, not errored, because otherwise
         // Stripe retries them forever.
         break;
     }
