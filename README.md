@@ -80,18 +80,27 @@ Workers & Pages → Create → Pages → Connect to Git.
 | Name | Where it comes from |
 |---|---|
 | `SUPABASE_URL` | Supabase → Settings → API |
-| `SUPABASE_SERVICE_KEY` | same page, `service_role` key, **server-side only** |
+| `SUPABASE_SERVICE_KEY` | same page, the `sb_secret_` key, **server-side only** |
 | `STRIPE_SECRET_KEY` | Stripe → Developers → API keys |
 | `STRIPE_WEBHOOK_SECRET` | Stripe → Webhooks, after creating the endpoint |
 | `FROM_EMAIL` | e.g. `hello@thehumanbatteryproject.com`, verified in Resend |
 | `NOTIFY_EMAIL` | where new applications get emailed to you |
-| `RESEND_API_KEY` | resend.com → API keys |
+| `RESEND_API_KEY` | resend.com API keys |
+| `WEBHOOK_SECRET` | generate one, and use the same value here and in `.dev.vars` |
+| `ANTHROPIC_API_KEY` | console.anthropic.com, **server-side only** |
+| `VOYAGE_API_KEY` | voyageai.com, not needed until the knowledge corpus is loaded |
 
-Redeploy after adding them.
+Redeploy after adding them. A Pages Function does not see a new variable
+until the next deploy.
+
+`WEBHOOK_SECRET` is what the payment webhook uses to call the onboarding
+agent. If it is missing or does not match, payment still works and the
+membership is still created, but nobody gets a welcome email and the
+failure only appears in the deployment log.
 
 **5. Fill in `public/portal/config.js`**
 
-The project URL and the **anon** key. The anon key is meant to be public, row-level security is what protects the data. The service key never goes in this file.
+The project URL and the **publishable** key, the one that starts `sb_publishable_`. It is meant to be public, row-level security is what protects the data. The secret key never goes in this file, and neither does the Anthropic key.
 
 **6. Supabase auth settings**
 

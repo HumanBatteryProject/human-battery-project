@@ -19,7 +19,8 @@
 import Stripe from 'stripe';
 import { PLANS, json, supabase } from './_payments.js';
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost(context) {
+  const { request, env } = context;
   const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
     apiVersion: '2026-07-29.dahlia',
     httpClient: Stripe.createFetchHttpClient(),
@@ -84,8 +85,20 @@ async function onCheckoutCompleted(env, stripe, session) {
 
   const clientId = await resolveClient(env, session.customer_details?.email || session.customer_email, meta);
 
+  const membershipId = await enrolMembership(env, clientId, meta);
+
+  // The onboarding agent places them, writes the welcome email and the
+  // first brief. It calls Anthropic twice and sends mail, which is far
+  // longer than Stripe is willing to wait: a slow 200 here is retried, and
+  // a retry would run the agent again. So it is handed to waitUntil and
+  // the webhook answers immediately. The agent is idempotent on
+  // memberships.onboarded_at in case a retry beats it anyway.
+  if (membershipId) {
+    const run = triggerOnboarding(env, request, membershipId);
+    if (context.waitUntil) context.waitUntil(run); else await run;
+  }
+
   // Mark the application converted.
-  await enrolMembership(env, clientId, meta);
 
   if (meta.application_id) {
     await supabase(env, `applications?id=eq.${meta.application_id}`, {
@@ -191,7 +204,7 @@ async function onRefund(env, charge) {
 // never before first_wave_date. next_wave_date() owns that rule so it can
 // change in program_settings without a deploy.
 async function enrolMembership(env, clientId, meta) {
-  if (!clientId) return;
+  if (!clientId) return null;
 
   const res = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/next_wave_date`, {
     method: 'POST',
@@ -204,7 +217,7 @@ async function enrolMembership(env, clientId, meta) {
   });
   if (!res.ok) {
     console.error('[webhook] next_wave_date failed', res.status, (await res.text()).slice(0, 300));
-    return;
+    return null;
   }
   const dayZero = await res.json();
 
@@ -213,7 +226,7 @@ async function enrolMembership(env, clientId, meta) {
   const waves = await supabase(env, `cohorts?starts_on=eq.${dayZero}&select=id&limit=1`);
   if (!waves.length) {
     console.error(`[webhook] no wave row for ${dayZero}. Run create_waves().`);
-    return;
+    return null;
   }
 
   const existing = await supabase(
@@ -231,15 +244,40 @@ async function enrolMembership(env, clientId, meta) {
       body: JSON.stringify(patch),
     });
     console.log(`[webhook] membership ${existing[0].id} enrolled, day_zero ${dayZero}`);
-    return;
+    return existing[0].id;
   }
 
-  await supabase(env, 'memberships', {
+  const created = await supabase(env, 'memberships', {
     method: 'POST',
-    headers: { Prefer: 'return=minimal' },
+    headers: { Prefer: 'return=representation' },
     body: JSON.stringify({ client_id: clientId, cohort_id: waves[0].id, cycle: 1, ...patch }),
   });
-  console.log(`[webhook] membership created for ${clientId}, day_zero ${dayZero}`);
+  const id = created && created.length ? created[0].id : null;
+  console.log(`[webhook] membership ${id} created for ${clientId}, day_zero ${dayZero}`);
+  return id;
+}
+
+// Calls the agent over HTTP rather than importing it, so the agent has one
+// entry point and one auth check whether the caller is this webhook or a
+// staff member re-running it.
+async function triggerOnboarding(env, request, membershipId) {
+  if (!env.WEBHOOK_SECRET) {
+    console.error(`[webhook] WEBHOOK_SECRET is not set, so onboarding did not run for ${membershipId}`);
+    return;
+  }
+  const origin = new URL(request.url).origin;
+  try {
+    const res = await fetch(`${origin}/api/onboard`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-hbp-secret': env.WEBHOOK_SECRET },
+      body: JSON.stringify({ membership_id: membershipId }),
+    });
+    const detail = (await res.text()).slice(0, 300);
+    if (res.ok) console.log(`[webhook] onboarding ${membershipId}: ${detail}`);
+    else console.error(`[webhook] ONBOARDING FAILED ${membershipId}: HTTP ${res.status} ${detail}`);
+  } catch (e) {
+    console.error(`[webhook] ONBOARDING THREW for ${membershipId}: ${(e && e.message) || e}`);
+  }
 }
 
 async function resolveClient(env, email, meta) {

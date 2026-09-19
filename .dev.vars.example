@@ -6,3 +6,21 @@ STRIPE_WEBHOOK_SECRET=whsec_
 RESEND_API_KEY=
 FROM_EMAIL=hello@thehumanbatteryproject.com
 NOTIFY_EMAIL=
+
+# Direct Postgres connection, migrations only. The app does not use it.
+# Percent-encode any '#' in the password as %23.
+SUPABASE_DB_URL=postgresql://postgres.PROJECT:PASSWORD@aws-0-REGION.pooler.supabase.com:5432/postgres
+
+# Shared secret for server-to-server calls between Pages Functions, and for
+# Supabase database webhooks. Generate with:
+#   python3 -c "import secrets;print(secrets.token_urlsafe(48))"
+# The same value has to be set in Cloudflare, or the onboarding agent will
+# never be triggered by the payment webhook.
+WEBHOOK_SECRET=
+
+# Anthropic. Every agent runs server side only. This key must never appear
+# anywhere under public/.
+ANTHROPIC_API_KEY=
+
+# Voyage AI, for the knowledge corpus embeddings. Not needed until Phase 3.
+VOYAGE_API_KEY=

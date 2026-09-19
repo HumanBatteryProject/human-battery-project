@@ -72,7 +72,7 @@ export function json(body, status = 200) {
   });
 }
 
-// Supabase REST helper. Uses the service key, which bypasses RLS — this
+// Supabase REST helper. Uses the service key, which bypasses RLS. This
 // runs server-side only and must never be exposed to the browser.
 export async function supabase(env, path, init = {}) {
   const res = await fetch(`${env.SUPABASE_URL}/rest/v1/${path}`, {
@@ -87,5 +87,17 @@ export async function supabase(env, path, init = {}) {
   if (!res.ok) {
     throw new Error(`supabase ${res.status}: ${await res.text()}`);
   }
-  return res.status === 204 ? null : res.json();
+
+  // Prefer: return=minimal answers a POST with 201 and an empty body, not
+  // 204. Testing only for 204 sent that empty body to res.json(), which
+  // threw 'Unexpected end of JSON input' after the write had already
+  // succeeded. The caller then saw a failure for a row that exists, which
+  // is the worst shape of bug: the retry writes it twice.
+  const text = await res.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`supabase ${res.status}: body was not JSON: ${text.slice(0, 200)}`);
+  }
 }
