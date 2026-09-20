@@ -23,7 +23,13 @@
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  --fs-base:19px;
+  /* ONE BASE FOR EVERY PAGE. It used to be 19px here and 21px under
+     body.plain, so the front door rendered every shared component about 10
+     percent larger than the rest of the site: the nav, the buttons, the tabs,
+     the body copy. 20px splits the difference, so nothing jumps.
+     Anything that needs to differ per page differs in LINE-HEIGHT or measure,
+     never in the scale. */
+  --fs-base:20px;
   --fs-lg:calc(var(--fs-base)*1.18);
   --fs-sm:calc(var(--fs-base)*.88);
   --fs-xs:calc(var(--fs-base)*.76);
@@ -31,6 +37,17 @@ body{
   --fs-h1:clamp(calc(var(--fs-base)*1.15),3.5vw,calc(var(--fs-base)*1.52));
   --fs-h2:clamp(calc(var(--fs-base)*1.12),3vw,calc(var(--fs-base)*1.26));
   --fs-h3:calc(var(--fs-base)*1.05);
+
+  /* THE DISPLAY FACE GETS ITS OWN THREE SIZES, and only three.
+     Michroma is a wide geometric face: set at the same pixel size as
+     Newsreader it reads distinctly larger, so it is stepped down rather than
+     matched. Before this there were four different sizes doing the job of
+     "small Michroma label" (--fs-2xs, --fs-xs, --fs-sm and a hard 12px) and
+     seven different letter-spacings across the same handful of components. */
+  --fs-display-sub:calc(var(--fs-base)*.82);   /* Michroma subheads   */
+  --fs-label:calc(var(--fs-base)*.62);         /* Michroma micro labels, buttons, tabs */
+  --ls-display:.02em;                          /* headings and subheads */
+  --ls-label:.09em;                            /* uppercase micro labels */
   margin:0;background:var(--carbon);color:var(--ice);
   font-family:var(--body);font-size:var(--fs-base);line-height:1.66;
   font-variation-settings:'opsz' 16;
@@ -47,7 +64,7 @@ a:hover{border-bottom-color:var(--teal)}
 section{padding:clamp(3.2rem,8vw,6.5rem) 0;border-top:1px solid var(--rule);scroll-margin-top:74px}
 section:first-of-type{border-top:0}
 
-h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;line-height:1.24;margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:var(--ls-display);line-height:1.24;margin:0}
 h1{font-size:var(--fs-h1);line-height:1.34}
 h2{font-size:var(--fs-h2);margin-bottom:1.4rem}
 h3{font-size:var(--fs-h3);line-height:1.4}
@@ -62,7 +79,7 @@ strong{font-weight:600;color:#fff}
 .top img{width:auto;height:38px;display:block}
 .top a.brand{border:0}
 .btn{
-  display:inline-block;font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.06em;
+  display:inline-block;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   padding:.72rem 1.15rem;border:1px solid var(--rule-2);border-radius:2px;
   color:var(--ice);background:transparent;cursor:pointer;transition:background .18s,border-color .18s
 }
@@ -129,13 +146,17 @@ button.video-poster:hover .video-play{border-color:var(--blue);background:rgba(3
 button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
 
 /* ---- the one idea ---- */
+/* ON THE SHARED SCALE, not pinned in pixels. These carried hard px values
+   only because --fs-base used to differ between the two pages this landing
+   appears on. With one base that workaround is what would now cause the
+   mismatch, so it is gone: the headline takes the h1 step, the subhead the
+   display-subhead step, the body the base. */
 .landing-head{font-family:var(--display);font-weight:400;
-  font-size:clamp(20px,2.5vw,27px);line-height:1.44;letter-spacing:.01em;
-  margin:0 0 1.3rem;text-wrap:balance}
+  line-height:1.4;margin:0 0 1.3rem;text-wrap:balance}
 .landing-sub{font-family:var(--display);font-weight:400;
-  font-size:clamp(13px,1.5vw,15px);line-height:1.5;letter-spacing:.05em;
+  font-size:var(--fs-display-sub);line-height:1.5;letter-spacing:var(--ls-display);
   color:var(--teal);margin:2.4rem 0 1rem;text-wrap:balance}
-.landing-body{font-family:var(--body);font-size:18px;line-height:1.7;
+.landing-body{font-family:var(--body);font-size:var(--fs-base);line-height:1.7;
   color:#CBD9DA;max-width:none;margin:0 auto;font-variation-settings:'opsz' 18}
 
 /* ---- the two tabs ----
@@ -144,7 +165,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
    one is marked with aria-current rather than by colour alone. */
 .tabs{display:flex;justify-content:center;gap:0;margin:2.8rem 0 0;
   border-bottom:1px solid var(--rule-2)}
-.tabs a{font-family:var(--display);font-size:12px;letter-spacing:.1em;
+.tabs a{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--steel);
   padding:.85rem 1.35rem;margin-bottom:-1px;
   border:0;border-bottom:2px solid transparent;background:transparent}
@@ -152,12 +173,12 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .tabs a[aria-current="page"]{color:var(--ice);border-bottom-color:var(--teal)}
 
 .landing-apply{margin:2.2rem 0 0;max-width:none}
-.landing-apply .btn{font-size:12px}
 
 @media(max-width:559px){
   .mark-anim{height:110px}
-  .landing-body{font-size:17px}
-  .tabs a{padding:.8rem .9rem;font-size:11px;letter-spacing:.07em}
+  /* Padding only. The type size is the scale's job, and overriding it here is
+     how the landing ended up a different size per page in the first place. */
+  .tabs a{padding:.8rem .8rem}
 }
 
 /* ---------- the readout: signature element ---------- */
@@ -178,7 +199,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .phase{display:grid;gap:.4rem 1.6rem;padding:1.9rem 0;border-top:1px solid var(--rule)}
 @media(min-width:760px){.phase{grid-template-columns:8.5rem 1fr}}
 .phase:last-child{border-bottom:1px solid var(--rule)}
-.phase .days{font-family:var(--display);font-size:var(--fs-xs);color:var(--blue);letter-spacing:.06em;padding-top:.3rem}
+.phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--blue);letter-spacing:var(--ls-label);padding-top:.3rem}
 .phase p{margin:.5rem 0 0;color:#BFCDCE}
 
 /* ---------- lists ---------- */
@@ -211,7 +232,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .apply{background:var(--navy)}
 form{margin-top:2rem;display:grid;gap:1.05rem}
 .field{display:grid;gap:.4rem}
-label{font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.05em;color:var(--silver)}
+label{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--silver)}
 input,select,textarea{
   font-family:var(--body);font-size:var(--fs-base);color:var(--ice);background:rgba(5,9,12,.55);
   border:1px solid var(--rule-2);border-radius:2px;padding:.72rem .85rem;width:100%
@@ -262,7 +283,9 @@ footer p{max-width:var(--measure);margin:0}
 .sym{display:grid;gap:.25rem .9rem;padding:.85rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
 @media(min-width:640px){.sym{grid-template-columns:1fr auto;gap:.9rem 2rem}}
 .sym b{font-weight:600;color:#fff;font-size:var(--fs-base);line-height:1.4}
-.sym span{font-family:var(--display);font-size:var(--fs-sm);letter-spacing:.05em;white-space:nowrap}
+/* Was --fs-sm: the single worst offender. Michroma at .88 of the base read
+   LARGER than the Newsreader complaint it labels. */
+.sym span{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);white-space:nowrap}
 .sym span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.6rem;vertical-align:-.02em;background:currentColor}
 .sym[data-sys="charge"] span{color:var(--blue)}
 .sym[data-sys="drain"] span{color:var(--silver)}
@@ -271,7 +294,7 @@ footer p{max-width:var(--measure);margin:0}
 .after-list{margin-top:1.9rem;font-size:var(--fs-base);color:#CBD9DA}
 
 /* ---------- evidence tiers ---------- */
-.tier{display:inline-block;font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.11em;
+.tier{display:inline-block;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
       padding:.3rem .5rem;border-radius:2px;border:1px solid;vertical-align:.15em;white-space:nowrap}
 .tier-1{color:var(--teal);border-color:rgba(42,175,192,.45)}
 .tier-2{color:var(--silver);border-color:rgba(182,189,188,.35)}
@@ -306,11 +329,13 @@ footer p{max-width:var(--measure);margin:0}
 .arms{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2rem}
 @media(min-width:640px){.arms{grid-template-columns:1fr 1fr}}
 .arm{background:var(--carbon);padding:1.5rem 1.35rem}
-.arm .when{font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.08em;color:var(--blue);margin-bottom:.7rem}
+.arm .when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--blue);margin-bottom:.7rem}
 .arm p{font-size:var(--fs-base);color:var(--steel);margin:0;max-width:none}
 
 /* ================= PLAIN-LANGUAGE VERSION ================= */
-body.plain{--fs-base:21px;line-height:1.72}
+/* The plain page reads easier with more leading. It no longer changes the
+   SIZE, which is what made it disagree with every other page. */
+body.plain{line-height:1.72}
 .plain .lede{line-height:1.55}
 .plain p{max-width:34ch}
 @media(min-width:700px){.plain p{max-width:52ch}}
@@ -322,7 +347,7 @@ body.plain{--fs-base:21px;line-height:1.72}
 /* the science toggle */
 .sci{margin-top:1.9rem;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 .sci summary{cursor:pointer;list-style:none;padding:.95rem 1.1rem;display:flex;align-items:center;
-             gap:.7rem;font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.09em;color:var(--teal);
+             gap:.7rem;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--teal);
              background:rgba(42,175,192,.06)}
 .sci summary::-webkit-details-marker{display:none}
 .sci summary::before{content:"+";font-size:var(--fs-h3);line-height:1;color:var(--teal);width:.8rem}
@@ -359,7 +384,7 @@ body.plain{--fs-base:21px;line-height:1.72}
          border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 @media(min-width:760px){.credits{grid-template-columns:1fr 1fr}}
 .cred{background:var(--carbon);padding:1.5rem 1.35rem}
-.cred h3{margin-bottom:.85rem;font-size:var(--fs-xs)}
+.cred h3{margin-bottom:.85rem;font-size:var(--fs-display-sub)}
 .cred .names{font-size:var(--fs-base);line-height:1.65;color:#CBD9DA;margin:0 0 .6rem;max-width:none}
 .cred .what{font-size:var(--fs-sm);line-height:1.55;color:var(--steel);margin:0;max-width:none}
 .cred.wide{grid-column:1 / -1}
@@ -375,7 +400,7 @@ body.plain{--fs-base:21px;line-height:1.72}
 .mainnav{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .menu{position:relative}
 .menu>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;
-  font-family:var(--display);font-size:var(--fs-2xs);letter-spacing:.06em;text-transform:uppercase;
+  font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;
   color:var(--ice);padding:.5rem .7rem;border:1px solid var(--rule-2);border-radius:3px;white-space:nowrap}
 .menu>summary::-webkit-details-marker{display:none}
 .menu>summary::after{content:"";margin-left:.5rem;border:4px solid transparent;border-top-color:currentColor;position:relative;top:2px}
