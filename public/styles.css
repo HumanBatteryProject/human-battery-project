@@ -120,7 +120,7 @@ strong{font-weight:600;color:#fff}
    tracking because it is set in caps. */
 .landing-title{font-family:var(--display);font-size:var(--fs-h3);
   letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--teal);
-  margin:0 0 1.5rem;line-height:1.45;text-wrap:balance}
+  margin:0 0 1.8rem;line-height:1.45;text-wrap:balance}
 .mark-anim{display:block;height:160px;width:auto;margin:0 auto 2.2rem}
 .mark-anim .orbit{
   transform-box:fill-box;transform-origin:center;
@@ -168,24 +168,6 @@ strong{font-weight:600;color:#fff}
 
 
 
-/* ---- the one idea ---- */
-/* ON THE SHARED SCALE, not pinned in pixels. These carried hard px values
-   only because --fs-base used to differ between the two pages this landing
-   appears on. With one base that workaround is what would now cause the
-   mismatch, so it is gone: the headline takes the h1 step, the subhead the
-   display-subhead step, the body the base. */
-/* Takes the h2 step, not the h1 step it inherits from the element. At the h1
-   step this ran 30px on a desktop and read as shouting next to everything
-   around it. It is still the largest thing in the hero and still the h1 in
-   the document, it is just no longer the loudest possible size. */
-.landing-head{font-family:var(--display);font-weight:400;font-size:var(--fs-h2);
-  line-height:1.4;margin:0 0 1.3rem;text-wrap:balance}
-.landing-sub{font-family:var(--display);font-weight:400;
-  font-size:var(--fs-display-sub);line-height:1.5;letter-spacing:var(--ls-display);
-  color:var(--teal);margin:2.4rem 0 1rem;text-wrap:balance}
-.landing-body{font-family:var(--body);font-size:var(--fs-base);line-height:1.7;
-  color:#CBD9DA;max-width:none;margin:0 auto;font-variation-settings:'opsz' 18}
-
 /* ---- the two tabs ----
    Tabs, not buttons: a shared baseline with the active one sitting on it. They
    are links between two pages, so they are anchors in a nav, and the active
@@ -199,7 +181,11 @@ strong{font-weight:600;color:#fff}
 .tabs a:hover{color:var(--silver);border-bottom-color:var(--rule-2)}
 .tabs a[aria-current="page"]{color:var(--ice);border-bottom-color:var(--teal)}
 
-.landing-apply{margin:2.2rem 0 0;max-width:none}
+/* Scoped to .landing so it outranks .plain p, which caps paragraphs at 52ch
+   and was winning on specificity. The button sat in a box narrower than the
+   column with no auto margin, so it was centred in the box and the box was
+   not centred in the column. Only ever visible on the plain page. */
+.landing .landing-apply{margin:2.2rem auto 0;max-width:none}
 
 @media(max-width:559px){
   .mark-anim{height:110px}
