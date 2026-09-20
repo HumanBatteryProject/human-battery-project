@@ -10,7 +10,7 @@
 <meta property="og:description" content="A 90 day program. We measure what your body runs on, you change the inputs, and we measure again. Open enrollment, new starts on the 1st and 15th of every month.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=27">
+<link rel="stylesheet" href="/styles.css?v=29">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -328,18 +328,21 @@
       <div class="sym" data-sys="drain"><b>Foggy. I lose words. I read the same line twice</b><span>Drain</span></div>
       <div class="sym" data-sys="drain"><b>My joints hurt and I never hurt them</b><span>Drain</span></div>
       <div class="sym" data-sys="drain"><b>Bloated. Food bothers me now that never did</b><span>Drain</span></div>
-      <div class="sym" data-sys="drain"><b>I feel anxious and I did not used to</b><span>Drain</span></div>
-      <div class="sym" data-sys="output"><b>Wide awake at midnight. Dead at six</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>I wake up at three in the morning for no reason</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>I sleep eight hours and wake up tired</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>I do not want to do anything anymore</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>My sex drive just went away</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>My hands and feet are always cold</b><span>Output</span></div>
-      <div class="sym" data-sys="output"><b>I snap at people. That is not me</b><span>Output</span></div>
-      <div class="sym" data-sys="reserve"><b>I stay sore way longer than I used to</b><span>Reserve</span></div>
-      <div class="sym" data-sys="reserve"><b>I work out hard and nothing changes</b><span>Reserve</span></div>
-      <div class="sym" data-sys="reserve"><b>I catch everything and I keep it forever</b><span>Reserve</span></div>
-      <div class="sym" data-sys="reserve"><b>My hair and skin and nails look bad</b><span>Reserve</span></div>
+      <details class="sym-more">
+        <summary>Show more</summary>
+        <div class="sym" data-sys="drain"><b>I feel anxious and I did not used to</b><span>Drain</span></div>
+        <div class="sym" data-sys="output"><b>Wide awake at midnight. Dead at six</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>I wake up at three in the morning for no reason</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>I sleep eight hours and wake up tired</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>I do not want to do anything anymore</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>My sex drive just went away</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>My hands and feet are always cold</b><span>Output</span></div>
+        <div class="sym" data-sys="output"><b>I snap at people. That is not me</b><span>Output</span></div>
+        <div class="sym" data-sys="reserve"><b>I stay sore way longer than I used to</b><span>Reserve</span></div>
+        <div class="sym" data-sys="reserve"><b>I work out hard and nothing changes</b><span>Reserve</span></div>
+        <div class="sym" data-sys="reserve"><b>I catch everything and I keep it forever</b><span>Reserve</span></div>
+        <div class="sym" data-sys="reserve"><b>My hair and skin and nails look bad</b><span>Reserve</span></div>
+      </details>
     </div>
 
     <p class="after-list">Most people try to fix these one at a time. That can take years. We think a lot of them come from the same place: your battery is low.</p>
@@ -354,6 +357,7 @@
     </details>
 
     <p class="small" style="margin-top:1.6rem">Some of these can be caused by a real medical problem. We do not diagnose anything. If a test comes back off, we tell you to go see a doctor.</p>
+      <p class="quiet mt">These can all have many other causes. We do not look at any one of them on its own and say what it means. We look at the pattern across everything we measure.</p>
   </div>
 <figure class="fig">
 <svg class="ill" viewBox="0 0 300 196" role="img" aria-labelledby="rteT rteD">
@@ -647,6 +651,63 @@
 </figure>
 <p class="voice">I eat well and I am still dead by three.</p>
 
+<section id="inputs">
+  <div class="wrap">
+    <h2>What you change</h2>
+    <p class="lede">Nine things you control. They are not nine separate habits. They all feed the same system, and the blood test reads what came out the other end.</p>
+
+    <ul class="inputs">
+      <li data-sys="output">
+        <span class="in-dot"></span>
+        <span class="in-name">Morning sunlight</span>
+        <span class="in-note">Tells your body what time it is. It is the signal that sets the clock.</span>
+      </li>
+      <li data-sys="output">
+        <span class="in-dot"></span>
+        <span class="in-name">Darkness at night</span>
+        <span class="in-note">The other half of the same signal.</span>
+      </li>
+      <li data-sys="drain">
+        <span class="in-dot"></span>
+        <span class="in-name">Sleep</span>
+        <span class="in-note">When the repairs happen.</span>
+      </li>
+      <li data-sys="reserve">
+        <span class="in-dot"></span>
+        <span class="in-name">Water and minerals</span>
+        <span class="in-note">The medium the work happens in. Mineralized and adequate.</span>
+      </li>
+      <li data-sys="reserve">
+        <span class="in-dot"></span>
+        <span class="in-name">Food quality</span>
+        <span class="in-note">What your cells get built out of.</span>
+      </li>
+      <li data-sys="charge">
+        <span class="in-dot"></span>
+        <span class="in-name">Food timing</span>
+        <span class="in-note">When the fuel turns up, against your own clock.</span>
+      </li>
+      <li data-sys="charge">
+        <span class="in-dot"></span>
+        <span class="in-name">Movement</span>
+        <span class="in-note">Low effort, all day long.</span>
+      </li>
+      <li data-sys="charge">
+        <span class="in-dot"></span>
+        <span class="in-name">Training</span>
+        <span class="in-note">Real work, on days you can keep.</span>
+      </li>
+      <li data-sys="drain">
+        <span class="in-dot"></span>
+        <span class="in-name">Recovery</span>
+        <span class="in-note">Where the change actually sticks.</span>
+      </li>
+    </ul>
+
+    <p class="quiet">The colour on each one is the subsystem it shows up in most directly. Charge blue, Drain copper, Output teal, Reserve green.</p>
+  </div>
+</section>
+
 <section id="how">
   <div class="wrap">
     <h2>How it works</h2>
@@ -673,6 +734,30 @@
     </g></svg>
     <figcaption>Ninety days. Three parts. You give blood at the start and again at the end. We talk once a week the whole time.</figcaption>
     </figure>
+    <div class="phases">
+      <details class="phase">
+        <summary>
+          <span class="days">Days 1 to 30</span>
+          <span class="phase-name">Stop the drain</span>
+        </summary>
+        <p>First we take away the things that are costing you. Sugar and alcohol go. Sleep gets a set time. You go outside in the morning. You start writing down what you do. Most people notice sleep first.</p>
+      </details>
+      <details class="phase">
+        <summary>
+          <span class="days">Days 31 to 60</span>
+          <span class="phase-name">Recharge</span>
+        </summary>
+        <p>Now we add. More protein. Real training on days you can keep. Cold and heat. Eating inside a window that fits your own clock. We talk every week and change what is not working.</p>
+      </details>
+      <details class="phase">
+        <summary>
+          <span class="days">Days 61 to 90</span>
+          <span class="phase-name">Build capacity</span>
+        </summary>
+        <p>The work gets harder on purpose. At day 90 you give blood again and we sit down with both sets of numbers to work out what you keep doing.</p>
+      </details>
+    </div>
+
     <div class="steps">
       <div class="step">
         <div class="n"></div>

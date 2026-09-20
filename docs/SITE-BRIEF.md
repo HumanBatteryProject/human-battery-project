@@ -72,6 +72,19 @@ Commit at each checkpoint with a message naming it. Push only when told.
 
 ---
 
+## Deferred, after Checkpoint F
+
+**D1. Front door reading level.** `/` measures grade 4.9 across 109 sentences of prose, against the grade 3 to 4 target in O10 and CLAUDE.md. The copy added during these checkpoints is inside the target; the gap is inherited copy written before the target existed. Fix it as its own piece of work once F is done, not inside a checkpoint, so the change is reviewable on its own and no section gets quietly rewritten while something else is being built.
+
+Known offenders found so far, all on `/`, all inherited from the routing swap in `f4426a3` rather than written for the front door:
+- `#tired`: "Afternoon fatigue, central adiposity and reactive hunger cluster around glucose..." (grade 16.8)
+- `#how`: "Adherence is tracked as a percentage rather than a streak..." (grade 14.9)
+- `#how`: "Draw conditions are standardised at both timepoints: twelve-hour fast, no alcohol..." (grade 13.7)
+
+These read as `/science` copy sitting on the plain page. Start there.
+
+---
+
 ## The brief
 
 [The full brief follows, unchanged.]

@@ -211,11 +211,24 @@ strong{font-weight:600;color:#fff}
 
 /* ---------- phases ---------- */
 .phases{counter-reset:phase;margin-top:2.5rem;display:grid;gap:0}
-.phase{display:grid;gap:.4rem 1.6rem;padding:1.9rem 0;border-top:1px solid var(--rule)}
+/* details, not a div, so each phase opens on click, tap or keyboard and the
+   page hands over the phase name first and the detail only if asked. */
+.phase{padding:0;border-top:1px solid var(--rule)}
+.phase > summary{cursor:pointer;list-style:none;display:grid;gap:.35rem;
+  padding:1.5rem 2rem 1.5rem 0;position:relative}
+@media(min-width:760px){.phase > summary{grid-template-columns:10.5rem 1fr;gap:.4rem 1.6rem;align-items:baseline}}
+.phase > summary::-webkit-details-marker{display:none}
+.phase > summary::after{content:"+";position:absolute;right:.25rem;top:1.35rem;
+  color:var(--steel);font-size:var(--fs-h3);line-height:1}
+.phase[open] > summary::after{content:"\2212"}
+.phase > summary:hover .phase-name{color:#fff}
+.phase-name{font-family:var(--display);font-size:var(--fs-h3);color:var(--ice);line-height:1.35}
+.phase > p{margin:0 0 1.6rem;color:#BFCDCE}
+@media(min-width:760px){.phase > p{margin-left:12.1rem}}
 @media(min-width:760px){.phase{grid-template-columns:8.5rem 1fr}}
 .phase:last-child{border-bottom:1px solid var(--rule)}
 .phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--blue);letter-spacing:var(--ls-label);text-transform:uppercase;padding-top:.3rem}
-.phase p{margin:.5rem 0 0;color:#BFCDCE}
+
 
 /* ---------- lists ---------- */
 .checks{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.85rem}
@@ -314,6 +327,18 @@ footer p{max-width:var(--measure);margin:0}
 .sym[data-sys="drain"] span{color:var(--copper)}
 .sym[data-sys="output"] span{color:var(--teal)}
 .sym[data-sys="reserve"] span{color:var(--green)}
+/* Twenty symptom rows is too many to hand a phone at once, so eight show and
+   the rest expand. details again, so it costs no JavaScript. */
+.sym-more{border-bottom:1px solid var(--rule)}
+.sym-more > summary{cursor:pointer;list-style:none;padding:.95rem 0;
+  font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:.55rem}
+.sym-more > summary::-webkit-details-marker{display:none}
+.sym-more > summary::before{content:"+";font-size:var(--fs-h3);line-height:1;width:.8rem}
+.sym-more[open] > summary::before{content:"\2212"}
+.sym-more[open] > summary{border-bottom:1px solid var(--rule)}
+.sym-more .sym:last-child{border-bottom:0}
+
 .after-list{margin-top:1.9rem;font-size:var(--fs-base);color:#CBD9DA}
 
 /* ---------- evidence tiers ---------- */
@@ -505,6 +530,25 @@ section[id]{scroll-margin-top:5.5rem}
 .compare-col li:last-child{border-bottom:0}
 .compare-col b{color:#fff;font-weight:600}
 .compare-col i{font-style:normal;color:var(--steel);font-size:var(--fs-xs)}
+
+/* ---------- daily inputs ----------
+   Nine inputs into one system, colour keyed to the subsystem each shows up in
+   most directly. The dot takes its colour from the same data-sys rule the rest
+   of the site uses, so there is still one place the four colours live. */
+.inputs{list-style:none;padding:0;margin:2.2rem 0 1.4rem;display:grid;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+@media(min-width:680px){.inputs{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.inputs{grid-template-columns:repeat(3,1fr)}}
+.inputs li{background:var(--carbon);padding:1.25rem 1.3rem;display:grid;
+  grid-template-columns:auto 1fr;gap:.3rem .7rem;align-items:baseline;max-width:none}
+.in-dot{width:9px;height:9px;border-radius:50%;display:block;align-self:center}
+.inputs li[data-sys="charge"] .in-dot{background:var(--blue)}
+.inputs li[data-sys="drain"] .in-dot{background:var(--copper)}
+.inputs li[data-sys="output"] .in-dot{background:var(--teal)}
+.inputs li[data-sys="reserve"] .in-dot{background:var(--green)}
+.in-name{font-family:var(--display);font-size:var(--fs-display-sub);letter-spacing:var(--ls-display);
+  color:#fff;line-height:1.35}
+.in-note{grid-column:2;font-size:var(--fs-sm);color:var(--steel);line-height:1.5}
 
 /* ---------- the 33 markers, by subsystem ----------
    details and summary, so expanding works with no JavaScript at all: click on
