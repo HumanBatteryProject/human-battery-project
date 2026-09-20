@@ -457,6 +457,41 @@ body.plain{line-height:1.72}
 section[id]{scroll-margin-top:5.5rem}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 
+/* ---------- the experiment: day 0, ninety days, day 90 ---------- */
+/* Three steps across on a desktop, one column on a phone. An ordered list,
+   because the order is the whole point and a screen reader should hear it. */
+.flow{list-style:none;padding:0;margin:2.4rem 0 0;display:grid;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+@media(min-width:820px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow-step{background:var(--carbon);padding:1.6rem 1.35rem 1.7rem}
+.flow-when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--blue);margin:0 0 1rem}
+.flow-list{list-style:none;padding:0;margin:0}
+.flow-list li{font-size:var(--fs-sm);color:#BFCDCE;line-height:1.5;
+  padding:.28rem 0 .28rem 1.15rem;position:relative;max-width:none}
+.flow-list li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;
+  border-radius:50%;background:var(--rule-2)}
+.flow-step:nth-child(2) .flow-when{color:var(--teal)}
+.flow-step:nth-child(2) .flow-list li::before{background:rgba(42,175,192,.5)}
+.flow-step:nth-child(3) .flow-when{color:var(--green)}
+
+/* The line the brief asks to become a primary brand statement. */
+.statement{font-family:var(--display);font-size:var(--fs-h2);line-height:1.4;
+  letter-spacing:var(--ls-display);color:#fff;text-align:center;
+  max-width:24ch;margin:2.8rem auto 0;text-wrap:balance}
+
+/* ---------- open enrollment ---------- */
+.track{list-style:none;padding:0;margin:2.4rem 0 0;display:grid;gap:.55rem;counter-reset:tr}
+@media(min-width:900px){.track{grid-template-columns:repeat(7,1fr);gap:.4rem}}
+.track li{counter-increment:tr;background:var(--navy);border:1px solid var(--rule);
+  border-radius:3px;padding:.9rem .85rem;font-family:var(--display);
+  font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;
+  color:var(--ice);line-height:1.45;max-width:none;display:flex;align-items:center;gap:.6rem}
+.track li::before{content:counter(tr);color:var(--steel);flex:none}
+@media(min-width:900px){
+  .track li{flex-direction:column;align-items:flex-start;gap:.5rem}
+}
+
 /* ---------- what we do ---------- */
 #what h3{margin:2.3rem 0 .55rem}
 
