@@ -84,6 +84,8 @@ Counsel-approved text is not edited by this work. These are the conflicts betwee
 
 **L4. `consumer-health-data.html` describes a consent flow that is not built.** "At enrollment we ask, in a separate checkbox, whether you consent to your de-identified data being used in longevity research." That checkbox does not exist and `client_consents` is empty.
 
+**L6. The privacy policy needs a line about analytics.** Under "What we collect" it says automatic collection is "standard server logs. We do not run advertising trackers." Cloudflare Web Analytics has now been added to every public page outside the portal. It sets no cookies, does not fingerprint and is not an advertising tracker, so the second sentence stays true, but "standard server logs" no longer describes everything collected automatically. The policy should name it. Counsel-approved text is not edited here, so this is for the review.
+
 **L5. British spellings in US-governed documents.** "instalments" in `terms.html`, "authorise" in `consumer-health-data.html`.
 
 ---
