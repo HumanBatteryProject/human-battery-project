@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "citations": [
     {
       "id": "mitchell-1961-chemiosmotic",
@@ -11,7 +11,7 @@
       "journal": "Nature",
       "doi": "10.1038/191144a0",
       "url": "https://doi.org/10.1038/191144a0",
-      "study_type": "review",
+      "study_type": "theory",
       "evidence_tier": "established",
       "supports": [
         {

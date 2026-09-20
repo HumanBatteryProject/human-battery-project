@@ -169,6 +169,14 @@ docs/                the model, the spec, the protocol, the strategy
   contains: a sentence that denies the forbidden claim is the opposite claim
   shape. This is not a keyword exception and must not become one. Read the
   sentence.
+- Verifying a DOI or a reference: **a failed request is not evidence a reference
+  is dead, and one source's metadata is not authoritative.** Retry a failed
+  lookup at least three times, then check it a second way before recording it as
+  unresolvable. `10.1111/joim.12496` failed three consecutive Crossref lookups
+  while resolving perfectly at doi.org, and a naive check would have dropped a
+  real paper. Cross-check the metadata too: Crossref returns **one** author for
+  Kodama 2009, PubMed returns **twelve**, and the twelve is right. This applies
+  to the corpus loader in Phase 3, which does the same lookups.
 
 ---
 

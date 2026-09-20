@@ -531,6 +531,51 @@ section[id]{scroll-margin-top:5.5rem}
 .compare-col b{color:#fff;font-weight:600}
 .compare-col i{font-style:normal;color:var(--steel);font-size:var(--fs-xs)}
 
+/* ---------- what happens after you apply ---------- */
+.apply-reassure{font-size:var(--fs-lg);color:var(--teal);margin:0 0 1.6rem;max-width:none}
+.apply-what{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin:0 0 .8rem;max-width:none}
+.next-steps{list-style:none;counter-reset:ns;padding:0;margin:0 0 2.4rem;display:grid;gap:.55rem}
+.next-steps li{counter-increment:ns;display:grid;grid-template-columns:1.6rem 1fr;gap:.7rem;
+  align-items:baseline;font-size:var(--fs-sm);color:#BFCDCE;line-height:1.5;max-width:none}
+.next-steps li::before{content:counter(ns);font-family:var(--display);font-size:var(--fs-label);
+  color:var(--blue)}
+
+/* ---------- boundaries ----------
+   Section 14 is explicit that these must not be buried in microscopic legal
+   text, so they are body size on a copper rule, not a footnote. */
+.bounds{list-style:none;padding:0;margin:2.2rem 0 0;display:grid;gap:1.15rem}
+.bounds li{border-left:2px solid var(--copper);padding:.15rem 0 .15rem 1.3rem;
+  font-size:var(--fs-base);color:#BFCDCE;line-height:1.6;max-width:none}
+.bounds b{color:#fff;font-weight:600;display:block;margin-bottom:.2rem}
+
+/* ---------- pricing ---------- */
+.price-card{border:1px solid var(--rule-2);border-radius:4px;background:var(--navy);
+  padding:2rem 1.6rem;text-align:center;margin:2.2rem 0 2.6rem}
+.price-kicker{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin:0;max-width:none}
+.price-big{font-family:var(--display);font-size:calc(var(--fs-base)*2.6);line-height:1;
+  color:#fff;margin:.7rem 0 .6rem;max-width:none}
+#cost h3{margin:2.2rem 0 .7rem}
+.plans-list{list-style:none;padding:0;margin:.4rem 0 0;display:grid;gap:.75rem}
+.plans-list li{padding-left:1.15rem;position:relative;font-size:var(--fs-sm);
+  color:#BFCDCE;line-height:1.55;max-width:none}
+.plans-list li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;
+  border-radius:50%;background:var(--rule-2)}
+.plans-list b{color:#fff;font-weight:600}
+/* A cost we genuinely cannot quote says so, rather than carrying a made up number. */
+.cost-none{display:block;margin-top:.3rem;color:var(--steel);font-size:var(--fs-xs)}
+
+/* ---------- what you get ---------- */
+.gets{list-style:none;padding:0;margin:2.2rem 0 0;display:grid;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+@media(min-width:660px){.gets{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.gets{grid-template-columns:repeat(3,1fr)}}
+.gets li{background:var(--carbon);padding:1.45rem 1.35rem 1.55rem;max-width:none}
+.get-name{font-family:var(--display);font-size:var(--fs-display-sub);letter-spacing:var(--ls-display);
+  color:#fff;margin:0 0 .5rem;line-height:1.35}
+.get-what{font-size:var(--fs-sm);color:var(--steel);line-height:1.55;margin:0;max-width:none}
+
 /* ---------- science section and the citation drawer ----------
    The marker is a link to the entry in the drawer below. No JavaScript: the
    drawer is details and summary like everything else on this site. Browsers
@@ -687,3 +732,19 @@ section[id]{scroll-margin-top:5.5rem}
 /* ---------- phone analogy ---------- */
 .phone-eq,.part p.phone-eq,.cell p.phone-eq{color:var(--teal);margin:.75rem 0 0}
 
+/* ---------- the plain-page centring trap ----------
+   .plain p caps paragraphs at 34ch and outranks a bare class selector, so a
+   paragraph meant to be centred inside a card ends up centred within a narrow
+   box pinned to the left of that card. It reads as a misalignment rather than
+   as a width. Every centred paragraph needs the cap lifted AND an auto margin,
+   and the selector has to outrank .plain p, which is why these are scoped. */
+.plain .price-card p,
+.plain .dash-head p,
+.plain .dash-note,
+.plain .statement,
+.plain .principle,
+.plain .apply-reassure,
+.plain .enroll-line,
+.plain .micro{max-width:none;margin-inline:auto}
+.plain .statement{max-width:24ch}
+.plain .principle{max-width:28ch}
