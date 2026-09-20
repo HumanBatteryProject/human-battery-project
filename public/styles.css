@@ -171,15 +171,12 @@ strong{font-weight:600;color:#fff}
 .video-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   background:var(--navy);border:0;padding:0;margin:0;width:100%;height:100%}
 button.video-poster{cursor:pointer}
-/* The mark bleeds off the right edge and the control sits on clear ground.
-   Centring both put a dark disc over the middle of the logo, which read as a
-   smudge rather than as a play control. Anchoring the mark to the right and
-   sizing it from the frame HEIGHT keeps the gap proportional at every width,
-   because the frame is a fixed 16/9. */
-.video-mark{position:absolute;right:-7%;top:50%;transform:translateY(-50%);
-  height:118%;width:auto;max-width:none;opacity:.15}
+/* No mark on the poster. The animated mark sits directly above it in the
+   same viewport, so a second copy here was the same object twice, and at any
+   size large enough to read it fought the play control. The frame is a plain
+   dark rectangle and the control is the only thing in it. */
 /* Pinned to the frame, not to wherever the flex flow leaves it. It used to
-   have no offsets at all, so moving the mark moved the button with it. */
+   have no offsets at all, so moving anything else in the poster moved it. */
 .video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:68px;height:68px;border-radius:50%;
   border:1px solid var(--rule-2);background:rgba(5,9,12,.78);
@@ -220,7 +217,6 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .landing-apply{margin:2.2rem 0 0;max-width:none}
 
 @media(max-width:559px){
-  .video-mark{display:none}
   .mark-anim{height:110px}
   /* Padding only. The type size is the scale's job, and overriding it here is
      how the landing ended up a different size per page in the first place. */
