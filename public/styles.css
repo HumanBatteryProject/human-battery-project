@@ -105,7 +105,29 @@ strong{font-weight:600;color:#fff}
    raises --fs-base to 21px on the front page only, so anything inheriting it
    would render the shared landing at two different sizes. That already bit
    the door labels once. */
-.landing{padding:clamp(2.6rem,7vw,4.2rem) 0 clamp(2.4rem,6vw,3.6rem);text-align:center}
+/* The first screen is the name and the mark and nothing else, so the section
+   fills the viewport less the header and centres what is left.
+
+   One subtracted value, not a set of breakpoints. The header is not a fixed
+   height, it wraps: measured across 320 to 1000 it sits at 266, 218, 171, 124
+   and 70 px, changing at 360, 420, 740 and 860. Chasing those with media
+   queries means re-measuring every time anything in the nav changes, and the
+   first attempt at it here was already wrong twice, once because the single
+   row point is 860 and not 900.
+
+   Subtracting the SMALLEST header, 70px, is right at every width instead. Where
+   the header is taller the section comes out taller than the viewport, which
+   costs a little extra scroll and cannot let the next section peek. The other
+   direction is the bug being fixed, so the error only goes one way.
+
+   svh, not vh: on a phone vh is the height with the browser chrome hidden, so
+   a vh-sized hero is taller than what you can see and the next heading peeks
+   anyway. svh is the chrome-showing height. The vh line before it is the
+   fallback for anything that does not know svh. */
+.landing{padding:clamp(2.6rem,7vw,4.2rem) 0 clamp(2.4rem,6vw,3.6rem);text-align:center;
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:calc(100vh - 70px);
+  min-height:calc(100svh - 70px)}
 .landing-col{width:min(100% - 2.5rem,640px);margin-inline:auto}
 
 /* ---- the mark, alive ----
@@ -416,6 +438,20 @@ body.plain{line-height:1.72}
 .menu-panel a{display:block;padding:.55rem .7rem;color:var(--ice);border:0;border-radius:2px;
   font-size:var(--fs-sm);line-height:1.35}
 .menu-panel a:hover,.menu-panel a:focus-visible{background:rgba(33,139,190,.2);color:#fff}
+
+/* ---- version switch ----
+   The two pages carry the same h1 and the same mark, so nothing in the hero
+   tells you which one you are on. A single link offering the other version
+   would be shorter, but it would leave that question unanswered. This shows
+   both and marks the one you are reading.
+   Sits before Apply so Apply stays the rightmost control. */
+.vswitch{display:inline-flex;border:1px solid var(--rule-2);border-radius:3px;overflow:hidden}
+.vswitch a{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);padding:.5rem .7rem;
+  border:0;white-space:nowrap;background:transparent}
+.vswitch a + a{border-left:1px solid var(--rule-2)}
+.vswitch a:hover{color:var(--ice);background:rgba(33,139,190,.14)}
+.vswitch a[aria-current="page"]{color:#fff;background:var(--blue-lo)}
 @media(max-width:640px){.menu-panel{left:auto;right:0}}
 /* a sticky header would otherwise cover the heading you jumped to */
 section[id]{scroll-margin-top:5.5rem}
