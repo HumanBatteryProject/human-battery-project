@@ -1,0 +1,13 @@
+# The simple version is the front door. It used to live at /simple.html and
+# the science version used to be /. Both of those are live URLs that people
+# and search engines already hold, so neither may 404.
+#
+# 301 and not 302: this is permanent. /simple is not coming back.
+/simple        /    301
+/simple.html   /    301
+/index.html    /    301
+
+# The science version moved off the root. Anyone holding a deep link to a
+# section that now lives on /science lands on the right place rather than
+# on the simple page's missing anchor.
+/science.html  /science  301

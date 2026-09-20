@@ -14,8 +14,9 @@ Static HTML and CSS with no build step. Cloudflare Pages serves it; Supabase hol
 
 ```
 public/                     everything served to the browser
-  index.html                marketing page
-  simple.html               plain-language version (grade ~3 reading level)
+  index.html                the front door, plain language (grade ~3), served at /
+  science.html              the longer version, served at /science
+  _redirects                /simple and /simple.html 301 to /
   privacy.html · consumer-health-data.html · terms.html · disclaimer.html
   styles.css                marketing styles
   assets/                   logo files used by the site

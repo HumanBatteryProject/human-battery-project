@@ -109,8 +109,9 @@ Every agent that produces text a client will read:
 
 ```
 public/              served to the browser
-  index.html         marketing page
-  simple.html        plain-language version, ~grade 3
+  index.html         the front door, plain-language version, ~grade 3, served at /
+  science.html       the longer version, served at /science
+  _redirects         /simple and /simple.html 301 to /, permanently
   fonts/             Michroma, Newsreader
   portal/            client portal, its own README; admin/ for staff screens
 functions/api/       server-side: waitlist, checkout, webhooks, onboard, coach, analyze, complete
@@ -138,7 +139,7 @@ docs/                the model, the spec, the protocol, the strategy
 - JavaScript: `node --check`.
 - HTML: confirm tags close.
 - PDFs: regenerate and open, check page count and that nothing orphaned onto its own page. Identical extracted text is the reproducibility test, not identical bytes.
-- Reading level: `simple.html` at roughly grade 3, Beginner content at grade 3 to 4, measured with textstat.
+- Reading level: `index.html`, the front door, at roughly grade 3, Beginner content at grade 3 to 4, measured with textstat.
 - Portal queries returning empty are almost always RLS, not the JavaScript.
 - An agent's output is checked against the guardrails above before it is shown as done.
 - Foundational-model audit: match any **sentence** that gives **light, sun, earth or water** a
