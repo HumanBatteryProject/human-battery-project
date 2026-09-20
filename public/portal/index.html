@@ -92,13 +92,13 @@
 
     <section class="card mt">
       <h2>Sticking with it</h2>
-      <div style="display:flex;gap:1.4rem;align-items:baseline">
+      <div class="stats">
         <div>
-          <div style="font-family:var(--display);font-size:1.7rem;color:#fff"><span id="adh">0</span><span style="font-size:.85rem;color:var(--steel)">%</span></div>
+          <div class="statnum"><span id="adh">0</span><span class="unit">%</span></div>
           <div class="tiny">days logged</div>
         </div>
         <div>
-          <div style="font-family:var(--display);font-size:1.7rem;color:#fff" id="avgfive">0</div>
+          <div class="statnum" id="avgfive">0</div>
           <div class="tiny">average five</div>
         </div>
       </div>
@@ -212,7 +212,7 @@ if (!m || !m.day_zero) {
       ['Reserve','reserve_score','s-reserve'],
     ];
     let html = '<div class="center" style="margin-bottom:1.2rem">' +
-      '<div style="font-family:var(--display);font-size:2.6rem;color:#fff">' +
+      '<div class="bignum">' +
       (latest.composite ?? '\u2014') + '</div><div class="tiny">battery score</div>';
     if (scores.length > 1 && first.composite != null && latest.composite != null) {
       const d = (latest.composite - first.composite).toFixed(1);

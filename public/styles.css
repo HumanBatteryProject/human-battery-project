@@ -68,6 +68,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:var(--ls-disp
 h1{font-size:var(--fs-h1);line-height:1.34}
 h2{font-size:var(--fs-h2);margin-bottom:1.4rem}
 h3{font-size:var(--fs-h3);line-height:1.4}
+/* Browser default is `smaller`, which resolves to 16.667px and is the only
+   size on the page that is not a step. */
+sub,sup{font-size:var(--fs-xs);line-height:0}
 p{margin:0 0 1.15rem;max-width:var(--measure)}
 .lede{font-size:var(--fs-lg);color:#CBD9DA;font-variation-settings:'opsz' 24}
 .quiet{color:var(--steel)}
@@ -210,7 +213,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .checks.neg li::before{background:var(--copper)}
 
 /* ---------- price ---------- */
-.price-head{font-family:var(--display);font-size:var(--fs-h1);color:#fff;margin:0 0 .3rem}
+.price-head{font-family:var(--display);font-size:var(--fs-h1);letter-spacing:var(--ls-display);color:#fff;margin:0 0 .3rem}
 .plans{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2rem}
 @media(min-width:720px){.plans{grid-template-columns:repeat(3,1fr)}}
 .plan{background:var(--carbon);padding:1.5rem 1.35rem}
@@ -239,9 +242,14 @@ input,select,textarea{
 }
 input:focus,select:focus,textarea:focus{border-color:var(--teal);outline:none}
 select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--steel) 50%),linear-gradient(135deg,var(--steel) 50%,transparent 50%);background-position:calc(100% - 18px) 1.24rem,calc(100% - 13px) 1.24rem;background-size:5px 5px;background-repeat:no-repeat}
-.consent{display:flex;gap:.7rem;align-items:flex-start;font-size:var(--fs-base);color:#BFCDCE;line-height:1.5}
+/* A sentence, not a micro label. Opts out of the label rule above in all
+   three respects, because inheriting any one of them is what broke it. */
+.consent{display:flex;gap:.7rem;align-items:flex-start;font-family:var(--body);
+  font-size:var(--fs-base);letter-spacing:normal;color:#BFCDCE;line-height:1.5}
 .consent input{width:17px;height:17px;flex:none;margin-top:.24rem;accent-color:var(--blue)}
 .note{font-size:var(--fs-sm);color:var(--steel);margin:0}
+/* The "(optional)" hint inside a field label. */
+.opt{text-transform:none;letter-spacing:normal;font-family:var(--body);font-size:var(--fs-xs);color:var(--steel)}
 .msg{padding:.9rem 1rem;border-radius:2px;font-size:var(--fs-base);display:none}
 .msg.err{display:block;background:rgba(180,101,58,.16);border:1px solid var(--copper);color:#F0C4AC}
 .msg.ok{display:block;background:rgba(21,122,92,.16);border:1px solid var(--green);color:#B7E7D3}
@@ -250,8 +258,11 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .field.bad input,.field.bad select{border-color:var(--copper)}
 .placement-intro{font-size:var(--fs-sm);color:var(--steel);line-height:1.6;margin:.1rem 0 .3rem;max-width:56ch}
 .placement-q{border:0;padding:0;margin:0 0 1.5rem;display:grid;gap:.45rem}
-.placement-q legend{font-size:var(--fs-base);color:#E6EEF0;padding:0;margin-bottom:.35rem;line-height:1.45}
-.placement-opt{display:flex;gap:.7rem;align-items:flex-start;font-size:var(--fs-sm);color:#BFCDCE;line-height:1.5;cursor:pointer;padding:.15rem 0}
+.placement-q legend{font-family:var(--body);font-size:var(--fs-base);letter-spacing:normal;
+  color:#E6EEF0;padding:0;margin-bottom:.35rem;line-height:1.45}
+/* Same opt out. These are answers a person reads, 56 of them on the page. */
+.placement-opt{display:flex;gap:.7rem;align-items:flex-start;font-family:var(--body);
+  font-size:var(--fs-sm);letter-spacing:normal;color:#BFCDCE;line-height:1.5;cursor:pointer;padding:.15rem 0}
 .placement-opt input{width:17px;height:17px;flex:none;margin-top:.2rem;accent-color:var(--blue)}
 .placement-opt:hover span{color:#E6EEF0}
 .placement-q.bad legend{color:#E0A183}
@@ -365,7 +376,7 @@ body.plain{line-height:1.72}
 @media(min-width:700px){.parts{grid-template-columns:repeat(2,1fr)}}
 .part{background:var(--carbon);padding:1.7rem 1.4rem}
 .part .dot{width:14px;height:14px;border-radius:50%;display:block;margin-bottom:1rem}
-.part h3{margin-bottom:.6rem;font-size:var(--fs-base)}
+.part h3{margin-bottom:.6rem}
 .part p{font-size:var(--fs-base);line-height:1.6;color:#BFCDCE;margin:0;max-width:none}
 
 /* simple numbered steps */
@@ -384,6 +395,8 @@ body.plain{line-height:1.72}
          border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 @media(min-width:760px){.credits{grid-template-columns:1fr 1fr}}
 .cred{background:var(--carbon);padding:1.5rem 1.35rem}
+/* Deliberately the display-subhead step, not the h3 step: these are names in
+   a dense grid, not section headings. It is a shared step, not a one off. */
 .cred h3{margin-bottom:.85rem;font-size:var(--fs-display-sub)}
 .cred .names{font-size:var(--fs-base);line-height:1.65;color:#CBD9DA;margin:0 0 .6rem;max-width:none}
 .cred .what{font-size:var(--fs-sm);line-height:1.55;color:var(--steel);margin:0;max-width:none}
