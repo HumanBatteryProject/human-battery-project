@@ -114,11 +114,13 @@ strong{font-weight:600;color:#fff}
    centre is exactly the point all three rings share (575,480). Setting a
    user-space origin instead would have to be offset by the viewBox origin
    (245,100), which is the sort of arithmetic that silently drifts. */
-/* The project name, sitting above the mark. Uses the display-subhead step
-   rather than a new size, and the label tracking because it is set in caps. */
-.landing-title{font-family:var(--display);font-size:var(--fs-display-sub);
+/* The project name, sitting above the mark. On the h3 step rather than the
+   subhead step it started on, which was too quiet for the thing the page is
+   named after. Still a step off the scale, not a one off number. The label
+   tracking because it is set in caps. */
+.landing-title{font-family:var(--display);font-size:var(--fs-h3);
   letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--teal);
-  margin:0 0 1.4rem;line-height:1.4;text-wrap:balance}
+  margin:0 0 1.5rem;line-height:1.45;text-wrap:balance}
 .mark-anim{display:block;height:160px;width:auto;margin:0 auto 2.2rem}
 .mark-anim .orbit{
   transform-box:fill-box;transform-origin:center;
@@ -172,7 +174,11 @@ strong{font-weight:600;color:#fff}
    appears on. With one base that workaround is what would now cause the
    mismatch, so it is gone: the headline takes the h1 step, the subhead the
    display-subhead step, the body the base. */
-.landing-head{font-family:var(--display);font-weight:400;
+/* Takes the h2 step, not the h1 step it inherits from the element. At the h1
+   step this ran 30px on a desktop and read as shouting next to everything
+   around it. It is still the largest thing in the hero and still the h1 in
+   the document, it is just no longer the loudest possible size. */
+.landing-head{font-family:var(--display);font-weight:400;font-size:var(--fs-h2);
   line-height:1.4;margin:0 0 1.3rem;text-wrap:balance}
 .landing-sub{font-family:var(--display);font-weight:400;
   font-size:var(--fs-display-sub);line-height:1.5;letter-spacing:var(--ls-display);
