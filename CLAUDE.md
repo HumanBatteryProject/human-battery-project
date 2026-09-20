@@ -177,6 +177,23 @@ docs/                the model, the spec, the protocol, the strategy
   real paper. Cross-check the metadata too: Crossref returns **one** author for
   Kodama 2009, PubMed returns **twelve**, and the twelve is right. This applies
   to the corpus loader in Phase 3, which does the same lookups.
+- **Any number in a report that was not produced by a command run after the last
+  edit is not a verified number.** Do not state it as one. Re-run the check as
+  the last thing before committing, and paste what it printed rather than
+  retyping it from earlier in the session.
+
+  The worked example: the claim id cross-check was reported as "14 declared, 14
+  in markup, none missing either way" in commit `d265b8a`. That had been true
+  when it ran. Afterwards the citation drawers were regenerated from
+  `citations.json`, which removed a `data-claim` attribute, and the check was
+  never re-run. The tree at commit was 14 declared and **13** in the markup,
+  with a citation pointing at a claim id that was not on the page. Fixed in
+  `68036f6`.
+
+  Two habits follow. Run `scripts/check_claims.py` last, after the final edit,
+  every time. And after any edit to `public/data/citations.json`, run
+  `scripts/build_drawer.py` first, because the drawer is derived data and
+  editing the source without rebuilding leaves the page showing the old text.
 
 ---
 
