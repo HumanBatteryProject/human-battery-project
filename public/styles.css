@@ -175,6 +175,7 @@ footer p{max-width:var(--measure);margin:0}
 .legal p,.legal li{font-size:var(--fs-base);color:#C6D3D4}
 .legal ul{padding-left:1.2rem}
 .legal li{margin-bottom:.5rem}
+.effective{font-size:var(--fs-sm);color:var(--silver);margin:0 0 .35rem}
 .updated{font-size:var(--fs-sm);color:var(--steel);margin-bottom:2rem}
 .placeholder{border:1px solid var(--copper);background:rgba(180,101,58,.1);padding:1rem 1.15rem;border-radius:3px;font-size:var(--fs-sm);color:#F0C4AC;margin-bottom:2.4rem}
 
