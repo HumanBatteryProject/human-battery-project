@@ -72,6 +72,22 @@ Commit at each checkpoint with a message naming it. Push only when told.
 
 ---
 
+## For the next counsel review
+
+Counsel-approved text is not edited by this work. These are the conflicts between that text and the site as it now stands, to be raised at the next review rather than fixed here.
+
+**L1. `terms.html` still says "seat".** "the cohort seat, the panel, and the coaching schedule are committed", in the refund clause. The site no longer uses seat language anywhere and the brief forbids it: enrollment is open, there is no cap and there are no limited places. The refund term turns on a seat that does not exist.
+
+**L2. `terms.html` describes the cohort model.** "Cohorts run for ninety days with thirty participants, all starting on the same date." Open enrollment replaced that. Also "cohort" in Your responsibilities and in Changes.
+
+**L3. `terms.html` promises one-to-one coaching.** "the group and one-to-one coaching sessions". The program now has one weekly group call and no individual coaching.
+
+**L4. `consumer-health-data.html` describes a consent flow that is not built.** "At enrollment we ask, in a separate checkbox, whether you consent to your de-identified data being used in longevity research." That checkbox does not exist and `client_consents` is empty.
+
+**L5. British spellings in US-governed documents.** "instalments" in `terms.html`, "authorise" in `consumer-health-data.html`.
+
+---
+
 ## Deferred, after Checkpoint F
 
 **D1. Front door reading level.** `/` measures grade 4.9 across 109 sentences of prose, against the grade 3 to 4 target in O10 and CLAUDE.md. The copy added during these checkpoints is inside the target; the gap is inherited copy written before the target existed. Fix it as its own piece of work once F is done, not inside a checkpoint, so the change is reviewable on its own and no section gets quietly rewritten while something else is being built.

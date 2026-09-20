@@ -748,3 +748,20 @@ section[id]{scroll-margin-top:5.5rem}
 .plain .micro{max-width:none;margin-inline:auto}
 .plain .statement{max-width:24ch}
 .plain .principle{max-width:28ch}
+
+/* ---------- mobile sticky CTA ----------
+   Phone only. It is position:fixed at the bottom, so section 17's rule that it
+   must not obstruct content or accessibility controls is handled by giving the
+   page bottom padding equal to the bar, rather than by letting it float over
+   the last thing on the page. Hidden on the apply section itself, because a
+   button that scrolls you to the form you are already looking at is noise. */
+.stickycta{display:none}
+@media(max-width:700px){
+  .stickycta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;
+    padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+    background:rgba(5,9,12,.94);backdrop-filter:blur(10px);
+    border-top:1px solid var(--rule)}
+  .stickycta .btn{display:block;width:100%;text-align:center}
+  body{padding-bottom:4.6rem}
+}
+@media(prefers-reduced-motion:reduce){.stickycta{backdrop-filter:none}}

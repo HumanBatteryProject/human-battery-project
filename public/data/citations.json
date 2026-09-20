@@ -196,10 +196,53 @@
           "page": "science",
           "section": "science",
           "claim": "science-science-07"
+        },
+        {
+          "page": "science",
+          "section": "panel",
+          "claim": "science-panel-01"
         }
       ],
       "relevance": "Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.",
       "accessed": "2026-09-20"
+    },
+    {
+      "id": "blades-2024-whm-rct",
+      "authors": [
+        "Blades R",
+        "Mendes WB",
+        "Don BP",
+        "Mayer SE",
+        "Dileo R",
+        "O'Bryan J",
+        "Fromer E",
+        "Guan JY",
+        "Cheng SS",
+        "Mason AE",
+        "Prather AA",
+        "Epel ES"
+      ],
+      "year": 2024,
+      "title": "A randomized controlled clinical trial of a Wim Hof Method intervention in women with high depressive symptoms",
+      "journal": "Comprehensive Psychoneuroendocrinology",
+      "doi": "10.1016/j.cpnec.2024.100272",
+      "url": "https://doi.org/10.1016/j.cpnec.2024.100272",
+      "study_type": "human_rct",
+      "evidence_tier": "contested",
+      "accessed": "2026-09-20",
+      "supports": [
+        {
+          "page": "index",
+          "section": "honest",
+          "claim": "index-honest-01"
+        },
+        {
+          "page": "science",
+          "section": "model",
+          "claim": "science-model-01"
+        }
+      ],
+      "relevance": "84 women randomised to the Wim Hof Method or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms, which is why cold and breathwork are carried in the protocol as contested rather than established."
     }
   ]
 }
