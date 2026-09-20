@@ -83,7 +83,7 @@ strong{font-weight:600;color:#fff}
 .top a.brand{border:0}
 .btn{
   display:inline-block;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
-  padding:.72rem 1.15rem;border:1px solid var(--rule-2);border-radius:2px;
+  text-transform:uppercase;padding:.72rem 1.15rem;border:1px solid var(--rule-2);border-radius:2px;
   color:var(--ice);background:transparent;cursor:pointer;transition:background .18s,border-color .18s
 }
 .btn:hover{background:rgba(33,139,190,.14);border-color:var(--blue)}
@@ -125,6 +125,42 @@ strong{font-weight:600;color:#fff}
    further down already forces animation:none !important on everything; this is
    here so the intent is legible at the thing it applies to. */
 @media(prefers-reduced-motion:reduce){.mark-anim .orbit{animation:none}}
+
+/* ---- the mark, alive: the spheres too ----
+   Every one of the four struts in this artwork bolts one sphere to another,
+   so the armature is ONE rigid frame: teal to blue, blue to silver, silver to
+   green, green to teal. Four independent orbits would pull the struts off
+   their spheres, so the frame turns as a unit and each sphere reads its depth
+   from that single turn.
+
+   Teal and green sit on the axis (x=570 against an axis at 575). That is the
+   one place a rotation about a vertical axis cannot move, so they are the
+   poles. They get their own sway and breath instead, on 16s and 25s, which
+   share no factor with the 21s turn, so the four never look locked together.
+
+   The struts scale about the axis; the spheres translate. Same result, except
+   translate does not mirror the specular highlight the way scaleX would.
+
+   Only transform and opacity are animated. Both are composited, so no frame
+   costs layout or paint. */
+.mk-struts{transform-box:view-box;transform-origin:575px 480px;
+  animation:mk-turn 21s linear infinite}
+.mk-ball{transform-box:view-box}
+.mk-blue{transform-origin:428px 505px;animation:mk-blue 21s linear infinite}
+.mk-silver{transform-origin:738px 478px;animation:mk-silver 21s linear infinite}
+.mk-teal{transform-origin:570px 302px;animation:mk-teal 16s ease-in-out infinite}
+.mk-green{transform-origin:570px 660px;animation:mk-green 25s ease-in-out infinite}
+@keyframes mk-turn{0%{transform:scaleX(1)}8.333%{transform:scaleX(0.866)}16.667%{transform:scaleX(0.5)}25%{transform:scaleX(0.08)}33.333%{transform:scaleX(-0.5)}41.667%{transform:scaleX(-0.866)}50%{transform:scaleX(-1)}58.333%{transform:scaleX(-0.866)}66.667%{transform:scaleX(-0.5)}75%{transform:scaleX(-0.08)}83.333%{transform:scaleX(0.5)}91.667%{transform:scaleX(0.866)}100%{transform:scaleX(1)}}
+@keyframes mk-blue{0%{transform:translateX(-px) scale(1);opacity:0.86}8.333%{transform:translateX(2px) scale(0.955);opacity:0.79}16.667%{transform:translateX(73px) scale(0.922);opacity:0.74}25%{transform:translateX(147px) scale(0.91);opacity:0.72}33.333%{transform:translateX(22px) scale(0.922);opacity:0.74}41.667%{transform:translateX(274px) scale(0.955);opacity:0.79}50%{transform:translateX(294px) scale(1);opacity:0.86}58.333%{transform:translateX(274px) scale(1.045);opacity:0.93}66.667%{transform:translateX(221px) scale(1.078);opacity:0.98}75%{transform:translateX(147px) scale(1.09);opacity:1}83.333%{transform:translateX(73px) scale(1.078);opacity:0.98}91.667%{transform:translateX(2px) scale(1.045);opacity:0.93}100%{transform:translateX(-px) scale(1);opacity:0.86}}
+@keyframes mk-silver{0%{transform:translateX(0px) scale(1);opacity:0.86}8.333%{transform:translateX(-22px) scale(1.045);opacity:0.93}16.667%{transform:translateX(-81px) scale(1.078);opacity:0.98}25%{transform:translateX(-163px) scale(1.09);opacity:1}33.333%{transform:translateX(-244px) scale(1.078);opacity:0.98}41.667%{transform:translateX(-304px) scale(1.045);opacity:0.93}50%{transform:translateX(-326px) scale(1);opacity:0.86}58.333%{transform:translateX(-304px) scale(0.955);opacity:0.79}66.667%{transform:translateX(-245px) scale(0.922);opacity:0.74}75%{transform:translateX(-163px) scale(0.91);opacity:0.72}83.333%{transform:translateX(-81px) scale(0.922);opacity:0.74}91.667%{transform:translateX(-22px) scale(0.955);opacity:0.79}100%{transform:translateX(0px) scale(1);opacity:0.86}}
+@keyframes mk-teal{0%{transform:translateX(0px) scale(1.07);opacity:1}8.333%{transform:translateX(5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(9px) scale(1.035);opacity:0.95}25%{transform:translateX(1px) scale(1);opacity:0.89}33.333%{transform:translateX(9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(5px) scale(0.939);opacity:0.79}50%{transform:translateX(0px) scale(0.93);opacity:0.78}58.333%{transform:translateX(-5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(-9px) scale(0.965);opacity:0.83}75%{transform:translateX(-1px) scale(1);opacity:0.89}83.333%{transform:translateX(-9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(-5px) scale(1.061);opacity:0.99}100%{transform:translateX(-px) scale(1.07);opacity:1}}
+@keyframes mk-green{0%{transform:translateX(-px) scale(1.07);opacity:1}8.333%{transform:translateX(-5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(-9px) scale(1.035);opacity:0.95}25%{transform:translateX(-1px) scale(1);opacity:0.89}33.333%{transform:translateX(-9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(-5px) scale(0.939);opacity:0.79}50%{transform:translateX(-px) scale(0.93);opacity:0.78}58.333%{transform:translateX(5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(9px) scale(0.965);opacity:0.83}75%{transform:translateX(1px) scale(1);opacity:0.89}83.333%{transform:translateX(9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(5px) scale(1.061);opacity:0.99}100%{transform:translateX(0px) scale(1.07);opacity:1}}
+/* Reduced motion: the still mark, at rest, not a paused frame. */
+@media(prefers-reduced-motion:reduce){
+  .mk-struts,.mk-ball{animation:none;transform:none;opacity:1}
+}
+}
+
 
 /* ---- the video slot ---- */
 .video{position:relative;width:100%;aspect-ratio:16/9;margin:0 0 2.4rem;
@@ -202,7 +238,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .phase{display:grid;gap:.4rem 1.6rem;padding:1.9rem 0;border-top:1px solid var(--rule)}
 @media(min-width:760px){.phase{grid-template-columns:8.5rem 1fr}}
 .phase:last-child{border-bottom:1px solid var(--rule)}
-.phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--blue);letter-spacing:var(--ls-label);padding-top:.3rem}
+.phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--blue);letter-spacing:var(--ls-label);text-transform:uppercase;padding-top:.3rem}
 .phase p{margin:.5rem 0 0;color:#BFCDCE}
 
 /* ---------- lists ---------- */
@@ -235,7 +271,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .apply{background:var(--navy)}
 form{margin-top:2rem;display:grid;gap:1.05rem}
 .field{display:grid;gap:.4rem}
-label{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--silver)}
+label{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--silver)}
 input,select,textarea{
   font-family:var(--body);font-size:var(--fs-base);color:var(--ice);background:rgba(5,9,12,.55);
   border:1px solid var(--rule-2);border-radius:2px;padding:.72rem .85rem;width:100%
@@ -296,7 +332,7 @@ footer p{max-width:var(--measure);margin:0}
 .sym b{font-weight:600;color:#fff;font-size:var(--fs-base);line-height:1.4}
 /* Was --fs-sm: the single worst offender. Michroma at .88 of the base read
    LARGER than the Newsreader complaint it labels. */
-.sym span{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);white-space:nowrap}
+.sym span{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;white-space:nowrap}
 .sym span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.6rem;vertical-align:-.02em;background:currentColor}
 .sym[data-sys="charge"] span{color:var(--blue)}
 .sym[data-sys="drain"] span{color:var(--silver)}
@@ -305,7 +341,7 @@ footer p{max-width:var(--measure);margin:0}
 .after-list{margin-top:1.9rem;font-size:var(--fs-base);color:#CBD9DA}
 
 /* ---------- evidence tiers ---------- */
-.tier{display:inline-block;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+.tier{display:inline-block;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;
       padding:.3rem .5rem;border-radius:2px;border:1px solid;vertical-align:.15em;white-space:nowrap}
 .tier-1{color:var(--teal);border-color:rgba(42,175,192,.45)}
 .tier-2{color:var(--silver);border-color:rgba(182,189,188,.35)}
@@ -340,7 +376,7 @@ footer p{max-width:var(--measure);margin:0}
 .arms{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2rem}
 @media(min-width:640px){.arms{grid-template-columns:1fr 1fr}}
 .arm{background:var(--carbon);padding:1.5rem 1.35rem}
-.arm .when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--blue);margin-bottom:.7rem}
+.arm .when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--blue);margin-bottom:.7rem}
 .arm p{font-size:var(--fs-base);color:var(--steel);margin:0;max-width:none}
 
 /* ================= PLAIN-LANGUAGE VERSION ================= */
@@ -358,7 +394,7 @@ body.plain{line-height:1.72}
 /* the science toggle */
 .sci{margin-top:1.9rem;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 .sci summary{cursor:pointer;list-style:none;padding:.95rem 1.1rem;display:flex;align-items:center;
-             gap:.7rem;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);color:var(--teal);
+             gap:.7rem;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--teal);
              background:rgba(42,175,192,.06)}
 .sci summary::-webkit-details-marker{display:none}
 .sci summary::before{content:"+";font-size:var(--fs-h3);line-height:1;color:var(--teal);width:.8rem}
