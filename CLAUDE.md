@@ -141,6 +141,7 @@ docs/                the model, the spec, the protocol, the strategy
 - PDFs: regenerate and open, check page count and that nothing orphaned onto its own page. Identical extracted text is the reproducibility test, not identical bytes.
 - Reading level: `index.html`, the front door, at roughly grade 3, Beginner content at grade 3 to 4, measured with textstat.
 - Portal queries returning empty are almost always RLS, not the JavaScript.
+- CSS cache version: bump with `./scripts/bump_css_version.sh styles` or `... portal`, never by hand. It picks one above the highest value ever used in history. Hand-edited seds have twice set it wrong, once lower than it already was and once to a value it already had, and reusing an old number serves a cached old stylesheet against new markup.
 - An agent's output is checked against the guardrails above before it is shown as done.
 - Foundational-model audit: match any **sentence** that gives **light, sun, earth or water** a
   property the model does not carry. For light and sun that is charge, energy, power, fuel or
