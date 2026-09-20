@@ -8,15 +8,20 @@
 
 These correct the brief to match decisions already made and the platform as built.
 
-**O1. The hero stays as shipped today.** Do not replace the landing (animated logo, video slot, "Your body is made of trillions of tiny batteries", symptom paragraph, "What is The Human Battery Project", two tabs, Apply). Add beneath the Apply button, in this order:
+**O1. The bare hero stays.** The hero is the project name and the animated logo, and nothing else. The earlier version of this override was written against the older hero and was wrong; it listed a video slot, a headline, a symptom paragraph, two tabs and an Apply button that had already been removed.
+
+Nothing returns to the hero except the video slot, and only when there is a video.
+
+Everything the earlier O1 asked for goes in the first section below the hero instead, in this order:
 - A three-step strip: MEASURE → CHANGE THE INPUTS → MEASURE AGAIN, each step with a short one-line caption (Day 0 testing / 90 days of inputs / Day 90 testing).
 - The line: "Open enrollment. New starts on the 1st and 15th of every month."
 - Microcopy: "Apply anytime. Applying does not charge you."
+
 Do not use "You've tried everything. So why don't you feel better?" anywhere.
 
 **O2. Do not name a first start date anywhere on the site.** The first wave date is still being decided and is not to be written into any page, any copy, any example or any placeholder. The site says only: "Open enrollment. New starts on the 1st and 15th of every month."
 
-Build the next-start display as a function that reads `program_settings.first_wave_date` and `minimum_lead_days` from the database and computes the next 1st or 15th that is at least `minimum_lead_days` out and not before `first_wave_date`, using the same rule as `next_wave_date()`. Wire it up and leave it hidden behind a flag that is off. Do not change `first_wave_date`. Do not display a computed date until Micah turns it on. Never hardcode a date.
+No database read. Do not add a Supabase client to the marketing pages and do not build a next-start display. The marketing site has no database access and is not getting any. The site says the open-enrollment line and nothing more. Never hardcode a date.
 
 **O3. Evidence tiers are `established`, `contested`, `working model`.** Not "emerging". These names are in the database enum, the PDFs and CLAUDE.md. Use them exactly.
 
@@ -34,6 +39,8 @@ Subsystem colors, everywhere: Charge BLUE, Drain COPPER, Output TEAL, Reserve GR
 **O7. The founder rule applies to the site only.** The coach still escalates to Dr. Pittman by name and the patient email still leads with participant #1. Do not touch those.
 
 **O8. Model rules still apply to every new sentence.** Light is timing information, never charging. Trillions of batteries, never one. "Recharge" as a phase name refers to cells rebuilding their own charge and is allowed; "light recharges you" is not. No em dashes. No outcome promises. Run the audit on every section before its checkpoint.
+
+**O10. Reading level splits by page.** The front door, `/`, stays at grade 3 to 4 in plain words. The brief's technical vocabulary goes on `/science`. Where the brief specifies exact copy that is above grade 4, use it on `/science` and say the same thing plainly on `/`.
 
 **O9. Build in six checkpoints, below. Stop at each and wait.**
 
@@ -734,9 +741,8 @@ Maintain excellent mobile performance.
 
 Treat mobile as a primary experience, not a desktop adaptation.
 
-The first mobile screen should communicate:
-
-THE HUMAN BATTERY PROJECT
+The first mobile screen is the project name and the logo, per O1. Everything below
+communicates, in the first section:
 
 90 DAYS
 

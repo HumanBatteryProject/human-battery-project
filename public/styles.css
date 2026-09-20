@@ -457,6 +457,32 @@ body.plain{line-height:1.72}
 section[id]{scroll-margin-top:5.5rem}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 
+/* ---------- the three step strip ----------
+   The five second summary, at the top of the first section under the hero.
+   No borders, so it does not read as another card grid like the detail flow
+   directly beneath it. The arrows are pseudo elements rather than characters
+   in the markup, so a screen reader hears three steps and not three arrows. */
+.strip{list-style:none;padding:0;margin:2.2rem 0 0;display:grid;gap:1.6rem}
+@media(min-width:760px){.strip{grid-template-columns:repeat(3,1fr);gap:0}}
+.strip li{display:flex;flex-direction:column;gap:.45rem;position:relative;max-width:none}
+@media(min-width:760px){
+  .strip li{padding-right:2.2rem}
+  .strip li + li{padding-left:2.2rem}
+  .strip li + li::before{content:"";position:absolute;left:0;top:.55em;
+    width:9px;height:9px;border-top:1.5px solid var(--blue);border-right:1.5px solid var(--blue);
+    transform:rotate(45deg)}
+}
+/* Two lines reserved on a desktop, because CHANGE THE INPUTS wraps and the
+   other two do not, which left the three captions on different baselines. */
+.strip-step{font-family:var(--display);font-size:var(--fs-h3);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:#fff;line-height:1.35}
+@media(min-width:760px){.strip-step{min-height:2.7em}}
+.strip-note{font-size:var(--fs-sm);color:var(--steel);line-height:1.5}
+
+/* The open enrollment line and the reassurance under it. */
+.enroll-line{font-size:var(--fs-lg);color:var(--teal);margin:2.4rem 0 .4rem;max-width:none}
+.micro{font-size:var(--fs-sm);color:var(--steel);margin:0;max-width:none}
+
 /* ---------- the experiment: day 0, ninety days, day 90 ---------- */
 /* Three steps across on a desktop, one column on a phone. An ordered list,
    because the order is the whole point and a screen reader should hear it. */
