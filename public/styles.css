@@ -72,8 +72,22 @@ strong{font-weight:600;color:#fff}
 
 /* ---------- hero ---------- */
 .hero{padding:clamp(3rem,9vw,5.5rem) 0 clamp(2.5rem,7vw,5rem);text-align:center}
-.hero .mark{width:min(40vw,200px);margin:0 auto 2.2rem;display:block}
-.hero h1{max-width:26ch;margin-inline:auto;text-wrap:balance}
+/* Sized by HEIGHT, not width. The mark is 660x780, so a width rule would make
+   the two pages disagree about how tall it sits. 140 desktop, 100 phone. */
+.hero .mark{height:140px;width:auto;margin:0 auto 2.2rem;display:block}
+/* The symptom list. Still the h1, because it is the only one on the page and
+   the document should keep a heading, but it does not READ as a headline: it
+   is a list of complaints, so it is set in the body face one step above
+   running text rather than in the wide display face.
+   NOT `.symptoms` — that class already exists further down both pages (the
+   complaint grid) and carries a top rule, which drew a stray line here. */
+.hero .hero-symptoms{font-family:var(--body);font-size:26px;font-weight:500;
+  line-height:1.45;letter-spacing:0;max-width:640px;margin-inline:auto;
+  text-wrap:balance;font-variation-settings:'opsz' 26}
+/* The two explanations. Normal body size, same measure as the list above, so
+   the hero reads as one column rather than three different widths. */
+.hero .hero-body{font-size:var(--fs-base);color:#CBD9DA;max-width:640px;
+  margin:1.4rem auto 0;font-variation-settings:'opsz' 16}
 .hero p{margin-inline:auto;text-align:center}
 .hero .lede{margin-top:1.6rem}
 /* Hero welcome line. Michroma is a wide face, so the clamp keeps it on
@@ -82,14 +96,41 @@ strong{font-weight:600;color:#fff}
   letter-spacing:.15em;text-transform:uppercase;color:var(--teal);
   margin:0 0 1.8rem;max-width:none;text-wrap:balance;line-height:1.7}
 /* The headline sits below the welcome line but stays above the lede. */
-/* the two doors: same page, two ways in */
-.doors{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:2.2rem auto 0;max-width:30rem}
-.doors .door{display:flex;align-items:center;justify-content:center;text-align:center;width:100%}
-/* the door you came through, quieter, so which one is live is obvious */
-.doors .doors-here{opacity:.45;border-color:var(--rule);color:var(--steel)}
-.doors .doors-here:hover{opacity:.6}
-@media(max-width:559px){.doors{grid-template-columns:1fr;max-width:22rem}}
+/* the two doors: same page, two ways in.
+   BOTH ARE FILLED AND THE SAME SIZE. The page you are already on used to be
+   dimmed to 45 percent, which read as a disabled control rather than as a
+   current location. It is marked with a label above it instead. */
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:2.2rem auto 0;max-width:40rem}
+.door-slot{display:flex;flex-direction:column}
+/* The label sits above one door. The other slot carries an EMPTY one at the
+   same height, so the two doors stay identical and level instead of one
+   dropping below the other. Body face: it is an annotation, not a door label. */
+.door-flag{font-family:var(--body);font-size:var(--fs-xs);line-height:1.4;
+  min-height:1.4em;margin:0 0 .45rem;color:var(--steel);max-width:none;text-align:center}
+/* Label size is PINNED, not inherited. `body.plain` raises --fs-base to 21px on
+   the front page only, which made the same door label wrap to two lines there
+   and sit on one line on /science. The two doors are the same control on both
+   pages, so they get the same size. */
+.doors .door{display:flex;flex:1;align-items:center;justify-content:center;text-align:center;
+  width:100%;background:var(--navy-2);border-color:var(--rule-2);color:var(--ice);
+  font-size:12px;letter-spacing:.04em;padding-inline:.9rem}
+.doors .door:hover{background:rgba(33,139,190,.24);border-color:var(--blue)}
+/* Stacked. The gap between the two doors is opened up well past the gap
+   between a label and its own door, so "You are here" clearly belongs to the
+   door BELOW it. At an even gap it sits midway between two buttons and reads
+   as though it could describe either, which is worst on /science where it
+   falls between them rather than at the top. */
+@media(max-width:559px){
+  .doors{grid-template-columns:1fr;max-width:22rem;gap:1.4rem}
+  .door-flag{margin-bottom:.3rem}
+}
 .hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem}
+/* Phone. The two numbers the brief names, plus the doors stacking, all at the
+   same breakpoint so the hero changes shape once rather than twice. */
+@media(max-width:559px){
+  .hero .mark{height:100px}
+  .hero .hero-symptoms{font-size:20px;font-variation-settings:'opsz' 20}
+}
 
 /* ---------- the readout: signature element ---------- */
 .readout{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2.5rem}

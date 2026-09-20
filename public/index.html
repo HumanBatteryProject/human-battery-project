@@ -10,7 +10,7 @@
 <meta property="og:description" content="You've tried everything. So why don't you feel better? Everyone had an answer. None of them worked.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=13">
+<link rel="stylesheet" href="/styles.css?v=14">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -65,16 +65,24 @@
 
 <section class="hero">
   <div class="wrap">
-    <h1>Tired by the afternoon. Hours to fall asleep, or awake at 2 a.m. Foggy. Carrying weight you did not ask for. Hard to focus. Or you train five days a week and still feel flat.</h1>
-    <p class="lede narrow">Here is why. Your body is trillions of tiny batteries. They have to charge, hold a charge, and work together. When they cannot, you get every symptom on that list.</p>
-    <p class="lede narrow">We measure your batteries. We change what they run on. We measure again and show you what changed.</p>
+    <!-- Decorative: the nav lockup above already names the project, so a second
+         alt text here would just be announced twice. -->
+    <img class="mark" src="/assets/02-mark.svg" alt="" width="118" height="140">
+    <h1 class="hero-symptoms">Tired by the afternoon. Hours to fall asleep, or awake at 2 a.m. Foggy. Carrying weight you did not ask for. Hard to focus. Or you train five days a week and still feel flat.</h1>
+    <p class="hero-body">Here is why. Your body is trillions of tiny batteries. They have to charge, hold a charge, and work together. When they cannot, you get every symptom on that list.</p>
+    <p class="hero-body">We measure your batteries. We change what they run on. We measure again and show you what changed.</p>
     <div class="doors">
-      <a class="btn door doors-here" href="/" aria-current="page">Show me the simple version</a>
-      <a class="btn door" href="/science">Show me the science</a>
+      <div class="door-slot">
+        <p class="door-flag">You are here</p>
+        <a class="btn door" href="/" aria-current="page">Show me the simple version</a>
+      </div>
+      <div class="door-slot">
+        <p class="door-flag" aria-hidden="true"></p>
+        <a class="btn door" href="/science">Show me the science</a>
+      </div>
     </div>
     <div class="hero-actions">
       <a class="btn btn-solid" href="#apply">Start on the 1st or the 15th</a>
-      <a class="btn" href="#story">The Human Battery</a>
     </div>
   </div>
 </section>
