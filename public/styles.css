@@ -25,7 +25,7 @@ html{-webkit-text-size-adjust:100%}
 body{
   /* ONE BASE FOR EVERY PAGE. It used to be 19px here and 21px under
      body.plain, so the front door rendered every shared component about 10
-     percent larger than the rest of the site: the nav, the buttons, the tabs,
+     percent larger than the rest of the site: the nav and the buttons,
      the body copy. 20px splits the difference, so nothing jumps.
      Anything that needs to differ per page differs in LINE-HEIGHT or measure,
      never in the scale. */
@@ -45,7 +45,7 @@ body{
      "small Michroma label" (--fs-2xs, --fs-xs, --fs-sm and a hard 12px) and
      seven different letter-spacings across the same handful of components. */
   --fs-display-sub:calc(var(--fs-base)*.82);   /* Michroma subheads   */
-  --fs-label:calc(var(--fs-base)*.62);         /* Michroma micro labels, buttons, tabs */
+  --fs-label:calc(var(--fs-base)*.62);         /* Michroma micro labels and buttons */
   --ls-display:.02em;                          /* headings and subheads */
   --ls-label:.09em;                            /* uppercase micro labels */
   margin:0;background:var(--carbon);color:var(--ice);
@@ -105,7 +105,7 @@ strong{font-weight:600;color:#fff}
    raises --fs-base to 21px on the front page only, so anything inheriting it
    would render the shared landing at two different sizes. That already bit
    the door labels once. */
-.landing{padding:clamp(2.6rem,7vw,4.2rem) 0 clamp(2rem,5vw,3rem);text-align:center}
+.landing{padding:clamp(2.6rem,7vw,4.2rem) 0 clamp(2.4rem,6vw,3.6rem);text-align:center}
 .landing-col{width:min(100% - 2.5rem,640px);margin-inline:auto}
 
 /* ---- the mark, alive ----
@@ -121,7 +121,7 @@ strong{font-weight:600;color:#fff}
 .landing-title{font-family:var(--display);font-size:var(--fs-h3);
   letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--teal);
   margin:0 0 1.8rem;line-height:1.45;text-wrap:balance}
-.mark-anim{display:block;height:160px;width:auto;margin:0 auto 2.2rem}
+.mark-anim{display:block;height:160px;width:auto;margin:0 auto}
 .mark-anim .orbit{
   transform-box:fill-box;transform-origin:center;
   animation:mark-orbit 20s linear infinite;
@@ -168,30 +168,10 @@ strong{font-weight:600;color:#fff}
 
 
 
-/* ---- the two tabs ----
-   Tabs, not buttons: a shared baseline with the active one sitting on it. They
-   are links between two pages, so they are anchors in a nav, and the active
-   one is marked with aria-current rather than by colour alone. */
-.tabs{display:flex;justify-content:center;gap:0;margin:2.8rem 0 0;
-  border-bottom:1px solid var(--rule-2)}
-.tabs a{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
-  text-transform:uppercase;color:var(--steel);
-  padding:.85rem 1.35rem;margin-bottom:-1px;
-  border:0;border-bottom:2px solid transparent;background:transparent}
-.tabs a:hover{color:var(--silver);border-bottom-color:var(--rule-2)}
-.tabs a[aria-current="page"]{color:var(--ice);border-bottom-color:var(--teal)}
-
-/* Scoped to .landing so it outranks .plain p, which caps paragraphs at 52ch
-   and was winning on specificity. The button sat in a box narrower than the
-   column with no auto margin, so it was centred in the box and the box was
-   not centred in the column. Only ever visible on the plain page. */
-.landing .landing-apply{margin:2.2rem auto 0;max-width:none}
-
 @media(max-width:559px){
   .mark-anim{height:110px}
   /* Padding only. The type size is the scale's job, and overriding it here is
      how the landing ended up a different size per page in the first place. */
-  .tabs a{padding:.8rem .8rem}
 }
 
 /* ---------- the readout: signature element ---------- */
