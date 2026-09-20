@@ -21,7 +21,11 @@ Do not use "You've tried everything. So why don't you feel better?" anywhere.
 
 **O2. Do not name a first start date anywhere on the site.** The first wave date is still being decided and is not to be written into any page, any copy, any example or any placeholder. The site says only: "Open enrollment. New starts on the 1st and 15th of every month."
 
-No database read. Do not add a Supabase client to the marketing pages and do not build a next-start display. The marketing site has no database access and is not getting any. The site says the open-enrollment line and nothing more. Never hardcode a date.
+Do not build a computed next-start display at all. Not behind a flag, not hidden, not wired up and switched off. There is no date to show, so there is nothing to compute.
+
+Specifically, do not add to any page under `public/` outside `public/portal/`: the `supabase-js` library, a Supabase client, a `SUPABASE_URL`, a publishable key, a secret key, a `fetch` to `/rest/v1/`, or a Pages Function that exists to feed a date to the marketing site. The marketing pages have no database access today and are not getting any.
+
+The site says the open-enrollment line and nothing more. Never hardcode a date.
 
 **O3. Evidence tiers are `established`, `contested`, `working model`.** Not "emerging". These names are in the database enum, the PDFs and CLAUDE.md. Use them exactly.
 
@@ -40,9 +44,13 @@ Subsystem colors, everywhere: Charge BLUE, Drain COPPER, Output TEAL, Reserve GR
 
 **O8. Model rules still apply to every new sentence.** Light is timing information, never charging. Trillions of batteries, never one. "Recharge" as a phase name refers to cells rebuilding their own charge and is allowed; "light recharges you" is not. No em dashes. No outcome promises. Run the audit on every section before its checkpoint.
 
-**O10. Reading level splits by page.** The front door, `/`, stays at grade 3 to 4 in plain words. The brief's technical vocabulary goes on `/science`. Where the brief specifies exact copy that is above grade 4, use it on `/science` and say the same thing plainly on `/`.
-
 **O9. Build in six checkpoints, below. Stop at each and wait.**
+
+**O10. Reading level is split by door.** The front door, `/`, stays at grade 3 to 4 in plain words. The brief's technical vocabulary belongs on `/science`: biomarkers, capacity, progression, electrochemical, and their like. On `/` say the same thing plainly. `33 things in your blood`, not `33 biomarkers`. `Fitness tests`, not `physical capacity testing`. `It gets harder as you go`, not `structured progression`.
+
+Where the brief specifies exact copy that is above grade 4, use it verbatim on `/science` and say it plainly on `/`. The two pages carry different markup for the same section, and that is intended, not drift.
+
+Measure prose only. Flesch-Kincaid over a list of two-word labels is meaningless: it scored a section grade 11.9 whose four sentences average 3.5. Split the block elements into ones containing a sentence and ones that are bare labels, and grade only the first.
 
 ---
 

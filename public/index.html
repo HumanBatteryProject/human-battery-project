@@ -10,7 +10,7 @@
 <meta property="og:description" content="A 90 day program. We measure what your body runs on, you change the inputs, and we measure again. Open enrollment, new starts on the 1st and 15th of every month.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=26">
+<link rel="stylesheet" href="/styles.css?v=27">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -394,6 +394,42 @@
 
 <p class="voice">I sleep eight hours and I wake up at forty percent.</p>
 
+<section id="score">
+  <div class="wrap">
+    <h2>Your Battery Score</h2>
+    <p class="lede">One number for how your body is doing. Four smaller numbers under it.</p>
+
+    <div class="dash">
+      <div class="dash-head">
+        <p class="dash-label">Battery Score</p>
+        <p class="dash-big">54</p>
+        <p class="dash-sub">Day 0</p>
+      </div>
+      <ul class="dash-bars">
+        <li data-sys="charge"><span class="bar-name">Charge</span><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="bar-num">47</span></li>
+        <li data-sys="drain"><span class="bar-name">Drain</span><span class="bar-track"><span class="bar-fill" style="width:61%"></span></span><span class="bar-num">61</span></li>
+        <li data-sys="output"><span class="bar-name">Output</span><span class="bar-track"><span class="bar-fill" style="width:52%"></span></span><span class="bar-num">52</span></li>
+        <li data-sys="reserve"><span class="bar-name">Reserve</span><span class="bar-track"><span class="bar-fill" style="width:58%"></span></span><span class="bar-num">58</span></li>
+      </ul>
+      <p class="dash-note">Illustrative example, not a participant result.</p>
+    </div>
+
+    <div class="compare">
+      <div class="compare-col">
+        <p class="compare-when">Day 0</p>
+        <ul><li>Charge <b>47</b></li><li>Drain <b>61</b></li><li>Output <b>52</b></li><li>Reserve <b>58</b></li></ul>
+      </div>
+      <div class="compare-col">
+        <p class="compare-when">Day 90</p>
+        <ul><li>Charge <i>measured at day 90</i></li><li>Drain <i>measured at day 90</i></li><li>Output <i>measured at day 90</i></li><li>Reserve <i>measured at day 90</i></li></ul>
+      </div>
+    </div>
+
+    <p>We work it out from your blood tests and your fitness tests. Each thing we measure is scored against the range we are aiming for, not the range the laboratory calls normal. If a test is missing we leave it out rather than guess it.</p>
+    <p>It is our own way of keeping score. It is not a medical test and no doctor uses it.</p>
+  </div>
+</section>
+
 <section id="parts">
   <div class="wrap">
     <h2>Four things we check</h2>
@@ -427,25 +463,25 @@
     </figure>
     <div class="parts">
       <div class="part">
-        <span class="dot" style="background:#218BBE"></span>
+        <span class="dot" data-sys="charge"></span>
         <h3>Charge</h3>
         <p>How much power you can actually make. Food goes in. Oxygen goes in. Water and carbon dioxide come out. That is where your energy comes from. We test how much of it you can do.</p>
         <p class="phone-eq">On your phone: how fast you fill up. The cable.</p>
       </div>
       <div class="part">
-        <span class="dot" style="background:#6E908C"></span>
+        <span class="dot" data-sys="drain"></span>
         <h3>Drain</h3>
         <p>What is using up your energy in the background. Like an app running when you are not looking. This shows up as foggy thinking and aches.</p>
         <p class="phone-eq">On your phone: what runs in the background. The apps you did not open.</p>
       </div>
       <div class="part">
-        <span class="dot" style="background:#2AAFC0"></span>
+        <span class="dot" data-sys="output"></span>
         <h3>Output</h3>
         <p>How much power you can actually use. This is the part that decides if you feel like doing things. Low output feels like no drive and bad sleep.</p>
         <p class="phone-eq">On your phone: how much power you really get. The screen brightness. The speed.</p>
       </div>
       <div class="part">
-        <span class="dot" style="background:#157A5C"></span>
+        <span class="dot" data-sys="reserve"></span>
         <h3>Reserve</h3>
         <p>What your battery is built out of. If you are short on the raw stuff, nothing else works well no matter how hard you try.</p>
         <p class="phone-eq">On your phone: battery health. What it is made of, and how much it can still hold.</p>
@@ -466,7 +502,81 @@
       </div>
     </details>
   </div>
-</section>
+
+    <div class="quads">
+      <details class="quad" data-sys="charge">
+        <summary>
+          <span class="quad-name">Charge</span>
+          <span class="quad-count">6 markers</span>
+        </summary>
+        <p class="quad-what">Fuel in, and whether it reaches the machinery.</p>
+        <ul class="quad-list">
+          <li>Glucose, fasting<span class="quad-unit">mg/dL</span></li>
+          <li>Insulin, fasting<span class="quad-unit">uIU/mL</span></li>
+          <li>Hemoglobin A1c<span class="quad-unit">%</span></li>
+          <li>HOMA-IR (calculated)<span class="quad-unit">index</span></li>
+          <li>Triglycerides<span class="quad-unit">mg/dL</span></li>
+          <li>Triglyceride:HDL ratio<span class="quad-unit">ratio</span></li>
+        </ul>
+      </details>
+      <details class="quad" data-sys="drain">
+        <summary>
+          <span class="quad-name">Drain</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">What is quietly using you up in the background.</p>
+        <ul class="quad-list">
+          <li>hs-CRP<span class="quad-unit">mg/L</span></li>
+          <li>Arachidonic acid : EPA ratio<span class="quad-unit">ratio</span></li>
+          <li>GGT<span class="quad-unit">U/L</span></li>
+          <li>Kynurenine : tryptophan ratio<span class="quad-unit">umol/mmol</span></li>
+          <li>ALT<span class="quad-unit">U/L</span></li>
+          <li>AST<span class="quad-unit">U/L</span></li>
+          <li>Uric acid<span class="quad-unit">mg/dL</span></li>
+          <li>White blood cell count<span class="quad-unit">K/uL</span></li>
+          <li>Homocysteine<span class="quad-unit">umol/L</span></li>
+        </ul>
+      </details>
+      <details class="quad" data-sys="output">
+        <summary>
+          <span class="quad-name">Output</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">What your body has to spend.</p>
+        <ul class="quad-list">
+          <li>TSH<span class="quad-unit">uIU/mL</span></li>
+          <li>Free T3<span class="quad-unit">pg/mL</span></li>
+          <li>Free T4<span class="quad-unit">ng/dL</span></li>
+          <li>Testosterone, total<span class="quad-unit">ng/dL</span></li>
+          <li>Testosterone, free<span class="quad-unit">pg/mL</span></li>
+          <li>DHEA-S<span class="quad-unit">ug/dL</span></li>
+          <li>Cortisol, morning<span class="quad-unit">ug/dL</span></li>
+          <li>IGF-1<span class="quad-unit">ng/mL</span></li>
+          <li>SHBG<span class="quad-unit">nmol/L</span></li>
+        </ul>
+      </details>
+      <details class="quad" data-sys="reserve">
+        <summary>
+          <span class="quad-name">Reserve</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">What your body is built out of.</p>
+        <ul class="quad-list">
+          <li>Omega-3 Index (EPA+DHA, RBC)<span class="quad-unit">%</span></li>
+          <li>25-OH Vitamin D<span class="quad-unit">ng/mL</span></li>
+          <li>Ferritin<span class="quad-unit">ng/mL</span></li>
+          <li>Iron saturation<span class="quad-unit">%</span></li>
+          <li>Vitamin B12<span class="quad-unit">pg/mL</span></li>
+          <li>Folate, serum<span class="quad-unit">ng/mL</span></li>
+          <li>Magnesium, RBC<span class="quad-unit">mg/dL</span></li>
+          <li>Albumin<span class="quad-unit">g/dL</span></li>
+          <li>HDL cholesterol<span class="quad-unit">mg/dL</span></li>
+        </ul>
+      </details>
+    </div>
+    <p class="principle">Same body. Same conditions. Two time points.</p>
+    <p class="quiet">Day 90 uses the same laboratory where we can, the same fasting, the same time of morning, and the same kind of day before. The less that changes around the test, the more the change in the number means.</p>
+  </section>
 
 <figure class="fig">
 <svg class="ill" viewBox="0 0 300 142" role="img" aria-labelledby="resT resD">

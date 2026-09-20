@@ -203,7 +203,7 @@ strong{font-weight:600;color:#fff}
 .cell .scale{display:flex;gap:3px;height:9px;margin-bottom:1.05rem}
 .cell .scale i{flex:1;background:var(--rule-2);border-radius:1px}
 .cell[data-sys="charge"] .scale i:nth-child(-n+7){background:var(--blue)}
-.cell[data-sys="drain"] .scale i:nth-child(-n+4){background:var(--silver)}
+.cell[data-sys="drain"] .scale i:nth-child(-n+4){background:var(--copper)}
 .cell[data-sys="output"] .scale i:nth-child(-n+6){background:var(--teal)}
 .cell[data-sys="reserve"] .scale i:nth-child(-n+5){background:var(--green)}
 .cell h3{margin-bottom:.5rem}
@@ -311,7 +311,7 @@ footer p{max-width:var(--measure);margin:0}
 .sym span{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;white-space:nowrap}
 .sym span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.6rem;vertical-align:-.02em;background:currentColor}
 .sym[data-sys="charge"] span{color:var(--blue)}
-.sym[data-sys="drain"] span{color:var(--silver)}
+.sym[data-sys="drain"] span{color:var(--copper)}
 .sym[data-sys="output"] span{color:var(--teal)}
 .sym[data-sys="reserve"] span{color:var(--green)}
 .after-list{margin-top:1.9rem;font-size:var(--fs-base);color:#CBD9DA}
@@ -456,6 +456,87 @@ body.plain{line-height:1.72}
 /* a sticky header would otherwise cover the heading you jumped to */
 section[id]{scroll-margin-top:5.5rem}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* O4: Charge blue, Drain copper, Output teal, Reserve green, everywhere.
+   These were inline hex on each dot, which is how drain came to be steel in
+   the four-systems cards and copper in the illustration beside them. */
+.dot[data-sys="charge"]{background:var(--blue)}
+.dot[data-sys="drain"]{background:var(--copper)}
+.dot[data-sys="output"]{background:var(--teal)}
+.dot[data-sys="reserve"]{background:var(--green)}
+
+/* ---------- battery score dashboard ----------
+   One illustrative day 0. No day 90 numbers exist, so the day 90 column names
+   the subsystems and says when they get measured, per O5. Nothing here
+   animates from one number to another. */
+.dash{margin:2.4rem 0 0;border:1px solid var(--rule);border-radius:4px;
+  background:var(--navy);padding:1.8rem 1.5rem 1.5rem}
+.dash-head{text-align:center;margin-bottom:1.8rem}
+.dash-label{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin:0}
+.dash-big{font-family:var(--display);font-size:calc(var(--fs-base)*3.1);line-height:1;
+  color:#fff;margin:.5rem 0 .3rem}
+.dash-sub{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin:0}
+.dash-bars{list-style:none;padding:0;margin:0;display:grid;gap:.85rem}
+.dash-bars li{display:grid;grid-template-columns:5.5rem 1fr 2.2rem;align-items:center;
+  gap:.85rem;max-width:none}
+.bar-name{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--silver)}
+.bar-track{height:8px;background:rgba(182,189,188,.14);border-radius:2px;overflow:hidden}
+.bar-fill{display:block;height:100%;border-radius:2px}
+.bar-num{font-family:var(--display);font-size:var(--fs-sm);color:#fff;text-align:right}
+/* O4 colours, the same four everywhere on the site. */
+[data-sys="charge"] .bar-fill{background:var(--blue)}
+[data-sys="drain"] .bar-fill{background:var(--copper)}
+[data-sys="output"] .bar-fill{background:var(--teal)}
+[data-sys="reserve"] .bar-fill{background:var(--green)}
+.dash-note{font-size:var(--fs-xs);color:var(--steel);text-align:center;margin:1.6rem 0 0;max-width:none}
+
+.compare{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:3px;overflow:hidden;margin:1.4rem 0 0}
+@media(min-width:620px){.compare{grid-template-columns:1fr 1fr}}
+.compare-col{background:var(--carbon);padding:1.3rem 1.25rem}
+.compare-when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin:0 0 .9rem}
+.compare-col ul{list-style:none;padding:0;margin:0}
+.compare-col li{display:flex;justify-content:space-between;gap:1rem;padding:.4rem 0;
+  border-bottom:1px solid rgba(182,189,188,.08);font-size:var(--fs-sm);color:#BFCDCE;max-width:none}
+.compare-col li:last-child{border-bottom:0}
+.compare-col b{color:#fff;font-weight:600}
+.compare-col i{font-style:normal;color:var(--steel);font-size:var(--fs-xs)}
+
+/* ---------- the 33 markers, by subsystem ----------
+   details and summary, so expanding works with no JavaScript at all: click on
+   a desktop, tap on a phone, and the keyboard gets it for free. */
+.quads{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:3px;overflow:hidden;margin:2.2rem 0 0}
+@media(min-width:760px){.quads{grid-template-columns:1fr 1fr}}
+.quad{background:var(--carbon)}
+.quad summary{cursor:pointer;list-style:none;display:flex;align-items:center;
+  justify-content:space-between;gap:1rem;padding:1.15rem 1.3rem;
+  border-left:3px solid transparent}
+.quad summary::-webkit-details-marker{display:none}
+.quad[data-sys="charge"] summary{border-left-color:var(--blue)}
+.quad[data-sys="drain"] summary{border-left-color:var(--copper)}
+.quad[data-sys="output"] summary{border-left-color:var(--teal)}
+.quad[data-sys="reserve"] summary{border-left-color:var(--green)}
+.quad summary:hover{background:rgba(33,139,190,.08)}
+.quad-name{font-family:var(--display);font-size:var(--fs-h3);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:#fff}
+.quad-count{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);white-space:nowrap}
+.quad-what{font-size:var(--fs-sm);color:#BFCDCE;line-height:1.55;margin:0;
+  padding:0 1.3rem .9rem 1.6rem;max-width:none}
+.quad-list{list-style:none;padding:0 1.3rem 1.3rem 1.6rem;margin:0}
+.quad-list li{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+  font-size:var(--fs-sm);color:var(--steel);line-height:1.5;padding:.3rem 0;
+  border-bottom:1px solid rgba(182,189,188,.08);max-width:none}
+.quad-list li:last-child{border-bottom:0}
+.quad-unit{font-size:var(--fs-xs);color:var(--steel);opacity:.7;white-space:nowrap}
+
+.principle{font-family:var(--display);font-size:var(--fs-h3);letter-spacing:var(--ls-display);
+  color:var(--teal);text-align:center;margin:2.4rem auto .8rem;max-width:28ch;text-wrap:balance}
 
 /* ---------- the three step strip ----------
    The five second summary, at the top of the first section under the hero.

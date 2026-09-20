@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#05090C">
 <link rel="icon" href="/assets/mark-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/mark-192.png">
-<link rel="stylesheet" href="/styles.css?v=26">
+<link rel="stylesheet" href="/styles.css?v=27">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -399,6 +399,42 @@
 
 <p class="voice">I sleep eight hours and I wake up at forty percent.</p>
 
+<section id="score">
+  <div class="wrap">
+    <h2>The Battery Score</h2>
+    <p class="lede">A composite index over four subsystems, computed the same way at day 0 and day 90.</p>
+
+    <div class="dash">
+      <div class="dash-head">
+        <p class="dash-label">Battery Score</p>
+        <p class="dash-big">54</p>
+        <p class="dash-sub">Day 0</p>
+      </div>
+      <ul class="dash-bars">
+        <li data-sys="charge"><span class="bar-name">Charge</span><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="bar-num">47</span></li>
+        <li data-sys="drain"><span class="bar-name">Drain</span><span class="bar-track"><span class="bar-fill" style="width:61%"></span></span><span class="bar-num">61</span></li>
+        <li data-sys="output"><span class="bar-name">Output</span><span class="bar-track"><span class="bar-fill" style="width:52%"></span></span><span class="bar-num">52</span></li>
+        <li data-sys="reserve"><span class="bar-name">Reserve</span><span class="bar-track"><span class="bar-fill" style="width:58%"></span></span><span class="bar-num">58</span></li>
+      </ul>
+      <p class="dash-note">Illustrative example, not a participant result.</p>
+    </div>
+
+    <div class="compare">
+      <div class="compare-col">
+        <p class="compare-when">Day 0</p>
+        <ul><li>Charge <b>47</b></li><li>Drain <b>61</b></li><li>Output <b>52</b></li><li>Reserve <b>58</b></li></ul>
+      </div>
+      <div class="compare-col">
+        <p class="compare-when">Day 90</p>
+        <ul><li>Charge <i>measured at day 90</i></li><li>Drain <i>measured at day 90</i></li><li>Output <i>measured at day 90</i></li><li>Reserve <i>measured at day 90</i></li></ul>
+      </div>
+    </div>
+
+    <p>Each marker is scored 0 to 100 by its distance from a target band, averaged within its subsystem, then combined by fixed weights. The target band is not the laboratory reference range. Markers absent from a panel are excluded rather than imputed, so a partial panel lowers confidence rather than inventing a value.</p>
+    <p>It is the measurement framework of The Human Battery Project and nothing more. It is not a validated diagnostic instrument and it is not used to diagnose or treat anything.</p>
+  </div>
+</section>
+
 <section id="panel">
   <div class="wrap">
     <h2>The four systems, and the thirty-three markers behind them</h2>
@@ -454,48 +490,80 @@
       </div>
     </div>
 
-    <div class="panel-grid">
-      <div class="pcell">
-        <span class="dot" style="background:#218BBE"></span><h3>Charge</h3>
-        <ul>
-          <li><b>VO&#8322;max</b>: the ceiling on how much oxygen your system can move</li>
-          <li><b>Respiratory exchange ratio</b>: CO<sub>2</sub> out over oxygen in, which fuel you are burning</li>
-          <li><b>Lactate at a fixed load</b>: where oxidative capacity runs out</li>
-          <li><b>Fasting glucose</b> and <b>fasting insulin</b>: insulin rises years before glucose does. Fuel is in the tank but it cannot get to the engine.</li>
-          <li><b>HbA1c</b>, <b>HOMA-IR</b>, <b>triglycerides</b>, <b>triglyceride:HDL ratio</b></li>
+    <div class="quads">
+      <details class="quad" data-sys="charge">
+        <summary>
+          <span class="quad-name">Charge</span>
+          <span class="quad-count">6 markers</span>
+        </summary>
+        <p class="quad-what">Fuel delivery and oxidative throughput. VO₂max, RER and lactate sit beside the blood markers that show whether fuel reaches the machinery.</p>
+        <ul class="quad-list">
+          <li>Glucose, fasting<span class="quad-unit">mg/dL</span></li>
+          <li>Insulin, fasting<span class="quad-unit">uIU/mL</span></li>
+          <li>Hemoglobin A1c<span class="quad-unit">%</span></li>
+          <li>HOMA-IR (calculated)<span class="quad-unit">index</span></li>
+          <li>Triglycerides<span class="quad-unit">mg/dL</span></li>
+          <li>Triglyceride:HDL ratio<span class="quad-unit">ratio</span></li>
         </ul>
-      </div>
-      <div class="pcell">
-        <span class="dot" style="background:#6E908C"></span><h3>Drain</h3>
-        <ul>
-          <li><b>hs-CRP</b>: the anchor inflammatory marker</li>
-          <li><b>GGT, ALT, AST</b>: liver enzymes as metabolic load</li>
-          <li><b>Uric acid</b>, <b>homocysteine</b>, <b>white cell count</b></li>
-          <li><b>AA:EPA ratio</b>: the inflammatory side of your fat intake</li>
-          <li><b>Kynurenine:tryptophan</b>: tryptophan being burned by inflammation</li>
+      </details>
+      <details class="quad" data-sys="drain">
+        <summary>
+          <span class="quad-name">Drain</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">Inflammatory load. What is consuming capacity in the background.</p>
+        <ul class="quad-list">
+          <li>hs-CRP<span class="quad-unit">mg/L</span></li>
+          <li>Arachidonic acid : EPA ratio<span class="quad-unit">ratio</span></li>
+          <li>GGT<span class="quad-unit">U/L</span></li>
+          <li>Kynurenine : tryptophan ratio<span class="quad-unit">umol/mmol</span></li>
+          <li>ALT<span class="quad-unit">U/L</span></li>
+          <li>AST<span class="quad-unit">U/L</span></li>
+          <li>Uric acid<span class="quad-unit">mg/dL</span></li>
+          <li>White blood cell count<span class="quad-unit">K/uL</span></li>
+          <li>Homocysteine<span class="quad-unit">umol/L</span></li>
         </ul>
-      </div>
-      <div class="pcell">
-        <span class="dot" style="background:#2AAFC0"></span><h3>Output</h3>
-        <ul>
-          <li><b>TSH, free T3, free T4</b>, and the conversion between them</li>
-          <li><b>Total and free testosterone</b>, scored against your own sex's range</li>
-          <li><b>DHEA-S</b>: adrenal reserve</li>
-          <li><b>Morning cortisol</b>: drawn at the same hour both times</li>
-          <li><b>IGF-1</b>, <b>SHBG</b></li>
+      </details>
+      <details class="quad" data-sys="output">
+        <summary>
+          <span class="quad-name">Output</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">The hormonal panel. What the system can spend.</p>
+        <ul class="quad-list">
+          <li>TSH<span class="quad-unit">uIU/mL</span></li>
+          <li>Free T3<span class="quad-unit">pg/mL</span></li>
+          <li>Free T4<span class="quad-unit">ng/dL</span></li>
+          <li>Testosterone, total<span class="quad-unit">ng/dL</span></li>
+          <li>Testosterone, free<span class="quad-unit">pg/mL</span></li>
+          <li>DHEA-S<span class="quad-unit">ug/dL</span></li>
+          <li>Cortisol, morning<span class="quad-unit">ug/dL</span></li>
+          <li>IGF-1<span class="quad-unit">ng/mL</span></li>
+          <li>SHBG<span class="quad-unit">nmol/L</span></li>
         </ul>
-      </div>
-      <div class="pcell">
-        <span class="dot" style="background:#157A5C"></span><h3>Reserve</h3>
-        <ul>
-          <li><b>Omega-3 Index</b>: EPA and DHA in your red cell membranes. This is what your battery casing is made of.</li>
-          <li><b>25-OH vitamin D</b>: the direct readout on the light protocol</li>
-          <li><b>Ferritin</b> and <b>iron saturation</b>, read together</li>
-          <li><b>B12</b>, <b>folate</b>, <b>RBC magnesium</b>: red cell, not serum</li>
-          <li><b>Albumin</b>, <b>HDL</b></li>
+      </details>
+      <details class="quad" data-sys="reserve">
+        <summary>
+          <span class="quad-name">Reserve</span>
+          <span class="quad-count">9 markers</span>
+        </summary>
+        <p class="quad-what">What it is built from. Substrate, membrane composition and minerals, including the Omega-3 Index.</p>
+        <ul class="quad-list">
+          <li>Omega-3 Index (EPA+DHA, RBC)<span class="quad-unit">%</span></li>
+          <li>25-OH Vitamin D<span class="quad-unit">ng/mL</span></li>
+          <li>Ferritin<span class="quad-unit">ng/mL</span></li>
+          <li>Iron saturation<span class="quad-unit">%</span></li>
+          <li>Vitamin B12<span class="quad-unit">pg/mL</span></li>
+          <li>Folate, serum<span class="quad-unit">ng/mL</span></li>
+          <li>Magnesium, RBC<span class="quad-unit">mg/dL</span></li>
+          <li>Albumin<span class="quad-unit">g/dL</span></li>
+          <li>HDL cholesterol<span class="quad-unit">mg/dL</span></li>
         </ul>
-      </div>
+      </details>
     </div>
+
+    <p class="principle">Same body. Same conditions. Two time points.</p>
+    <p class="quiet">Day 90 repeats the same laboratory wherever possible, the same fasting state, the same morning timing and comparable pre-test conditions. Reducing measurement variability is what makes the day 0 to day 90 comparison worth reading.</p>
 
     <div class="honest narrow" style="margin-inline:0">
       <p><b>Charge is the only one that is not just blood.</b> Food enters the mitochondrion, electrons are stripped from it, protons get pumped across a membrane, and oxygen combines with them at the end to make water. Carbon leaves as CO<sub>2</sub>. That reaction is what builds the voltage.</p>
