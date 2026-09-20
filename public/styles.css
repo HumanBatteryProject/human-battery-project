@@ -72,64 +72,92 @@ strong{font-weight:600;color:#fff}
 
 /* ---------- hero ---------- */
 .hero{padding:clamp(3rem,9vw,5.5rem) 0 clamp(2.5rem,7vw,5rem);text-align:center}
-/* Sized by HEIGHT, not width. The mark is 660x780, so a width rule would make
-   the two pages disagree about how tall it sits. 140 desktop, 100 phone. */
+/* Sized by HEIGHT, not width: the mark is 660x780. Only enrolled.html uses
+   this now; / and /science use the inline animated mark below. */
 .hero .mark{height:140px;width:auto;margin:0 auto 2.2rem;display:block}
-/* The symptom list. Still the h1, because it is the only one on the page and
-   the document should keep a heading, but it does not READ as a headline: it
-   is a list of complaints, so it is set in the body face one step above
-   running text rather than in the wide display face.
-   NOT `.symptoms` — that class already exists further down both pages (the
-   complaint grid) and carries a top rule, which drew a stray line here. */
-.hero .hero-symptoms{font-family:var(--body);font-size:26px;font-weight:500;
-  line-height:1.45;letter-spacing:0;max-width:640px;margin-inline:auto;
-  text-wrap:balance;font-variation-settings:'opsz' 26}
-/* The two explanations. Normal body size, same measure as the list above, so
-   the hero reads as one column rather than three different widths. */
-.hero .hero-body{font-size:var(--fs-base);color:#CBD9DA;max-width:640px;
-  margin:1.4rem auto 0;font-variation-settings:'opsz' 16}
 .hero p{margin-inline:auto;text-align:center}
 .hero .lede{margin-top:1.6rem}
-/* Hero welcome line. Michroma is a wide face, so the clamp keeps it on
-   one line down to roughly 800px and lets it wrap below that. */
-.welcome{font-family:var(--display);font-size:var(--fs-h3);
-  letter-spacing:.15em;text-transform:uppercase;color:var(--teal);
-  margin:0 0 1.8rem;max-width:none;text-wrap:balance;line-height:1.7}
-/* The headline sits below the welcome line but stays above the lede. */
-/* the two doors: same page, two ways in.
-   BOTH ARE FILLED AND THE SAME SIZE. The page you are already on used to be
-   dimmed to 45 percent, which read as a disabled control rather than as a
-   current location. It is marked with a label above it instead. */
-.doors{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:2.2rem auto 0;max-width:40rem}
-.door-slot{display:flex;flex-direction:column}
-/* The label sits above one door. The other slot carries an EMPTY one at the
-   same height, so the two doors stay identical and level instead of one
-   dropping below the other. Body face: it is an annotation, not a door label. */
-.door-flag{font-family:var(--body);font-size:var(--fs-xs);line-height:1.4;
-  min-height:1.4em;margin:0 0 .45rem;color:var(--steel);max-width:none;text-align:center}
-/* Label size is PINNED, not inherited. `body.plain` raises --fs-base to 21px on
-   the front page only, which made the same door label wrap to two lines there
-   and sit on one line on /science. The two doors are the same control on both
-   pages, so they get the same size. */
-.doors .door{display:flex;flex:1;align-items:center;justify-content:center;text-align:center;
-  width:100%;background:var(--navy-2);border-color:var(--rule-2);color:var(--ice);
-  font-size:12px;letter-spacing:.04em;padding-inline:.9rem}
-.doors .door:hover{background:rgba(33,139,190,.24);border-color:var(--blue)}
-/* Stacked. The gap between the two doors is opened up well past the gap
-   between a label and its own door, so "You are here" clearly belongs to the
-   door BELOW it. At an even gap it sits midway between two buttons and reads
-   as though it could describe either, which is worst on /science where it
-   falls between them rather than at the top. */
-@media(max-width:559px){
-  .doors{grid-template-columns:1fr;max-width:22rem;gap:1.4rem}
-  .door-flag{margin-bottom:.3rem}
+/* ═══════════════ THE LANDING ═══════════════
+   The same block, word for word, at the top of / and /science. The only
+   difference between the two pages is which tab carries aria-current.
+
+   EVERY SIZE HERE IS PINNED IN PIXELS, not taken from --fs-*. `body.plain`
+   raises --fs-base to 21px on the front page only, so anything inheriting it
+   would render the shared landing at two different sizes. That already bit
+   the door labels once. */
+.landing{padding:clamp(2.6rem,7vw,4.2rem) 0 clamp(2rem,5vw,3rem);text-align:center}
+.landing-col{width:min(100% - 2.5rem,640px);margin-inline:auto}
+
+/* ---- the mark, alive ----
+   Inline SVG, so CSS can reach the orbit rings. `transform-box: fill-box`
+   makes transform-origin resolve against the group's own bounding box, whose
+   centre is exactly the point all three rings share (575,480). Setting a
+   user-space origin instead would have to be offset by the viewBox origin
+   (245,100), which is the sort of arithmetic that silently drifts. */
+.mark-anim{display:block;height:160px;width:auto;margin:0 auto 2.2rem}
+.mark-anim .orbit{
+  transform-box:fill-box;transform-origin:center;
+  animation:mark-orbit 20s linear infinite;
+  will-change:transform;
 }
-.hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem}
-/* Phone. The two numbers the brief names, plus the doors stacking, all at the
-   same breakpoint so the hero changes shape once rather than twice. */
+@keyframes mark-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* Still for anyone who asked for less motion. The global reduced-motion rule
+   further down already forces animation:none !important on everything; this is
+   here so the intent is legible at the thing it applies to. */
+@media(prefers-reduced-motion:reduce){.mark-anim .orbit{animation:none}}
+
+/* ---- the video slot ---- */
+.video{position:relative;width:100%;aspect-ratio:16/9;margin:0 0 2.4rem;
+  background:var(--navy);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+/* The poster. A div and not a button while there is no URL, so "clicking does
+   nothing" is true with no JavaScript involved at all. landing.js swaps in a
+   real button only once data-video holds a URL it recognises. */
+.video-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--navy);border:0;padding:0;margin:0;width:100%;height:100%}
+button.video-poster{cursor:pointer}
+/* Held well back: the play control is the thing to read, and at equal weight
+   the two fight in the middle of the frame. */
+.video-mark{height:34%;width:auto;opacity:.22}
+.video-play{position:absolute;width:68px;height:68px;border-radius:50%;
+  border:1px solid var(--rule-2);background:rgba(5,9,12,.78);
+  display:flex;align-items:center;justify-content:center}
+.video-play::after{content:"";display:block;margin-left:5px;
+  border-style:solid;border-width:11px 0 11px 18px;
+  border-color:transparent transparent transparent var(--ice)}
+button.video-poster:hover .video-play{border-color:var(--blue);background:rgba(33,139,190,.2)}
+button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
+
+/* ---- the one idea ---- */
+.landing-head{font-family:var(--display);font-weight:400;
+  font-size:clamp(20px,2.5vw,27px);line-height:1.44;letter-spacing:.01em;
+  margin:0 0 1.3rem;text-wrap:balance}
+.landing-sub{font-family:var(--display);font-weight:400;
+  font-size:clamp(13px,1.5vw,15px);line-height:1.5;letter-spacing:.05em;
+  color:var(--teal);margin:2.4rem 0 1rem;text-wrap:balance}
+.landing-body{font-family:var(--body);font-size:18px;line-height:1.7;
+  color:#CBD9DA;max-width:none;margin:0 auto;font-variation-settings:'opsz' 18}
+
+/* ---- the two tabs ----
+   Tabs, not buttons: a shared baseline with the active one sitting on it. They
+   are links between two pages, so they are anchors in a nav, and the active
+   one is marked with aria-current rather than by colour alone. */
+.tabs{display:flex;justify-content:center;gap:0;margin:2.8rem 0 0;
+  border-bottom:1px solid var(--rule-2)}
+.tabs a{font-family:var(--display);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--steel);
+  padding:.85rem 1.35rem;margin-bottom:-1px;
+  border:0;border-bottom:2px solid transparent;background:transparent}
+.tabs a:hover{color:var(--silver);border-bottom-color:var(--rule-2)}
+.tabs a[aria-current="page"]{color:var(--ice);border-bottom-color:var(--teal)}
+
+.landing-apply{margin:2.2rem 0 0;max-width:none}
+.landing-apply .btn{font-size:12px}
+
 @media(max-width:559px){
-  .hero .mark{height:100px}
-  .hero .hero-symptoms{font-size:20px;font-variation-settings:'opsz' 20}
+  .mark-anim{height:110px}
+  .landing-body{font-size:17px}
+  .tabs a{padding:.8rem .9rem;font-size:11px;letter-spacing:.07em}
 }
 
 /* ---------- the readout: signature element ---------- */

@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Human Battery Project</title>
-<meta name="description" content="Tired by the afternoon, not sleeping, foggy, carrying weight you did not ask for. Your body is trillions of tiny batteries. We measure them, change what they run on, and measure again.">
+<meta name="description" content="Your body is made of trillions of tiny batteries. A 90-day program that measures them with a blood panel and fitness tests, then measures again at day 90. The simple explanation.">
 <link rel="canonical" href="https://thehumanbatteryproject.com/">
 <meta property="og:title" content="The Human Battery Project">
 <meta property="og:description" content="You've tried everything. So why don't you feel better? Everyone had an answer. None of them worked.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=14">
+<link rel="stylesheet" href="/styles.css?v=15">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -63,27 +63,100 @@
 
 <main>
 
-<section class="hero">
-  <div class="wrap">
-    <!-- Decorative: the nav lockup above already names the project, so a second
-         alt text here would just be announced twice. -->
-    <img class="mark" src="/assets/02-mark.svg" alt="" width="118" height="140">
-    <h1 class="hero-symptoms">Tired by the afternoon. Hours to fall asleep, or awake at 2 a.m. Foggy. Carrying weight you did not ask for. Hard to focus. Or you train five days a week and still feel flat.</h1>
-    <p class="hero-body">Here is why. Your body is trillions of tiny batteries. They have to charge, hold a charge, and work together. When they cannot, you get every symptom on that list.</p>
-    <p class="hero-body">We measure your batteries. We change what they run on. We measure again and show you what changed.</p>
-    <div class="doors">
-      <div class="door-slot">
-        <p class="door-flag">You are here</p>
-        <a class="btn door" href="/" aria-current="page">Show me the simple version</a>
-      </div>
-      <div class="door-slot">
-        <p class="door-flag" aria-hidden="true"></p>
-        <a class="btn door" href="/science">Show me the science</a>
+<section class="landing">
+  <div class="landing-col">
+
+    <!-- The mark is INLINE, not an <img>, because CSS cannot reach into an
+         external SVG to turn the orbit rings. Decorative: the nav lockup above
+         already carries the project name in alt text. -->
+    <svg class="mark-anim" xmlns="http://www.w3.org/2000/svg" viewBox="245 100 660 780" aria-hidden="true" focusable="false">
+<defs>
+<radialGradient id="gTeal" cx="34%" cy="28%" r="78%">
+<stop offset="0%" stop-color="#8FE3E6"/><stop offset="26%" stop-color="#2AAFC0"/>
+<stop offset="68%" stop-color="#0B6D70"/><stop offset="100%" stop-color="#04383D"/></radialGradient>
+<radialGradient id="gBlue" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#9FD4F5"/><stop offset="22%" stop-color="#3E9EE0"/>
+<stop offset="62%" stop-color="#1A6FB2"/><stop offset="100%" stop-color="#0A3A63"/></radialGradient>
+<radialGradient id="gSilver" cx="34%" cy="26%" r="80%">
+<stop offset="0%" stop-color="#FFFFFF"/><stop offset="24%" stop-color="#DCE4E4"/>
+<stop offset="62%" stop-color="#AEB7B6"/><stop offset="100%" stop-color="#5E7473"/></radialGradient>
+<radialGradient id="gGreen" cx="34%" cy="28%" r="80%">
+<stop offset="0%" stop-color="#4FCB9C"/><stop offset="24%" stop-color="#1E9A6E"/>
+<stop offset="64%" stop-color="#075B46"/><stop offset="100%" stop-color="#02271D"/></radialGradient>
+<linearGradient id="gMetal" x1="0%" y1="0%" x2="100%" y2="10%">
+<stop offset="0%" stop-color="#57696B"/><stop offset="18%" stop-color="#C9D2D2"/>
+<stop offset="38%" stop-color="#F2F7F7"/><stop offset="58%" stop-color="#AFBAB9"/>
+<stop offset="80%" stop-color="#7E908F"/><stop offset="100%" stop-color="#3E4E50"/></linearGradient>
+<linearGradient id="gMetalV" x1="0%" y1="0%" x2="12%" y2="100%">
+<stop offset="0%" stop-color="#E8F0F0"/><stop offset="30%" stop-color="#B6BDBC"/>
+<stop offset="62%" stop-color="#7A8C8B"/><stop offset="100%" stop-color="#445658"/></linearGradient>
+<linearGradient id="gOrbit" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#1F7FB0"/><stop offset="30%" stop-color="#9FB4B8"/>
+<stop offset="55%" stop-color="#E4EDEE"/><stop offset="78%" stop-color="#6E908C"/>
+<stop offset="100%" stop-color="#154A63"/></linearGradient>
+<linearGradient id="gHuman" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#B4F2E8"/><stop offset="24%" stop-color="#37C1BE"/>
+<stop offset="60%" stop-color="#199B78"/><stop offset="100%" stop-color="#0C7A55"/></linearGradient>
+<linearGradient id="gBattery" x1="0%" y1="0%" x2="6%" y2="100%">
+<stop offset="0%" stop-color="#A6DBF7"/><stop offset="24%" stop-color="#3A9BD8"/>
+<stop offset="64%" stop-color="#1C72AB"/><stop offset="100%" stop-color="#125889"/></linearGradient>
+<radialGradient id="gGloss" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+<stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+</defs>
+<g class="orbit">
+<ellipse cx="575.0" cy="480" rx="272" ry="272" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(0 575.0 480)"/>
+<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(58 575.0 480)"/>
+<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(-58 575.0 480)"/>
+</g>
+<rect x="569.0" y="140" width="12" height="670" rx="6" fill="url(#gMetalV)"/>
+<path d="M 523.9 331.3 Q 499.8 391.3 444.5 429.6 L 493.2 463.6 Q 510.1 398.6 558.3 355.3 Z" fill="url(#gMetal)"/>
+<path d="M 501.6 528.4 Q 590.4 498.1 682.7 506.9 L 678.5 459.1 Q 589.2 483.7 496.4 469.2 Z" fill="url(#gMetal)"/>
+<path d="M 681.3 504.0 Q 648.7 564.1 591.4 601.4 L 626.7 634.0 Q 659.3 573.9 716.6 536.6 Z" fill="url(#gMetal)"/>
+<path d="M 594.0 602.4 Q 576.3 477.4 591.0 352.4 L 549.0 352.4 Q 563.7 477.4 546.0 602.4 Z" fill="url(#gMetal)"/>
+<circle cx="570.0" cy="128.0" r="23.0" fill="url(#gMetalV)"/>
+<ellipse cx="563.1" cy="119.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
+<circle cx="570.0" cy="816.0" r="23.0" fill="url(#gMetalV)"/>
+<ellipse cx="563.1" cy="807.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
+<circle cx="570.0" cy="302.0" r="70.0" fill="url(#gTeal)"/>
+<circle cx="570.0" cy="302.0" r="70.0" fill="none" stroke="url(#gMetalV)" stroke-width="7.0" opacity="0.9"/>
+<ellipse cx="549.0" cy="274.0" rx="28.0" ry="18.9" fill="url(#gGloss)" transform="rotate(-24 549.0 274.0)"/>
+<circle cx="428.0" cy="505.0" r="99.0" fill="url(#gBlue)"/>
+<circle cx="428.0" cy="505.0" r="99.0" fill="none" stroke="url(#gMetalV)" stroke-width="9.9" opacity="0.9"/>
+<ellipse cx="398.3" cy="465.4" rx="39.6" ry="26.7" fill="url(#gGloss)" transform="rotate(-24 398.3 465.4)"/>
+<circle cx="738.0" cy="478.0" r="80.0" fill="url(#gSilver)"/>
+<circle cx="738.0" cy="478.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
+<ellipse cx="714.0" cy="446.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 714.0 446.0)"/>
+<circle cx="570.0" cy="660.0" r="80.0" fill="url(#gGreen)"/>
+<circle cx="570.0" cy="660.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
+<ellipse cx="546.0" cy="628.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 546.0 628.0)"/>
+</svg>
+
+    <!-- VIDEO SLOT. Put a YouTube or Vimeo watch URL in data-video and it
+         becomes a player. No URL means the poster stays and clicking does
+         nothing, which is the state that ships today. Nothing else to edit:
+         landing.js works out the provider from the URL itself. -->
+    <div class="video" data-video="">
+      <div class="video-poster">
+        <img class="video-mark" src="/assets/02-mark.svg" alt="">
+        <span class="video-play" aria-hidden="true"></span>
       </div>
     </div>
-    <div class="hero-actions">
-      <a class="btn btn-solid" href="#apply">Start on the 1st or the 15th</a>
-    </div>
+
+    <h1 class="landing-head">Your body is made of trillions of tiny batteries.</h1>
+    <p class="landing-body">Low energy. Poor sleep. Brain fog. Stubborn weight. Trouble focusing. Slow to recover. Some of these may be because your batteries are not charging properly, or are losing charge.</p>
+
+    <h2 class="landing-sub">What is The Human Battery Project?</h2>
+    <p class="landing-body">A 90-day program. We measure your batteries with a blood panel and fitness tests. You follow a simple daily plan built on light, water, movement, food and sleep. At day 90 we measure again and show you what changed.</p>
+
+    <nav class="tabs" aria-label="Which version of this page to read">
+      <a href="/" aria-current="page">Simple explanation</a>
+      <a href="/science">The science</a>
+    </nav>
+
+    <p class="landing-apply"><a class="btn btn-solid" href="#apply">Apply. Start on the 1st or the 15th.</a></p>
+
   </div>
 </section>
 
@@ -931,5 +1004,6 @@ form.addEventListener('submit', function(e){
   });
 })();
 </script>
+<script src="/landing.js?v=1"></script>
 </body>
 </html>
