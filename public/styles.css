@@ -82,6 +82,13 @@ strong{font-weight:600;color:#fff}
   letter-spacing:.15em;text-transform:uppercase;color:var(--teal);
   margin:0 0 1.8rem;max-width:none;text-wrap:balance;line-height:1.7}
 /* The headline sits below the welcome line but stays above the lede. */
+/* the two doors: same page, two ways in */
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:2.2rem auto 0;max-width:30rem}
+.doors .door{display:flex;align-items:center;justify-content:center;text-align:center;width:100%}
+/* the door you came through, quieter, so which one is live is obvious */
+.doors .doors-here{opacity:.45;border-color:var(--rule);color:var(--steel)}
+.doors .doors-here:hover{opacity:.6}
+@media(max-width:559px){.doors{grid-template-columns:1fr;max-width:22rem}}
 .hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem}
 
 /* ---------- the readout: signature element ---------- */
