@@ -133,16 +133,15 @@ strong{font-weight:600;color:#fff}
    their spheres, so the frame turns as a unit and each sphere reads its depth
    from that single turn.
 
-   Teal and green sit on the axis (x=570 against an axis at 575). That is the
-   one place a rotation about a vertical axis cannot move, so they are the
-   poles. They get their own sway and breath instead, on 16s and 25s, which
-   share no factor with the 21s turn, so the four never look locked together.
+   Teal and green sit on the axis itself (x=570 against an axis at 575), the
+   one place a rotation about a vertical axis cannot move. They are the poles,
+   so they get their own sway and breath on 16s and 25s, which share no factor
+   with the 21s turn.
 
-   The struts scale about the axis; the spheres translate. Same result, except
-   translate does not mirror the specular highlight the way scaleX would.
+   The struts scale about the axis; the spheres translate, because translate
+   does not mirror the specular highlight the way scaleX would.
 
-   Only transform and opacity are animated. Both are composited, so no frame
-   costs layout or paint. */
+   Only transform and opacity are animated, so no frame costs layout or paint. */
 .mk-struts{transform-box:view-box;transform-origin:575px 480px;
   animation:mk-turn 21s linear infinite}
 .mk-ball{transform-box:view-box}
@@ -151,15 +150,15 @@ strong{font-weight:600;color:#fff}
 .mk-teal{transform-origin:570px 302px;animation:mk-teal 16s ease-in-out infinite}
 .mk-green{transform-origin:570px 660px;animation:mk-green 25s ease-in-out infinite}
 @keyframes mk-turn{0%{transform:scaleX(1)}8.333%{transform:scaleX(0.866)}16.667%{transform:scaleX(0.5)}25%{transform:scaleX(0.08)}33.333%{transform:scaleX(-0.5)}41.667%{transform:scaleX(-0.866)}50%{transform:scaleX(-1)}58.333%{transform:scaleX(-0.866)}66.667%{transform:scaleX(-0.5)}75%{transform:scaleX(-0.08)}83.333%{transform:scaleX(0.5)}91.667%{transform:scaleX(0.866)}100%{transform:scaleX(1)}}
-@keyframes mk-blue{0%{transform:translateX(-px) scale(1);opacity:0.86}8.333%{transform:translateX(2px) scale(0.955);opacity:0.79}16.667%{transform:translateX(73px) scale(0.922);opacity:0.74}25%{transform:translateX(147px) scale(0.91);opacity:0.72}33.333%{transform:translateX(22px) scale(0.922);opacity:0.74}41.667%{transform:translateX(274px) scale(0.955);opacity:0.79}50%{transform:translateX(294px) scale(1);opacity:0.86}58.333%{transform:translateX(274px) scale(1.045);opacity:0.93}66.667%{transform:translateX(221px) scale(1.078);opacity:0.98}75%{transform:translateX(147px) scale(1.09);opacity:1}83.333%{transform:translateX(73px) scale(1.078);opacity:0.98}91.667%{transform:translateX(2px) scale(1.045);opacity:0.93}100%{transform:translateX(-px) scale(1);opacity:0.86}}
+@keyframes mk-blue{0%{transform:translateX(0px) scale(1);opacity:0.86}8.333%{transform:translateX(20px) scale(0.955);opacity:0.79}16.667%{transform:translateX(73px) scale(0.922);opacity:0.74}25%{transform:translateX(147px) scale(0.91);opacity:0.72}33.333%{transform:translateX(220px) scale(0.922);opacity:0.74}41.667%{transform:translateX(274px) scale(0.955);opacity:0.79}50%{transform:translateX(294px) scale(1);opacity:0.86}58.333%{transform:translateX(274px) scale(1.045);opacity:0.93}66.667%{transform:translateX(221px) scale(1.078);opacity:0.98}75%{transform:translateX(147px) scale(1.09);opacity:1}83.333%{transform:translateX(73px) scale(1.078);opacity:0.98}91.667%{transform:translateX(20px) scale(1.045);opacity:0.93}100%{transform:translateX(0px) scale(1);opacity:0.86}}
 @keyframes mk-silver{0%{transform:translateX(0px) scale(1);opacity:0.86}8.333%{transform:translateX(-22px) scale(1.045);opacity:0.93}16.667%{transform:translateX(-81px) scale(1.078);opacity:0.98}25%{transform:translateX(-163px) scale(1.09);opacity:1}33.333%{transform:translateX(-244px) scale(1.078);opacity:0.98}41.667%{transform:translateX(-304px) scale(1.045);opacity:0.93}50%{transform:translateX(-326px) scale(1);opacity:0.86}58.333%{transform:translateX(-304px) scale(0.955);opacity:0.79}66.667%{transform:translateX(-245px) scale(0.922);opacity:0.74}75%{transform:translateX(-163px) scale(0.91);opacity:0.72}83.333%{transform:translateX(-81px) scale(0.922);opacity:0.74}91.667%{transform:translateX(-22px) scale(0.955);opacity:0.79}100%{transform:translateX(0px) scale(1);opacity:0.86}}
-@keyframes mk-teal{0%{transform:translateX(0px) scale(1.07);opacity:1}8.333%{transform:translateX(5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(9px) scale(1.035);opacity:0.95}25%{transform:translateX(1px) scale(1);opacity:0.89}33.333%{transform:translateX(9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(5px) scale(0.939);opacity:0.79}50%{transform:translateX(0px) scale(0.93);opacity:0.78}58.333%{transform:translateX(-5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(-9px) scale(0.965);opacity:0.83}75%{transform:translateX(-1px) scale(1);opacity:0.89}83.333%{transform:translateX(-9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(-5px) scale(1.061);opacity:0.99}100%{transform:translateX(-px) scale(1.07);opacity:1}}
-@keyframes mk-green{0%{transform:translateX(-px) scale(1.07);opacity:1}8.333%{transform:translateX(-5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(-9px) scale(1.035);opacity:0.95}25%{transform:translateX(-1px) scale(1);opacity:0.89}33.333%{transform:translateX(-9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(-5px) scale(0.939);opacity:0.79}50%{transform:translateX(-px) scale(0.93);opacity:0.78}58.333%{transform:translateX(5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(9px) scale(0.965);opacity:0.83}75%{transform:translateX(1px) scale(1);opacity:0.89}83.333%{transform:translateX(9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(5px) scale(1.061);opacity:0.99}100%{transform:translateX(0px) scale(1.07);opacity:1}}
+@keyframes mk-teal{0%{transform:translateX(0px) scale(1.07);opacity:1}8.333%{transform:translateX(5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(9px) scale(1.035);opacity:0.95}25%{transform:translateX(10px) scale(1);opacity:0.89}33.333%{transform:translateX(9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(5px) scale(0.939);opacity:0.79}50%{transform:translateX(0px) scale(0.93);opacity:0.78}58.333%{transform:translateX(-5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(-9px) scale(0.965);opacity:0.83}75%{transform:translateX(-10px) scale(1);opacity:0.89}83.333%{transform:translateX(-9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(-5px) scale(1.061);opacity:0.99}100%{transform:translateX(0px) scale(1.07);opacity:1}}
+@keyframes mk-green{0%{transform:translateX(0px) scale(1.07);opacity:1}8.333%{transform:translateX(-5px) scale(1.061);opacity:0.99}16.667%{transform:translateX(-9px) scale(1.035);opacity:0.95}25%{transform:translateX(-10px) scale(1);opacity:0.89}33.333%{transform:translateX(-9px) scale(0.965);opacity:0.84}41.667%{transform:translateX(-5px) scale(0.939);opacity:0.79}50%{transform:translateX(0px) scale(0.93);opacity:0.78}58.333%{transform:translateX(5px) scale(0.939);opacity:0.79}66.667%{transform:translateX(9px) scale(0.965);opacity:0.83}75%{transform:translateX(10px) scale(1);opacity:0.89}83.333%{transform:translateX(9px) scale(1.035);opacity:0.95}91.667%{transform:translateX(5px) scale(1.061);opacity:0.99}100%{transform:translateX(0px) scale(1.07);opacity:1}}
 /* Reduced motion: the still mark, at rest, not a paused frame. */
 @media(prefers-reduced-motion:reduce){
   .mk-struts,.mk-ball{animation:none;transform:none;opacity:1}
 }
-}
+
 
 
 /* ---- the video slot ---- */
@@ -172,10 +171,17 @@ strong{font-weight:600;color:#fff}
 .video-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   background:var(--navy);border:0;padding:0;margin:0;width:100%;height:100%}
 button.video-poster{cursor:pointer}
-/* Held well back: the play control is the thing to read, and at equal weight
-   the two fight in the middle of the frame. */
-.video-mark{height:34%;width:auto;opacity:.22}
-.video-play{position:absolute;width:68px;height:68px;border-radius:50%;
+/* The mark bleeds off the right edge and the control sits on clear ground.
+   Centring both put a dark disc over the middle of the logo, which read as a
+   smudge rather than as a play control. Anchoring the mark to the right and
+   sizing it from the frame HEIGHT keeps the gap proportional at every width,
+   because the frame is a fixed 16/9. */
+.video-mark{position:absolute;right:-7%;top:50%;transform:translateY(-50%);
+  height:118%;width:auto;max-width:none;opacity:.15}
+/* Pinned to the frame, not to wherever the flex flow leaves it. It used to
+   have no offsets at all, so moving the mark moved the button with it. */
+.video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:68px;height:68px;border-radius:50%;
   border:1px solid var(--rule-2);background:rgba(5,9,12,.78);
   display:flex;align-items:center;justify-content:center}
 .video-play::after{content:"";display:block;margin-left:5px;
@@ -214,6 +220,7 @@ button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-
 .landing-apply{margin:2.2rem 0 0;max-width:none}
 
 @media(max-width:559px){
+  .video-mark{display:none}
   .mark-anim{height:110px}
   /* Padding only. The type size is the scale's job, and overriding it here is
      how the landing ended up a different size per page in the first place. */
