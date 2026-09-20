@@ -153,6 +153,22 @@ docs/                the model, the spec, the protocol, the strategy
   natural electric charge"; a pattern for `structured water` missed "Water is the medium.
   Structured, mineralized, and adequate" because the two words were in different sentences.
   Match the **claim shape**, not the vocabulary, and run it over the whole repo.
+  When a sentence trips the pattern but is innocent, **reword the sentence, do not
+  whitelist the phrase**. "It is the battery light, and you get to watch your number
+  move" on the front door matched on light and battery in one sentence, meaning the
+  warning lamp on a phone and nothing about light supplying energy. It is now "the
+  warning light". A keyword exception would have been the easier fix and would have
+  put a hole in the audit that every later pass inherits. There are no exceptions to
+  this audit, only sentences that no longer need one.
+
+  The audit also flags **negations**, and a negation is the model being stated
+  correctly, not broken. "Light does not deliver energy into you" and "the
+  protocol treats light as timing information rather than as an energy input"
+  both match on light plus energy in one sentence. They are the claim the model
+  wants on the page. Judge what the sentence **asserts**, not which words it
+  contains: a sentence that denies the forbidden claim is the opposite claim
+  shape. This is not a keyword exception and must not become one. Read the
+  sentence.
 
 ---
 

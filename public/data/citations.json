@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "citations": [
+    {
+      "id": "mitchell-1961-chemiosmotic",
+      "authors": [
+        "Mitchell P"
+      ],
+      "year": 1961,
+      "title": "Coupling of Phosphorylation to Electron and Hydrogen Transfer by a Chemi-Osmotic type of Mechanism",
+      "journal": "Nature",
+      "doi": "10.1038/191144a0",
+      "url": "https://doi.org/10.1038/191144a0",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-01"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-01"
+        }
+      ],
+      "relevance": "The paper that proposed ATP is made by pumping protons across a membrane and letting them back through. It is the mechanism the whole battery framing rests on.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "wallace-1992-mito-paradigm",
+      "authors": [
+        "Wallace DC"
+      ],
+      "year": 1992,
+      "title": "Mitochondrial Genetics: A Paradigm for Aging and Degenerative Diseases?",
+      "journal": "Science",
+      "doi": "10.1126/science.1533953",
+      "url": "https://doi.org/10.1126/science.1533953",
+      "study_type": "review",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-02"
+        }
+      ],
+      "relevance": "Argues that defects in oxidative phosphorylation sit underneath a range of degenerative disease. Contested because it is a proposed paradigm rather than a settled finding.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "berson-2002-ipRGC",
+      "authors": [
+        "Berson DM",
+        "Dunn FA",
+        "Takao M"
+      ],
+      "year": 2002,
+      "title": "Phototransduction by Retinal Ganglion Cells That Set the Circadian Clock",
+      "journal": "Science",
+      "doi": "10.1126/science.1067262",
+      "url": "https://doi.org/10.1126/science.1067262",
+      "study_type": "animal",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-02"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-03"
+        }
+      ],
+      "relevance": "Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is why the protocol treats light as timing information rather than as an energy input.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "lindqvist-2016-sun-mortality",
+      "authors": [
+        "Lindqvist PG",
+        "Epstein E",
+        "Nielsen K",
+        "Landin-Olsson M",
+        "Ingvar C",
+        "Olsson H"
+      ],
+      "year": 2016,
+      "title": "Avoidance of sun exposure as a risk factor for major causes of death: a competing risk analysis of the Melanoma in Southern Sweden cohort",
+      "journal": "Journal of Internal Medicine",
+      "doi": "10.1111/joim.12496",
+      "url": "https://doi.org/10.1111/joim.12496",
+      "study_type": "human_observational",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-03"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-04"
+        }
+      ],
+      "relevance": "A cohort followed for two decades in which women who avoided the sun had higher all-cause mortality. Observational, so it cannot separate sun exposure from everything that travels with it.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "liu-2014-uva-blood-pressure",
+      "authors": [
+        "Liu D",
+        "Fernandez BO",
+        "Hamilton A",
+        "Lang NN",
+        "Gallagher JMC",
+        "Newby DE",
+        "Feelisch M",
+        "Weller RB"
+      ],
+      "year": 2014,
+      "title": "UVA Irradiation of Human Skin Vasodilates Arterial Vasculature and Lowers Blood Pressure Independently of Nitric Oxide Synthase",
+      "journal": "Journal of Investigative Dermatology",
+      "doi": "10.1038/jid.2014.27",
+      "url": "https://doi.org/10.1038/jid.2014.27",
+      "study_type": "human_rct",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-05"
+        }
+      ],
+      "relevance": "Controlled exposure in people, lowering blood pressure through nitric oxide stored in skin, by a route vitamin D does not explain. Contested because it is one small trial.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "harris-2004-omega3-index",
+      "authors": [
+        "Harris WS",
+        "von Schacky C"
+      ],
+      "year": 2004,
+      "title": "The Omega-3 Index: a new risk factor for death from coronary heart disease?",
+      "journal": "Preventive Medicine",
+      "doi": "10.1016/j.ypmed.2004.02.030",
+      "url": "https://doi.org/10.1016/j.ypmed.2004.02.030",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-06"
+        }
+      ],
+      "relevance": "Defines the Omega-3 Index as EPA plus DHA in red cell membranes. The reason that exact measurement is on the panel rather than a general fatty acid panel.",
+      "accessed": "2026-09-20"
+    },
+    {
+      "id": "kodama-2009-fitness-mortality",
+      "authors": [
+        "Kodama S",
+        "Saito K",
+        "Tanaka S",
+        "Maki M",
+        "Yachi Y",
+        "Asumi M",
+        "Sugawara A",
+        "Totsuka K",
+        "Shimano H",
+        "Ohashi Y",
+        "Yamada N",
+        "Sone H"
+      ],
+      "year": 2009,
+      "title": "Cardiorespiratory Fitness as a Quantitative Predictor of All-Cause Mortality and Cardiovascular Events in Healthy Men and Women: A Meta-analysis",
+      "journal": "JAMA",
+      "doi": "10.1001/jama.2009.681",
+      "url": "https://doi.org/10.1001/jama.2009.681",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-04"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-07"
+        }
+      ],
+      "relevance": "Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.",
+      "accessed": "2026-09-20"
+    }
+  ]
+}

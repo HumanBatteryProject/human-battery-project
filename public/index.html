@@ -10,7 +10,7 @@
 <meta property="og:description" content="A 90 day program. We measure what your body runs on, you change the inputs, and we measure again. Open enrollment, new starts on the 1st and 15th of every month.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#05090C">
-<link rel="stylesheet" href="/styles.css?v=29">
+<link rel="stylesheet" href="/styles.css?v=31">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -667,7 +667,7 @@
         <span class="in-name">Darkness at night</span>
         <span class="in-note">The other half of the same signal.</span>
       </li>
-      <li data-sys="drain">
+      <li data-sys="output">
         <span class="in-dot"></span>
         <span class="in-name">Sleep</span>
         <span class="in-note">When the repairs happen.</span>
@@ -705,6 +705,7 @@
     </ul>
 
     <p class="quiet">The colour on each one is the subsystem it shows up in most directly. Charge blue, Drain copper, Output teal, Reserve green.</p>
+    <p class="quiet">Only one of the nine is marked Drain. That is not an oversight. Drain is mostly about what you take away, and those removals live inside food quality and recovery rather than being their own input.</p>
   </div>
 </section>
 
@@ -777,7 +778,7 @@
         <div class="n"></div>
         <div>
           <h3>You check in every day</h3>
-          <p>On your phone. Takes less than a minute. It is the battery light, and you get to watch your number move. Tap what you ate, what you did, how you slept. If you had a bad day, you say so. Nobody yells at you.</p>
+          <p>On your phone. Takes less than a minute. It is the warning light, and you get to watch your number move. Tap what you ate, what you did, how you slept. If you had a bad day, you say so. Nobody yells at you.</p>
         </div>
       </div>
       <div class="step">
@@ -857,6 +858,53 @@
 </svg>
 <figcaption>This is the daily log on your phone. You tap. You do not type. There are five things to rate. There is no save button. It saves by itself. It takes about a minute.</figcaption>
 </figure>
+<section id="science">
+  <div class="wrap">
+    <h2>What the science says</h2>
+    <p class="lede">This part is real, and other people found it. We did not.</p>
+
+    <p data-claim="index-science-01">Your cells run on a tiny electrical charge. Food gets taken apart, and the parts get pushed to one side of a wall inside the cell. Letting them back through is what makes your energy. A man named Peter Mitchell worked this out in 1961 and won a Nobel Prize for it.<a class="cite" href="#cite-mitchell-1961-chemiosmotic">1</a></p>
+
+    <p><b>A phone battery is a way of talking about it, not the thing itself.</b> A phone has one battery and one number. You have trillions of tiny ones, and nothing can read them all as a single number. We say battery because it helps. We measure real things.</p>
+
+    <p data-claim="index-science-02">There are cells in your eye whose only job is to tell your body what time it is. They do not help you see. They just carry the light to the clock in your head.<a class="cite" href="#cite-berson-2002-ipRGC">2</a> Light does not put energy in you. It says when.</p>
+
+    <p data-claim="index-science-03">In Sweden they followed thousands of women for twenty years. The ones who stayed out of the sun died sooner.<a class="cite" href="#cite-lindqvist-2016-sun-mortality">4</a> That does not prove the sun did it. People who go outside are different in other ways too. We say so.</p>
+
+    <p data-claim="index-science-04">How much oxygen you can move is one of the best guesses anyone has for how long you will live.<a class="cite" href="#cite-kodama-2009-fitness-mortality">3</a> That is why we test it, and not just your blood.</p>
+
+    <details class="refs">
+      <summary>Sources</summary>
+      <ol class="cite-list">
+        <li id="cite-mitchell-1961-chemiosmotic">
+          <p class="cite-head"><span class="cite-n">1</span> Review or meta-analysis <span class="tier tier-1">established</span></p>
+          <p class="cite-ref">Mitchell P. Coupling of Phosphorylation to Electron and Hydrogen Transfer by a Chemi-Osmotic type of Mechanism. <i>Nature</i>, 1961.</p>
+          <p class="cite-why">The paper that proposed ATP is made by pumping protons across a membrane and letting them back through. It is the mechanism the whole battery framing rests on.</p>
+          <p class="cite-doi"><a href="https://doi.org/10.1038/191144a0" rel="noopener">10.1038/191144a0</a></p>
+        </li>
+        <li id="cite-berson-2002-ipRGC">
+          <p class="cite-head"><span class="cite-n">2</span> Animal study <span class="tier tier-1">established</span></p>
+          <p class="cite-ref">Berson DM, Dunn FA, Takao M. Phototransduction by Retinal Ganglion Cells That Set the Circadian Clock. <i>Science</i>, 2002.</p>
+          <p class="cite-why">Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is why the protocol treats light as timing information rather than as an energy input.</p>
+          <p class="cite-doi"><a href="https://doi.org/10.1126/science.1067262" rel="noopener">10.1126/science.1067262</a></p>
+        </li>
+        <li id="cite-kodama-2009-fitness-mortality">
+          <p class="cite-head"><span class="cite-n">3</span> Review or meta-analysis <span class="tier tier-1">established</span></p>
+          <p class="cite-ref">Kodama S, Saito K, Tanaka S et al. Cardiorespiratory Fitness as a Quantitative Predictor of All-Cause Mortality and Cardiovascular Events in Healthy Men and Women: A Meta-analysis. <i>JAMA</i>, 2009.</p>
+          <p class="cite-why">Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.</p>
+          <p class="cite-doi"><a href="https://doi.org/10.1001/jama.2009.681" rel="noopener">10.1001/jama.2009.681</a></p>
+        </li>
+        <li id="cite-lindqvist-2016-sun-mortality">
+          <p class="cite-head"><span class="cite-n">4</span> Observational, in people <span class="tier tier-2">contested</span></p>
+          <p class="cite-ref">Lindqvist PG, Epstein E, Nielsen K et al. Avoidance of sun exposure as a risk factor for major causes of death: a competing risk analysis of the Melanoma in Southern Sweden cohort. <i>Journal of Internal Medicine</i>, 2016.</p>
+          <p class="cite-why">A cohort followed for two decades in which women who avoided the sun had higher all-cause mortality. Observational, so it cannot separate sun exposure from everything that travels with it.</p>
+          <p class="cite-doi"><a href="https://doi.org/10.1111/joim.12496" rel="noopener">10.1111/joim.12496</a></p>
+        </li>
+      </ol>
+    </details>
+  </div>
+</section>
+
 <section id="honest">
   <div class="wrap">
     <h2>What we are not going to tell you</h2>
