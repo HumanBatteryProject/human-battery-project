@@ -114,6 +114,11 @@ strong{font-weight:600;color:#fff}
    centre is exactly the point all three rings share (575,480). Setting a
    user-space origin instead would have to be offset by the viewBox origin
    (245,100), which is the sort of arithmetic that silently drifts. */
+/* The project name, sitting above the mark. Uses the display-subhead step
+   rather than a new size, and the label tracking because it is set in caps. */
+.landing-title{font-family:var(--display);font-size:var(--fs-display-sub);
+  letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--teal);
+  margin:0 0 1.4rem;line-height:1.4;text-wrap:balance}
 .mark-anim{display:block;height:160px;width:auto;margin:0 auto 2.2rem}
 .mark-anim .orbit{
   transform-box:fill-box;transform-origin:center;
@@ -160,32 +165,6 @@ strong{font-weight:600;color:#fff}
 }
 
 
-
-/* ---- the video slot ---- */
-.video{position:relative;width:100%;aspect-ratio:16/9;margin:0 0 2.4rem;
-  background:var(--navy);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
-.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-/* The poster. A div and not a button while there is no URL, so "clicking does
-   nothing" is true with no JavaScript involved at all. landing.js swaps in a
-   real button only once data-video holds a URL it recognises. */
-.video-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:var(--navy);border:0;padding:0;margin:0;width:100%;height:100%}
-button.video-poster{cursor:pointer}
-/* No mark on the poster. The animated mark sits directly above it in the
-   same viewport, so a second copy here was the same object twice, and at any
-   size large enough to read it fought the play control. The frame is a plain
-   dark rectangle and the control is the only thing in it. */
-/* Pinned to the frame, not to wherever the flex flow leaves it. It used to
-   have no offsets at all, so moving anything else in the poster moved it. */
-.video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:68px;height:68px;border-radius:50%;
-  border:1px solid var(--rule-2);background:rgba(5,9,12,.78);
-  display:flex;align-items:center;justify-content:center}
-.video-play::after{content:"";display:block;margin-left:5px;
-  border-style:solid;border-width:11px 0 11px 18px;
-  border-color:transparent transparent transparent var(--ice)}
-button.video-poster:hover .video-play{border-color:var(--blue);background:rgba(33,139,190,.2)}
-button.video-poster:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
 
 /* ---- the one idea ---- */
 /* ON THE SHARED SCALE, not pinned in pixels. These carried hard px values

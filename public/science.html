@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#05090C">
 <link rel="icon" href="/assets/mark-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/mark-192.png">
-<link rel="stylesheet" href="/styles.css?v=20">
+<link rel="stylesheet" href="/styles.css?v=21">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(182,189,188,.16));border-radius:3px;background:var(--navy,#0E2530)}
@@ -69,9 +69,10 @@
 <section class="landing">
   <div class="landing-col">
 
+    <p class="landing-title">The Human Battery Project</p>
     <!-- The mark is INLINE, not an <img>, because CSS cannot reach into an
-         external SVG to turn the orbit rings. Decorative: the nav lockup above
-         already carries the project name in alt text. -->
+         external SVG to turn the orbit rings. Decorative: the line above it and
+         the nav lockup both carry the project name in text. -->
     <svg class="mark-anim" xmlns="http://www.w3.org/2000/svg" viewBox="245 100 660 780" aria-hidden="true" focusable="false">
 <defs>
 <radialGradient id="gTeal" cx="34%" cy="28%" r="78%">
@@ -145,16 +146,6 @@
 <ellipse cx="546.0" cy="628.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 546.0 628.0)"/>
 </g>
 </svg>
-
-    <!-- VIDEO SLOT. Put a YouTube or Vimeo watch URL in data-video and it
-         becomes a player. No URL means the poster stays and clicking does
-         nothing, which is the state that ships today. Nothing else to edit:
-         landing.js works out the provider from the URL itself. -->
-    <div class="video" data-video="">
-      <div class="video-poster">
-        <span class="video-play" aria-hidden="true"></span>
-      </div>
-    </div>
 
     <h1 class="landing-head">Your body is made of trillions of tiny batteries.</h1>
     <p class="landing-body">Low energy. Poor sleep. Brain fog. Stubborn weight. Trouble focusing. Slow to recover. Some of these may be because your batteries are not charging properly, or are losing charge.</p>
@@ -1036,6 +1027,5 @@ form.addEventListener('submit', function(e){
   });
 })();
 </script>
-<script src="/landing.js?v=1"></script>
 </body>
 </html>
