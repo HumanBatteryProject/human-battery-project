@@ -66,8 +66,8 @@
       </section>
 
       <section class="card" id="briefcard">
-        <h2>Today</h2>
-        <p id="brief" class="quiet" style="margin-bottom:0">Your morning brief will appear here.</p>
+        <h2 id="brieftitle">Today</h2>
+        <div id="brief" class="quiet"><p style="margin-bottom:0">Your morning brief will appear here.</p></div>
       </section>
 
       <section class="card" id="callcard" style="display:none">
@@ -137,6 +137,41 @@ const profile = await currentProfile();
 if (profile) el('#who').textContent = profile.full_name.split(' ')[0].toUpperCase();
 
 const m = await activeMembership();
+
+// The morning brief. The onboarding agent writes day 0 before the program
+// starts, so there is something here the first time the portal is opened;
+// the Phase 5 cron will write the other 89. Until then this shows whichever
+// brief is newest, which on a new account is the day 0 one. No cron and no
+// agent here: this only reads.
+async function showBrief() {
+  if (!m) return;
+  const { data } = await sb.from('morning_briefs')
+    .select('id, program_day, content, read_at')
+    .eq('membership_id', m.id)
+    .order('program_day', { ascending: false })
+    .limit(1);
+  const b = data && data[0];
+  if (!b || !b.content) return;             // the placeholder stays
+
+  el('#brieftitle').textContent = b.program_day === 0 ? 'Before you start' : 'Day ' + b.program_day;
+
+  // Written by an agent, so it is rendered as text, never as markup.
+  const box = el('#brief');
+  box.textContent = '';
+  const paras = b.content.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  paras.forEach((para, i) => {
+    const el2 = document.createElement('p');
+    el2.textContent = para;
+    if (i === paras.length - 1) el2.style.marginBottom = '0';
+    box.appendChild(el2);
+  });
+
+  if (!b.read_at) {
+    // The only column a client may write on this table.
+    await sb.from('morning_briefs').update({ read_at: new Date().toISOString() }).eq('id', b.id);
+  }
+}
+await showBrief();
 
 // Open enrollment: everyone runs their own clock from their own day zero,
 // which is the next 1st or 15th after they paid.

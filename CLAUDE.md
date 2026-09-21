@@ -254,6 +254,20 @@ docs/                the model, the spec, the protocol, the strategy
   value is `cell`, and the report said in as many words that PublicationType
   could not supply it.
 
+- **A check that cannot find the thing is not evidence the thing is absent.**
+  Before reporting a zero result, confirm the query is capable of returning a
+  non-zero one. Run it against a case you know is present, or widen it until it
+  finds something, then narrow back. Two worked examples, both from the same
+  night:
+  - The claim cross-check reported "14 declared, 14 in markup" from a run made
+    *before* the last edit. The real state at commit was 14/13. (`d265b8a`,
+    fixed in `68036f6`)
+  - A schema-wide scan for an email address reported "no matches anywhere"
+    because it filtered on `data_type`, and `citext` reports as `USER-DEFINED`.
+    It skipped the one column that held the value. Filter on `udt_name`.
+  In both cases the reassuring answer came from a query that could not have
+  produced any other answer. Prove the negative before stating it.
+
 - **Any number in a report that was not produced by a command run after the last
   edit is not a verified number.** Do not state it as one. Re-run the check as
   the last thing before committing, and paste what it printed rather than
