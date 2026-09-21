@@ -46,10 +46,19 @@ body{
      seven different letter-spacings across the same handful of components. */
   --fs-display-sub:calc(var(--fs-base)*.82);   /* Michroma subheads   */
   --fs-label:calc(var(--fs-base)*.62);         /* Michroma micro labels and buttons */
+  /* Leading, by role, so paragraphs at the same size read the same.
+     Before this there were five values in play for body-size text: 1.55,
+     1.6, 1.65, 1.7 and the page default, which is why two paragraphs of the
+     same size in different sections did not look like the same typeface. */
+  --lh-prose:1.66;   /* running prose, the page default                */
+  --lh-card:1.6;     /* base-size text inside a card or a dense list    */
+  --lh-small:1.55;   /* --fs-sm secondary text                          */
+  --lh-lede:1.55;   /* --fs-lg opening lines                          */
+  --lh-label:1.5;    /* Michroma micro labels, same on both doors          */    /* --fs-lg opening lines                           */
   --ls-display:.02em;                          /* headings and subheads */
   --ls-label:.09em;                            /* uppercase micro labels */
   margin:0;background:var(--carbon);color:var(--ice);
-  font-family:var(--body);font-size:var(--fs-base);line-height:1.66;
+  font-family:var(--body);font-size:var(--fs-base);line-height:var(--lh-prose);
   font-variation-settings:'opsz' 16;
   -webkit-font-smoothing:antialiased;
 }
@@ -72,7 +81,7 @@ h3{font-size:var(--fs-h3);line-height:1.4}
    size on the page that is not a step. */
 sub,sup{font-size:var(--fs-xs);line-height:0}
 p{margin:0 0 1.15rem;max-width:var(--measure)}
-.lede{font-size:var(--fs-lg);color:#CBD9DA;font-variation-settings:'opsz' 24}
+.lede{font-size:var(--fs-lg);color:#CBD9DA;font-variation-settings:'opsz' 24;line-height:var(--lh-lede)}
 .quiet{color:var(--steel)}
 strong{font-weight:600;color:#fff}
 
@@ -207,7 +216,7 @@ strong{font-weight:600;color:#fff}
 .cell[data-sys="output"] .scale i:nth-child(-n+6){background:var(--teal)}
 .cell[data-sys="reserve"] .scale i:nth-child(-n+5){background:var(--green)}
 .cell h3{margin-bottom:.5rem}
-.cell p{font-size:var(--fs-base);line-height:1.6;color:var(--steel);margin:0;max-width:none}
+.cell p{font-size:var(--fs-base);line-height:var(--lh-card);color:var(--steel);margin:0;max-width:none}
 
 /* ---------- phases ---------- */
 .phases{counter-reset:phase;margin-top:2.5rem;display:grid;gap:0}
@@ -233,7 +242,7 @@ strong{font-weight:600;color:#fff}
 /* ---------- lists ---------- */
 .checks{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.85rem}
 @media(min-width:760px){.checks{grid-template-columns:1fr 1fr;gap:.85rem 2.4rem}}
-.checks li{padding-left:1.5rem;position:relative;font-size:var(--fs-base);line-height:1.55}
+.checks li{padding-left:1.5rem;position:relative;font-size:var(--fs-base);line-height:var(--lh-card)}
 .checks li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--teal)}
 .checks.neg li::before{background:var(--copper)}
 
@@ -270,9 +279,9 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 /* A sentence, not a micro label. Opts out of the label rule above in all
    three respects, because inheriting any one of them is what broke it. */
 .consent{display:flex;gap:.7rem;align-items:flex-start;font-family:var(--body);
-  font-size:var(--fs-base);letter-spacing:normal;color:#BFCDCE;line-height:1.5}
+  font-size:var(--fs-base);letter-spacing:normal;color:#BFCDCE;line-height:var(--lh-card)}
 .consent input{width:17px;height:17px;flex:none;margin-top:.24rem;accent-color:var(--blue)}
-.note{font-size:var(--fs-sm);color:var(--steel);margin:0}
+.note{font-size:var(--fs-sm);color:var(--steel);margin:0;line-height:var(--lh-small)}
 /* The "(optional)" hint inside a field label. */
 .opt{text-transform:none;letter-spacing:normal;font-family:var(--body);font-size:var(--fs-xs);color:var(--steel)}
 .msg{padding:.9rem 1rem;border-radius:2px;font-size:var(--fs-base);display:none}
@@ -281,25 +290,25 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .field-err{color:#E0A183;font-size:var(--fs-sm);display:none}
 .field.bad .field-err{display:block}
 .field.bad input,.field.bad select{border-color:var(--copper)}
-.placement-intro{font-size:var(--fs-sm);color:var(--steel);line-height:1.6;margin:.1rem 0 .3rem;max-width:56ch}
+.placement-intro{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);margin:.1rem 0 .3rem;max-width:56ch}
 .placement-q{border:0;padding:0;margin:0 0 1.5rem;display:grid;gap:.45rem}
 .placement-q legend{font-family:var(--body);font-size:var(--fs-base);letter-spacing:normal;
-  color:#E6EEF0;padding:0;margin-bottom:.35rem;line-height:1.45}
+  color:#E6EEF0;padding:0;margin-bottom:.35rem;line-height:var(--lh-card)}
 /* Same opt out. These are answers a person reads, 56 of them on the page. */
 .placement-opt{display:flex;gap:.7rem;align-items:flex-start;font-family:var(--body);
-  font-size:var(--fs-sm);letter-spacing:normal;color:#BFCDCE;line-height:1.5;cursor:pointer;padding:.15rem 0}
+  font-size:var(--fs-sm);letter-spacing:normal;color:#BFCDCE;line-height:var(--lh-small);cursor:pointer;padding:.15rem 0}
 .placement-opt input{width:17px;height:17px;flex:none;margin-top:.2rem;accent-color:var(--blue)}
 .placement-opt:hover span{color:#E6EEF0}
 .placement-q.bad legend{color:#E0A183}
 
 /* ---------- footer ---------- */
-footer{padding:3rem 0 4rem;border-top:1px solid var(--rule);color:var(--steel);font-size:var(--fs-sm)}
+footer{padding:3rem 0 4rem;border-top:1px solid var(--rule);color:var(--steel);font-size:var(--fs-sm);line-height:var(--lh-small)}
 footer .wrap{display:grid;gap:1.4rem}
 footer nav{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem}
 footer a{color:var(--silver);border-bottom-color:transparent}
 footer a:hover{border-bottom-color:var(--silver)}
 footer p{max-width:var(--measure);margin:0}
-.disclaimer{font-size:var(--fs-sm);line-height:1.6}
+.disclaimer{font-size:var(--fs-sm);line-height:var(--lh-small)}
 
 /* ---------- legal pages ---------- */
 .legal{padding:3.5rem 0 6rem}
@@ -352,7 +361,7 @@ footer p{max-width:var(--measure);margin:0}
 .layer{display:grid;gap:.5rem 1.4rem;padding:1.25rem 0;border-bottom:1px solid var(--rule)}
 @media(min-width:760px){.layer{grid-template-columns:1fr 8.5rem;align-items:start}}
 .layer h3{margin-bottom:.4rem}
-.layer p{font-size:var(--fs-base);color:var(--steel);margin:0;max-width:none;line-height:1.55}
+.layer p{font-size:var(--fs-base);color:var(--steel);margin:0;max-width:none;line-height:var(--lh-card)}
 .layer .tier{justify-self:start}
 @media(min-width:760px){.layer .tier{justify-self:end}}
 
@@ -364,7 +373,7 @@ footer p{max-width:var(--measure);margin:0}
 .pcell .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:.55rem;vertical-align:.08em}
 .pcell h3{display:inline-block;margin:0 0 .7rem}
 .pcell ul{list-style:none;padding:0;margin:0}
-.pcell li{font-size:var(--fs-base);color:var(--steel);line-height:1.7;border-bottom:1px solid rgba(182,189,188,.08);padding:.24rem 0}
+.pcell li{font-size:var(--fs-base);color:var(--steel);line-height:var(--lh-card);border-bottom:1px solid rgba(182,189,188,.08);padding:.24rem 0}
 .pcell li:last-child{border-bottom:0}
 .pcell li b{color:#CBD9DA;font-weight:600}
 
@@ -383,13 +392,13 @@ footer p{max-width:var(--measure);margin:0}
 /* ================= PLAIN-LANGUAGE VERSION ================= */
 /* The plain page reads easier with more leading. It no longer changes the
    SIZE, which is what made it disagree with every other page. */
-body.plain{line-height:1.72}
-.plain .lede{line-height:1.55}
+/* The plain page reads easier with more air. One override, not a second system. */
+body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .plain p{max-width:34ch}
 @media(min-width:700px){.plain p{max-width:52ch}}
 .plain h1{line-height:1.3}
 .plain h2{margin-bottom:1.1rem}
-.big{font-size:var(--fs-lg);line-height:1.55;color:#DCE7E8}
+.big{font-size:var(--fs-lg);line-height:var(--lh-lede);color:#DCE7E8}
 
 
 /* the science toggle */
@@ -401,11 +410,14 @@ body.plain{line-height:1.72}
 .sci summary::before{content:"+";font-size:var(--fs-h3);line-height:1;color:var(--teal);width:.8rem}
 .sci[open] summary::before{content:"−"}
 .sci .inner{padding:1.2rem 1.1rem 1.4rem;border-top:1px solid var(--rule)}
-.sci .inner p{font-size:var(--fs-base);line-height:1.65;color:var(--steel);max-width:var(--measure)}
+/* Inherits the page prose leading and the page measure. It had 1.65 and
+   64ch against the page's own leading and 52ch, so opening a disclosure
+   changed both the leading and the line length under the reader. */
+.sci .inner p{font-size:var(--fs-base);line-height:var(--lh-prose);color:var(--steel)}
 .sci .inner p:last-child{margin-bottom:0}
 .sci .inner b{color:#CBD9DA}
 .sci .inner ul{margin:.6rem 0 1rem;padding-left:1.1rem}
-.sci .inner li{font-size:var(--fs-base);line-height:1.6;color:var(--steel);margin-bottom:.4rem}
+.sci .inner li{font-size:var(--fs-base);line-height:var(--lh-card);color:var(--steel);margin-bottom:.4rem}
 
 /* four parts, plain */
 .parts{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
@@ -414,7 +426,7 @@ body.plain{line-height:1.72}
 .part{background:var(--carbon);padding:1.7rem 1.4rem}
 .part .dot{width:14px;height:14px;border-radius:50%;display:block;margin-bottom:1rem}
 .part h3{margin-bottom:.6rem}
-.part p{font-size:var(--fs-base);line-height:1.6;color:#BFCDCE;margin:0;max-width:none}
+.part p{font-size:var(--fs-base);line-height:var(--lh-card);color:#BFCDCE;margin:0;max-width:none}
 
 /* simple numbered steps */
 .steps{counter-reset:st;margin-top:2rem}
@@ -435,15 +447,15 @@ body.plain{line-height:1.72}
 /* Deliberately the display-subhead step, not the h3 step: these are names in
    a dense grid, not section headings. It is a shared step, not a one off. */
 .cred h3{margin-bottom:.85rem;font-size:var(--fs-display-sub)}
-.cred .names{font-size:var(--fs-base);line-height:1.65;color:#CBD9DA;margin:0 0 .6rem;max-width:none}
-.cred .what{font-size:var(--fs-sm);line-height:1.55;color:var(--steel);margin:0;max-width:none}
+.cred .names{font-size:var(--fs-base);line-height:var(--lh-card);color:#CBD9DA;margin:0 0 .6rem;max-width:none}
+.cred .what{font-size:var(--fs-sm);line-height:var(--lh-small);color:var(--steel);margin:0;max-width:none}
 .cred.wide{grid-column:1 / -1}
 
 /* ---------- reader voice + bridge ---------- */
 .voice{font-style:italic;color:var(--teal);font-size:var(--fs-lg);text-align:center;
-  max-width:36ch;margin:2.8rem auto;line-height:1.5;text-wrap:balance}
+  max-width:36ch;margin:2.8rem auto;line-height:var(--lh-lede);text-wrap:balance}
 .bridge{margin-top:2.2rem}
-.bridge .fact{color:#DCE7E8;max-width:var(--measure);margin:1.8rem 0}
+.bridge .fact{color:#DCE7E8;margin:1.8rem 0}
 
 /* ---------- section navigation ---------- */
 .top .wrap{flex-wrap:wrap}
@@ -516,7 +528,7 @@ section[id]{scroll-margin-top:5.5rem}
 [data-sys="drain"] .bar-fill{background:var(--copper)}
 [data-sys="output"] .bar-fill{background:var(--teal)}
 [data-sys="reserve"] .bar-fill{background:var(--green)}
-.dash-note{font-size:var(--fs-xs);color:var(--steel);text-align:center;margin:1.6rem 0 0;max-width:none}
+.dash-note{font-size:var(--fs-xs);color:var(--steel);text-align:center;margin:1.6rem 0 0;max-width:none;line-height:var(--lh-small)}
 
 .compare{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
   border-radius:3px;overflow:hidden;margin:1.4rem 0 0}
@@ -532,12 +544,12 @@ section[id]{scroll-margin-top:5.5rem}
 .compare-col i{font-style:normal;color:var(--steel);font-size:var(--fs-xs)}
 
 /* ---------- what happens after you apply ---------- */
-.apply-reassure{font-size:var(--fs-lg);color:var(--teal);margin:0 0 1.6rem;max-width:none}
+.apply-reassure{font-size:var(--fs-lg);color:var(--teal);margin:0 0 1.6rem;max-width:none;line-height:var(--lh-lede)}
 .apply-what{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--steel);margin:0 0 .8rem;max-width:none}
 .next-steps{list-style:none;counter-reset:ns;padding:0;margin:0 0 2.4rem;display:grid;gap:.55rem}
 .next-steps li{counter-increment:ns;display:grid;grid-template-columns:1.6rem 1fr;gap:.7rem;
-  align-items:baseline;font-size:var(--fs-sm);color:#BFCDCE;line-height:1.5;max-width:none}
+  align-items:baseline;font-size:var(--fs-sm);color:#BFCDCE;line-height:var(--lh-small);max-width:none}
 .next-steps li::before{content:counter(ns);font-family:var(--display);font-size:var(--fs-label);
   color:var(--blue)}
 
@@ -546,7 +558,7 @@ section[id]{scroll-margin-top:5.5rem}
    text, so they are body size on a copper rule, not a footnote. */
 .bounds{list-style:none;padding:0;margin:2.2rem 0 0;display:grid;gap:1.15rem}
 .bounds li{border-left:2px solid var(--copper);padding:.15rem 0 .15rem 1.3rem;
-  font-size:var(--fs-base);color:#BFCDCE;line-height:1.6;max-width:none}
+  font-size:var(--fs-base);color:#BFCDCE;line-height:var(--lh-card);max-width:none}
 .bounds b{color:#fff;font-weight:600;display:block;margin-bottom:.2rem}
 
 /* ---------- pricing ---------- */
@@ -559,7 +571,7 @@ section[id]{scroll-margin-top:5.5rem}
 #cost h3{margin:2.2rem 0 .7rem}
 .plans-list{list-style:none;padding:0;margin:.4rem 0 0;display:grid;gap:.75rem}
 .plans-list li{padding-left:1.15rem;position:relative;font-size:var(--fs-sm);
-  color:#BFCDCE;line-height:1.55;max-width:none}
+  color:#BFCDCE;line-height:var(--lh-small);max-width:none}
 .plans-list li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;
   border-radius:50%;background:var(--rule-2)}
 .plans-list b{color:#fff;font-weight:600}
@@ -574,7 +586,7 @@ section[id]{scroll-margin-top:5.5rem}
 .gets li{background:var(--carbon);padding:1.45rem 1.35rem 1.55rem;max-width:none}
 .get-name{font-family:var(--display);font-size:var(--fs-display-sub);letter-spacing:var(--ls-display);
   color:#fff;margin:0 0 .5rem;line-height:1.35}
-.get-what{font-size:var(--fs-sm);color:var(--steel);line-height:1.55;margin:0;max-width:none}
+.get-what{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);margin:0;max-width:none}
 
 /* ---------- science section and the citation drawer ----------
    The marker is a link to the entry in the drawer below. No JavaScript: the
@@ -608,9 +620,9 @@ section[id]{scroll-margin-top:5.5rem}
 .cite-n{display:inline-flex;align-items:center;justify-content:center;
   width:1.5rem;height:1.5rem;border:1px solid var(--rule-2);border-radius:2px;
   color:var(--teal);flex:none}
-.cite-ref{font-size:var(--fs-sm);color:#CBD9DA;line-height:1.55;margin:0 0 .45rem;max-width:none}
-.cite-why{font-size:var(--fs-sm);color:var(--steel);line-height:1.55;margin:0 0 .45rem;max-width:none}
-.cite-doi{margin:0;font-size:var(--fs-xs);max-width:none}
+.cite-ref{font-size:var(--fs-sm);color:#CBD9DA;line-height:var(--lh-small);margin:0 0 .45rem;max-width:none}
+.cite-why{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);margin:0 0 .45rem;max-width:none}
+.cite-doi{margin:0;font-size:var(--fs-xs);max-width:none;line-height:var(--lh-small)}
 .cite-doi a{color:var(--steel);border-bottom-color:transparent;word-break:break-all}
 .cite-doi a:hover{color:var(--teal);border-bottom-color:var(--teal)}
 
@@ -631,7 +643,7 @@ section[id]{scroll-margin-top:5.5rem}
 .inputs li[data-sys="reserve"] .in-dot{background:var(--green)}
 .in-name{font-family:var(--display);font-size:var(--fs-display-sub);letter-spacing:var(--ls-display);
   color:#fff;line-height:1.35}
-.in-note{grid-column:2;font-size:var(--fs-sm);color:var(--steel);line-height:1.5}
+.in-note{grid-column:2;font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small)}
 
 /* ---------- the 33 markers, by subsystem ----------
    details and summary, so expanding works with no JavaScript at all: click on
@@ -653,11 +665,11 @@ section[id]{scroll-margin-top:5.5rem}
   text-transform:uppercase;color:#fff}
 .quad-count{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--steel);white-space:nowrap}
-.quad-what{font-size:var(--fs-sm);color:#BFCDCE;line-height:1.55;margin:0;
+.quad-what{font-size:var(--fs-sm);color:#BFCDCE;line-height:var(--lh-small);margin:0;
   padding:0 1.3rem .9rem 1.6rem;max-width:none}
 .quad-list{list-style:none;padding:0 1.3rem 1.3rem 1.6rem;margin:0}
 .quad-list li{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
-  font-size:var(--fs-sm);color:var(--steel);line-height:1.5;padding:.3rem 0;
+  font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);padding:.3rem 0;
   border-bottom:1px solid rgba(182,189,188,.08);max-width:none}
 .quad-list li:last-child{border-bottom:0}
 .quad-unit{font-size:var(--fs-xs);color:var(--steel);opacity:.7;white-space:nowrap}
@@ -685,11 +697,11 @@ section[id]{scroll-margin-top:5.5rem}
 .strip-step{font-family:var(--display);font-size:var(--fs-h3);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:#fff;line-height:1.35}
 @media(min-width:760px){.strip-step{min-height:2.7em}}
-.strip-note{font-size:var(--fs-sm);color:var(--steel);line-height:1.5}
+.strip-note{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small)}
 
 /* The open enrollment line and the reassurance under it. */
-.enroll-line{font-size:var(--fs-lg);color:var(--teal);margin:2.4rem 0 .4rem;max-width:none}
-.micro{font-size:var(--fs-sm);color:var(--steel);margin:0;max-width:none}
+.enroll-line{font-size:var(--fs-lg);color:var(--teal);margin:2.4rem 0 .4rem;max-width:none;line-height:var(--lh-lede)}
+.micro{font-size:var(--fs-sm);color:var(--steel);margin:0;max-width:none;line-height:var(--lh-small)}
 
 /* ---------- the experiment: day 0, ninety days, day 90 ---------- */
 /* Three steps across on a desktop, one column on a phone. An ordered list,
@@ -701,7 +713,7 @@ section[id]{scroll-margin-top:5.5rem}
 .flow-when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--blue);margin:0 0 1rem}
 .flow-list{list-style:none;padding:0;margin:0}
-.flow-list li{font-size:var(--fs-sm);color:#BFCDCE;line-height:1.5;
+.flow-list li{font-size:var(--fs-sm);color:#BFCDCE;line-height:var(--lh-small);
   padding:.28rem 0 .28rem 1.15rem;position:relative;max-width:none}
 .flow-list li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;
   border-radius:50%;background:var(--rule-2)}
@@ -755,6 +767,9 @@ section[id]{scroll-margin-top:5.5rem}
    page bottom padding equal to the bar, rather than by letting it float over
    the last thing on the page. Hidden on the apply section itself, because a
    button that scrolls you to the form you are already looking at is noise. */
+/* Every Michroma micro label reads the same on both doors. */
+.dash-label,.dash-sub,.price-kicker,.flow-when,.apply-what,.compare-when,.cite-head{line-height:var(--lh-label)}
+
 .stickycta{display:none}
 @media(max-width:700px){
   .stickycta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;
