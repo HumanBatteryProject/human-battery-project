@@ -243,6 +243,35 @@
         }
       ],
       "relevance": "84 women randomised to cold exposure with breathwork, or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms. A single unreplicated trial, which is why cold and breathwork are carried in the protocol as contested rather than established."
+    },
+    {
+      "id": "wong-riley-2005-cco",
+      "authors": [
+        "Wong-Riley MT",
+        "Liang HL",
+        "Eells JT",
+        "Chance B",
+        "Henry MM",
+        "Buchmann E",
+        "Kane M",
+        "Whelan HT"
+      ],
+      "year": 2005,
+      "title": "Photobiomodulation directly benefits primary neurons functionally inactivated by toxins: role of cytochrome c oxidase",
+      "journal": "The Journal of Biological Chemistry",
+      "doi": "10.1074/jbc.M409650200",
+      "url": "https://doi.org/10.1074/jbc.M409650200",
+      "study_type": "cell",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-08"
+        }
+      ],
+      "relevance": "Tests whether cytochrome c oxidase is the photoacceptor for far red and near infrared light, by competing light treatment against a cytochrome c oxidase inhibitor in cultured neurons. This is the mechanism named at the edge of the timing section. Contested, and it is cell culture under LED arrays rather than sunlight.",
+      "accessed": "2026-09-20"
     }
   ]
 }
