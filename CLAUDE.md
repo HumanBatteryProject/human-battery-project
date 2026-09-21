@@ -254,6 +254,29 @@ docs/                the model, the spec, the protocol, the strategy
   value is `cell`, and the report said in as many words that PublicationType
   could not supply it.
 
+- **The repo and the live database are the only sources of truth about the repo
+  and the database.** A file outside this working tree is never evidence of
+  current state, however similar its name, however plausibly it is a copy of
+  something here. Read it to understand intent if someone hands it to you; never
+  cite it as what is. The same goes for a second clone: it answers `git` commands
+  confidently and is still not this repo.
+
+  Worked example: the agent inventory reported that the coach migration
+  `018_coach.sql` collided with the applied `018_open_enrollment.sql`. It did
+  not. The repo's `PROMPT-foundational-model-and-coach.md` already read "A
+  migration at the next free number, named `coach` (the number 018 is taken by
+  open enrollment)". The collision existed only in
+  `~/Downloads/human-battery-delta-files/`, a two-week-old drop outside the
+  working tree, and that stale copy was reported as current state. Known stale
+  copies as of 2026-09-21: `~/Downloads/human-battery-delta-files/`,
+  `~/Downloads/human-battery-project-2/` (a full clone, `main` at `a5fe0a1`, 15
+  migrations against this repo's 28), `~/Downloads/program-docs-redesigned/`,
+  and `~/Downloads/human-battery-v2-package.zip`.
+
+  Before reporting the state of a file, run `git ls-files` or read it by a path
+  under the working tree. Before reporting the state of a table, query the
+  database.
+
 - **A check that cannot find the thing is not evidence the thing is absent.**
   Before reporting a zero result, confirm the query is capable of returning a
   non-zero one. Run it against a case you know is present, or widen it until it
