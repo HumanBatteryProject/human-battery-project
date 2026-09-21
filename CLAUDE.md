@@ -169,14 +169,78 @@ docs/                the model, the spec, the protocol, the strategy
   contains: a sentence that denies the forbidden claim is the opposite claim
   shape. This is not a keyword exception and must not become one. Read the
   sentence.
+
+  **The near-infrared paragraph on /science is settled and stands.** Widen the
+  light property list past the banned nouns to the energy machinery itself
+  (`mitochondria`, `ATP`, `respiratory chain`, `cytochrome`) and this sentence
+  matches:
+
+  > Red and near-infrared light come up often here, so it is worth saying where
+  > they sit. In the laboratory those wavelengths interact with cytochrome c
+  > oxidase in the respiratory chain, and studies report changes in mitochondrial
+  > enzyme activity under narrow conditions of wavelength, dose and distance.
+  > That work is contested, most of it is cell culture or device work rather
+  > than sunlight, and it is not part of this program. Nothing on your panel
+  > measures it. It is named here because it is the honest edge of the timing
+  > claim, not because it is something you will be doing.
+
+  It matches deliberately and it is not a violation. The banned claim is *light
+  delivers energy into you*. This says a wavelength interacts with an enzyme
+  under narrow laboratory conditions, and the very next sentence withdraws it
+  from the program and from the panel. A mechanism named with its limits is not
+  a promise. Cited to Wong-Riley 2005, tier contested, claim id
+  `science-science-08`, `/science` only and never the front door.
+
+  Two notes for whoever runs this next. The phrase was `mitochondrial output`
+  and is now `mitochondrial enzyme activity`: `Output` is the name of one of the
+  four subsystems on that same page, so the original could be read as a claim
+  about a client's Output score, and enzyme activity is what the paper measured
+  anyway. And a widened run flags two `lightning` sentences on both pages as
+  false positives, because `lightning` contains `light` as a substring. Bound
+  the subject pattern on word edges.
 - Verifying a DOI or a reference: **a failed request is not evidence a reference
   is dead, and one source's metadata is not authoritative.** Retry a failed
   lookup at least three times, then check it a second way before recording it as
   unresolvable. `10.1111/joim.12496` failed three consecutive Crossref lookups
   while resolving perfectly at doi.org, and a naive check would have dropped a
-  real paper. Cross-check the metadata too: Crossref returns **one** author for
-  Kodama 2009, PubMed returns **twelve**, and the twelve is right. This applies
-  to the corpus loader in Phase 3, which does the same lookups.
+  real paper. This applies to the corpus loader in Phase 3, which does the same
+  lookups.
+
+  **For anything indexed in PubMed, PubMed is the primary metadata source and
+  Crossref only confirms it.** Take title, author list, journal and year from
+  PubMed. Use Crossref to check that the DOI resolves and that the record is the
+  same paper, not to supply the fields. Where the two disagree, PubMed wins
+  unless there is a specific reason it is wrong, and that reason goes in the
+  report. For a work Crossref indexes and PubMed does not (a book chapter, a
+  physics or chemistry paper, a preprint), Crossref is the source and the lack
+  of a PubMed record is stated.
+
+  This is not a preference, it is two corruptions, and both times the part
+  Crossref lost was the part that mattered:
+
+  - **Kodama 2009.** Crossref returns **one** author. PubMed returns **twelve**.
+    The twelve is right. Recording Crossref's would have credited a twelve-author
+    pooled analysis to a single name.
+  - **Wong-Riley 2005.** Crossref truncates the title at the colon and drops
+    `: role of cytochrome c oxidase`. PubMed carries it whole. The dropped
+    fragment is the entire reason the citation is on the page, so Crossref's
+    title would have hidden what the source was cited for.
+- `study_type` in `citations.json`: **PubMed's PublicationType is the source when
+  it names a design.** Randomised Controlled Trial, Observational Study,
+  Meta-Analysis, Review and the rest map straight onto the enum and are not a
+  judgement call. But PublicationType is a bibliographic tag, not a design
+  field, and it often carries nothing but `Journal Article` plus Research
+  Support funding tags. **When it names no design, read the methods, pick the
+  enum value the design actually fits, and say in the report that
+  PublicationType did not supply it.** Never record a guess as though the index
+  gave it to you, and never stretch `Journal Article` into a design.
+
+  The worked example is **Wong-Riley 2005** (`10.1074/jbc.M409650200`), whose
+  PublicationType is `Journal Article` plus three Research Support tags and
+  names no design at all. The methods are primary cultured neurons, so the
+  value is `cell`, and the report said in as many words that PublicationType
+  could not supply it.
+
 - **Any number in a report that was not produced by a command run after the last
   edit is not a verified number.** Do not state it as one. Re-run the check as
   the last thing before committing, and paste what it printed rather than
