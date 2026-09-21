@@ -88,6 +88,10 @@ Counsel-approved text is not edited by this work. These are the conflicts betwee
 
 **L5. British spellings in US-governed documents.** "instalments" in `terms.html`, "authorise" in `consumer-health-data.html`.
 
+**L8. The Human Battery Project is being incorporated as its own entity.** Terms, the privacy policy, the medical disclaimer and the consumer health data notice were all approved naming whatever party they currently name. All four need review for the correct contracting entity once the EIN exists. The Stripe account, the bank account and the Resend account should all sit under the new entity rather than under a personal name or a prior one.
+
+This is also why payments are parked: Stripe will be set up under the new entity after incorporation, so `checkout.js`, `stripe-webhook.js`, `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are not to be touched until that is done. Both Stripe variables are still the literal placeholders `sk_test_` and `whsec_`.
+
 ---
 
 ## Deferred, after Checkpoint F
