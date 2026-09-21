@@ -83,12 +83,12 @@ def diet_doc():
   <div class="kicker" style="color:{C}">THE FULL LIST</div>
   <h1>Approved foods</h1>
   <h3>Protein</h3>{chips(["Sardines","Wild salmon","Mackerel","Anchovies","Oysters","Grass-fed beef","Lamb","Bison","Pastured chicken thigh","Pastured eggs","Beef liver","Bone broth","Wild game"], "yes")}
-  <h3>Vegetables</h3>{chips(["All leafy greens","Broccoli","Cauliflower","Brussels sprouts","Cabbage","Bok choy","Asparagus","Celery","Cucumber","Zucchini","Green beans","Artichoke","Mushrooms","Onion","Garlic","Leeks","Radish","Beets","Carrots","Sauerkraut","Kimchi","Fermented pickles"], "yes")}
+  <h3>Vegetables</h3>{chips(["All leafy greens","Broccoli","Cauliflower","Brussels sprouts","Cabbage","Bok choy","Asparagus","Celery","Cucumber","Zucchini","Green beans","Artichoke","Mushrooms","Onion","Shallot","Garlic","Leeks","Radish","Beets","Carrots","Sauerkraut","Kimchi","Fermented pickles"], "yes")}
   <h3>Fats</h3>{chips(["Extra virgin olive oil","Grass-fed butter","Ghee","Tallow","Avocado","Avocado oil for high heat","Coconut oil","Olives","Macadamia nuts","Walnuts"], "yes")}
   <h3>Fruit</h3>{chips(["Blueberries","Blackberries","Raspberries","Lemon","Lime","Avocado","Seasonal fruit, small, with a meal"], "yes")}
   <h3>Starch, Intermediate and Beginner only</h3>{chips(["White rice","Sweet potato","Squash"])}
   <h3>Dairy, limited</h3>{chips(["Grass-fed butter","Ghee","Aged hard cheese (not Pro)"])}
-  <h3>Seasoning</h3>{chips(["Baja Gold","Black pepper","Fresh herbs","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
+  <h3>Seasoning</h3>{chips(["Baja Gold","Black pepper","Fresh herbs","Parsley","Thyme","Rosemary","Bay","Basil","Mint","Dill","Chives","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
   <h3>Drinks</h3>{chips(["Mineral water","Black coffee, before noon","Green tea","Herbal tea","Bone broth","Spring Dragon tea, afternoon"])}
 </div>
 

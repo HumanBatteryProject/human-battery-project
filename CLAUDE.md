@@ -254,6 +254,17 @@ docs/                the model, the spec, the protocol, the strategy
   value is `cell`, and the report said in as many words that PublicationType
   could not supply it.
 
+- **Never describe Roger Penrose as a Nobel laureate in connection with Orch OR,
+  microtubules, quantum biology or consciousness.** His share of the 2020 prize
+  in physics is for the singularity theorems, work on general relativity and
+  black holes that has no bearing on any of the above. Attaching the prize to
+  Orch OR borrows authority from an unrelated field and lends a contested
+  hypothesis a credential it does not have, which is precisely the move the
+  evidence tiers exist to prevent. The suggested-reading entry on `/science`
+  names the 2014 paper and the two books and says nothing about the prize.
+  This is worth stating because the error is a helpful one: someone adding a
+  laureate line would think they were strengthening the entry.
+
 - **The repo and the live database are the only sources of truth about the repo
   and the database.** A file outside this working tree is never evidence of
   current state, however similar its name, however plausibly it is a copy of
