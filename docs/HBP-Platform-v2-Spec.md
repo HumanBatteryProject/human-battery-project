@@ -118,7 +118,7 @@ Every passage carries its evidence tier. When the coach says something, it knows
 
 ---
 
-## Part 3: The five agents
+## Part 3: The six agents
 
 ### 1. The onboarding agent
 
@@ -143,7 +143,9 @@ It writes one short piece, 150 to 250 words, for that person, on that day. It kn
 - **Advanced:** fifth grade. One idea, the mechanism, and the evidence tier.
 - **Pro:** sixth to seventh grade. The mechanism, the evidence tier, the paper, and the open question.
 
-Briefs are stored, so a client can scroll back through all 90. Reading one is logged.
+Briefs are stored, so a client can scroll back through all 90.
+
+**`read_at` records that the brief card rendered, not that anyone read it.** The portal home page stamps it when the card is drawn, so a client who opens the portal to log their day and never scrolls to the card is stamped exactly like one who reads every word. That behaviour is deliberate and stays. The warning is for whoever consumes the column: it is a proxy for "the portal was opened while this brief was newest", and nothing more. **No agent, report or protocol proposal may treat it as readership, attention or engagement**, and that applies to the trend agent in particular, which reads across every client and will reach for exactly this kind of signal. A column that measures page load, interpreted as attention, produces a confident and wrong finding about who is engaged. Real readership needs its own signal from a deliberate client action, such as expanding the card or reaching the end of the text.
 
 ### 4. The coach
 
@@ -151,11 +153,11 @@ The interactive one. A client asks anything, any time. It has the corpus, their 
 
 Guardrails carry over from the earlier spec and are not softened: no diagnosis, no medication advice, refers out-of-range results, stays inside the client's tier, never promises an outcome, stops coaching and says seek care now for the red-flag symptoms, does not give eating advice to anyone describing restriction or distress about food, describes light as timing and the body as trillions of coordinated batteries, says "I don't know" rather than inventing.
 
-### The completion agent
+### 5. The completion agent
 
 Runs when a day 90 Battery Score is computed. Compares it to day 0, decides the invitation per the rules above, writes the `completion_invitations` row, generates the invitation email naming what improved, and shows a Day 90 screen in the portal with the before-and-after and the offer. Accepting creates the next membership with the next tier or the raised multiplier, and a new day zero at the next wave.
 
-### 5. The trend agent
+### 6. The trend agent
 
 Runs weekly. Reads everything across everyone: tiers, adherence by domain, which practices are being missed, day 0 and day 90 deltas for anyone who has finished, insights, coach conversations for recurring questions.
 
@@ -188,7 +190,7 @@ Four migrations, described here by name. They are numbered in the order they are
 
 **agents** (the coach tables may arrive earlier in their own migration, when the coach is built)
 - `client_insights`: id, client_id, trigger (lab, functional, genetic, omega3), content, subsystems, created_at, shown_at
-- `morning_briefs`: id, client_id, program_day, brief_date, tier, content, reading_grade, read_at
+- `morning_briefs`: id, client_id, program_day, brief_date, tier, content, reading_grade, read_at (card rendered, not read: see above)
 - `coach_conversations` and `coach_messages` as previously specified
 - `agent_runs`: id, agent, started_at, finished_at, status, tokens, error, for observability
 

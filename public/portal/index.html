@@ -168,6 +168,14 @@ async function showBrief() {
 
   if (!b.read_at) {
     // The only column a client may write on this table.
+    //
+    // This stamps on render, so it means "the portal was opened while this
+    // brief was the newest one". It does NOT mean the brief was read: a
+    // client who opens the portal to log their day and never scrolls this
+    // far is stamped identically to one who reads it through. Deliberate,
+    // and staying. Do not let anything downstream, the trend agent above
+    // all, treat this column as readership or engagement. See the comment
+    // on morning_briefs.read_at in migration 028.
     await sb.from('morning_briefs').update({ read_at: new Date().toISOString() }).eq('id', b.id);
   }
 }

@@ -14,7 +14,7 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **Four tiers** by how the person already lives: Pro, Advanced, Intermediate, Beginner. Placement uses the seven-row table in `docs/HBP-Protocol-Complete.md`. Each tier has its own protocol PDF. A client can move up. After 90 days, someone who improved is invited back at the next tier, or at Pro with 20 percent more intensity.
 
-**Five agents** run the platform: onboarding, analysis, morning brief, the coach, and the trend agent, plus the completion agent. All reason from a knowledge corpus with evidence tiers. See `docs/HBP-Platform-v2-Spec.md`.
+**Six agents** run the platform: onboarding, analysis, morning brief, the coach, completion, and trend. All reason from a knowledge corpus with evidence tiers. See `docs/HBP-Platform-v2-Spec.md`.
 
 **The person directing this work is not a programmer.** Explain what you are about to do in plain language before doing it. When something breaks, say what broke and what you will try. No stack traces unless asked. Never ask him to paste a secret into the chat; ask him to put it in `.dev.vars` or Cloudflare.
 
