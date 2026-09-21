@@ -92,6 +92,8 @@ Counsel-approved text is not edited by this work. These are the conflicts betwee
 
 This is also why payments are parked: Stripe will be set up under the new entity after incorporation, so `checkout.js`, `stripe-webhook.js`, `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are not to be touched until that is done. Both Stripe variables are still the literal placeholders `sk_test_` and `whsec_`.
 
+**L9. The spec called for loading third-party published papers into the corpus as full text.** That corpus feeds the coach, which quotes from it to paying clients, so loading the papers is republication of copyrighted work inside a paid product. Scoped out on 2026-09-21: the corpus now holds only material this project wrote, and cited papers carry metadata, a DOI and Dr Pittman's own summary, never the source text. Revisit only with counsel, and only per publisher, since the answer differs between an open-access paper, a society journal and a commercial publisher. The rule is written into `docs/HBP-Platform-v2-Spec.md` under "The rule about what does NOT go in" so it is not re-litigated by whoever builds the loader.
+
 ---
 
 ## Deferred, after Checkpoint F

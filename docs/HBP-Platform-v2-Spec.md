@@ -103,8 +103,31 @@ Everything the coach and the agents reason from lives in one place, and it is th
 - The Protocol Complete and all four tier documents
 - The Dietary Guidelines
 - The Genetic Platform Strategy
-- The source material: Lane, Mitchell, Wallace on mitochondria; Crawford on DHA; Ling and Pollack on cell water; Van Wijk and Popp on light and biophotons; Becker, Levin, McCaig on bioelectricity; Kurian, Aiello, Al-Khalili and the quantum biology group; Penrose, Hameroff, Tuszynski on the cytoskeleton; the circadian and epidemiology literature; and the skeptics: Tegmark, Warshel, Kaeberlein, Elton
-- Every published paper you cite, as full text where you have it and abstract where you do not
+- For every paper cited: its metadata, its DOI, and **your own summary of what
+  it found and why it is in the protocol**, written by you
+
+### The rule about what does NOT go in
+
+**The corpus holds material this project wrote. Third-party published work is
+never loaded as full text, and no abstract is loaded verbatim.** Not now, and
+not later without counsel, per publisher.
+
+This is a rule, not a phase note, because the tempting version of the mistake
+arrives quietly: one PDF, dropped into the loader, six months from now, by
+someone who reasonably thinks a corpus of papers is what a research program
+should have. It is not an engineering call. Loading copyrighted papers into a
+retrieval database that answers clients inside a paid product is republication
+of that work inside a commercial product, and the coach quoting a passage back
+to a client is the act that makes it visible.
+
+What this costs is less than it sounds. The coach does not need Lane's prose to
+explain chemiosmosis; it needs **your** explanation of chemiosmosis, with
+Mitchell 1961 cited beside it, which is what a client should be reading anyway.
+The summary is the thing with your judgement in it. The paper is the receipt.
+
+So the loader takes `docs/`, `program-docs/`, and the summaries in
+`public/data/citations.json`. If a passage cannot be traced to something this
+project wrote, it does not belong in the corpus.
 
 ### How it is stored
 
@@ -142,6 +165,23 @@ It writes one short piece, 150 to 250 words, for that person, on that day. It kn
 - **Intermediate:** fourth grade. One idea with one reason.
 - **Advanced:** fifth grade. One idea, the mechanism, and the evidence tier.
 - **Pro:** sixth to seventh grade. The mechanism, the evidence tier, the paper, and the open question.
+
+**The reading grade is measured before the brief is written, never after.**
+The agent generates, scores the result against the tier's target, and if it is
+above target regenerates **once**. It then writes whichever of the two attempts
+is closer to target and records **both** grades on the row, so a tier drifting
+upward is visible in the data rather than inferred from complaints. A brief
+above target is never silently accepted.
+
+Once is deliberate. An unbounded retry loop against a fuzzy target burns tokens
+and eventually ships whatever the last attempt produced; two attempts and an
+honest record of both is the version that stays cheap and stays truthful.
+
+This matters because of volume. One brief a grade above target is nothing.
+Ninety of them, unreviewed, is a tier quietly rewritten at the wrong reading
+level for the person least able to say so. The four onboarding runs on
+2026-09-21 produced Beginner briefs at grades 4.1, 3.6, 3.6 and 4.0 against a
+third-grade target, which is the drift this rule exists to catch.
 
 Briefs are stored, so a client can scroll back through all 90.
 
@@ -190,7 +230,7 @@ Four migrations, described here by name. They are numbered in the order they are
 
 **agents** (the coach tables may arrive earlier in their own migration, when the coach is built)
 - `client_insights`: id, client_id, trigger (lab, functional, genetic, omega3), content, subsystems, created_at, shown_at
-- `morning_briefs`: id, client_id, program_day, brief_date, tier, content, reading_grade, read_at (card rendered, not read: see above)
+- `morning_briefs`: id, client_id, program_day, brief_date, tier, content, reading_grade (the brief that was written), reading_grade_first (the first attempt, equal to reading_grade when no retry was needed), read_at (card rendered, not read: see above)
 - `coach_conversations` and `coach_messages` as previously specified
 - `agent_runs`: id, agent, started_at, finished_at, status, tokens, error, for observability
 
@@ -203,7 +243,41 @@ Four migrations, described here by name. They are numbered in the order they are
 
 ## Part 5: Infrastructure
 
-**Scheduled jobs** run as Cloudflare Workers with cron triggers: the morning brief agent hourly (it checks who is at 8am local), the trend agent weekly, the wave generator monthly.
+**Scheduled jobs.** Cloudflare only runs cron on Workers, not on Pages, so
+there is a Worker. It is a **thin scheduler and nothing else.**
+
+The Worker wakes on its cron, POSTs to a Pages Function with the shared secret
+in an `x-hbp-secret` header, and stops. It does no querying, no retrieval, no
+generation and no writing. The Pages Function on the other end does all of
+that, using the secrets already set on Pages.
+
+- morning brief, hourly  ->  `POST /api/brief-run`
+- trend agent, weekly    ->  `POST /api/trend-run`
+- wave generator, monthly ->  `POST /api/wave-run`
+
+**The Worker holds exactly one secret: the shared one.** Never
+`ANTHROPIC_API_KEY`, never `SUPABASE_SERVICE_KEY`, never the database URL. Not
+"not yet" - never. If a scheduled job appears to need a second secret in the
+Worker, the work is on the wrong side of the call.
+
+The reason is that Workers do not see Pages variables; they hold their own
+copies. A second secret store is a second thing to rotate and a second thing to
+forget, and the forgetting is silent: the key that was not rotated keeps working
+until it is revoked, and then a job fails on a schedule nobody is watching. The
+same shape as rule 8c in `CLAUDE.md`, where going live on Stripe means swapping
+two secrets and swapping one leaves a paid client with no membership. One secret
+in one place cannot drift out of step with itself.
+
+This is not a new pattern here. `stripe-webhook.js` already calls `/api/onboard`
+over HTTP with `x-hbp-secret` rather than importing it, so the agent has one
+entry point and one auth check whichever side calls it. The scheduler is that
+pattern with a clock in front of it, and `hasServiceSecret()` in `_agent.js` is
+already the check on the receiving end.
+
+What this costs: the Worker still needs its own `wrangler.toml` and its own
+deploy step, so pushing to the repo will no longer be enough to ship
+everything. That is real, and it is the price of cron. It is much smaller than
+a second copy of every credential.
 
 **Event-driven jobs** run as Supabase database webhooks: a new row in `lab_panels`, `functional_tests` or `genotypes` fires the analysis agent. A new accepted application fires the onboarding agent. A new payment sets `day_zero`.
 
@@ -216,6 +290,8 @@ Four migrations, described here by name. They are numbered in the order they are
 **Webhook security.** Every database webhook sends a shared secret in a header. The receiving function refuses anything without it. The secret lives in Supabase Vault and in Cloudflare, never in a migration file.
 
 **The admin console** gets three new screens: the proposal queue with approve and reject, the weekly findings archive, and an agent run log so you can see what ran, when, and whether it failed.
+
+The weekly view also carries **the reading-grade distribution per tier**, both the written grade and the first-attempt grade. Drift is a trend, not an incident: no single brief looks wrong, and the shape of a few hundred does. Seeing it weekly is the difference between correcting a prompt in week two and discovering at day 90 that Beginner has been running at fifth grade.
 
 ---
 
@@ -241,9 +317,9 @@ Supabase Pro at $25 a month, mandatory now, because pgvector and database webhoo
 |---|---|---|
 | **1** | Open enrollment: waves, individual clocks, the dashboard rebuild, the weekly Zoom screen | Enrolling anyone, any time |
 | **2** | The First Steps PDFs, four of them, and the onboarding agent | Acceptance to day zero with no manual work |
-| **3** | The knowledge corpus loaded into pgvector | Everything the AI does |
+| **3** | `create extension vector`, the knowledge migration, the loader over HBP-authored material, then the per-passage evidence-tier tagging | Everything the AI does |
 | **4** | The coach | Clients get answers |
-| **5** | The morning brief agent | Daily contact |
+| **5** | The thin cron Worker, then the brief logic in `/api/brief-run`, with clock tests that fake the time rather than waiting a day | Daily contact |
 | **6** | The analysis agent | Labs become coaching |
 | **7** | The trend agent and the proposal queue | The system starts learning |
 | **8** | The completion agent, cycle chaining, and the intensity multiplier in the generator | People keep going |
