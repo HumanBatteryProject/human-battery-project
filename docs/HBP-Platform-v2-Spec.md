@@ -96,7 +96,10 @@ Everything the coach and the agents reason from lives in one place, and it is th
 ### What goes in
 
 - The Foundational Model, canonical
-- The Working Model and all four Addenda
+- The Working Model and Addenda II, III and IV
+  (there is no Addendum I. Git history across all branches shows only II,
+  III and IV were ever added, in `3d12b9a`, and nothing anywhere declares
+  itself the first. The spec said "all four" and was wrong.)
 - The Integration Architecture with its three evidence tiers
 - The Panel and Battery Score specification
 - Charge Redefined
@@ -132,6 +135,37 @@ project wrote, it does not belong in the corpus.
 ### How it is stored
 
 Each document is split into passages. Each passage gets an embedding and is stored in Supabase with pgvector, tagged with source, evidence tier (established, contested, working model), and which of the four subsystems it bears on.
+
+**Embeddings are Cloudflare Workers AI `@cf/baai/bge-base-en-v1.5`, 768
+dimensions.** Not an external embedding vendor.
+
+The reason is not retrieval quality, which is close enough at this corpus size
+not to be the deciding factor. It is that Workers AI runs on the Cloudflare
+account this project already has: no new vendor, no new API key, no new billing
+relationship, and no second secret store. HBP is mid-incorporation (counsel
+list L8), and every account opened now is an account that has to be moved to
+the new entity afterwards. The alternative weighed was OpenAI
+`text-embedding-3-small` at 1536 dimensions, which retrieves somewhat better
+and costs a vendor relationship at the worst possible moment.
+
+This is reversible while the corpus is small: alter the column, re-run the
+loader, minutes and cents, up to roughly 5,000 passages. It stops being cheap
+around 10,000, when the hnsw index arrives and has to be rebuilt, re-embedding
+becomes a batched job against rate limits, and other things are reading the
+vectors. Decide deliberately, but it is not a one-way door.
+
+**The loader normalises evidence tiers, and stops on anything it does not
+recognise.** `citations.json` writes `working model` with a space, the database
+enum is `working_model` with an underscore, and the site markup renders
+`WORKING MODEL`. The loader maps the known spellings onto the enum.
+
+Any value it does not recognise **halts the load and names the source file and
+the passage**. It never defaults to a tier, and it never skips the row. Both of
+those failure modes are silent, and both are worse than stopping: defaulting
+puts a working-model claim into the corpus labelled established, which is the
+one distinction the program's credibility rests on; skipping drops a passage
+and leaves a corpus that looks complete and is not. A halted load is a loud
+failure with a name attached, which is the only kind worth having here.
 
 When the coach or an agent needs to answer something, it retrieves the most relevant passages and reasons from them. That is what "programmed with all of the information" means in practice: it does not memorize, it looks up, and it cites.
 
