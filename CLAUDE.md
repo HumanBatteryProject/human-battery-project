@@ -75,6 +75,28 @@ HBP is incorporated and Stripe is set up under the new entity; both variables
 are the literal placeholders `sk_test_` and `whsec_` until then, and
 `checkout.js` and `stripe-webhook.js` are not to be edited meanwhile.
 
+**8d. Frontier dimensions are model structure, not missing patient data.**
+`charge` and `redox` carry no score, ever. Not a null standing in for a
+measurement that failed to arrive: there is no instrument, and a participant
+who did everything right still has no number there. **No surface may present a
+participant's score as incomplete on account of them.** No coverage figure, no
+"n of 8", no percentage of the model covered, no progress bar, no greyed-out
+value, no dashed empty-state border, no "coming soon". The composite runs over
+the six scored dimensions and is complete by definition. Header copy is
+"6 measured dimensions", never a fraction.
+
+The frontier section renders as science, not as a broken tile. Its copy is
+fixed in `state_dimensions.body` and must not be softened into an empty state.
+`dimension_scores_not_frontier` enforces the no-score half at the storage
+layer, so the failure mode this rule guards against is a UI one: a designer
+reasonably filling an apparent gap.
+
+Two evidence fields, and they do not merge. `evidence_tier` says how good the
+science is, on passages, citations and claims. `evidence_basis` says how this
+participant's number got here, on dimensions. A statement can be `established`
+science reached by a `frontier` instrument that does not exist yet, which is
+exactly the case for charge. One column cannot say that.
+
 **9. Never recommend manipulating potassium or other electrolytes to hyperpolarize the body.** Balance and correction of genuine deficiency only.
 
 **10. Protocol changes proposed by the trend agent are never applied automatically.** They land in the admin queue. A human approves. Only then does a PDF regenerate.
