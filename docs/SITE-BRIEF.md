@@ -42,7 +42,7 @@ Subsystem colors, everywhere: Charge BLUE, Drain COPPER, Output TEAL, Reserve GR
 
 **O7. The founder rule applies to the site only.** The coach still escalates to Dr. Pittman by name and the patient email still leads with participant #1. Do not touch those.
 
-**O8. Model rules still apply to every new sentence.** Light is timing information, never charging. Trillions of batteries, never one. "Recharge" as a phase name refers to cells rebuilding their own charge and is allowed; "light recharges you" is not. No em dashes. No outcome promises. Run the audit on every section before its checkpoint.
+**O8. Model rules still apply to every new sentence.** Light is information and a minor energy input: timing through melanopsin is the larger job, skin photochemistry is the smaller one. Never that sunlight charges the body the way a charger fills a phone. Amended 2026-09-22 to match the revised book. Trillions of batteries, never one. "Recharge" as a phase name refers to cells rebuilding their own charge and is allowed; "light recharges you" is not. No em dashes. No outcome promises. Run the audit on every section before its checkpoint.
 
 **O9. Build in six checkpoints, below. Stop at each and wait.**
 

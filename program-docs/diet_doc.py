@@ -125,12 +125,15 @@ def diet_doc():
   <h3>Your mitochondria are sensors</h3>
   <p>The mitochondria in your cells do not just burn fuel. They read it. Douglas Wallace, who founded the field of mitochondrial medicine, describes them as environmental sensors. Food arriving in a cell is information about the world outside, not just calories.</p>
   <h3>Summer food and winter food are not the same</h3>
-  <p>Summer light is stronger and lasts longer. The food summer makes, fruit, berries, sweet things, carries that. In our model, what matters is not that summer food holds more energy, it is that it only exists when the sun is high. Sugar arriving is a message: the days are long. Your body reads that as summer: store, grow, be active, get ready for the cold.</p>
-  <p>Winter light is weaker. The food winter makes is fat and protein, roots, and animals that ate all summer. A different message. Your body reads that as winter: burn stored fat, repair, rest.</p>
-  <h3>What happens when the signals disagree</h3>
-  <p>Eat watermelon in January under a light bulb and your body receives summer food and winter light at the same time. The mitochondria cannot tell what season it is. In our model, that mismatch is one reason people gain weight through the winter and cannot get it off: the body is being told to store for a winter that, as far as the food is concerned, never comes.</p>
+  <p><b>First, what is not true.</b> Food does not carry a message about the month or the place it grew in. The parts of food that give you energy are electrons, and every electron is identical to every other electron. An electron from a summer peach and an electron from a winter parsnip are the same particle. Nothing about it says peach, or July, or Georgia.</p>
+  <p>Here is what is true. Different foods give your body different fuel. Sugar and fat are handled by different machinery, and switching between them changes how your cells work. That part is settled.</p>
+  <p>Daylength does something separate. Morning light sets your body clock, and your clock changes how your body handles fuel at different times of year. That part is settled too.</p>
+  <h3>What happens when the two do not line up</h3>
+  <p><b>Dr. Micah's idea, being tested.</b> Those two settled things meet in your cells. Summer food is mostly available when the days are long, and winter food when they are short, so for most of human history the fuel and the daylength matched. Eat watermelon in January under a light bulb and they do not.</p>
+  <p>The idea we are testing is that going a long time with fuel and daylength out of step changes how your mitochondria handle their work, and that this is one reason winter weight is hard to lose. This is a hypothesis, not a fact. It makes a prediction that can be checked, which is why it is in the program and why we measure instead of assuming.</p>
+  <p>You do not need to believe it to follow the protocol. Eating with the season is a simple rule that costs you nothing if the idea turns out to be wrong.</p>
   <h3>What to do</h3>
-  <p>Eat what grows near you, in the season you are in. Fruit and berries in summer, and only then. Fat, animals and roots in winter. Local fish. A farmers market tells you what is in season without you having to look it up. If it flew here from the other side of the world, it is carrying the wrong season.</p>
+  <p>Eat what grows near you, in the season you are in. Fruit and berries in summer, and only then. Fat, animals and roots in winter. Local fish. A farmers market tells you what is in season without you having to look it up. Food does not carry a message about where or when it grew. The reason to eat with the season is simpler: different foods give your body different fuel, and daylength sets how your body handles fuel. Lining those two up is the idea we are testing. It is not a settled fact.</p>
   <div class="tierrow">
     <div style="background:#0E557C"><h3>PRO</h3><p>No fruit for 90 days regardless of season.</p></div>
     <div style="background:#218BBE"><h3>ADVANCED</h3><p>No fruit for 90 days regardless of season.</p></div>

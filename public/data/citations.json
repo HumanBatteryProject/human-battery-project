@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "citations": [
     {
       "id": "mitchell-1961-chemiosmotic",
@@ -26,7 +26,8 @@
         }
       ],
       "relevance": "The paper that proposed ATP is made by pumping protons across a membrane and letting them back through. It is the mechanism the whole battery framing rests on.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "wallace-1992-mito-paradigm",
@@ -48,7 +49,8 @@
         }
       ],
       "relevance": "Argues that defects in oxidative phosphorylation sit underneath a range of degenerative disease. Contested because it is a proposed paradigm rather than a settled finding.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "berson-2002-ipRGC",
@@ -76,8 +78,9 @@
           "claim": "science-science-03"
         }
       ],
-      "relevance": "Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is why the protocol treats light as timing information rather than as an energy input.",
-      "accessed": "2026-09-20"
+      "relevance": "Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is light's larger job, timing, and it is what the protocol is built around.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "lindqvist-2016-sun-mortality",
@@ -109,7 +112,8 @@
         }
       ],
       "relevance": "A cohort followed for two decades in which women who avoided the sun had higher all-cause mortality. Observational, so it cannot separate sun exposure from everything that travels with it.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "liu-2014-uva-blood-pressure",
@@ -138,7 +142,8 @@
         }
       ],
       "relevance": "Controlled exposure in people, lowering blood pressure through nitric oxide stored in skin, by a route vitamin D does not explain. Contested because it is one small trial.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "harris-2004-omega3-index",
@@ -161,7 +166,8 @@
         }
       ],
       "relevance": "Defines the Omega-3 Index as EPA plus DHA in red cell membranes. The reason that exact measurement is on the panel rather than a general fatty acid panel.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "kodama-2009-fitness-mortality",
@@ -204,7 +210,8 @@
         }
       ],
       "relevance": "Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
     },
     {
       "id": "blades-2024-whm-rct",
@@ -242,7 +249,8 @@
           "claim": "science-model-01"
         }
       ],
-      "relevance": "84 women randomised to cold exposure with breathwork, or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms. A single unreplicated trial, which is why cold and breathwork are carried in the protocol as contested rather than established."
+      "relevance": "84 women randomised to cold exposure with breathwork, or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms. A single unreplicated trial, which is why cold and breathwork are carried in the protocol as contested rather than established.",
+      "is_authors_model": false
     },
     {
       "id": "wong-riley-2005-cco",
@@ -271,7 +279,44 @@
         }
       ],
       "relevance": "Tests whether cytochrome c oxidase is the photoacceptor for far red and near infrared light, by competing light treatment against a cytochrome c oxidase inhibitor in cultured neurons. This is the mechanism named at the edge of the timing section. Contested, and it is cell culture under LED arrays rather than sunlight.",
-      "accessed": "2026-09-20"
+      "accessed": "2026-09-20",
+      "is_authors_model": false
+    },
+    {
+      "id": "holick-1980-previtamin-d3",
+      "authors": [
+        "Holick MF",
+        "MacLaughlin JA",
+        "Clark MB",
+        "Holick SA",
+        "Potts JT",
+        "Anderson RR",
+        "Blank IH",
+        "Parrish JA",
+        "Elias P"
+      ],
+      "year": 1980,
+      "title": "Photosynthesis of previtamin D3 in human skin and the physiologic consequences",
+      "journal": "Science",
+      "doi": "10.1126/science.6251551",
+      "url": "https://doi.org/10.1126/science.6251551",
+      "study_type": "cell",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-09"
+        },
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-05"
+        }
+      ],
+      "relevance": "The primary source for vitamin D synthesis in skin. Ultraviolet light converts a precursor in the skin into previtamin D3. This is the established half of light's second job, the small amount of real chemistry, and it is why the program no longer says light is only timing.",
+      "accessed": "2026-09-22"
     }
   ]
 }

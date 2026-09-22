@@ -8,7 +8,7 @@
 
 Your body is not one battery. It is a coordinated network of trillions of cellular batteries. Every cell holds a voltage across a membrane, and different tissues are built to hold different voltages. How well each one is made, held, spent and recovered decides how you feel. The goal is tissue-appropriate voltage, never maximum voltage.
 
-**Light is timing information.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into the body. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
+**Light is information, and light is a minor energy input.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. That is job one and it is the larger effect. Job two is a small amount of real chemistry in the skin: chromophores and opsins make vitamin D and release stored nitric oxide. Skin absorbs a great deal of solar energy and almost all of it becomes heat, because there is no machinery for converting photons into ATP. Absorbing energy and converting it into biological work are different things. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
 
 **Water is the medium.** Mineralized and adequate. The cell does its work in water, not in spite of it.
 
