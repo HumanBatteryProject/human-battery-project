@@ -1,6 +1,14 @@
 # The Foundational Model of The Human Battery Project
 
-*This is the canonical statement of what the program is built on. Every protocol element, every line of marketing copy, every answer the AI coach gives, and every claim in the book answers to this document. Where anything else in the project conflicts with it, this document wins.*
+*This is the canonical statement of what the program is built on. Every protocol element, every line of marketing copy, and every answer the AI coach gives answers to this document.*
+
+*The book is canonical above this document. When the book changes, this document is amended to match and the change is recorded below. Where anything else in the project conflicts with this document, this document wins.*
+
+## Changelog
+
+**2026-09-22.** Light corrected. The previous text said light is biological timing information and not an energy input. That was too strong in one direction. Light is information, and light is also a minor energy input. Job one is timing and it is the larger effect. Job two is a small amount of real chemistry in the skin. The claim that sunlight charges the body the way a charger fills a phone remains false and is still forbidden. Amended to match the revised book.
+
+**2026-09-22.** Seasonal eating corrected. The claim that food carries seasonal information in its electrons is withdrawn. Electrons are indistinguishable and carry no information about where or when food grew. The defensible claim sits one level up, in substrate profiles meeting a photoperiod-set metabolic state, and it is a hypothesis rather than an established fact. Amended to match the revised book.
 
 ---
 
@@ -81,7 +89,17 @@ Every part of the Human Battery protocol should answer at least one of four ques
 
 The protocol is built around these pillars:
 
-**Circadian organization.** Morning outdoor light, consistent sleep timing, daytime activity and real darkness at night help synchronize the nervous system, hormones, metabolism and mitochondrial activity. Light should be described as biological timing information, not as electricity directly charging the body like a solar panel.
+**Circadian organization.** Morning outdoor light, consistent sleep timing, daytime activity and real darkness at night help synchronize the nervous system, hormones, metabolism and mitochondrial activity.
+
+Light does two jobs, and both are real.
+
+Job one is timing, and it is the larger effect. Melanopsin-containing cells in the retina carry light to the clock in the hypothalamus, and that signal sets when the nervous system, hormones, metabolism and mitochondrial activity run. This is the job the protocol is built around.
+
+Job two is a small amount of real chemistry in the skin. Chromophores and opsins in skin absorb light, which makes vitamin D and releases stored nitric oxide. That is a genuine energy input, and it is minor.
+
+Skin absorbs a great deal of solar energy, and almost all of it becomes heat. The body has no machinery for turning photons into ATP. Absorbing energy and converting it into biological work are different things, and the difference is the whole point.
+
+Still false, and still forbidden anywhere in this project: that sunlight charges the body the way a charger fills a phone.
 
 **Mitochondrial capacity.** Movement, aerobic conditioning, resistance training, adequate oxygen delivery, metabolic health and appropriate nutrition support mitochondrial number, respiratory capacity and ATP production.
 

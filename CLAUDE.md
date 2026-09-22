@@ -58,7 +58,34 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **7. No health claims.** No outcome promises, no disease claims, nothing implying medication is unnecessary.
 
-**8. Light is timing information.** `docs/HBP-Foundational-Model.md` is canonical. Never describe light as charging the body, as energy absorbed, or as a solar panel. Morning light tells the body what time it is. That is the claim. The body is trillions of coordinated batteries, never one battery with a single charge. Tissue-appropriate voltage, never maximum voltage.
+**8. Light is information, and light is a minor energy input.** Both are true and
+the copy has to carry both.
+
+Job one is timing, through the melanopsin cells in the eye, and it is the larger
+effect. Morning light tells the body what time it is, and that signal sets when
+everything else runs.
+
+Job two is a small amount of real chemistry in the skin, through chromophores
+and opsins: vitamin D is made, and stored nitric oxide is released. Real, and
+minor.
+
+Skin absorbs a lot of solar energy and almost all of it becomes heat, because
+the body has no machinery for turning photons into ATP. Absorbing energy and
+converting it into biological work are different things.
+
+**Still forbidden: that sunlight charges the body the way a charger fills a
+phone.** The body is trillions of coordinated batteries, never one battery with
+a single charge. Tissue-appropriate voltage, never maximum voltage.
+
+This rule was amended on 2026-09-22. The earlier version said light is timing
+information and never an energy input, which was too strong in one direction.
+
+**8a. The book is canonical.** It outranks `docs/HBP-Foundational-Model.md`,
+which outranks everything else. **Any rule in this file may be amended when the
+book changes**, and the amendment is recorded: a dated changelog entry at the
+top of the foundational model, and a dated line on the rule itself. A rule here
+that contradicts the current book is stale, not binding. Do not work around it
+and do not quietly ignore it. Amend it, date it, and say so in the report.
 
 **8b. The Omega-3 kit gate is posting, not the result.** The dried blood spot fixes the sample at collection, so a result that arrives in week two is still a day 0 number. What has to be true before day 1 is that the drop is on the card and the card is in the mail. This is why `minimum_lead_days` is 14 and not 28, and it must not drift back. The Omega-3 Index is the most responsive marker on the panel, so a client who has not posted by day 1 is offered a move to the next wave rather than starting without a baseline, because that comparison cannot be recovered later.
 
@@ -76,14 +103,14 @@ are the literal placeholders `sk_test_` and `whsec_` until then, and
 `checkout.js` and `stripe-webhook.js` are not to be edited meanwhile.
 
 **8d. Frontier dimensions are model structure, not missing patient data.**
-`charge` and `redox` carry no score, ever. Not a null standing in for a
+`charge`, `redox` and `leak` carry no score, ever. Not a null standing in for a
 measurement that failed to arrive: there is no instrument, and a participant
 who did everything right still has no number there. **No surface may present a
 participant's score as incomplete on account of them.** No coverage figure, no
 "n of 8", no percentage of the model covered, no progress bar, no greyed-out
 value, no dashed empty-state border, no "coming soon". The composite runs over
-the six scored dimensions and is complete by definition. Header copy is
-"6 measured dimensions", never a fraction.
+the five scored dimensions and is complete by definition. Header copy is
+"5 measured dimensions", never a fraction.
 
 The frontier section renders as science, not as a broken tile. Its copy is
 fixed in `state_dimensions.body` and must not be softened into an empty state.
