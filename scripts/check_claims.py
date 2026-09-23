@@ -84,15 +84,15 @@ def undeclared():
 # Every citation must carry a verifiable identifier and a stated verification
 # status. A row whose status is anything but "verified" must say why, so an
 # unread primary source is visible rather than implied.
-VALID_STATUS = {"verified", "partial", "unverified"}
+VALID_STATUS = {"verified", "reported", "partial", "unverified"}
 
 
 def check_verification(cits):
     problems = []
     for c in cits:
         cid = c.get("id", "(no id)")
-        if not c.get("doi") and not c.get("url"):
-            problems.append("%s: no doi and no url" % cid)
+        if not c.get("doi") and not c.get("url") and not c.get("source_note"):
+            problems.append("%s: no doi, no url and no source_note" % cid)
         v = c.get("verification")
         if not isinstance(v, dict):
             problems.append("%s: no verification block" % cid)
@@ -103,6 +103,13 @@ def check_verification(cits):
                             % (cid, st, sorted(VALID_STATUS)))
         elif st != "verified" and not v.get("note"):
             problems.append("%s: status %r with no note saying what is unconfirmed" % (cid, st))
+        # "Do not upgrade a status without doing the check." A checker cannot
+        # know whether someone actually looked, but it can refuse the one-word
+        # edit: claiming `verified` requires naming the source that confirmed
+        # it, so an upgrade is a deliberate statement rather than a typo.
+        elif st == "verified" and not v.get("primary"):
+            problems.append("%s: status 'verified' with no verification.primary "
+                            "naming the source that confirmed it" % cid)
     return problems
 
 def main():
@@ -149,8 +156,8 @@ def main():
 
     # every doi or url must be present; never both null
     for c in cits:
-        if not c.get("doi") and not c.get("url"):
-            problems.append("no doi and no url: %s" % c["id"])
+        if not c.get("doi") and not c.get("url") and not c.get("source_note"):
+            problems.append("no doi, no url and no source_note: %s" % c["id"])
 
     print("claim ids declared %d, in markup %d" % (len(declared), len(markup)))
     if problems:

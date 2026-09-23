@@ -21,7 +21,9 @@ PAGES = {"index": "public/index.html", "science": "public/science.html"}
 LABEL = {"human_rct": "Randomised trial in people",
          "human_observational": "Observational, in people",
          "animal": "Animal study", "cell": "Cell study",
-         "review": "Review or meta-analysis", "theory": "Theory"}
+         "review": "Review or meta-analysis", "theory": "Theory",
+         "plant": "Plant study", "in_vitro": "Laboratory measurement",
+         "textbook": "Reference table"}
 TIERN = {"established": "1", "contested": "2", "working model": "3"}
 
 

@@ -342,6 +342,18 @@ docs/                the model, the spec, the protocol, the strategy
   under the working tree. Before reporting the state of a table, query the
   database.
 
+- **PubMed `esummary` truncates titles. Use `efetch`.** This is the third
+  metadata-source failure in this project and they all have the same shape: the
+  part that got dropped was the part that carried the meaning.
+  - Crossref returned **one** author for Kodama 2009. PubMed returned twelve.
+  - Crossref truncated Wong-Riley 2005 at the colon, dropping
+    `: role of cytochrome c oxidase`, which is the entire reason it is cited.
+  - PubMed `esummary` truncated Togo 2012 at "Fischer 344 rats", dropping
+    **"but not in same-age Wistar rats"**, which is the strain-specificity
+    finding the citation exists to carry. `efetch` has the full title.
+  Take titles from `efetch`, not `esummary`, and when a title reads as though
+  it stops early, it probably did.
+
 - **A check that cannot find the thing is not evidence the thing is absent.**
   Before reporting a zero result, confirm the query is capable of returning a
   non-zero one. Run it against a case you know is present, or widen it until it

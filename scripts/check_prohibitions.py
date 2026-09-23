@@ -142,7 +142,16 @@ PATTERNS = [
 ]
 
 
+# A string inside a "counters" array in citations.json IS the forbidden claim,
+# recorded so a citation can be attached to refuting it. Scanning it is the
+# same mistake as flagging a negation: the product is not asserting it, it is
+# filing the evidence against it.
+COUNTER_FIELD = re.compile(r'"(counters|claims)"\s*:\s*\[.*?\]', re.S)
+
+
 def sentences(text, path=""):
+    if path.endswith("citations.json"):
+        text = COUNTER_FIELD.sub(" ", text)
     # Internal comments are not participant-facing. A SQL comment explaining
     # why a rule exists is not the product asserting it.
     if path.endswith(".sql"):
