@@ -161,6 +161,7 @@ def tests_doc():
   </div>
   <p>Most lab reports hand you a wall of numbers with a flag next to the ones outside "normal." We do something different. Each marker is scored against where a well-functioning body sits, not against the population average, and the scores roll up into four systems and one Battery Score. A result at the edge of normal on a standard report can be a low score here. That is the point.</p>
   <p>For each test you will see two things. <b>What it is</b>, in plain words. And <b>why we measure it</b>, which is the part most reports leave out.</p>
+  <p><b>Your Battery Score is a proxy, assembled from what can be measured today. It is not a validated clinical measure.</b></p>
   <h3>One thing to know before you read</h3>
   <p>A normal result on any of these does not prove every cell in your body is working perfectly. These numbers describe the environment your cells work in. They are the best indirect view we have, and measuring them twice, ninety days apart, is what makes them useful.</p>
   <div class="rule"><b>Out of range means a referral.</b> If any marker falls outside the laboratory's reference range, you will be referred to a physician. Every time. That is a rule, not a judgment call.</div>

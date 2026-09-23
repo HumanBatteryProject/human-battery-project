@@ -93,8 +93,8 @@ def circadian(tier):
      "night": dict(
         h="Make the bedroom dark and quiet",
         why="Your body does its repair work while you sleep, and it can only do it in the dark. Even a small light, like a phone screen or a charger glow, can be enough to keep the repair from starting. The phone also keeps your brain on alert, waiting for a buzz. Out of the room means your body can finally switch off.",
-        pro="Phone off, not airplane mode. Router off at the breaker. Nothing plugged in within six feet of the bed. Grounding sheet. Blackout. Room at 62 to 65°F.",
-        advanced="Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Grounding sheet. Room at 65°F.",
+        pro="Phone off, not airplane mode. Router off at the breaker. Nothing plugged in within six feet of the bed. Blackout. Room at 62 to 65°F. Grounding sheet if you want to try one, optional.",
+        advanced="Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Room at 65°F. Grounding sheet if you want to try one, optional.",
         intermediate="Phone out of the bedroom. Router on a timer, off 10pm to 6am.",
         beginner="Your phone sleeps in another room. Starting tonight. Charge it in the kitchen. If you use it as an alarm, buy a ten-dollar alarm clock. Cover any small lights in the room, like the glow on a charger or a TV. As dark as you can get it.",
      ),
@@ -254,8 +254,8 @@ def sleep(tier):
 <p>Same bedtime, same wake time, seven days a week. Room cool and completely dark. Last food three hours before bed. Phone out of the bedroom.</p>
 """
     extra = {
-     "pro":"<p>Room at 62 to 65°F. Grounding sheet. Mouth tape. Nothing electronic in the room. To the minute, not roughly.</p>",
-     "advanced":"<p>Room at 65°F. Grounding sheet. Nasal breathing. If you snore, mouth tape.</p>",
+     "pro":"<p>Room at 62 to 65°F. Mouth tape. Nothing electronic in the room. To the minute, not roughly. A grounding sheet is optional and is not part of the required protocol.</p>",
+     "advanced":"<p>Room at 65°F. Nasal breathing. If you snore, mouth tape. A grounding sheet is optional and is not part of the required protocol.</p>",
      "intermediate":"<p>Fixed wind-down at 9pm: glasses on, screens off, magnesium taken.</p>",
      "beginner":"<p>Pick a wake time and hold it. That is the only sleep rule in month one, and it is the one that makes everything else possible.</p>",
     }[tier]
@@ -307,7 +307,7 @@ ENVIRONMENT = """
 <tr><th>Screens</th><td>Iris (iristech.co) on every computer, Health mode after sunset. f.lux is the free alternative. BlockBlueLight or Ocushield film on monitors. BlockBlueLight filter on the TV.</td></tr>
 <tr><th>Bulbs</th><td>Incandescent wherever you can find them. Otherwise BlockBlueLight or Bon Charge red bulbs for evening rooms.</td></tr>
 <tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. About twelve dollars.</td></tr>
-<tr><th>Grounding</th><td>Earthing.com or Hooga sheet for the bed, mat for the desk. Test your outlet with a three-dollar tester first.</td></tr>
+<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Grounding is not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual way. Test your outlet with a three-dollar tester first. We name no brand and we take no commission on anything in this guide.</td></tr>
 <tr><th>Water</th><td>Crazy Water #4, Saratoga, Icelandic Glacial. APEC or iSpring under-sink RO at home. Baja Gold sea salt.</td></tr>
 <tr><th>Sauna</th><td>Gym sauna for most. Sun Home or Almost Heaven barrel for a home unit. Traditional, not infrared.</td></tr>
 <tr><th>Cold</th><td>Cold shower to start. Ice Barrel or a chest freezer conversion with a GFCI for a home plunge.</td></tr>

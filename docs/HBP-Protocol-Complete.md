@@ -91,7 +91,9 @@ Four or more in a column places you there. Mixed results place you in the lower 
 
 **After dark:** Ra Optics Night Shift red lenses from sunset. Not amber. Red. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or Iris on the darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
 
-**Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Grounding sheet. Blackout. Room at 62 to 65°F.
+**Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Blackout. Grounding sheet optional, see below. Room at 62 to 65°F.
+
+**Grounding, optional.** Grounding is an optional experiment, not a required part of the protocol. Evidence tier: hypothesis, and it is the author's working model rather than a position held in the literature. A participant who never grounds is fully adherent. No brand is recommended and no commission is taken on anything named in this protocol.
 
 ## Eating
 
@@ -144,7 +146,7 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 ## Sleep
 
-Bed at the same time, wake at the same time, seven days, to the minute. Room at 62 to 65°F. Grounding sheet. Mouth tape. Total darkness. Nothing electronic in the room.
+Bed at the same time, wake at the same time, seven days, to the minute. Room at 62 to 65°F. Mouth tape. Total darkness. Grounding sheet optional, see below. Nothing electronic in the room.
 
 ## Testing: Pro runs the full instrument set
 
@@ -279,7 +281,7 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 ## Sleep
 
-Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Grounding sheet. Nasal breathing. If you snore, mouth tape.
+Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Nasal breathing. Grounding sheet optional, see below. If you snore, mouth tape.
 
 ## Supplements: Advanced
 

@@ -21,6 +21,11 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCES = [
     (ROOT / "docs/HBP-Foundational-Model.md", ROOT / "functions/api/_model.js", "FOUNDATIONAL_MODEL"),
+    # The operative extract of the book. The coach has no corpus to retrieve
+    # from yet, so this is compiled into its prompt directly. When Phase 3
+    # lands it becomes passages as well, and this stays: the corrected
+    # positions are not something the coach should have to retrieve to honour.
+    (ROOT / "docs/HBP-Canonical-Positions.md", ROOT / "functions/api/_canon.js", "CANONICAL_POSITIONS"),
 ]
 
 

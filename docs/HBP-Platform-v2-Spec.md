@@ -95,7 +95,8 @@ Everything the coach and the agents reason from lives in one place, and it is th
 
 ### What goes in
 
-- The Foundational Model, canonical
+- The Canonical Positions, the operative extract of the book and the first authority
+- The Foundational Model, the long-form version of the same model
 - The Working Model and Addenda II, III and IV
   (there is no Addendum I. Git history across all branches shows only II,
   III and IV were ever added, in `3d12b9a`, and nothing anywhere declares

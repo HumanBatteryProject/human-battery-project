@@ -22,7 +22,12 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 ## The canonical documents, in order of authority
 
-1. `docs/HBP-Foundational-Model.md`: what the program is built on. Where anything conflicts with it, it wins.
+0. **`docs/HBP-Canonical-Positions.md`: the operative extract of the book, and the day-to-day
+   reference.** Start here. It carries the corrected positions on light, seasonal eating and
+   water, the eight dimensions with five scored, the two evidence axes, the Score wording and
+   the prohibitions. It changes when the book changes and not independently.
+1. `docs/HBP-Foundational-Model.md`: the long-form version of the same model. Superseded as the
+   day-to-day reference by the file above, not retired.
 2. `docs/HBP-Platform-v2-Spec.md`: how the platform works: enrollment, agents, schema, build order.
 3. `docs/HBP-Protocol-Complete.md`: the four-tier protocol in full, including placement.
 4. `docs/HBP-Integration-Architecture.md`: the three evidence tiers and what may be claimed where.
