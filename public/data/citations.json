@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "citations": [
     {
       "id": "mitchell-1961-chemiosmotic",
@@ -27,7 +27,14 @@
       ],
       "relevance": "The paper that proposed ATP is made by pumping protons across a membrane and letting them back through. It is the mechanism the whole battery framing rests on.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "wallace-1992-mito-paradigm",
@@ -50,7 +57,14 @@
       ],
       "relevance": "Argues that defects in oxidative phosphorylation sit underneath a range of degenerative disease. Contested because it is a proposed paradigm rather than a settled finding.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "berson-2002-ipRGC",
@@ -80,7 +94,14 @@
       ],
       "relevance": "Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is light's larger job, timing, and it is what the protocol is built around.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "lindqvist-2016-sun-mortality",
@@ -113,7 +134,14 @@
       ],
       "relevance": "A cohort followed for two decades in which women who avoided the sun had higher all-cause mortality. Observational, so it cannot separate sun exposure from everything that travels with it.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "liu-2014-uva-blood-pressure",
@@ -143,7 +171,14 @@
       ],
       "relevance": "Controlled exposure in people, lowering blood pressure through nitric oxide stored in skin, by a route vitamin D does not explain. Contested because it is one small trial.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "harris-2004-omega3-index",
@@ -167,7 +202,14 @@
       ],
       "relevance": "Defines the Omega-3 Index as EPA plus DHA in red cell membranes. The reason that exact measurement is on the panel rather than a general fatty acid panel.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "kodama-2009-fitness-mortality",
@@ -211,7 +253,14 @@
       ],
       "relevance": "Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "blades-2024-whm-rct",
@@ -250,7 +299,14 @@
         }
       ],
       "relevance": "84 women randomised to cold exposure with breathwork, or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms. A single unreplicated trial, which is why cold and breathwork are carried in the protocol as contested rather than established.",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "wong-riley-2005-cco",
@@ -280,7 +336,14 @@
       ],
       "relevance": "Tests whether cytochrome c oxidase is the photoacceptor for far red and near infrared light, by competing light treatment against a cytochrome c oxidase inhibitor in cultured neurons. This is the mechanism named at the edge of the timing section. Contested, and it is cell culture under LED arrays rather than sunlight.",
       "accessed": "2026-09-20",
-      "is_authors_model": false
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      }
     },
     {
       "id": "holick-1980-previtamin-d3",
@@ -316,7 +379,198 @@
         }
       ],
       "relevance": "The primary source for vitamin D synthesis in skin. Ultraviolet light converts a precursor in the skin into previtamin D3. This is the established half of light's second job, the small amount of real chemistry, and it is why the program no longer says light is only timing.",
-      "accessed": "2026-09-22"
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-22",
+        "note": null
+      }
+    },
+    {
+      "id": "grba-2020-complex-i-water",
+      "authors": [
+        "Grba DN",
+        "Hirst J"
+      ],
+      "year": 2020,
+      "title": "Mitochondrial complex I structure reveals ordered water molecules for catalysis and proton translocation",
+      "journal": "Nature Structural and Molecular Biology",
+      "doi": "10.1038/s41594-020-0473-x",
+      "url": "https://doi.org/10.1038/s41594-020-0473-x",
+      "study_type": "cell",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The 2.7 angstrom structure that resolved 275 ordered water molecules forming proton-translocation pathways in complex I. This is the established basis for saying interfacial water is part of the proton-transfer machinery, and it is why the program does not deny water a role in cell function.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      }
+    },
+    {
+      "id": "luzar-1996-hbond-kinetics",
+      "authors": [
+        "Luzar A",
+        "Chandler D"
+      ],
+      "year": 1996,
+      "title": "Hydrogen-bond kinetics in liquid water",
+      "journal": "Nature",
+      "doi": "10.1038/379055a0",
+      "url": "https://doi.org/10.1038/379055a0",
+      "study_type": "theory",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "Hydrogen bonds in liquid water break and reform in picoseconds, and the correlation decays with a power-law tail rather than a simple exponential. The measurement that sets the timescale everything else in the water position is compared against.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      }
+    },
+    {
+      "id": "qin-2025-binding-memory",
+      "authors": [
+        "Qin Y",
+        "Yang W",
+        "Liu J",
+        "Yang Z",
+        "Zhang L",
+        "Wang X",
+        "Chen H"
+      ],
+      "year": 2025,
+      "title": "Binding memory of liquid molecules",
+      "journal": "Nature Communications",
+      "doi": "10.1038/s41467-025-61630-3",
+      "url": "https://doi.org/10.1038/s41467-025-61630-3",
+      "study_type": "theory",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The exponent of the correlation tail tracks the dimensionality of the space the molecules diffuse in. Emerging rather than established, and it is the measurement the Biological Water Correlation Hypothesis would be tested against.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      }
+    },
+    {
+      "id": "sterpone-2012-water-slowdown",
+      "authors": [
+        "Sterpone F",
+        "Stirnemann G",
+        "Laage D"
+      ],
+      "year": 2012,
+      "title": "Magnitude and molecular origin of water slowdown next to a protein",
+      "journal": "Journal of the American Chemical Society",
+      "doi": "10.1021/ja3007897",
+      "url": "https://doi.org/10.1021/ja3007897",
+      "study_type": "theory",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "Water in a protein hydration shell is slowed by a factor of roughly 2 to 3, not orders of magnitude. This is the number that makes energy storage in structured water hard, and it is why the program says there is no evidence for it without saying it is impossible.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      }
+    },
+    {
+      "id": "laage-2017-hydration-shells",
+      "authors": [
+        "Laage D",
+        "Elsaesser T",
+        "Hynes JT"
+      ],
+      "year": 2017,
+      "title": "Water dynamics in the hydration shells of biomolecules",
+      "journal": "Chemical Reviews",
+      "doi": "10.1021/acs.chemrev.6b00765",
+      "url": "https://doi.org/10.1021/acs.chemrev.6b00765",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The review behind the hydration-shell slowdown figure. Carried alongside Sterpone so the number rests on more than one paper.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      }
+    },
+    {
+      "id": "togo-2012-photoperiod-f344",
+      "authors": [
+        "Togo Y",
+        "Otsuka T",
+        "Goto M",
+        "Furuse M",
+        "Yasuo S"
+      ],
+      "year": 2012,
+      "title": "Photoperiod regulates dietary preferences and energy metabolism in young developing Fischer 344 rats",
+      "journal": "American Journal of Physiology. Endocrinology and Metabolism",
+      "doi": "10.1152/ajpendo.00209.2012",
+      "url": "https://doi.org/10.1152/ajpendo.00209.2012",
+      "study_type": "animal",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The clean factorial test of photoperiod against a high fat diet in F344 rats, with the interaction tested explicitly. It found independent mechanisms and no interaction at the genes carrying the photoperiodic signal. This is evidence AGAINST the Seasonal Redox-Mismatch Hypothesis and ships with it.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "partial",
+        "primary": "pubmed",
+        "confirmed": "crossref doi",
+        "checked": "2026-09-22",
+        "note": "Metadata confirmed: PMID 22811472, Am J Physiol Endocrinol Metab 303:E777-86. Abstract text not retrieved, so the described result is taken from the brief and not read at source. Read the abstract before this appears in anything printed."
+      }
+    },
+    {
+      "id": "usda-2012-orac-withdrawal",
+      "authors": [
+        "United States Department of Agriculture, Agricultural Research Service"
+      ],
+      "year": 2012,
+      "title": "Withdrawal of the USDA ORAC database for selected foods",
+      "journal": "USDA Agricultural Research Service",
+      "doi": null,
+      "url": "https://web.archive.org/web/2012/https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/oxygen-radical-absorbance-capacity-orac-of-selected-foods-release-2-2010/",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The USDA withdrew its own ORAC database in May 2012, on the grounds that the values had no demonstrated relevance to human biology. Cited in the canon as the reason no surface may treat antioxidant capacity as an energy input.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "unverified",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "PRIMARY TEXT NOT READ. The original ARS page is gone. Date and reasoning are consistent across secondary sources but no snapshot has been pulled. The url above is a Wayback query, not a confirmed snapshot. Do not put this in anything printed or published until someone reads the snapshot."
+      }
     }
   ]
 }

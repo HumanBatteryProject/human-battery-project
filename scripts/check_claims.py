@@ -77,6 +77,34 @@ def undeclared():
     return out
 
 
+
+# ---------------------------------------------------------------------
+# Verification status, brief 03 section 7.
+# ---------------------------------------------------------------------
+# Every citation must carry a verifiable identifier and a stated verification
+# status. A row whose status is anything but "verified" must say why, so an
+# unread primary source is visible rather than implied.
+VALID_STATUS = {"verified", "partial", "unverified"}
+
+
+def check_verification(cits):
+    problems = []
+    for c in cits:
+        cid = c.get("id", "(no id)")
+        if not c.get("doi") and not c.get("url"):
+            problems.append("%s: no doi and no url" % cid)
+        v = c.get("verification")
+        if not isinstance(v, dict):
+            problems.append("%s: no verification block" % cid)
+            continue
+        st = v.get("status")
+        if st not in VALID_STATUS:
+            problems.append("%s: verification.status is %r, expected one of %s"
+                            % (cid, st, sorted(VALID_STATUS)))
+        elif st != "verified" and not v.get("note"):
+            problems.append("%s: status %r with no note saying what is unconfirmed" % (cid, st))
+    return problems
+
 def main():
     cits = json.loads((ROOT / "public/data/citations.json").read_text())["citations"]
 
@@ -130,6 +158,20 @@ def main():
             print("  " + p)
         sys.exit(1)
     print("ok: both directions match, no duplicates, every marker resolves")
+
+    vprob = check_verification(cits)
+    if vprob:
+        print("\nverification problems: %d" % len(vprob))
+        for v in vprob:
+            print("  " + v)
+        return 1
+    from collections import Counter as _C
+    st = _C((c.get("verification") or {}).get("status") for c in cits)
+    print("citations %d: %s" % (len(cits), ", ".join("%s %d" % (k, n) for k, n in sorted(st.items()))))
+    for c in cits:
+        v = c.get("verification") or {}
+        if v.get("status") != "verified":
+            print("  FLAGGED %-28s %s" % (c["id"], v.get("note", "")[:96]))
 
     u = undeclared()
     total = sum(len(v) for v in u.values())
