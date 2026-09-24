@@ -38,6 +38,14 @@ SCAN = [
     "program-docs/*.py",
     "functions/api/*.js",
     "database/migrations/*.sql",
+    # SVGs were never scanned. They are nothing BUT fill and stroke
+    # attributes, so they were the largest blind spot behind the largest
+    # blind spot: the attribute lift above is what makes scanning them work.
+    "public/assets/*.svg",
+    "brand/svg/*.svg",
+    "public/*.svg",
+    # The portal's own pages and the legal set.
+    "public/portal/admin/*.html",
 ]
 
 # Rule files STATE the prohibitions, which means they quote the forbidden
@@ -147,6 +155,20 @@ PATTERNS = [
         subject=r"(surface-raised|#1C2742|--surface-raised|\.card|\.panel)",
         predicate=r"(#B4794F|--copper-brand|var\(--copper-brand\))",
         canary="The .card heading uses #B4794F on #1C2742.",
+    ),
+    dict(
+        name="status-colour-without-a-word",
+        clause="brand: every status colour ships with an icon AND a word. "
+               "Colour alone never carries state. status-good and chart-3 are "
+               "both green and are kept apart by this rule, not by hue",
+        # A status token applied to an element whose only content is the
+        # colour. Catches the shape "<span class=x style=color:status>" with
+        # no text, and a rule that sets only a status colour on a bare class.
+        subject=r"(--status-(?:good|warn|critical)|#3FA97D|#D9A441|#E0705E|"
+                r"#1F6B4A|#8A5A0F|#A32E22)",
+        predicate=r"(content\s*:\s*[\"\']\s*[\"\']|aria-hidden|<span[^>]*>\s*</span>|"
+                  r"title\s*=\s*[\"\'][\"\'])",
+        canary='<span class="dot" style="color:#3FA97D" aria-hidden="true"></span>',
     ),
     dict(
         name="measuring-cellular-charge-or-redox",

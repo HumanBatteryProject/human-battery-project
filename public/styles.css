@@ -41,6 +41,18 @@
   --chart-2:#3987E5;
   --chart-3:#199E70;
 
+  /* Status. A SEPARATE AXIS from the chart palette: the three-colour limit
+     governs series slots and says nothing about state, so these are not a
+     fourth data colour. Dark-theme values, since the app is dark.
+     status-good and chart-3 are both green and never meet. What keeps them
+     apart is a rule, not a hue: every status colour ships with an ICON AND
+     A WORD, and colour alone never carries state.
+     status-warn is not dawn-amber and status-critical is not dawn-ember.
+     The dawn pair is identity and emphasis, not state. */
+  --status-good:#3FA97D;      /* 6.28:1 on field, 5.06:1 on panel */
+  --status-warn:#D9A441;      /* 8.16:1 on field, 6.58:1 on panel */
+  --status-critical:#E0705E;  /* 5.81:1 on field, 4.69:1 on panel */
+
   /* ---- deprecated aliases, straight swaps ---- */
   --carbon:var(--surface-field);
   --navy:var(--surface-raised);

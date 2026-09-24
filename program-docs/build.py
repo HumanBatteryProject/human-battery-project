@@ -481,7 +481,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 .tierrow>div{{flex:1;border:.4pt solid #C3CFD0;border-radius:1.5mm;padding:3.2mm 3mm}}
 .tierrow h3{{margin:0 0 1.6mm;font-size:6.6pt}}
 .tierrow p{{font-size:8.4pt;margin:0;line-height:1.45}}
-.no{{color:#5E3823}}
+.no{{color:#A32E22}}
 </style></head><body>
 
 <div class="page cover">

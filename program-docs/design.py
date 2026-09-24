@@ -26,7 +26,7 @@ EXTRA_CSS = """
 .grid2>div{flex:1}
 .chips{display:flex;flex-wrap:wrap;gap:1.6mm;margin:2mm 0}
 .chip{font-size:8.6pt;padding:1.4mm 2.6mm;border-radius:10mm;border:.4pt solid #C3CFD0;color:#13323F}
-.chip.no{border-color:#C25A3A;color:#5E3823}
+.chip.no{border-color:#A32E22;color:#A32E22}
 .chip.yes{border-color:#157A5C;color:#157A5C}
 .tierrow{display:flex;gap:3mm;margin-top:3mm}
 .tierrow>div{flex:1;border-radius:1.5mm;padding:3.2mm 3mm;color:#fff}
