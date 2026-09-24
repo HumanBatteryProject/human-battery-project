@@ -1,0 +1,18 @@
+name = "hbp-brief"
+main = "brief.js"
+compatibility_date = "2026-09-01"
+
+# Hourly, not daily. Members are in different timezones; /api/brief-run works
+# out each member's own local date and morning_briefs_one_per_day makes the
+# second write for a local day a no-op. So the Worker never needs to know what
+# a timezone is.
+[triggers]
+crons = ["0 * * * *"]
+
+[vars]
+SITE_ORIGIN = "https://thehumanbatteryproject.com"
+
+# WEBHOOK_SECRET is the ONLY secret this Worker holds, and it is set with
+#   wrangler secret put WEBHOOK_SECRET
+# Workers do not see Pages environment variables, so this is deliberate and
+# separate. Nothing else belongs here: see the header of brief.js.
