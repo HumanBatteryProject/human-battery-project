@@ -102,10 +102,11 @@ def build():
     out.append(
         "<p class='note'>A recipe marked for a tier you are not in is not "
         "forbidden forever. It is out for ninety days, which is long enough to "
-        "find out what your body does without it. The Human Battery Project. "
-        "Educational wellness program, not medical treatment. If you take "
-        "prescription medication, review any dietary change with your "
-        "prescriber.</p>")
+        "find out what your body does without it. Ingredients are named by "
+        "specification and not by brand, and we take no commission on anything "
+        "named here. The Human Battery Project. Educational wellness program, "
+        "not medical treatment. If you take prescription medication, review any "
+        "dietary change with your prescriber.</p>")
     path = f"{OUT}/HBP-Battery-Kitchen.pdf"
     HTML(string="".join(out)).write_pdf(path)
     print(path)

@@ -35,7 +35,7 @@ DAY_ONE = {
 
 STEPS = [
  ("Order your Omega-3 kit today",
-  f"""<p>Go to <b>omegaquant.com</b>. Order the <b>{KIT_NAME}</b>. It costs {KIT_PRICE}. You order it yourself and it comes to you.</p>
+  f"""<p>Order a dried-blood-spot <b>Omega-3 Index</b> test: a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids, which is the defined measurement the panel uses. <b>OmegaQuant</b> originated that measurement and sells the <b>{KIT_NAME}</b> at {KIT_PRICE}; it is named once because the assay is theirs, not as a preference over another lab reporting the same thing. You order it yourself and it comes to you. We take no commission on it.</p>
 <p>Do this first. Do it today. It takes the longest of anything on this list. The kit takes three to five days to reach you. Then you mail it back. Then the lab runs it. Allow two to four weeks from ordering to result. Everything else here takes a week at most.</p>
 <p><b>Buy two at once.</b> They are $93.46 each if you buy two or more. You need one now and one at day 90, so buying both saves you about $33 and the second one is already in your drawer when day 90 comes.</p>
 <p><b>Get Complete, not Basic.</b> Basic is cheaper and only gives one number. Complete also gives the AA to EPA ratio, which is on your panel and is hard to get anywhere else. Saving fifty dollars here costs you a marker.</p>"""),
@@ -51,7 +51,7 @@ STEPS = [
   """<p>It is in your portal under Program. Read it once. Do not try to learn it. You are not starting yet.</p>
 <p>Every day has the same shape: light, water, moving, food, moving, light, dark. Your tier sets how much. It does not change the order.</p>"""),
  ("Get a few things",
-  """<p>Amber or red glasses for after dark. Baja Gold sea salt. A water bottle you will actually use. That is enough to begin.</p>
+  """<p>Amber or red glasses for after dark. unrefined mineral sea salt. A water bottle you will actually use. That is enough to begin.</p>
 <p>The full list is in your tier document. Only the glasses are urgent.</p>"""),
  ("Put the weekly call in your calendar",
   """<p>One hour. Everyone together. Every week. The day, the time and the link are in your portal under Calls.</p>

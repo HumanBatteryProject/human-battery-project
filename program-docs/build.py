@@ -88,7 +88,7 @@ def circadian(tier):
         pro="Red lenses from sunset, not amber. Every bulb you use after dark is incandescent or a red LED. Screens off after sunset. Candles are the correct evening light.",
         advanced="Amber or red lenses from sunset. Incandescent or red bulbs in every room you use after dark. Screens filtered with Iris and a blue-blocking film.",
         intermediate="Amber lenses from sunset. Bedroom and living room switched to incandescent or red bulbs. Iris on every screen. Film on the TV.",
-        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: Iris or f.lux on the computer, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
+        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any colour-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
      ),
      "night": dict(
         h="Make the bedroom dark and quiet",
@@ -126,11 +126,11 @@ def water(tier):
            "beginner":"Three liters. It will feel like a lot at first. Carry a bottle and refill it three times."}[tier]
     return f"""
 <h3>The morning glass</h3>
-<p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of Baja Gold sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p>
+<p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of unrefined mineral sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p>
 <h3>Through the day</h3>
-<p>{vol} Every bottle gets a pinch of Baja Gold, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
+<p>{vol} Every bottle gets a pinch of unrefined mineral sea salt, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
 <h3>What to drink</h3>
-<p>Crazy Water #4, Saratoga or Icelandic Glacial as bottled water. At home, reverse osmosis with Baja Gold added, a quarter teaspoon per liter. Baja Gold for cooking. Nothing else.</p>
+<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
 """
 
 def movement(tier):
@@ -182,7 +182,7 @@ def food(tier):
 <h3>Window: 7am to 1pm</h3>
 <p>One large meal or two. One 24-hour fast per week.</p>
 <h3>The meal</h3>
-<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. Baja Gold.</p>
+<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. unrefined mineral sea salt.</p>
 <h3>Protein</h3><p>2.2 grams per kilogram of bodyweight, every day, inside the window.</p>
 <h3>Out for 90 days</h3>
 <p>Gluten, all grains, all legumes, all nightshades, seed oils, sugar, alcohol, all dairy except butter and ghee. Nothing processed. Nothing in a package with more than one ingredient.</p>
@@ -229,12 +229,12 @@ def heatcold(tier):
     return {
     "pro": """
 <h3>Cold, every morning after light</h3><p>Five to eight minutes at 45°F or below. Then the day starts.</p>
-<h3>Sauna, every day</h3><p>Two rounds of twenty minutes at 185 to 200°F. Rehydrate with Baja Gold water between rounds.</p>
+<h3>Sauna, every day</h3><p>Two rounds of twenty minutes at 185 to 200°F. Rehydrate with unrefined mineral sea salt water between rounds.</p>
 <h3>Contrast, three times a week</h3><p>Twenty hot, four cold, three rounds.</p>
 <div class="rule">Cold never within four hours after resistance training. Morning cold then a lift is fine. Lift then cold is not.</div>
 """,
     "advanced": """
-<h3>Sauna, five to seven days</h3><p>Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have time. Rehydrate with mineral water and Baja Gold.</p>
+<h3>Sauna, five to seven days</h3><p>Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have time. Rehydrate with mineral water and unrefined mineral sea salt.</p>
 <h3>Cold, four days</h3><p>Three to five minutes at 50°F or below.</p>
 <h3>Contrast, one designated day</h3><p>Sauna then cold, three rounds.</p>
 <div class="rule">Cold goes after zone 2, never after resistance training. If you lift in the morning, cold is in the evening or on a non-lifting day.</div>
@@ -267,7 +267,7 @@ def supplements(tier):
 <h3>On waking</h3><p>Cowboy Colostrum, 1 scoop in water.</p>
 <h3>With the morning glass</h3><p>Spirulina powder (Nutrex Hawaii), 1 tablespoon. Quicksilver Methyl B-Complex, 1 pump. Quicksilver NAD+ Platinum, 1 pump.</p>
 <h3>With the meal</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. Pure Encapsulations EPA/DHA Essentials, 2,000 mg EPA+DHA. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. He Shou Wu, 3. Deer Antler Drops, 1 dropper, 21 days on 7 off. Cordyceps, 3. Duanwood Reishi, 3. Gaia Daytime HPA, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump. Life Extension Taurine, 2 g.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. a third-party-tested brand EPA/DHA Essentials, 2,000 mg EPA+DHA. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. He Shou Wu, 3. Deer Antler Drops, 1 dropper, 21 days on 7 off. Cordyceps, 3. Duanwood Reishi, 3. Gaia Daytime HPA, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump. Life Extension Taurine, 2 g.</p>
 <h3>Pre-training</h3><p>Cordyceps, 2 more. Creatine, 5 g more on heavy days.</p>
 <h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon. Goji &amp; Schizandra Drops, 1 dropper. Gaia Daytime HPA, 2.</p>
 <h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. l-Theanine, 200 mg. Zinc 30, 1. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out, nightly for two weeks then as needed.</p>
@@ -276,7 +276,7 @@ def supplements(tier):
 """,
     "advanced": """
 <h3>Morning, with the first meal</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. EPA/DHA Essentials, dosed to your Omega-3 Index: under 4% take 2,000 mg, 4 to 6% take 1,500 mg, over 6% take 1,000 mg. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. Spirulina powder (Nutrex Hawaii), 1 tablespoon. Cowboy Colostrum, 1 scoop on waking before anything.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. EPA/DHA Essentials, dosed to your Omega-3 Index: under 4% take 2,000 mg, 4 to 6% take 1,500 mg, over 6% take 1,000 mg. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. Spirulina powder (Nutrex Hawaii), 1 tablespoon. Cowboy Colostrum, 1 scoop on waking before anything.</p>
 <h3>Midday</h3><p>Dragon Herbs Duanwood Reishi, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump.</p>
 <h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon.</p>
 <h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
@@ -286,14 +286,14 @@ def supplements(tier):
 """,
     "intermediate": """
 <h3>Morning</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. Life Extension Super Omega-3, 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above. Vitamin D3/K2, 5,000 IU, adjusted after labs. Creatine, 5 g. Gaia Daytime HPA, 2. Spirulina and chlorella blend powder, 1 tablespoon. Cowboy Colostrum, 1 scoop on waking.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. Life Extension Super Omega-3, 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above. Vitamin D3/K2, 5,000 IU, adjusted after labs. Creatine, 5 g. Gaia Daytime HPA, 2. Spirulina and chlorella blend powder, 1 tablespoon. Cowboy Colostrum, 1 scoop on waking.</p>
 <h3>Afternoon</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 15 g.</p>
 <h3>Evening</h3><p>Magnesium Glycinate, 300 mg. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
 <h3>If tired: the Jing stack</h3><p>Dragon Herbs Super Adaptogen, 3 morning. Gaia Daytime HPA, 2 morning and 2 afternoon. Cordyceps, 2 before training.</p>
 """,
     "beginner": """
 <h3>Month one: three bottles</h3>
-<p>Life Extension Super Omega-3, 2,000 mg EPA+DHA. Your baseline is almost certainly low. Pure Encapsulations Vitamin D3/K2, 5,000 IU. Magnesium Glycinate, 300 mg in the evening.</p>
+<p>Life Extension Super Omega-3, 2,000 mg EPA+DHA. Your baseline is almost certainly low. Vitamin D3 with K2, 5,000 IU. Magnesium Glycinate, 300 mg in the evening.</p>
 <p>Nothing else. Three bottles taken every day beats eight bottles abandoned in week three.</p>
 <h3>Month two, add</h3><p>Creatine, 5 g morning. Gaia Daytime HPA, 2 morning.</p>
 <h3>Month three, add</h3><p>Dragon Herbs Super Adaptogen, 2 morning. Spirulina and chlorella blend, 1 teaspoon morning, building to a tablespoon. Gaia Nighttime HPA, 2 evening. Dragon Herbs Lights Out if sleep is still the problem.</p>
@@ -302,16 +302,24 @@ def supplements(tier):
     }[tier]
 
 ENVIRONMENT = """
+<p class="why"><b>Specifications, not brands.</b> Each row says what the thing
+has to do. A brand is named only where it is genuinely hard to find something
+that meets the specification, and then only once, as an example. <b>We take no
+commission on anything named in this guide, and nothing here is a paid
+placement.</b> Evidence tier for this whole table: <b>Dr. Micah's idea, being
+tested</b>, except the two marked otherwise.</p>
 <table>
-<tr><th>Evening glasses</th><td>Ra Optics Sunset (amber) or Night Shift (red). BLUblox Sleep+. TrueDark Twilight. They must block 460 to 490 nm. Ask for the transmission spectrum.</td></tr>
-<tr><th>Screens</th><td>Iris (iristech.co) on every computer, Health mode after sunset. f.lux is the free alternative. BlockBlueLight or Ocushield film on monitors. BlockBlueLight filter on the TV.</td></tr>
-<tr><th>Bulbs</th><td>Incandescent wherever you can find them. Otherwise BlockBlueLight or Bon Charge red bulbs for evening rooms.</td></tr>
+<tr><th>Evening glasses</th><td>Lenses that block 460 to 490 nm. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated and most amber lenses do not reach 490 nm. Red lenses block more than amber. <i>Tier: early evidence for the effect on melatonin onset.</i></td></tr>
+<tr><th>Screens</th><td>Any colour-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
+<tr><th>Bulbs</th><td>Incandescent wherever you can still find them, because they have almost no blue. Otherwise a red or amber bulb in the rooms you use after dark.</td></tr>
 <tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. About twelve dollars.</td></tr>
-<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Grounding is not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual way. Test your outlet with a three-dollar tester first. We name no brand and we take no commission on anything in this guide.</td></tr>
-<tr><th>Water</th><td>Crazy Water #4, Saratoga, Icelandic Glacial. APEC or iSpring under-sink RO at home. Baja Gold sea salt.</td></tr>
-<tr><th>Sauna</th><td>Gym sauna for most. Sun Home or Almost Heaven barrel for a home unit. Traditional, not infrared.</td></tr>
-<tr><th>Cold</th><td>Cold shower to start. Ice Barrel or a chest freezer conversion with a GFCI for a home plunge.</td></tr>
-<tr><th>Testing</th><td>OmegaQuant Omega-3 Index kit, day 0 and day 90. Camry grip dynamometer.</td></tr>
+<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Test the outlet with a three-dollar tester first. A participant who never grounds is fully adherent.</td></tr>
+<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre. <i>Example of a salt that meets the specification: Baja Gold. Named once because unrefined salts vary and most table salt does not qualify.</i></td></tr>
+<tr><th>Sauna</th><td>Traditional, not infrared. A gym sauna is fine and is what most people should use. <i>Tier: strong for cardiovascular outcomes in the Finnish cohort data.</i></td></tr>
+<tr><th>Cold</th><td>A cold shower is enough to start. A chest freezer with a GFCI is the cheap home plunge. <i>Tier: contested. One unreplicated trial, and the warm-shower arm improved about as much.</i></td></tr>
+<tr><th>Supplements</th><td>Buy on the compound and the dose, not the label. Vitamin D3 with K2 at 5,000 IU, magnesium glycinate, EPA+DHA at 2,000 mg. <i>Criterion that matters: third-party tested, with the certificate of analysis published. Pure Encapsulations is one brand that publishes them; it is named once as an example of the criterion, not as a recommendation over any other brand that also meets it.</i></td></tr>
+<tr><th>Butter</th><td>Grass-fed, any brand.</td></tr>
+<tr><th>Testing</th><td>A dried-blood-spot Omega-3 Index kit at day 0 and day 90, from a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids. A hand dynamometer for grip. <i>Tier: established for the Omega-3 Index as a defined measurement.</i></td></tr>
 </table>
 """
 
@@ -333,7 +341,7 @@ def phases(tier):
 
 def checklist(tier):
     items = {
-    "pro":["Outside within 15 min of waking, 30+ min, barefoot","Morning glass: water, Baja Gold, lemon","Cold plunge 5 to 8 min","Training block","Meal inside 7am to 1pm","Walk after meal","Midday sun 20+ min","Sunset outside","Sauna, two rounds","Red glasses from sunset, screens off","Four liters of water","Phone off, router off, bed at fixed time","Logged"],
+    "pro":["Outside within 15 min of waking, 30+ min, barefoot","Morning glass: water, mineral salt, lemon","Cold plunge 5 to 8 min","Training block","Meal inside 7am to 1pm","Walk after meal","Midday sun 20+ min","Sunset outside","Sauna, two rounds","Red glasses from sunset, screens off","Four liters of water","Phone off, router off, bed at fixed time","Logged"],
     "advanced":["Outside within 30 min of waking, 20+ min, barefoot","Morning glass","Training or zone 2","Both meals inside 7am to 3pm","Walk after each meal","Midday sun","Sunset outside","Sauna or cold","Amber glasses from sunset","Three liters of water","Phone out of room, fixed bedtime","Logged"],
     "intermediate":["Outside within 30 min of waking, 10+ min","Morning glass","Meals inside 8am to 5pm, no snacks","Walk after each meal","Midday sun 10 min","Training or zone 2 or rest day","Cold finish on shower","Amber glasses two hours before bed","Three liters of water","Wind-down at 9pm, phone out of room","Logged"],
     "beginner":["Outside within 30 min of waking, 15 min, barefoot","Morning glass","Fifteen minutes of afternoon sun","Fifteen minutes at sunset","Glasses on when the sun goes down","Screens filtered","Three liters of water","Nothing three hours before bed","Phone out of the bedroom","Same wake time","Logged"],
@@ -507,7 +515,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <h3>The window closes early</h3>
   <p>Your tier sets the hours. Whatever they are, the last meal ends at least three hours before bed. Late eating runs the clock backward.</p>
   <h3>Water with minerals, not with food</h3>
-  <p>Three liters a day with Baja Gold in every bottle. Most of it between meals, not during. The morning glass, with lemon, before anything else.</p>
+  <p>Three liters a day with unrefined mineral sea salt in every bottle. Most of it between meals, not during. The morning glass, with lemon, before anything else.</p>
 </div>
 
 <div class="page">
@@ -519,8 +527,8 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <div class="food"><b>Leafy greens</b><p>Kale, chard, arugula, romaine, spinach. A full bowl. Raw with olive oil or wilted in butter.</p></div>
   <div class="food"><b>Fermented vegetable</b><p>Sauerkraut, kimchi. A forkful with a meal. Refrigerated, unpasteurized, nothing added.</p></div>
   <div class="food"><b>Extra virgin olive oil</b><p>The fat that goes on everything. Cold-pressed, in a dark bottle, from a single origin.</p></div>
-  <div class="food"><b>Grass-fed butter</b><p>For cooking. Kerrygold is fine.</p></div>
-  <div class="food"><b>Baja Gold sea salt</b><p>Minerals, not just sodium. On food and in water.</p></div>
+  <div class="food"><b>Grass-fed butter</b><p>For cooking. Any grass-fed butter is fine.</p></div>
+  <div class="food"><b>unrefined mineral sea salt</b><p>Minerals, not just sodium. On food and in water.</p></div>
   <div class="food"><b>Wild salmon</b><p>Four times a week minimum. Sockeye or coho. Frozen wild beats fresh farmed.</p></div>
   <div class="food"><b>Cruciferous vegetables</b><p>Broccoli, cauliflower, Brussels sprouts, cabbage. Two cups. Roasted in tallow or steamed with butter.</p></div>
   <div class="food"><b>Avocado</b><p>Half to one a day. Potassium and fat.</p></div>
@@ -544,7 +552,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <h3>Dairy, limited</h3>
   <p>Grass-fed butter and ghee for everyone. Aged hard cheese for Advanced, Intermediate and Beginner. No milk, no yogurt, no soft cheese.</p>
   <h3>Seasoning</h3>
-  <p>Baja Gold. Black pepper. Fresh herbs. Ginger, turmeric, cinnamon. Apple cider vinegar. Mustard with no sugar. Coconut aminos.</p>
+  <p>unrefined mineral sea salt. Black pepper. Fresh herbs. Ginger, turmeric, cinnamon. Apple cider vinegar. Mustard with no sugar. Coconut aminos.</p>
   <h3>Drinks</h3>
   <p>Mineral water. Coffee, black, before noon. Green tea. Herbal tea. Bone broth. Dragon Herbs Spring Dragon tea in the afternoon.</p>
 </div>

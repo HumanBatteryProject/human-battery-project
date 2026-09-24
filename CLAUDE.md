@@ -129,6 +129,32 @@ participant's number got here, on dimensions. A statement can be `established`
 science reached by a `frontier` instrument that does not exist yet, which is
 exactly the case for charge. One column cannot say that.
 
+**3b. Published bytes are never overwritten, only superseded by a new version.**
+A storage path that a client has been served is immutable. A new version gets a
+new path, `...-v2.pdf`, a new row, and the old row keeps its path and gains
+`retired_at`. Never `x-upsert: true` over a path that is already published.
+
+The version lives in the FILENAME, not a path prefix, because the prefix is the
+permission: RLS grants `tier/<their tier>/*`, so `v2/tier/pro/...` would break
+the grant while `tier/pro/...-v2.pdf` does not.
+
+Learned by breaking it. On 2026-09-24 I uploaded eleven rebuilt PDFs straight
+over the v1 bytes with upsert, then bumped the rows. Supabase storage keeps no
+version history, so the v1 artifact was gone from storage in one command: a
+client who had downloaded v1 held a document that no longer existed anywhere
+the product could serve it. Recoverable only because the PDFs happen to be
+committed to git. Two further errors followed from the same rush: the `version`
+column defaults to the text `'v1'` and I wrote a bare `2`, breaking the
+convention; and when restoring v1 from git I took the newest commit touching
+the file, which was my own from that morning, and published today's bytes
+labelled v1. Caught by extracting the text and looking for the retailer links
+that v1 is supposed to contain.
+
+**3c. Every paid deliverable names a specification, not a brand.** A brand may
+appear once, as an example, attached to the criterion it satisfies, and it
+carries an evidence tier. Every paid deliverable that names any product also
+carries the no-commission statement, not just the book.
+
 **9. Never recommend manipulating potassium or other electrolytes to hyperpolarize the body.** Balance and correction of genuine deficiency only.
 
 **10. Protocol changes proposed by the trend agent are never applied automatically.** They land in the admin queue. A human approves. Only then does a PDF regenerate.

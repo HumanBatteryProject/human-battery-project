@@ -10,8 +10,8 @@ def diet_doc():
         ("Leafy greens", "Kale, chard, arugula, romaine, spinach.", "A full bowl. Raw with olive oil or wilted in butter."),
         ("Fermented vegetable", "Sauerkraut, kimchi.", "A forkful with a meal. Refrigerated, unpasteurized, nothing added."),
         ("Extra virgin olive oil", "The fat that goes on everything.", "Cold-pressed, dark bottle, single origin."),
-        ("Grass-fed butter", "For cooking.", "Kerrygold is fine."),
-        ("Baja Gold sea salt", "Minerals, not just sodium.", "On food and in every bottle of water."),
+        ("Grass-fed butter", "For cooking.", "Any grass-fed butter is fine."),
+        ("unrefined mineral sea salt", "Minerals, not just sodium.", "On food and in every bottle of water."),
         ("Wild salmon", "Sockeye or coho.", "Four times a week minimum. Frozen wild beats fresh farmed."),
         ("Cruciferous vegetables", "Broccoli, cauliflower, Brussels sprouts, cabbage.", "Two cups. Roasted in tallow or steamed with butter."),
         ("Avocado", "Potassium and fat.", "Half to one a day."),
@@ -33,7 +33,7 @@ def diet_doc():
         ("Carbohydrates are the smallest part", "Vegetables, and for the lower tiers a fist of white rice or sweet potato. About 20 percent of what you eat.", "Vegetables are on the plate for what they carry, not for bulk. The fuel comes from fat and protein."),
         ("No snacks", "Two or three meals inside your window. Nothing between them.", "Every snack restarts the insulin cycle and stops the body from ever getting to the work it does when it is not digesting. This one rule does more than any other."),
         ("The window closes early", "Your tier sets the hours. The last meal ends at least three hours before bed.", "Late eating runs the clock backward."),
-        ("Water with minerals, not with food", "Three liters a day with Baja Gold in every bottle. Most of it between meals.", "The morning glass, with lemon, before anything else."),
+        ("Water with minerals, not with food", "Three liters a day with unrefined mineral sea salt in every bottle. Most of it between meals.", "The morning glass, with lemon, before anything else."),
     ]
     build_plate = [
         ("The formula", "Protein and fat are most of every meal, roughly 40 percent each. Carbohydrates are the last 20 percent: vegetables, and for Intermediate and Beginner, one fist of starch at the midday meal. Protein the size of your palm, two palms for Pro and Advanced. Fat over everything. Salt."),
@@ -88,7 +88,7 @@ def diet_doc():
   <h3>Fruit</h3>{chips(["Blueberries","Blackberries","Raspberries","Lemon","Lime","Avocado","Seasonal fruit, small, with a meal"], "yes")}
   <h3>Starch, Intermediate and Beginner only</h3>{chips(["White rice","Sweet potato","Squash"])}
   <h3>Dairy, limited</h3>{chips(["Grass-fed butter","Ghee","Aged hard cheese (not Pro)"])}
-  <h3>Seasoning</h3>{chips(["Baja Gold","Black pepper","Fresh herbs","Parsley","Thyme","Rosemary","Bay","Basil","Mint","Dill","Chives","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
+  <h3>Seasoning</h3>{chips(["unrefined mineral sea salt","Black pepper","Fresh herbs","Parsley","Thyme","Rosemary","Bay","Basil","Mint","Dill","Chives","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
   <h3>Drinks</h3>{chips(["Mineral water","Black coffee, before noon","Green tea","Herbal tea","Bone broth","Spring Dragon tea, afternoon"])}
 </div>
 
@@ -111,8 +111,8 @@ def diet_doc():
     <div style="background:#7A4A2E"><h3>INTERMEDIATE</h3><p>8am to 5pm. White rice and sweet potato allowed. Nightshades in.</p></div>
     <div style="background:#1BAF7A"><h3>BEGINNER</h3><p>No window in month one. 9am to 7pm in month two, tightening. Gluten and seed oils out from week 9. Everything else in.</p></div>
   </div>
-  <div class="tile soft" style="border-left-color:{C};margin-top:6mm"><h3>The morning glass, every tier</h3><p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of Baja Gold and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p></div>
-  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. Baja Gold in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
+  <div class="tile soft" style="border-left-color:{C};margin-top:6mm"><h3>The morning glass, every tier</h3><p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of unrefined mineral sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p></div>
+  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. unrefined mineral sea salt in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
 </div>
 
 
