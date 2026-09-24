@@ -159,3 +159,7 @@ def diet_doc():
     path = f"{B.OUT}/HBP-Dietary-Guidelines.pdf"
     HTML(string=html, base_url=B.BASE_URL).write_pdf(path)
     return path
+
+
+if __name__ == "__main__":
+    print(diet_doc())

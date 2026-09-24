@@ -48,18 +48,16 @@ That sequence is the protocol. Everything below is detail.
 | Time | Action | Subsystem |
 |---|---|---|
 | **Wake** | Feet on the ground. Outside within 30 minutes. Sunlight in the eyes, no glasses, no glass. Barefoot if you can. | Output, Charge |
-| **Wake + 15 min** | 16 to 24 oz mineralized water with a pinch of Baja Gold and 1 to 2 oz of pure organic lemon juice. Empty stomach. Nothing else for thirty minutes. | Reserve |
+| **Wake + 15 min** | 16 to 24 oz mineralized water with a pinch of an unrefined salt with a full trace-mineral profile and 1 to 2 oz of pure organic lemon juice. Empty stomach. Nothing else for thirty minutes. | Reserve |
 | **Morning** | Movement block. Fasted for Tier 1 and 2. | Charge |
 | **First meal** | Protein-first. Sardines or eggs. Tier-specific window opens. | Reserve, Charge |
 | **After every meal** | 10–15 minute walk. Non-negotiable. | Charge |
 | **Midday** | Sun on skin. Ten to twenty minutes, sized to your skin, never to burning. | Reserve, Output |
-| **Afternoon** | Adaptogen dose. Cold or heat exposure if scheduled. | Output, Drain |
+| **Afternoon** | Cold or heat exposure if scheduled. | Output, Drain |
 | **Last meal** | Closes the window. Three hours minimum before bed. | Charge |
 | **Sunset** | Outside. Watch it. Glasses go on when it is done. | Output |
 | **Evening** | Amber light only. Screens filtered or off. Phone to airplane mode, router off. | Output |
 | **Bed** | Fixed time. Dark room. Cool room. Grounded if possible. | Output, Drain |
-
-
 
 ## Placement: how the tier is assigned at intake
 
@@ -89,7 +87,7 @@ Four or more in a column places you there. Mixed results place you in the lower 
 
 **Sunset:** Outside for the last twenty minutes of light, every day.
 
-**After dark:** Ra Optics Night Shift red lenses from sunset. Not amber. Red. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or Iris on the darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
+**After dark:** Red lenses from sunset, blocking 460 to 490 nm. Not amber. Red. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or a colour-temperature shifter on its darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
 
 **Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Blackout. Grounding sheet optional, see below. Room at 62 to 65°F.
 
@@ -106,13 +104,13 @@ Four or more in a column places you there. Mixed results place you in the lower 
 - Two cups leafy greens, two cups cruciferous
 - Fermented vegetable
 - Extra virgin olive oil, grass-fed butter, tallow
-- Baja Gold
+- An unrefined salt with a full trace-mineral profile, not refined sodium chloride
 
 **Protein target:** 2.2 grams per kilogram, every day, inside the window.
 
 **Out for ninety days:** Gluten, all grains, all legumes, all nightshades, seed oils, sugar, alcohol, all dairy except butter and ghee. Nothing processed. Nothing in a package with more than one ingredient.
 
-**Water:** The morning glass first. Then four liters minimum, five on sauna and training days. Baja Gold in every bottle. Crazy Water #4 as the daily mineral water.
+**Water:** The morning glass first. Then four liters minimum, five on sauna and training days. A pinch of an unrefined salt with a full trace-mineral profile in every bottle. For bottled water, one with a published mineral analysis rather than a purified brand.
 
 ## Movement
 
@@ -138,7 +136,7 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 **Cold, every morning after light.** Five to eight minutes at 45°F or below. Then the day starts.
 
-**Sauna, every day.** Two rounds of twenty minutes at 185 to 200°F. Rehydrate with Baja Gold water between rounds.
+**Sauna, every day.** Two rounds of twenty minutes at 185 to 200°F. Rehydrate with mineralised water between rounds.
 
 **Contrast, three times a week.** Sauna, cold, sauna, cold, sauna, cold. Twenty minutes hot, four minutes cold, three rounds.
 
@@ -158,58 +156,6 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 - Resting heart rate every morning, logged
 - Body composition by DEXA, day 0 and day 90
 
-## Supplements: Pro
-
-**On waking, before the morning glass:**
-- Cowboy Colostrum: 1 scoop in water
-
-**With the morning glass:**
-- Spirulina powder: 1 tablespoon
-- Quicksilver Methyl B-Complex: 1 pump
-- Quicksilver NAD+ Platinum: 1 pump
-
-**With the meal:**
-- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
-- Pure Encapsulations EPA/DHA Essentials: 2,000 mg EPA+DHA regardless of baseline, because you are also eating two tins of sardines and the target is 10%, not 8%
-- Pure Encapsulations Vitamin D3/K2 liquid: 5,000 IU, adjusted after labs to land 25-OH-D at 60–80
-- Creatine monohydrate: 5 grams
-- Dragon Herbs Super Adaptogen: 3 capsules
-- Dragon Herbs He Shou Wu: 3 capsules
-- Dragon Herbs Deer Antler Drops: 1 dropper, 21 on 7 off
-- Dragon Herbs Cordyceps: 3 capsules
-- Dragon Herbs Duanwood Reishi: 3 capsules
-- Gaia Herbs Daytime HPA: 2 capsules
-- Gaia Herbs Turmeric Supreme Extra Strength: 1 capsule
-- Quicksilver Liposomal Glutathione: 1 pump under the tongue
-- Life Extension Taurine: 2 grams
-
-**Pre-training:**
-- Dragon Herbs Cordyceps: 2 additional capsules
-- Creatine: additional 5 grams on heavy days
-
-**Afternoon, empty stomach:**
-- Dragon Herbs Spring Dragon Longevity Tea
-- Vital Proteins Collagen: 20 grams in the tea, with lemon
-- Dragon Herbs Goji & Schizandra Drops: 1 dropper
-- Gaia Herbs Daytime HPA: 2 capsules
-
-**Evening, two hours before bed:**
-- Chlorella powder: 1 tablespoon, alone
-- Pure Encapsulations Magnesium Glycinate: 400 mg
-- Pure Encapsulations Glycine: 3 grams
-- Pure Encapsulations l-Theanine: 200 mg
-- Pure Encapsulations Zinc 30: 1 capsule
-- Gaia Herbs Nighttime HPA: 2 capsules
-- Dragon Herbs Lights Out: per label, nightly for the first two weeks, then as needed
-
-**Three mornings a week:**
-- Dragon Herbs Tonic Alchemy: 1 scoop, replacing the multivitamin those days
-- BioPure Ultra Binder: 1 scoop, an hour away from everything else
-
-**The Pro Jing stack is the base stack.** You do not add it when tired. It is what you run. If you are still depleted on this, the problem is sleep or overtraining, and the fix is less, not more.
-
----
-
 # ADVANCED
 
 *You already train. You already do some version of sauna, cold, and clean eating, but not all of it and not every day. This tier is consistency and precision. You are here to close the gaps and measure what you have been doing on faith.*
@@ -222,7 +168,7 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 
 **Sunset:** Outside for the last fifteen minutes of light. Red-shifted spectrum resets the evening cascade.
 
-**After dark:** Ra Optics Night Shift or Sunset lenses from the moment the sun is down. Every bulb you sit under in the evening is incandescent or a red LED. Screens run Iris on the lowest setting with a blue-blocking film over the panel.
+**After dark:** Red or amber lenses blocking 460 to 490 nm from the moment the sun is down. Every bulb you sit under in the evening is incandescent or a red LED. Screens run a colour-temperature shifter on the lowest setting with a blue-blocking film over the panel.
 
 **Night:** Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Grounding sheet on the bed.
 
@@ -248,7 +194,7 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 
 **Out for ninety days:** Gluten, all seed oils, added sugar, alcohol, nightshades, legumes, grains. Dairy limited to grass-fed butter and aged cheese.
 
-**Water:** The morning glass first: 16 to 24 oz on waking, empty stomach, Baja Gold and 1 to 2 oz organic lemon juice, before anything else goes in. Then Crazy Water #4 or Saratoga as the daily mineral water. RO at home with Baja Gold, a quarter teaspoon per liter. Three liters a day minimum. On sauna days, heavy training days, or hot days, four liters or more, with Baja Gold in every bottle. Front-loaded before 3pm.
+**Water:** The morning glass first: 16 to 24 oz on waking, empty stomach, an unrefined salt with a full trace-mineral profile and 1 to 2 oz organic lemon juice, before anything else goes in. For bottled water, one with a published mineral analysis rather than a purified brand. Reverse osmosis at home with an unrefined salt with a full trace-mineral profile added back, a quarter teaspoon per liter. Three liters a day minimum. On sauna days, heavy training days, or hot days, four liters or more, with a pinch of salt in every bottle. Front-loaded before 3pm.
 
 ## Movement
 
@@ -271,7 +217,7 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 ## Heat and cold
 
-**Sauna:** Five to seven days a week. Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have the time. Rehydrate with mineral water and Baja Gold after every session.
+**Sauna:** Five to seven days a week. Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have the time. Rehydrate with mineralised water after every session.
 
 **Cold:** Four days a week. Three to five minutes at 50°F or below. Cold plunge, chest freezer, or a cold lake.
 
@@ -282,50 +228,6 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 ## Sleep
 
 Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Nasal breathing. Grounding sheet optional, see below. If you snore, mouth tape.
-
-## Supplements: Advanced
-
-**Morning, with the first meal:**
-- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
-- Pure Encapsulations EPA/DHA Essentials: dosed to your baseline Omega-3 Index. Starting below 4%: 2,000 mg EPA+DHA. Starting 4–6%: 1,500 mg. Starting above 6%: 1,000 mg.
-- Pure Encapsulations Vitamin D3/K2 liquid: 5,000 IU D3 with 100 mcg K2, adjusted after day 0 labs to land serum 25-OH-D at 50–70
-- Creatine monohydrate: 5 grams in water
-- Dragon Herbs Super Adaptogen: 3 capsules
-- Spirulina powder: 1 tablespoon, stirred into the morning glass or a small amount of water
-- Cowboy Colostrum: 1 scoop in water on waking, before anything else
-
-**Midday, with the second meal:**
-- Dragon Herbs Duanwood Reishi: 2 capsules
-- Gaia Herbs Turmeric Supreme Extra Strength: 1 capsule
-- Quicksilver Liposomal Glutathione: 1 pump, held under the tongue
-
-**Afternoon, empty stomach:**
-- Dragon Herbs Spring Dragon Longevity Tea: one cup. This is your afternoon ritual.
-- Vital Proteins Collagen Peptides: 20 grams in the tea, with a squeeze of lemon for the vitamin C
-
-**Evening, two hours before bed:**
-- Chlorella powder: 1 tablespoon in water. Chlorella binds in the gut, so it goes in the evening, away from your other supplements.
-- Pure Encapsulations Magnesium Glycinate: 400 mg elemental
-- Pure Encapsulations Glycine: 3 grams
-- Gaia Herbs Nighttime HPA: 2 capsules
-- Dragon Herbs Lights Out: per label, on nights you need it
-
-**Weekly:**
-- Dragon Herbs Tonic Alchemy: one scoop, three mornings a week, in place of the multivitamin on those days
-
-**The Jing stack, for the Advanced client who is running depleted:**
-
-If you are training hard and still tired, you have spent your reserve. This is Jing depletion in the tonic herb tradition and adrenal depletion in the Western one. Same thing.
-
-- Dragon Herbs Super Adaptogen: 3 capsules morning, 3 midday
-- Dragon Herbs He Shou Wu: 3 capsules morning
-- Dragon Herbs Cordyceps: 2 capsules pre-training
-- Dragon Herbs Deer Antler Drops: 1 dropper morning, 21 days on, 7 days off
-- Gaia Herbs Daytime HPA: 2 capsules morning, 2 afternoon
-
-Run this for thirty days, then drop back to the base stack.
-
----
 
 # INTERMEDIATE
 
@@ -339,7 +241,7 @@ Run this for thirty days, then drop back to the base stack.
 
 **Sunset:** Step outside for five minutes.
 
-**After dark:** Ra Optics Sunset lenses or BLUblox Sleep+ from two hours before bed. Bedroom and living room converted to incandescent or red bulbs. Iris on every screen. Blue-blocking film on the TV.
+**After dark:** Amber or red lenses blocking 460 to 490 nm from two hours before bed. Bedroom and living room converted to incandescent or red bulbs. A colour-temperature shifter on every screen. Blue-blocking film on the TV.
 
 **Night:** Phone out of the bedroom. Router on a timer, off from 10pm to 6am.
 
@@ -368,7 +270,7 @@ Run this for thirty days, then drop back to the base stack.
 
 **Out for ninety days:** Gluten, seed oils, added sugar, alcohol. Grains limited to white rice and sweet potato. Nightshades stay in for now.
 
-**Water:** The morning glass first: 16 to 24 oz on waking, empty stomach, Baja Gold and 1 to 2 oz organic lemon juice. Then Saratoga or Icelandic Glacial daily. RO plus Baja Gold at home. Three liters a day minimum, more on training and sauna days. Most of it before 5pm.
+**Water:** The morning glass first: 16 to 24 oz on waking, empty stomach, an unrefined salt with a full trace-mineral profile and 1 to 2 oz organic lemon juice. For bottled water, one with a published mineral analysis. Reverse osmosis plus an unrefined salt with a full trace-mineral profile at home. Three liters a day minimum, more on training and sauna days. Most of it before 5pm.
 
 ## Movement
 
@@ -397,34 +299,7 @@ Three sets of eight to twelve. Progress the variation when you clear twelve on a
 
 ## Sleep
 
-Fixed wake time. Fixed wind-down at 9pm, glasses on, screens off, magnesium taken. Room cool and dark.
-
-## Supplements: Intermediate
-
-**Morning:**
-- Pure Encapsulations O.N.E. Multivitamin: 1 capsule
-- Life Extension Super Omega-3 EPA/DHA: dosed to baseline: 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above
-- Pure Encapsulations Vitamin D3/K2: 5,000 IU with K2, adjusted after labs
-- Creatine monohydrate: 5 grams
-- Gaia Herbs Daytime HPA: 2 capsules
-- Spirulina and chlorella powder blend: 1 tablespoon in the morning glass
-- Cowboy Colostrum: 1 scoop on waking
-
-**Afternoon:**
-- Dragon Herbs Spring Dragon Longevity Tea: one cup
-- Vital Proteins Collagen: 15 grams
-
-**Evening:**
-- Pure Encapsulations Magnesium Glycinate: 300 mg
-- Gaia Herbs Nighttime HPA: 2 capsules
-- Dragon Herbs Lights Out on nights you need it
-
-**The Jing stack for Intermediate, if tired:**
-- Dragon Herbs Super Adaptogen: 3 capsules morning
-- Gaia Herbs Daytime HPA: 2 morning, 2 afternoon
-- Dragon Herbs Cordyceps: 2 capsules before training
-
----
+Fixed wake time. Fixed wind-down at 9pm, glasses on, screens off. Room cool and dark.
 
 # BEGINNER
 
@@ -440,22 +315,15 @@ This is the whole protocol for a month.
 
 **Morning:** Outside within an hour of waking. Ten minutes. Sit if you need to. Face the sun with your eyes open, no sunglasses. That is it.
 
-**Water:** 16 to 24 oz mineral water on waking, empty stomach, with a pinch of Baja Gold and 1 to 2 oz of pure organic lemon juice. Three liters through the day, minimum. This will feel like a lot at first. Carry a bottle. Crazy Water or Saratoga if you can, RO with Baja Gold if you cannot.
+**Water:** 16 to 24 oz mineral water on waking, empty stomach, with a pinch of an unrefined salt with a full trace-mineral profile and 1 to 2 oz of pure organic lemon juice. Three liters through the day, minimum. This will feel like a lot at first. Carry a bottle. A bottled water with a published mineral analysis if you can, reverse osmosis with an unrefined salt with a full trace-mineral profile added back if you cannot.
 
 **Sleep:** Pick a wake time. Hold it, seven days a week. Last food three hours before bed.
 
-**Evening:** Amber glasses from 8pm. BLUblox Sleep+ or TrueDark Twilight. Phone out of the bedroom at night.
+**Evening:** Amber glasses from 8pm, blocking 460 to 490 nm. Phone out of the bedroom at night.
 
 **Log every day.** That is the fifth habit and it is the one that makes the others stick.
 
 No exercise prescription. No eating window. No food rules beyond the three-hour cutoff. If you are still eating fast food, you are still eating fast food this month. We are building the clock first.
-
-**Supplements, days 1–30:**
-- Life Extension Super Omega-3: 2,000 mg EPA+DHA. Your baseline is almost certainly low.
-- Pure Encapsulations Vitamin D3: 5,000 IU with K2
-- Pure Encapsulations Magnesium Glycinate: 300 mg evening
-
-Three bottles. Nothing else.
 
 ## Days 31–60: MOVEMENT AND THE WINDOW
 
@@ -483,10 +351,6 @@ Ten minutes. Progress each one when it feels easy.
 - Week 7: Sardines or salmon three times a week
 - Week 8: Sauerkraut or kimchi with dinner
 
-**Supplements, add:**
-- Creatine monohydrate: 5 grams morning
-- Gaia Herbs Daytime HPA: 2 capsules morning
-
 ## Days 61–90: LOAD
 
 **Resistance, three days a week.** Same four movements, progressed:
@@ -507,108 +371,7 @@ Ten minutes. Progress each one when it feels easy.
 
 **Sunset:** Add five minutes outside at sunset.
 
-**Supplements, add:**
-- Dragon Herbs Super Adaptogen: 2 capsules morning
-- Spirulina and chlorella powder blend: 1 teaspoon morning, building to 1 tablespoon by day 75
-- Gaia Herbs Nighttime HPA: 2 capsules evening
-- Dragon Herbs Lights Out: if sleep is still the problem
-
 **Day 90:** Second blood draw. Same lab, same fasting state, same hour. Then we look at the numbers together.
-
-**The Jing stack for Beginner, days 61–90 only, if exhausted:**
-- Dragon Herbs Super Adaptogen: 3 capsules morning
-- Gaia Herbs Daytime HPA: 2 morning, 2 afternoon
-- Dragon Herbs Cordyceps: 2 capsules morning
-
----
-
-# THE STACKS: reference sheet
-
-## Foundation: every tier, every day
-
-| Product | Dose | When |
-|---|---|---|
-| **EPA+DHA, triglyceride form**: Pure Encapsulations EPA/DHA Essentials or Life Extension Super Omega-3 | Dosed to baseline Omega-3 Index: under 4% → 2,000 mg · 4–6% → 1,500 mg · over 6% → 1,000 mg | Morning with food |
-| **Vitamin D3 + K2**: Pure Encapsulations D3/K2 liquid | 5,000 IU D3 + 100 mcg K2, adjusted to land 25-OH-D at 50–70 | Morning with food |
-| **Magnesium glycinate**: Pure Encapsulations | 300–400 mg elemental | Evening |
-| **Creatine monohydrate**: any micronized, Pure Encapsulations or Life Extension | 5 g | Morning |
-
-## Charge: energy and mitochondria
-
-| Product | Dose |
-|---|---|
-| Spirulina powder | 1 tablespoon morning |
-| Dragon Herbs Cordyceps | 2 capsules pre-training |
-| Quicksilver NAD+ Platinum | 1 pump morning, Tier 1 |
-| Life Extension Taurine | 2 g |
-| Dragon Herbs Super Adaptogen | 3 capsules |
-
-## Drain: inflammation and detox
-
-| Product | Dose |
-|---|---|
-| Chlorella powder | 1 tablespoon evening, away from other supplements |
-| Quicksilver Liposomal Glutathione | 1 pump under the tongue |
-| Gaia Herbs Turmeric Supreme Extra Strength | 1 capsule with food |
-| BioPure Ultra Binder | 1 scoop away from food and supplements, Advanced and Pro, 3× week |
-| Quicksilver Liposomal Vitamin C | 1 pump |
-
-## Output: hormones and stress
-
-| Product | Dose |
-|---|---|
-| Gaia Herbs Daytime HPA | 2 capsules morning, 2 afternoon |
-| Gaia Herbs Nighttime HPA | 2 capsules evening |
-| Dragon Herbs He Shou Wu | 3 capsules morning |
-| Dragon Herbs Deer Antler Drops | 1 dropper, 21 on 7 off |
-| Dragon Herbs Duanwood Reishi | 2 capsules |
-| Life Extension Optimized Ashwagandha | 1 capsule if not using Gaia |
-
-## Reserve: substrate and structure
-
-| Product | Dose |
-|---|---|
-| Cowboy Colostrum | 1 scoop on waking, empty stomach |
-| Vital Proteins Collagen Peptides | 15–20 g with vitamin C |
-| Dragon Herbs Tonic Alchemy | 1 scoop, 3× week |
-| Dragon Herbs Spring Dragon Longevity Tea | daily afternoon |
-| Pure Encapsulations Zinc 30 | 1 capsule evening, Advanced and Pro |
-| Quicksilver Methyl B-Complex | 1 pump morning |
-| Dragon Herbs Goji & Schizandra Drops | 1 dropper |
-
-## Algae: the two that do different jobs
-
-Spirulina and chlorella are not interchangeable, and the protocol uses them for different things at different times of day.
-
-**Spirulina in the morning.** One tablespoon of powder in the morning glass or a small glass of water. Spirulina is the energy and nutrition algae: dense protein, chlorophyll, and the pigments that feed the mitochondrial side of the model. It goes in with the light, at the start of the day the light has just set.
-
-**Chlorella in the evening.** One tablespoon of powder in water, away from other supplements. Chlorella has a hard cell wall that binds in the gut, which is exactly why it is the elimination algae and exactly why it does not go in with things you want absorbed. Evening, on its own, is where it belongs.
-
-**Intermediate and Beginner take the blend.** A fifty-fifty spirulina and chlorella powder, one tablespoon in the morning. Simpler, one container, and the split matters less until you are running the full Advanced or Pro stack.
-
-**Powder, not tablets.** Powder is the primary form for this program: it mixes into the morning glass, it is cheaper per gram, and there are no binders or excipients.
-
-**Spirulina source: Nutrex Hawaii Pure Hawaiian Spirulina powder.** Grown in Kona since 1983 in a biosecure zone certified free of pesticides, herbicides and industrial pollutants, on deep-ocean mineral water. Every lot is tested for lead, arsenic, cadmium, mercury and microcystins. Request the certificate of analysis for your lot; they provide it. California Gold Nutrition is the USP Verified alternative if Nutrex is unavailable.
-
-**Chlorella source: Sun Chlorella**: cracked cell wall, decades of published testing. Chlorella is the binder, so it concentrates whatever it is grown in; source matters even more than for spirulina.
-
-**Dose note.** The Nutrex label serving is one teaspoon, about 3 grams. This protocol uses one tablespoon, about 9 grams. Beginner starts at the label dose and builds.
-
-**If you cannot take the powder.** Some people cannot tolerate the taste or the texture. For them, ENERGYbits spirulina tablets in the morning, RECOVERYbits chlorella in the evening, or VITALITYbits blend for Intermediate and Beginner, thirty tablets per serving. Same algae, tablet form. Not the primary recommendation, but a real one.
-
-**On sourcing, whichever form.** Algae is the one supplement category where third-party heavy-metal and microcystin testing is a safety requirement rather than a preference. Contamination risk is real and it is source-dependent. Do not use any spirulina or chlorella product that cannot show you a certificate of analysis for the batch you are buying.
-
-## Sleep: for anyone who needs it
-
-| Product | Dose |
-|---|---|
-| Pure Encapsulations Magnesium Glycinate | 400 mg |
-| Pure Encapsulations Glycine | 3 g |
-| Pure Encapsulations l-Theanine | 200 mg |
-| Gaia Herbs Nighttime HPA | 2 capsules |
-| Dragon Herbs Lights Out | per label |
-| Quicksilver Liposomal Melatonin | 1 pump: 0.3 to 0.5 mg, not the 5 mg most people take |
-| Gaia Herbs SleepThru | 2 capsules, alternative to Nighttime HPA |
 
 ---
 
@@ -618,19 +381,19 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 | Item | Recommendation |
 |---|---|
-| **Evening glasses** | Ra Optics Sunset (amber) for evening, Night Shift (red) for the last hour. Or BLUblox Sleep+. Or TrueDark Twilight. Must block 460–490 nm: ask for the spectrum. |
-| **Daytime glasses** | Ra Optics Daylight for anyone under fluorescent light all day |
-| **Screen software** | Iris, iristech.co, on every computer, set to Health mode after sunset. f.lux is the free alternative. |
-| **Screen film** | BlockBlueLight or Ocushield film on monitors. BlockBlueLight TV screen filter on the television. |
-| **Bulbs** | Incandescent wherever you can still find them. Otherwise BlockBlueLight or Bon Charge red bulbs for the bedroom and living room. One red bulb lamp per room you use after dark. |
-| **Night lights** | Red only. Bon Charge. |
+| **Evening glasses** | Amber for the evening, red for the last hour. Must block 460 to 490 nm: ask the seller for the transmission spectrum and do not buy without it. "Blue light blocking" is unregulated and most amber lenses do not reach 490 nm. |
+| **Daytime glasses** | A light filtering lens for anyone under fluorescent light all day |
+| **Screen software** | Any colour-temperature shifter on every computer, set to remove blue after sunset. Free options work. |
+| **Screen film** | A blue-blocking film on monitors and on the television, for anyone who prefers to do it in hardware rather than software. |
+| **Bulbs** | Incandescent wherever you can still find them, because they have almost no blue. Otherwise red or amber bulbs for the bedroom and living room. One red bulb lamp per room you use after dark. |
+| **Night lights** | Red only. |
 | **Morning** | The sun. Nothing you can buy replaces it. |
 
 ## EMF
 
 | Item | Recommendation |
 |---|---|
-| **Router** | Mechanical outlet timer, off 10pm to 6am. Twelve dollars. |
+| **Router** | Mechanical outlet timer, off 10pm to 6am. The cheapest item on this list. |
 | **Phone** | Airplane mode at night, and out of the bedroom. |
 | **Bedroom** | Nothing plugged in within six feet of the bed. |
 | **Grounding, optional** | Not a required part of the protocol. Evidence tier: hypothesis, and the author's working model rather than a position held in the literature. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Confirm the outlet is actually grounded with a three-dollar outlet tester first. No brand is named and no commission is taken on anything in this protocol. |
@@ -639,26 +402,26 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 
 | Item | Recommendation |
 |---|---|
-| **Daily bottled** | Crazy Water #4: the mineral-dense one. Saratoga. Icelandic Glacial. |
-| **Home system** | APEC or iSpring under-sink RO. Add Baja Gold Sea Salt, a quarter teaspoon per liter. |
+| **Daily bottled** | A mineral water with a published mineral analysis, chosen for measurable mineral content rather than for the label. |
+| **Home system** | Any under-sink reverse osmosis unit. Add an unrefined salt with a full trace-mineral profile back, a quarter teaspoon per liter. |
 | **Daily volume** | Three liters minimum. Four or more on sauna, training and hot days. A 1-liter bottle you refill three times is the simplest way to count. |
-| **Salt** | Baja Gold for water and cooking. Nothing else. |
+| **Salt** | An unrefined salt with a full trace-mineral profile, for water and for cooking. Read the mineral analysis, not the front of the packet: most table salt is refined sodium chloride and does not qualify. |
 | **Lemon** | Pure organic lemon juice, 1 to 2 oz in the morning glass. Fresh-squeezed or a cold-pressed organic bottled juice with nothing added. |
 
 ## Heat and cold
 
 | Item | Pro & Advanced | Intermediate & Beginner |
 |---|---|---|
-| **Sauna** | Sun Home or Almost Heaven traditional barrel. SaunaSpace for near-infrared if space is limited. | Gym sauna. |
-| **Cold** | Ice Barrel, or a chest freezer conversion with a GFCI and a timer. | Cold shower. |
+| **Sauna** | A traditional sauna reaching 175 to 200°F. | Gym sauna. |
+| **Cold** | A purpose-built cold tub, or a chest freezer conversion with a GFCI and a timer. | Cold shower. |
 
 ## Testing
 
 | Test | Source |
 |---|---|
-| Omega-3 Index | OmegaQuant dried blood spot, day 0 and day 90 |
-| Grip strength | Camry digital dynamometer, forty dollars, day 0 and day 90 |
-| Glucose | Dexcom Stelo or Levels CGM, optional, two weeks at day 0 and two weeks at day 75 |
+| Omega-3 Index | A dried-blood-spot test reporting EPA plus DHA as a percentage of red blood cell fatty acids, day 0 and day 90. OmegaQuant originated the measurement and sells one. |
+| Grip strength | A digital hand dynamometer, day 0 and day 90 |
+| Glucose | A continuous glucose monitor, optional, two weeks at day 0 and two weeks at day 75 |
 
 ---
 
@@ -672,18 +435,18 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 4. **Fermented vegetable**, sauerkraut, kimchi.
 5. **Extra virgin olive oil**, the fat that goes on everything.
 6. **Grass-fed butter**, for cooking.
-7. **Baja Gold sea salt**, minerals, not just sodium.
+7. **An unrefined salt with a full trace-mineral profile**, minerals, not just sodium chloride.
 8. **Wild salmon**, four times a week minimum.
 9. **Cruciferous vegetables**, broccoli, cauliflower, Brussels sprouts.
 10. **Avocado**, potassium and fat.
 
 ## The morning glass
 
-Before coffee, before food, before anything: 16 to 24 oz of mineralized water with a pinch of Baja Gold and 1 to 2 oz of pure organic lemon juice. Empty stomach. Every tier, every day, from day 1. It is the first thing the body receives after light.
+Before coffee, before food, before anything: 16 to 24 oz of mineralized water with a pinch of an unrefined salt with a full trace-mineral profile and 1 to 2 oz of pure organic lemon juice. Empty stomach. Every tier, every day, from day 1. It is the first thing the body receives after light.
 
 ## Water for the day
 
-**Three liters minimum, every tier, every day.** More on days you sweat: sauna, hard training, heat. Four liters or more on those days. Every bottle gets a pinch of Baja Gold, because water without minerals passes through and takes minerals with it. Most of it before your last meal, so you are not up at night.
+**Three liters minimum, every tier, every day.** More on days you sweat: sauna, hard training, heat. Four liters or more on those days. Every bottle gets a pinch of an unrefined salt with a full trace-mineral profile, because water without minerals passes through and takes minerals with it. Most of it before your last meal, so you are not up at night.
 
 ## Weekly
 
@@ -709,14 +472,14 @@ This section is for the coach. It runs before anyone starts, and it is a rule.
 
 | On this | Flag this before starting |
 |---|---|
-| Anticoagulants | Omega-3 dose, vitamin K2. Physician clearance. |
-| Thyroid medication | Ashwagandha, chlorella iodine. Physician clearance. |
-| Blood pressure medication | Sauna, cold, adaptogens. |
+| Anticoagulants | The oily fish target, which is a real omega-3 load from food. Physician clearance. |
+| Thyroid medication | Any eating window change: levothyroxine is taken fasting and a moved window moves the dose. Physician clearance. |
+| Blood pressure medication | Sauna and cold, both of which move blood pressure acutely. |
 | Diabetes medication | Any eating window change. Physician clearance. |
-| SSRIs | Rhodiola, 5-HTP. |
-| Immunosuppressants | Colostrum, mushrooms, immune herbs. |
-| Lithium | Sauna, heavy sweating. Physician clearance. |
-| Bipolar diagnosis | Rhodiola is contraindicated: Gaia states this on the label. |
+| Lithium | Sauna and heavy sweating, which concentrate the drug. Physician clearance. |
+| Diuretics, or a sodium-restricted diet | The morning glass and the salt added to every bottle. Physician clearance. |
+| Heart failure, or fluid restriction | Three liters a day. Physician clearance. |
+| Bipolar diagnosis | Light timing and any sleep restriction, both of which can destabilise mood. Physician clearance. |
 
 ## Who skips what
 

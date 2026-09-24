@@ -92,6 +92,22 @@ top of the foundational model, and a dated line on the rule itself. A rule here
 that contradicts the current book is stale, not binding. Do not work around it
 and do not quietly ignore it. Amend it, date it, and say so in the report.
 
+**8e. The programme contains no supplement recommendations.** Removed from
+every deliverable on 2026-09-24, sections and all, not reworded and not
+generalised into compounds. The six pillars are morning sunlight, mineral-rich
+water, movement, food timing, sleep and darkness at night; there is no
+supplement pillar and nothing in Chapter 21, the six pillars or the five scored
+dimensions ever depended on one. A supplement guide may be built later as its
+own piece of work, against evidence tiers. Until then, a supplement appearing in
+a deliverable is a regression, not an addition.
+
+Mineral-rich water stays: it is a pillar, Chapter 14 backs it, and it is
+expressed as a specification, an unrefined salt with a full trace-mineral
+profile rather than refined sodium chloride, with no brand attached.
+
+The book is out of scope. It discusses supplements critically, which is the
+opposite of recommending them, and Chapters 6 and 11 stay exactly as they are.
+
 **8b. The Omega-3 kit gate is posting, not the result.** The dried blood spot fixes the sample at collection, so a result that arrives in week two is still a day 0 number. What has to be true before day 1 is that the drop is on the card and the card is in the mail. This is why `minimum_lead_days` is 14 and not 28, and it must not drift back. The Omega-3 Index is the most responsive marker on the panel, so a client who has not posted by day 1 is offered a move to the next wave rather than starting without a baseline, because that comparison cannot be recovered later.
 
 **8c. Going live on Stripe means swapping TWO secrets, not one.** Test mode and
@@ -154,6 +170,28 @@ that v1 is supposed to contain.
 appear once, as an example, attached to the criterion it satisfies, and it
 carries an evidence tier. Every paid deliverable that names any product also
 carries the no-commission statement, not just the book.
+
+**3d. OmegaQuant is not subject to the brand rule, and it is the only thing
+that is not.** The Omega-3 Index is the single marker in STRUCTURE, which means
+removing it does not weaken a dimension, it deletes one: the composite would
+then run over four. OmegaQuant originated that measurement, so naming the lab is
+how a reader obtains a scored input, not a product recommendation. It is
+therefore exempt from 3c.
+
+The exemption is narrow and has a shape. **Lead with the specification and let
+the name follow as the example**: a dried-blood-spot test reporting EPA plus DHA
+as a percentage of red blood cell fatty acids. Any lab reporting that number
+qualifies. **No price and no kit name**, ever, in any deliverable: a price in a
+paid document goes stale on its own and a stale price is the same class of
+problem the brand rule exists to remove. The `KIT_PRICE` constant in
+`first_steps_doc.py` was deleted on 2026-09-24 for exactly this reason and must
+not come back.
+
+Nothing else inherits this. Laboratory chains, sauna makers, water brands,
+glasses makers and salt brands all have real specifications underneath them and
+were converted to those specifications rather than exempted. The test for a
+future exemption is not "is it useful to name" but "does a scored dimension
+cease to exist without it".
 
 **9. Never recommend manipulating potassium or other electrolytes to hyperpolarize the body.** Balance and correction of genuine deficiency only.
 

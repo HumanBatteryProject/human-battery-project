@@ -183,23 +183,23 @@ def tests_doc():
   <div class="kicker" style="color:#7A4A2E">WHERE TO GET IT DONE</div>
   <h1>Getting your blood drawn</h1>
   <div class="lab rec">
-    <h3>Any Lab Test Now &middot; recommended</h3>
-    <p>Walk-in locations across the country, no appointment needed at most, and no doctor's order required in most states. Bring the marker list from the last page and ask them to build a custom panel from it. Their draw sites send to the same national laboratories your doctor uses. Find your nearest location at anylabtestnow.com.</p>
-    <p>Some markers may not be on their standard menu. RBC magnesium, the AA to EPA ratio and the kynurenine to tryptophan ratio are the ones most likely to need a special request. Ask. If a marker genuinely cannot be run, the program excludes it from your score rather than guessing, so you are not penalized.</p>
+    <h3>What to look for in a draw site</h3>
+    <p>The specification, and any provider meeting it will do: walk-in or same-week appointments, no physician order required, a custom panel built from a marker list you bring, and samples sent to a national reference laboratory. Several national chains and online-order services meet all four, and most cities have at least one.</p>
+    <p>Some markers may not be on a standard menu. RBC magnesium, the AA to EPA ratio and the kynurenine to tryptophan ratio are the ones most likely to need a special request. Ask. If a marker genuinely cannot be run, the program excludes it from your score rather than guessing, so you are not penalized.</p>
   </div>
   <div class="lab">
-    <h3>Other options</h3>
-    <p><b>Labcorp OnDemand</b> and <b>Quest via QuestHealth.com</b> let you order online and visit their draw sites. <b>Ulta Lab Tests</b> builds custom panels at Quest locations. Any of these works. Whichever you choose, use the same one for day 90.</p>
+    <h3>Use the same one twice</h3>
+    <p>Whichever provider you choose, use the same one at day 90. Reference ranges and assay methods differ between laboratories, and a change of provider between your two draws puts a difference in the numbers that did not happen in you.</p>
   </div>
   <div class="lab" style="border-left-color:#1BAF7A">
     <h3>The Omega-3 Index</h3>
-    <p>Not done at the lab. Order a dried-blood-spot Omega-3 Index test from a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids. <b>OmegaQuant</b> originated the measurement and sells one at $109.95; named once for that reason, and we take no commission on it. It arrives in the mail. You prick your finger, put a drop on the card, and mail it back. Allow two to four weeks from ordering to result. Do it the same week as your blood draw, both times.</p>
-  <p><b>Buy two at once.</b> They are $93.46 each when you buy two or more, which saves about $33, and you need one for day 0 and one for day 90. The second kit is then already in your drawer when day 90 comes.</p>
-  <p><b>Buy Complete, not Basic.</b> Basic is $54.95 and reports the Omega-3 Index on its own. Complete also reports the AA to EPA ratio, which is on your panel under Drain and is the marker most likely to be missing from a standard lab menu. Saving fifty dollars here costs you a marker.</p>
+    <p>Not done at the lab. Order a dried-blood-spot Omega-3 Index test: the specification is a lab reporting EPA plus DHA as a percentage of red blood cell fatty acids. OmegaQuant originated that measurement and sells one; we take no commission on it. It arrives in the mail. You prick your finger, put a drop on the card, and mail it back. Allow two to four weeks from ordering to result. Do it the same week as your blood draw, both times.</p>
+  <p><b>Order two at once.</b> You need one for day 0 and one for day 90, sellers usually discount the pair, and the second kit is then already in your drawer when day 90 comes.</p>
+  <p><b>Order the version that also reports the AA to EPA ratio.</b> The cheaper option reports the Omega-3 Index on its own. The AA to EPA ratio is on your panel and is the marker most likely to be missing from a standard lab menu, so the cheaper option costs you a marker.</p>
   </div>
   <div class="lab" style="border-left-color:#2A78D6">
     <h3>VO&#8322;max and grip</h3>
-    <p>A VO&#8322;max lab test with a mask runs $150 to $300 at most sports performance centers and university labs. If that is not practical, your First Steps document has a step test you can do at home. Grip strength uses a small hand dynamometer, about forty dollars online, that you keep for day 90.</p>
+    <p>A VO&#8322;max lab test with a mask is available at most sports performance centers and university laboratories, at a cost in the low hundreds. If that is not practical, your First Steps document has a step test you can do at home. Grip strength uses a small hand dynamometer, inexpensive online, that you keep for day 90.</p>
   </div>
 </div>
 
@@ -222,3 +222,7 @@ def tests_doc():
     path = f"{B.OUT}/HBP-Your-Tests-Explained.pdf"
     HTML(string=html, base_url=B.BASE_URL).write_pdf(path)
     return path
+
+
+if __name__ == "__main__":
+    print(tests_doc())

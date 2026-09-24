@@ -10,10 +10,9 @@ SECTIONS = [
     ("food",  "04 / FOOD",           D.GREEN,  "Food",                "Protein first, fat for fuel, inside a window that closes early. The full list is in the Dietary Guidelines.", D.food),
     ("heat",  "05 / HEAT AND COLD",  D.COPPER, "Heat and cold",       "Stress that builds capacity. Dosed to your tier, timed away from your lifts.", D.heatcold),
     ("sleep", "06 / SLEEP",          D.TEAL,   "Sleep",               "Same time, every night. Dark, cool, nothing plugged in.", D.sleep),
-    ("supp",  "07 / SUPPLEMENTS",    D.GREEN,  "Supplements",         "Dosed to your labs, not to a label. No commission on any of it.", D.supplements),
-    ("env",   "08 / ENVIRONMENT",    D.TEAL,   "Equipment and sourcing", "Glasses, bulbs, a router timer, water, and where to get each one.", D.environment),
-    ("days",  "09 / THE NINETY DAYS", D.BLUE,  "Three phases",        "Stop the drain. Recharge. Build. Measured at both ends.", D.ninety),
-    ("check", "10 / EVERY DAY",      D.NAVY,   "Daily checklist",     "This is what goes in the log. Under a minute.", D.checklist),
+    ("env",   "07 / ENVIRONMENT",    D.TEAL,   "Equipment and sourcing", "Glasses, bulbs, a router timer, water, and where to get each one.", D.environment),
+    ("days",  "08 / THE NINETY DAYS", D.BLUE,  "Three phases",        "Stop the drain. Recharge. Build. Measured at both ends.", D.ninety),
+    ("check", "09 / EVERY DAY",      D.NAVY,   "Daily checklist",     "This is what goes in the log. Under a minute.", D.checklist),
 ]
 
 def render_tier(key):
@@ -26,7 +25,6 @@ def render_tier(key):
         "food":  B.food(key) + B.q_line(B.SECTION_Q["food"]) + '<p class="small" style="margin-top:4mm">The full approved food list, the daily non-negotiables and how to build a plate are in the Dietary Guidelines document.</p>',
         "heat":  B.heatcold(key) + B.q_line(B.SECTION_Q["heatcold"]),
         "sleep": B.sleep(key) + B.q_line(B.SECTION_Q["sleep"]),
-        "supp":  B.supplements(key) + B.q_line(B.SECTION_Q["supplements"]),
         "env":   '<p class="small">Dr. Pittman takes no commission on anything listed here. These are what he uses.</p>' + B.ENVIRONMENT,
         "days":  ph,
         "check": f'<ul class="check">{B.checklist(key)}</ul>',
@@ -64,7 +62,7 @@ h3{{color:#2A78D6}}
   <h1>What this is, and is not</h1>
   <p>The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition and does not replace your physician.</p>
   <p>Any laboratory result outside the reference range is referred to a physician. Every time.</p>
-  <p>If you take prescription medication, review the supplement list and any change to your eating window with your prescriber before starting. Never adjust a medication on your own because of anything in this document.</p>
+  <p>If you take prescription medication, review any change to your eating window, and any sauna or cold exposure, with your prescriber before starting. Never adjust a medication on your own because of anything in this document.</p>
   <p>Stop and seek medical care for chest pain, fainting, shortness of breath at rest, or any new symptom that concerns you.</p>
   <p>Never manipulate potassium or other electrolytes to try to change your body's charge. Balance and correction of a genuine deficiency only.</p>
   <div class="rule" style="margin-top:8mm"><b>We do not promise outcomes.</b> We measure at both ends and show you exactly what changed.</div>
