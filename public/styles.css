@@ -41,12 +41,12 @@
   --chart-2:#3987E5;
   --chart-3:#199E70;
 
-  /* Status. A SEPARATE AXIS from the chart palette: the three-colour limit
+  /* Status. A SEPARATE AXIS from the chart palette: the three-color limit
      governs series slots and says nothing about state, so these are not a
-     fourth data colour. Dark-theme values, since the app is dark.
+     fourth data color. Dark-theme values, since the app is dark.
      status-good and chart-3 are both green and never meet. What keeps them
-     apart is a rule, not a hue: every status colour ships with an ICON AND
-     A WORD, and colour alone never carries state.
+     apart is a rule, not a hue: every status color ships with an ICON AND
+     A WORD, and color alone never carries state.
      status-warn is not dawn-amber and status-critical is not dawn-ember.
      The dawn pair is identity and emphasis, not state. */
   --status-good:#3FA97D;      /* 6.28:1 on field, 5.06:1 on panel */
@@ -69,7 +69,7 @@
      token again you reintroduce it.
 
      The fourth value is copper-light because there are four series and
-     three chart tokens. That is interim, not a fourth data colour: it
+     three chart tokens. That is interim, not a fourth data color: it
      goes away when the dimensions land and these are named once.
      ------------------------------------------------------------------ */
 
@@ -203,7 +203,7 @@ strong{font-weight:600;color:#fff}
    would render the shared landing at two different sizes. That already bit
    the door labels once. */
 /* The first screen is the name and the mark and nothing else, so the section
-   fills the viewport less the header and centres what is left.
+   fills the viewport less the header and centers what is left.
 
    One subtracted value, not a set of breakpoints. The header is not a fixed
    height, it wraps: measured across 320 to 1000 it sits at 266, 218, 171, 124
@@ -230,7 +230,7 @@ strong{font-weight:600;color:#fff}
 /* ---- the mark, alive ----
    Inline SVG, so CSS can reach the orbit rings. `transform-box: fill-box`
    makes transform-origin resolve against the group's own bounding box, whose
-   centre is exactly the point all three rings share (575,480). Setting a
+   center is exactly the point all three rings share (575,480). Setting a
    user-space origin instead would have to be offset by the viewBox origin
    (245,100), which is the sort of arithmetic that silently drifts. */
 /* ---- the hero wordmark ----
@@ -253,7 +253,7 @@ strong{font-weight:600;color:#fff}
    ships at.
 
    The right margin is the tighter of the two sides, so it sets the limit.
-   Centred at width W in a viewport V, the ink's right edge sits
+   Centered at width W in a viewport V, the ink's right edge sits
    (V - W)/2 + 0.0382W from the screen edge, so 64px of clear space means
    W <= (V - 128) / 0.9236. At 390px that allows 283px, which is 73% of the
    screen: most of the width, as intended, without crowding. */
@@ -506,7 +506,7 @@ footer p{max-width:var(--measure);margin:0}
       copper-light 8.59, copper 5.06, copper-mid 3.63 FAILS as badge text.
    2. These three classes encode the OLD three-tier scheme. Evidence tier is
       six values now (established, strong, emerging, contested, hypothesis,
-      unsupported), so the markup is stale regardless of colour.
+      unsupported), so the markup is stale regardless of color.
    I swept .tier-1 to copper-light by accident and reverted it: it collapsed
    tier-1 and tier-3 into the same copper. */
 .tier-1{color:var(--teal);border-color:rgba(217,168,122,.45)}
@@ -767,7 +767,7 @@ section[id]{scroll-margin-top:5.5rem}
 .bar-track{height:8px;background:rgba(168,160,150,.14);border-radius:2px;overflow:hidden}
 .bar-fill{display:block;height:100%;border-radius:2px}
 .bar-num{font-family:var(--display);font-size:var(--fs-sm);color:#fff;text-align:right}
-/* O4 colours, the same four everywhere on the site. */
+/* O4 colors, the same four everywhere on the site. */
 [data-sys="charge"] .bar-fill{background:var(--blue)}
 [data-sys="drain"] .bar-fill{background:var(--copper)}
 [data-sys="output"] .bar-fill{background:var(--teal)}
@@ -871,9 +871,9 @@ section[id]{scroll-margin-top:5.5rem}
 .cite-doi a:hover{color:var(--copper-light);border-bottom-color:var(--copper-light)}
 
 /* ---------- daily inputs ----------
-   Nine inputs into one system, colour keyed to the subsystem each shows up in
-   most directly. The dot takes its colour from the same data-sys rule the rest
-   of the site uses, so there is still one place the four colours live. */
+   Nine inputs into one system, color keyed to the subsystem each shows up in
+   most directly. The dot takes its color from the same data-sys rule the rest
+   of the site uses, so there is still one place the four colors live. */
 .inputs{list-style:none;padding:0;margin:2.2rem 0 1.4rem;display:grid;gap:1px;
   background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 @media(min-width:680px){.inputs{grid-template-columns:1fr 1fr}}
@@ -990,9 +990,9 @@ section[id]{scroll-margin-top:5.5rem}
 
 /* ---------- the plain-page centring trap ----------
    .plain p caps paragraphs at 34ch and outranks a bare class selector, so a
-   paragraph meant to be centred inside a card ends up centred within a narrow
+   paragraph meant to be centered inside a card ends up centered within a narrow
    box pinned to the left of that card. It reads as a misalignment rather than
-   as a width. Every centred paragraph needs the cap lifted AND an auto margin,
+   as a width. Every centered paragraph needs the cap lifted AND an auto margin,
    and the selector has to outrank .plain p, which is why these are scoped. */
 .plain .price-card p,
 .plain .dash-head p,

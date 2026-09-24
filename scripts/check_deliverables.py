@@ -36,8 +36,20 @@ DELIVERABLES = sorted(
 
 NO_COMMISSION = re.compile(r"no commission|not a paid placement", re.I)
 
-# Brands already adjudicated: allowed once per document, tied to a criterion.
-ALLOWED_ONCE = {"Baja Gold", "Pure Encapsulations", "OmegaQuant"}
+# The ONE adjudicated exemption. See CLAUDE.md rule 3d: the Omega-3 Index is
+# STRUCTURE's only marker, so removing the lab that originated the measurement
+# would delete a scored dimension rather than weaken one.
+#
+# Baja Gold and Pure Encapsulations were in this set until 2026-09-24 and are
+# not any more. They were not exempted, they were CONVERTED: the salt became
+# "an unrefined salt with a full trace-mineral profile" and the third-party
+# testing criterion went with the supplements. A brand leaving this set is the
+# normal outcome; a brand joining it should be rare enough to argue about.
+ALLOWED_ONCE = {"OmegaQuant"}
+
+# A price is the same class of problem as a brand: it goes stale by itself and
+# nobody notices until a client reads it. No deliverable carries one.
+PRICE = re.compile(r"\$\s?\d[\d,]*(?:\.\d{2})?")
 
 # Ordinary language that capitalises. Not a brand list: a stop list, so the
 # leftovers are candidates rather than confirmations.
@@ -73,8 +85,12 @@ def main():
                             if m not in COMMON and m not in ALLOWED_ONCE})
         has = bool(NO_COMMISSION.search(t))
         names_product = bool(named)
+        prices = sorted(set(PRICE.findall(t)))
 
-        if names_product and not has:
+        if prices:
+            verdict = "FAIL carries a price: %s" % ", ".join(prices[:4])
+            problems.append("%s: carries a price (%s)" % (p.name, ", ".join(prices[:4])))
+        elif names_product and not has:
             verdict = "FAIL names a product, no statement"
             problems.append("%s: names %s and carries no no-commission statement"
                             % (p.name, ", ".join(named)))

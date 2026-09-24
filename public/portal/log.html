@@ -97,7 +97,7 @@
       </div>
     </section>
 
-    <!-- ===== BEHAVIOURAL DOMAINS ===== -->
+    <!-- ===== BEHAVIORAL DOMAINS ===== -->
     <section class="card">
       <h2>The five</h2>
       <p class="tiny" style="margin:-.3rem 0 1rem">Blood gets measured twice. These get measured every day. They are the part nobody else tracks.</p>
@@ -354,7 +354,7 @@ async function load(forDate) {
     sq.appendChild(b);
   });
 
-  // ---- the five behavioural domains
+  // ---- the five behavioral domains
   const bc = el('#behaviors'); bc.innerHTML='';
   const { data: behRows } = await sb.from('log_behaviors')
     .select('domain, score').eq('daily_log_id', log.id);

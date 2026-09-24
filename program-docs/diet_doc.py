@@ -112,7 +112,7 @@ def diet_doc():
     <div style="background:#1BAF7A"><h3>BEGINNER</h3><p>No window in month one. 9am to 7pm in month two, tightening. Gluten and seed oils out from week 9. Everything else in.</p></div>
   </div>
   <div class="tile soft" style="border-left-color:{C};margin-top:6mm"><h3>The morning glass, every tier</h3><p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of unrefined mineral sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p></div>
-  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. unrefined mineral sea salt in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
+  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. An unrefined salt with a full trace-mineral profile, not refined sodium chloride in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
 </div>
 
 
@@ -159,3 +159,7 @@ def diet_doc():
     path = f"{B.OUT}/HBP-Dietary-Guidelines.pdf"
     HTML(string=html, base_url=B.BASE_URL).write_pdf(path)
     return path
+
+
+if __name__ == "__main__":
+    print(diet_doc())

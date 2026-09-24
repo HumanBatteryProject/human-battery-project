@@ -12,9 +12,6 @@ from weasyprint import HTML
 import build as B
 import design as D
 
-KIT_PRICE = "$109.95"
-KIT_NAME = "Omega-3 Index Complete Test"
-
 # What day 1 actually looks like, in the client's own tier.
 DAY_ONE = {
  "pro": """<p>Outside within 15 minutes of waking, before anything else. Thirty minutes on a clear day, forty-five when it is cloudy. Face east. Barefoot on the ground the whole time.</p>
@@ -35,12 +32,12 @@ DAY_ONE = {
 
 STEPS = [
  ("Order your Omega-3 kit today",
-  f"""<p>Order a dried-blood-spot <b>Omega-3 Index</b> test: a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids, which is the defined measurement the panel uses. <b>OmegaQuant</b> originated that measurement and sells the <b>{KIT_NAME}</b> at {KIT_PRICE}; it is named once because the assay is theirs, not as a preference over another lab reporting the same thing. You order it yourself and it comes to you. We take no commission on it.</p>
+  """<p>Order a dried-blood-spot <b>Omega-3 Index</b> test. The specification is the whole of it: a lab that reports EPA plus DHA as a percentage of red blood cell fatty acids, which is the defined measurement the panel uses. Any lab reporting that number qualifies. OmegaQuant originated the measurement and sells one. You order it yourself and it comes to you. We take no commission on it.</p>
 <p>Do this first. Do it today. It takes the longest of anything on this list. The kit takes three to five days to reach you. Then you mail it back. Then the lab runs it. Allow two to four weeks from ordering to result. Everything else here takes a week at most.</p>
-<p><b>Buy two at once.</b> They are $93.46 each if you buy two or more. You need one now and one at day 90, so buying both saves you about $33 and the second one is already in your drawer when day 90 comes.</p>
-<p><b>Get Complete, not Basic.</b> Basic is cheaper and only gives one number. Complete also gives the AA to EPA ratio, which is on your panel and is hard to get anywhere else. Saving fifty dollars here costs you a marker.</p>"""),
+<p><b>Order two at once.</b> You need one now and one at day 90, sellers usually discount the pair, and the second one is already in your drawer when day 90 comes.</p>
+<p><b>Order the version that also reports the AA to EPA ratio.</b> The cheaper option reports the Omega-3 Index on its own. The AA to EPA ratio is on your panel and is hard to obtain anywhere else, so the cheaper option costs you a marker.</p>"""),
  ("Book your blood test",
-  """<p>Go to <b>anylabtestnow.com</b>. Find the one nearest you and book it yourself. You do not need to see a doctor first.</p>
+  """<p>Book a walk-in blood draw yourself. The specification: a draw site that accepts patients without a physician order, lets you request a custom panel from a marker list, and sends to a national reference laboratory. Several national chains meet this and most cities have one.</p>
 <p><b>Do not eat for 12 hours before. Go in the morning.</b> Water is fine. Some of these numbers move as the day goes on, so a test at 11am does not match a test at 7am. Pick a morning time. Book the same time again at day 90.</p>
 <p>Your tier document lists what to ask for. Take the list with you.</p>"""),
  ("Prick your finger and mail the card",
@@ -51,7 +48,7 @@ STEPS = [
   """<p>It is in your portal under Program. Read it once. Do not try to learn it. You are not starting yet.</p>
 <p>Every day has the same shape: light, water, moving, food, moving, light, dark. Your tier sets how much. It does not change the order.</p>"""),
  ("Get a few things",
-  """<p>Amber or red glasses for after dark. unrefined mineral sea salt. A water bottle you will actually use. That is enough to begin.</p>
+  """<p>Amber or red glasses for after dark. An unrefined salt with a full trace-mineral profile, not refined sodium chloride. A water bottle you will actually use. That is enough to begin.</p>
 <p>The full list is in your tier document. Only the glasses are urgent.</p>"""),
  ("Put the weekly call in your calendar",
   """<p>One hour. Everyone together. Every week. The day, the time and the link are in your portal under Calls.</p>
@@ -125,7 +122,7 @@ h3{{color:#2A78D6;margin-bottom:2mm}}
   <h1>What this is, and is not</h1>
   <p>The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition and does not replace your physician.</p>
   <p>Any laboratory result outside the reference range is referred to a physician. Every time.</p>
-  <p>If you take prescription medication, review the supplement list and any change to your eating window with your prescriber before starting. Never adjust a medication on your own because of anything in this document.</p>
+  <p>If you take prescription medication, review any change to your eating window, and any sauna or cold exposure, with your prescriber before starting. Never adjust a medication on your own because of anything in this document.</p>
   <p>Stop and seek medical care for chest pain, fainting, shortness of breath at rest, or any new symptom that concerns you.</p>
   <p>Never manipulate potassium or other electrolytes to try to change your body's charge. Balance and correction of a genuine deficiency only.</p>
   <div class="rule" style="margin-top:8mm"><b>We do not promise outcomes.</b> We measure at both ends and show you exactly what changed.</div>

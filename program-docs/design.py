@@ -132,14 +132,6 @@ def sleep(c=NAVY, c2=TEAL):
 <text x="200" y="205" text-anchor="middle" font-family="Michroma" font-size="8" fill="{c2}" letter-spacing="2">DARK, COOL, SAME TIME</text>
 </svg>"""
 
-def supplements(c=GREEN, c2=BLUE):
-    caps = "".join(f'<g transform="translate({80+i*60},{95}) rotate({-25+i*12})"><rect x="-22" y="-9" width="44" height="18" rx="9" fill="none" stroke="{c}" stroke-width="2.5"/><path d="M0 -9 v18" stroke="{c}" stroke-width="2"/><rect x="-22" y="-9" width="22" height="18" rx="9" fill="{c if i%2 else c2}" opacity=".55"/></g>' for i in range(5))
-    return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
-{caps}
-<g fill="none" stroke="{c}" stroke-width="2.5"><path d="M175 150 h50 v45 a6 6 0 0 1 -6 6 h-38 a6 6 0 0 1 -6 -6 z M185 150 v-10 h30 v10"/></g>
-<text x="200" y="215" text-anchor="middle" font-family="Michroma" font-size="8" fill="{c}" letter-spacing="2">DOSED TO YOUR LABS</text>
-</svg>"""
-
 def environment(c=TEAL, c2=COPPER):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <g fill="none" stroke="{c}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">

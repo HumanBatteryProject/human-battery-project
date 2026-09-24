@@ -33,9 +33,9 @@ CIRCADIAN_INTRO = """
 FOUR_Q = {
  "morning": ("Q3, Q4", "Sets the circadian clock every tissue runs on. Sleep timing and light exposure are logged daily."),
  "midday":  ("Q3, Q4", "Holds the clock set. Vitamin D is on the panel and blood pressure is measured at both ends."),
- "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signalling to night signalling."),
+ "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signaling to night signaling."),
  "evening": ("Q3",     "Protects that melatonin signal from blue light that would tell the body it is still daytime."),
- "night":   ("Q3, Q4", "Darkness is when repair signalling runs. Sleep timing and regularity are logged daily."),
+ "night":   ("Q3, Q4", "Darkness is when repair signaling runs. Sleep timing and regularity are logged daily."),
  "fast":    ("Q1, Q4", "Metabolic flexibility and substrate switching. Fasting glucose, insulin and HbA1c are on the panel."),
 }
 
@@ -45,7 +45,6 @@ SECTION_Q = {
  "food":        ("Q1, Q2, Q4", "Fuel handling, plus the fatty acids and protein the membranes are built from. Glucose, insulin, HbA1c, Omega-3 Index and albumin are on the panel."),
  "heatcold":    ("Q1",    "Controlled stress that builds mitochondrial capacity. Nothing on our panel isolates it."),
  "sleep":       ("Q3, Q4", "Recovery is when gradients are rebuilt and membranes repaired. Sleep timing and regularity are logged daily."),
- "supplements": ("Q2, Q4", "Substrate for membranes and enzymes. Omega-3 Index, 25-OH vitamin D, RBC magnesium, B12 and ferritin are on the panel."),
 }
 
 def q_line(spec):
@@ -88,7 +87,7 @@ def circadian(tier):
         pro="Red lenses from sunset, not amber. Every bulb you use after dark is incandescent or a red LED. Screens off after sunset. Candles are the correct evening light.",
         advanced="Amber or red lenses from sunset. Incandescent or red bulbs in every room you use after dark. Screens filtered with Iris and a blue-blocking film.",
         intermediate="Amber lenses from sunset. Bedroom and living room switched to incandescent or red bulbs. Iris on every screen. Film on the TV.",
-        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any colour-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
+        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any color-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
      ),
      "night": dict(
         h="Make the bedroom dark and quiet",
@@ -130,7 +129,7 @@ def water(tier):
 <h3>Through the day</h3>
 <p>{vol} Every bottle gets a pinch of unrefined mineral sea salt, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
 <h3>What to drink</h3>
-<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
+<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per liter, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
 """
 
 def movement(tier):
@@ -182,7 +181,7 @@ def food(tier):
 <h3>Window: 7am to 1pm</h3>
 <p>One large meal or two. One 24-hour fast per week.</p>
 <h3>The meal</h3>
-<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. unrefined mineral sea salt.</p>
+<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. An unrefined salt with a full trace-mineral profile, not refined sodium chloride.</p>
 <h3>Protein</h3><p>2.2 grams per kilogram of bodyweight, every day, inside the window.</p>
 <h3>Out for 90 days</h3>
 <p>Gluten, all grains, all legumes, all nightshades, seed oils, sugar, alcohol, all dairy except butter and ghee. Nothing processed. Nothing in a package with more than one ingredient.</p>
@@ -261,63 +260,22 @@ def sleep(tier):
     }[tier]
     return base + extra
 
-def supplements(tier):
-    return {
-    "pro": """
-<h3>On waking</h3><p>Cowboy Colostrum, 1 scoop in water.</p>
-<h3>With the morning glass</h3><p>Spirulina powder (Nutrex Hawaii), 1 tablespoon. Quicksilver Methyl B-Complex, 1 pump. Quicksilver NAD+ Platinum, 1 pump.</p>
-<h3>With the meal</h3>
-<p>a third-party-tested brand O.N.E. Multivitamin, 1. a third-party-tested brand EPA/DHA Essentials, 2,000 mg EPA+DHA. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. He Shou Wu, 3. Deer Antler Drops, 1 dropper, 21 days on 7 off. Cordyceps, 3. Duanwood Reishi, 3. Gaia Daytime HPA, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump. Life Extension Taurine, 2 g.</p>
-<h3>Pre-training</h3><p>Cordyceps, 2 more. Creatine, 5 g more on heavy days.</p>
-<h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon. Goji &amp; Schizandra Drops, 1 dropper. Gaia Daytime HPA, 2.</p>
-<h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. l-Theanine, 200 mg. Zinc 30, 1. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out, nightly for two weeks then as needed.</p>
-<h3>Three mornings a week</h3><p>Dragon Herbs Tonic Alchemy, 1 scoop, replacing the multivitamin. BioPure Ultra Binder, 1 scoop, an hour away from everything.</p>
-<div class="rule">This is the base stack, not the tired stack. If you are still depleted on this, the problem is sleep or overtraining, and the fix is less.</div>
-""",
-    "advanced": """
-<h3>Morning, with the first meal</h3>
-<p>a third-party-tested brand O.N.E. Multivitamin, 1. EPA/DHA Essentials, dosed to your Omega-3 Index: under 4% take 2,000 mg, 4 to 6% take 1,500 mg, over 6% take 1,000 mg. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. Spirulina powder (Nutrex Hawaii), 1 tablespoon. Cowboy Colostrum, 1 scoop on waking before anything.</p>
-<h3>Midday</h3><p>Dragon Herbs Duanwood Reishi, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump.</p>
-<h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon.</p>
-<h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
-<h3>Three mornings a week</h3><p>Dragon Herbs Tonic Alchemy, 1 scoop, in place of the multivitamin.</p>
-<h3>If you are training hard and still tired: the Jing stack, 30 days</h3>
-<p>Super Adaptogen 3 morning and 3 midday. He Shou Wu, 3 morning. Cordyceps, 2 pre-training. Deer Antler Drops, 1 dropper morning, 21 on 7 off. Gaia Daytime HPA, 2 morning and 2 afternoon. Then back to the base stack.</p>
-""",
-    "intermediate": """
-<h3>Morning</h3>
-<p>a third-party-tested brand O.N.E. Multivitamin, 1. Life Extension Super Omega-3, 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above. Vitamin D3/K2, 5,000 IU, adjusted after labs. Creatine, 5 g. Gaia Daytime HPA, 2. Spirulina and chlorella blend powder, 1 tablespoon. Cowboy Colostrum, 1 scoop on waking.</p>
-<h3>Afternoon</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 15 g.</p>
-<h3>Evening</h3><p>Magnesium Glycinate, 300 mg. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
-<h3>If tired: the Jing stack</h3><p>Dragon Herbs Super Adaptogen, 3 morning. Gaia Daytime HPA, 2 morning and 2 afternoon. Cordyceps, 2 before training.</p>
-""",
-    "beginner": """
-<h3>Month one: three bottles</h3>
-<p>Life Extension Super Omega-3, 2,000 mg EPA+DHA. Your baseline is almost certainly low. Vitamin D3 with K2, 5,000 IU. Magnesium Glycinate, 300 mg in the evening.</p>
-<p>Nothing else. Three bottles taken every day beats eight bottles abandoned in week three.</p>
-<h3>Month two, add</h3><p>Creatine, 5 g morning. Gaia Daytime HPA, 2 morning.</p>
-<h3>Month three, add</h3><p>Dragon Herbs Super Adaptogen, 2 morning. Spirulina and chlorella blend, 1 teaspoon morning, building to a tablespoon. Gaia Nighttime HPA, 2 evening. Dragon Herbs Lights Out if sleep is still the problem.</p>
-<h3>Days 61 to 90, if exhausted</h3><p>Super Adaptogen, 3 morning. Daytime HPA, 2 morning and 2 afternoon. Cordyceps, 2 morning.</p>
-""",
-    }[tier]
-
 ENVIRONMENT = """
 <p class="why"><b>Specifications, not brands.</b> Each row says what the thing
-has to do. A brand is named only where it is genuinely hard to find something
-that meets the specification, and then only once, as an example. <b>We take no
-commission on anything named in this guide, and nothing here is a paid
-placement.</b> Evidence tier for this whole table: <b>Dr. Micah's idea, being
-tested</b>, except the two marked otherwise.</p>
+has to do, so you can judge any product against it yourself. No brand is named
+in this table. <b>We take no commission on anything named in this guide, and
+nothing here is a paid placement.</b> Evidence tier for this whole table:
+<b>Dr. Micah's idea, being tested</b>, except the rows marked otherwise.</p>
 <table>
 <tr><th>Evening glasses</th><td>Lenses that block 460 to 490 nm. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated and most amber lenses do not reach 490 nm. Red lenses block more than amber. <i>Tier: early evidence for the effect on melatonin onset.</i></td></tr>
-<tr><th>Screens</th><td>Any colour-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
+<tr><th>Screens</th><td>Any color-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
 <tr><th>Bulbs</th><td>Incandescent wherever you can still find them, because they have almost no blue. Otherwise a red or amber bulb in the rooms you use after dark.</td></tr>
-<tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. About twelve dollars.</td></tr>
-<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Test the outlet with a three-dollar tester first. A participant who never grounds is fully adherent.</td></tr>
-<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre. <i>Example of a salt that meets the specification: Baja Gold. Named once because unrefined salts vary and most table salt does not qualify.</i></td></tr>
+<tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. The cheapest item on this list.</td></tr>
+<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Test the outlet with an inexpensive outlet tester first. A participant who never grounds is fully adherent.</td></tr>
+<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with salt added back, a quarter teaspoon per liter. <i>The specification for the salt: an unrefined salt with a full trace-mineral profile, not refined sodium chloride. Unrefined salts vary and most table salt does not qualify, so read the mineral analysis rather than the front of the packet.</i></td></tr>
 <tr><th>Sauna</th><td>Traditional, not infrared. A gym sauna is fine and is what most people should use. <i>Tier: strong for cardiovascular outcomes in the Finnish cohort data.</i></td></tr>
 <tr><th>Cold</th><td>A cold shower is enough to start. A chest freezer with a GFCI is the cheap home plunge. <i>Tier: contested. One unreplicated trial, and the warm-shower arm improved about as much.</i></td></tr>
-<tr><th>Supplements</th><td>Buy on the compound and the dose, not the label. Vitamin D3 with K2 at 5,000 IU, magnesium glycinate, EPA+DHA at 2,000 mg. <i>Criterion that matters: third-party tested, with the certificate of analysis published. Pure Encapsulations is one brand that publishes them; it is named once as an example of the criterion, not as a recommendation over any other brand that also meets it.</i></td></tr>
+
 <tr><th>Butter</th><td>Grass-fed, any brand.</td></tr>
 <tr><th>Testing</th><td>A dried-blood-spot Omega-3 Index kit at day 0 and day 90, from a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids. A hand dynamometer for grip. <i>Tier: established for the Omega-3 Index as a defined measurement.</i></td></tr>
 </table>
@@ -443,28 +401,24 @@ def render_tier(key):
   <h1>Sleep</h1>
   {sleep(key)}
 {q_line(SECTION_Q["sleep"])}
-  <div class="kicker" style="margin-top:9mm">07 &nbsp;/&nbsp; SUPPLEMENTS</div>
-  <h1>Supplements</h1>
-  {supplements(key)}
-{q_line(SECTION_Q["supplements"])}
 </div>
 
 <div class="page">
-  <div class="kicker">08 &nbsp;/&nbsp; ENVIRONMENT</div>
+  <div class="kicker">07 &nbsp;/&nbsp; ENVIRONMENT</div>
   <h1>Equipment and sourcing</h1>
   <p class="small">Dr. Pittman takes no commission on anything listed here. These are what he uses.</p>
   {ENVIRONMENT}
 </div>
 
 <div class="page">
-  <div class="kicker">09 &nbsp;/&nbsp; THE NINETY DAYS</div>
+  <div class="kicker">08 &nbsp;/&nbsp; THE NINETY DAYS</div>
   <h1>Three phases</h1>
   {ph}
-  <div class="kicker" style="margin-top:10mm">10 &nbsp;/&nbsp; EVERY DAY</div>
+  <div class="kicker" style="margin-top:10mm">09 &nbsp;/&nbsp; EVERY DAY</div>
   <h1>Daily checklist</h1>
   <p class="small">This is what goes in the log. Under a minute.</p>
   <ul class="check">{checklist(key)}</ul>
-  <div class="rule" style="margin-top:10mm">The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition and does not replace your physician. Any laboratory result outside the reference range is referred to a physician. If you take prescription medication, review the supplement list with your prescriber before starting. Stop and seek medical care for chest pain, fainting, or any new symptom that concerns you.</div>
+  <div class="rule" style="margin-top:10mm">The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition and does not replace your physician. Any laboratory result outside the reference range is referred to a physician. If you take prescription medication, review any change to your eating window, and any sauna or cold exposure, with your prescriber before starting. Stop and seek medical care for chest pain, fainting, or any new symptom that concerns you.</div>
 </div>
 
 </body></html>"""
@@ -554,7 +508,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <h3>Seasoning</h3>
   <p>unrefined mineral sea salt. Black pepper. Fresh herbs. Ginger, turmeric, cinnamon. Apple cider vinegar. Mustard with no sugar. Coconut aminos.</p>
   <h3>Drinks</h3>
-  <p>Mineral water. Coffee, black, before noon. Green tea. Herbal tea. Bone broth. Dragon Herbs Spring Dragon tea in the afternoon.</p>
+  <p>Mineral water. Coffee, black, before noon. Green tea. Herbal tea. Bone broth.</p>
 </div>
 
 <div class="page">

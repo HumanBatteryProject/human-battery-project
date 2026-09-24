@@ -62,3 +62,26 @@ renders at 262px on a 390px phone and up to 760px on a desktop.
 
 `wordmark-flat-ink.png` is the ivory-document variant. It measures 1.81:1 on
 `surface-field` and must never be used on a dark surface.
+
+## The home page header carries no wordmark. Logged and left.
+
+The home hero IS the wordmark, so the header would put the same lockup on
+screen twice. Reveal-on-scroll was built and removed: showing the brand makes
+the header taller, which pushes the hero down, which moves the offset the
+reveal is measured against. The measured threshold shifted from 505px to 595px
+the moment the brand appeared, and headless Chrome fired no scroll event on the
+return trip, so the class stuck on.
+
+Accepted on 2026-09-24 as the answer, not as a gap to close later. Nothing is
+lost: the header wordmark's job is to be the link home, and on the home page
+that link points at the page you are already reading. Every other page keeps
+its header wordmark unchanged.
+
+## The version ladder has been exercised deliberately, outside a repair
+
+On 2026-09-24 HBP-Battery-Kitchen was bumped v3 to v4 with byte-identical
+content, on purpose, to prove the ordinary path works when nothing is wrong.
+The new bytes went to a NEW path, the v3 row kept its path and gained
+`retired_at`, and the v3 bytes were fetched back afterwards and still matched.
+The bump changed the row, not the bytes, and destroyed nothing. That is the
+shape rule 3b asks for, and it had only ever been walked while fixing damage.
