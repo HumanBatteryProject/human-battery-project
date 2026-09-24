@@ -51,7 +51,32 @@
   --status-warn:#D9A441;      /* 8.16:1 on field, 6.58:1 on panel */
   --status-critical:#E0705E;  /* 5.81:1 on field, 4.69:1 on panel */
 
-  /* ---- deprecated aliases, straight swaps ---- */
+  /* ------------------------------------------------------------------
+     HELD ALIASES. Only the four-subsystem set is left, and it is held on
+     purpose: charge, drain, output and reserve are superseded by the five
+     scored dimensions, and that migration is blocked on the approved
+     marker mapping in docs/HBP-Marker-Dimension-Mapping-PROPOSAL.md.
+     Colouring them now is work done twice, which is the same reason
+     Chapter 21 is held in docs/HBP-Canonical-Positions.md section 7.
+
+     THEY MUST STAY FOUR DISTINCT VALUES. --teal and --copper previously
+     both aliased to copper-light, which made `drain` and `output` render
+     identically: two subsystems, one appearance, shipped. Exactly the
+     silent collapse that the .tier-1 sweep produced, and worse, because
+     nothing in the markup showed it. If you point two of these at one
+     token again you reintroduce it.
+
+     The fourth value is copper-light because there are four series and
+     three chart tokens. That is interim, not a fourth data colour: it
+     goes away when the dimensions land and these are named once.
+     ------------------------------------------------------------------ */
+  --blue:var(--chart-2);        /* charge  */
+  --copper:var(--chart-1);      /* drain   */
+  --teal:var(--copper-light);   /* output  */
+  --green:var(--chart-3);       /* reserve, and it carries a direct label */
+
+  /* Surfaces and ink, still referenced widely. These merges are intended:
+     two greys to one, two panels to one. */
   --carbon:var(--surface-field);
   --navy:var(--surface-raised);
   --navy-2:var(--surface-raised);
@@ -59,16 +84,6 @@
   --steel:var(--ink-muted);
   --silver:var(--ink-muted);
   --blue-lo:var(--dawn-deep);
-
-  /* ---- deprecated aliases, SPLITS that still need per-use decisions ----
-     These four cannot be resolved by one value. Each use is either a UI
-     accent or a data series, and the target differs. They point at the UI
-     answer for now, which is the common case, and every data use has to be
-     found and moved to a chart token by hand. Tracked in brand/DAWN-NOTES.md. */
-  --teal:var(--copper-light);   /* UI accent. Data uses -> --chart-2 */
-  --blue:var(--chart-2);        /* data. Panel fills -> --surface-raised */
-  --green:var(--chart-3);       /* series. Success states keep a status colour */
-  --copper:var(--copper-light); /* on field/panel. Identity -> --copper-brand */
 
   --rule:rgba(168,160,150,.16);
   --rule-2:rgba(168,160,150,.30);
@@ -243,7 +258,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
        background:var(--navy-2);border:1px solid var(--rule-2);color:var(--ice);
        transition:transform .22s ease;max-width:90vw}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.err{border-color:var(--copper);color:#F0C4AC}
+.toast.err{border-color:var(--status-critical);color:#F0C4AC}
 
 .spinner{display:inline-block;width:15px;height:15px;border:2px solid var(--rule-2);
          border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}

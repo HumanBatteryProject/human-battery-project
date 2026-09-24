@@ -67,9 +67,9 @@ def render(key):
     steps_now, steps_week = cards(0, 3), cards(3, 6)
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{B.CSS}{D.EXTRA_CSS}
-h3{{color:#218BBE;margin-bottom:2mm}}
+h3{{color:#2A78D6;margin-bottom:2mm}}
 .card{{display:grid;grid-template-columns:12mm 1fr;gap:4mm;margin-bottom:7mm}}
-.card .n{{font-family:'Michroma';font-size:16pt;color:#218BBE;line-height:1}}
+.card .n{{font-family:'Michroma';font-size:16pt;color:#2A78D6;line-height:1}}
 .gate{{border-left:2pt solid #7A4A2E;padding-left:4mm;margin-top:6mm}}
 </style></head><body>
 
@@ -112,7 +112,7 @@ h3{{color:#218BBE;margin-bottom:2mm}}
 
 <div class="page">
   {D.band(D.TEAL)}
-  <div class="kicker" style="color:#2AAFC0">DAY ONE</div>
+  <div class="kicker" style="color:#7A4A2E">DAY ONE</div>
   <h1>What the first day looks like</h1>
   <span class="tier-pill">{name}</span>
   {DAY_ONE[key]}

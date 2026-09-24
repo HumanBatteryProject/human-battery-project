@@ -347,37 +347,37 @@ def checklist(tier):
 CSS = """
 @font-face{font-family:'Michroma';src:url('michroma.woff2') format('woff2')}
 @font-face{font-family:'Newsreader';src:url('newsreader.woff2') format('woff2');font-weight:200 800}
-@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Newsreader';font-size:8pt;color:#6E908C;margin-bottom:12mm}}
+@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Newsreader';font-size:8pt;color:#6E655C;margin-bottom:12mm}}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Newsreader',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#13323F}
+body{margin:0;font-family:'Newsreader',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#1A1714}
 .page{page-break-after:always;padding:16mm 17mm 18mm}
 .page:last-child{page-break-after:auto}
-.cover{background:#05090C;color:#ECF3F4;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.cover{background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
 .cover img{width:82mm;margin-bottom:12mm}
 .cover .t{font-family:'Michroma';font-size:19pt;letter-spacing:.06em;margin-bottom:4mm;color:#fff}
-.cover .s{font-family:'Michroma';font-size:8pt;letter-spacing:.24em;color:#2AAFC0}
-.cover .rule{width:30mm;height:.5pt;background:#2AAFC0;margin:8mm auto}
-.cover .tag{font-family:'Newsreader';font-size:11pt;color:#9FB4B8;font-style:italic;margin-top:10mm}
-h1{font-family:'Michroma';font-size:13pt;font-weight:400;margin:0 0 3mm;line-height:1.3;color:#13323F}
-h2{font-family:'Michroma';font-size:8.6pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4mm;padding-bottom:1.8mm;border-bottom:.4pt solid #C3CFD0;color:#13323F}
-h3{font-family:'Michroma';font-size:7.4pt;font-weight:400;letter-spacing:.05em;margin:4.5mm 0 1.4mm;color:#218BBE}
+.cover .s{font-family:'Michroma';font-size:8pt;letter-spacing:.24em;color:#7A4A2E}
+.cover .rule{width:30mm;height:.5pt;background:#7A4A2E;margin:8mm auto}
+.cover .tag{font-family:'Newsreader';font-size:11pt;color:#A8A096;font-style:italic;margin-top:10mm}
+h1{font-family:'Michroma';font-size:13pt;font-weight:400;margin:0 0 3mm;line-height:1.3;color:#1A1714}
+h2{font-family:'Michroma';font-size:8.6pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4mm;padding-bottom:1.8mm;border-bottom:.4pt solid #E4DED2;color:#1A1714}
+h3{font-family:'Michroma';font-size:7.4pt;font-weight:400;letter-spacing:.05em;margin:4.5mm 0 1.4mm;color:#2A78D6}
 p{margin:0 0 2.6mm}
-.kicker{font-family:'Michroma';font-size:6.4pt;letter-spacing:.22em;color:#6E908C;margin:0 0 3mm}
-.lede{font-size:11.4pt;line-height:1.45;color:#0E2530;margin-bottom:4mm}
-.seq{font-family:'Michroma';font-size:8pt;letter-spacing:.08em;color:#218BBE;margin:3mm 0 5mm;text-align:center}
-.why{font-size:9.6pt;color:#3D5A63;margin-bottom:3.5mm}
-.rule{border-left:2px solid #7A4A2E;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#3D5A63}
+.kicker{font-family:'Michroma';font-size:6.4pt;letter-spacing:.22em;color:#6E655C;margin:0 0 3mm}
+.lede{font-size:11.4pt;line-height:1.45;color:#1C2742;margin-bottom:4mm}
+.seq{font-family:'Michroma';font-size:8pt;letter-spacing:.08em;color:#2A78D6;margin:3mm 0 5mm;text-align:center}
+.why{font-size:9.6pt;color:#6E655C;margin-bottom:3.5mm}
+.rule{border-left:2px solid #7A4A2E;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#6E655C}
 table{width:100%;border-collapse:collapse;margin-top:2mm}
 th,td{text-align:left;vertical-align:top;padding:2.2mm 2.4mm;border-bottom:.35pt solid #DCE4E5;font-size:9.2pt}
-th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E908C;width:26mm;padding-top:2.8mm}
+th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E655C;width:26mm;padding-top:2.8mm}
 .phase{display:flex;gap:5mm;padding:3mm 0;border-bottom:.35pt solid #DCE4E5}
-.phase .d{font-family:'Michroma';font-size:6.8pt;letter-spacing:.06em;color:#218BBE;width:26mm;flex:none;padding-top:.6mm}
+.phase .d{font-family:'Michroma';font-size:6.8pt;letter-spacing:.06em;color:#2A78D6;width:26mm;flex:none;padding-top:.6mm}
 .phase p{margin:0;font-size:9.6pt}
 ul.check{list-style:none;padding:0;margin:3mm 0 0;columns:2;column-gap:8mm}
 ul.check li{font-size:9.4pt;padding:1.6mm 0;break-inside:avoid;display:flex;gap:2.4mm;align-items:flex-start}
-.box{width:3.4mm;height:3.4mm;border:.5pt solid #6E908C;border-radius:.6mm;flex:none;margin-top:1mm}
+.box{width:3.4mm;height:3.4mm;border:.5pt solid #6E655C;border-radius:.6mm;flex:none;margin-top:1mm}
 .small{font-size:8.6pt;color:#4E6B72;line-height:1.5}
-.tier-pill{display:inline-block;font-family:'Michroma';font-size:7pt;letter-spacing:.12em;padding:1.6mm 3mm;border:.5pt solid #2AAFC0;color:#2AAFC0;border-radius:1mm;margin-bottom:5mm}
+.tier-pill{display:inline-block;font-family:'Michroma';font-size:7pt;letter-spacing:.12em;padding:1.6mm 3mm;border:.5pt solid #7A4A2E;color:#7A4A2E;border-radius:1mm;margin-bottom:5mm}
 """
 
 TIERS = {
@@ -475,10 +475,10 @@ if __name__ == '__main__':
 
 DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 .food{{display:flex;gap:4mm;padding:2.4mm 0;border-bottom:.35pt solid #DCE4E5}}
-.food b{{font-family:'Michroma';font-size:6.6pt;letter-spacing:.05em;color:#218BBE;width:34mm;flex:none;padding-top:.8mm}}
+.food b{{font-family:'Michroma';font-size:6.6pt;letter-spacing:.05em;color:#2A78D6;width:34mm;flex:none;padding-top:.8mm}}
 .food p{{margin:0;font-size:9.4pt}}
 .tierrow{{display:flex;gap:3mm;margin-top:3mm}}
-.tierrow>div{{flex:1;border:.4pt solid #C3CFD0;border-radius:1.5mm;padding:3.2mm 3mm}}
+.tierrow>div{{flex:1;border:.4pt solid #E4DED2;border-radius:1.5mm;padding:3.2mm 3mm}}
 .tierrow h3{{margin:0 0 1.6mm;font-size:6.6pt}}
 .tierrow p{{font-size:8.4pt;margin:0;line-height:1.45}}
 .no{{color:#A32E22}}
@@ -598,7 +598,7 @@ if __name__ == "__main__":
 # =====================================================================
 
 MARKERS = {
- "charge": ("CHARGE", "#218BBE", "How well your body turns fuel into energy", [
+ "charge": ("CHARGE", "#2A78D6", "How well your body turns fuel into energy", [
   ("Fasting glucose", "The sugar in your blood after not eating overnight.", "It is the baseline. If it is high while you are fasting, your body is having trouble putting fuel away."),
   ("Fasting insulin", "The hormone that moves sugar out of your blood and into your cells.", "This goes up years before glucose does. High insulin means your cells are ignoring the signal, and your body is shouting louder to be heard. It is the earliest warning we have."),
   ("HbA1c", "Your average blood sugar over the last three months.", "One number that shows the whole quarter, not just this morning. Ninety days is exactly one HbA1c cycle, which is why the program is ninety days."),
@@ -606,7 +606,7 @@ MARKERS = {
   ("Triglycerides", "Fat traveling in your blood.", "When you eat more fuel than you burn, especially sugar, it turns into this. High triglycerides mean the fuel system is overloaded."),
   ("Triglyceride to HDL ratio", "Triglycerides divided by your good cholesterol.", "One of the best simple signs of whether your cells are handling fuel well. Low is good."),
  ]),
- "drain": ("DRAIN", "#6E908C", "What is quietly using up your energy in the background", [
+ "drain": ("DRAIN", "#6E655C", "What is quietly using up your energy in the background", [
   ("hs-CRP", "A protein your liver makes when there is inflammation anywhere in the body.", "This is the main drain marker. Inflammation is like an app running in the background on your phone. You did not open it, but it is using battery all day."),
   ("GGT", "A liver enzyme.", "It rises when the liver is stressed by alcohol, sugar, or oxidative load. It is one of the earliest signs the drain is on."),
   ("ALT", "A liver enzyme.", "Tells us whether the liver, your main fuel-processing organ, is under strain."),
@@ -617,7 +617,7 @@ MARKERS = {
   ("AA to EPA ratio", "The balance between an inflammatory fat and an anti-inflammatory fat in your cells.", "This is the fat side of the drain. It comes from what you eat, and it moves when you eat sardines instead of seed oils."),
   ("Kynurenine to tryptophan ratio", "How much of an important amino acid is being burned up by inflammation.", "When inflammation is high, your body diverts tryptophan away from where it should go. This ratio shows the diversion. It also connects to some of the newest research in the model."),
  ]),
- "output": ("OUTPUT", "#2AAFC0", "How much power you can actually spend", [
+ "output": ("OUTPUT", "#7A4A2E", "How much power you can actually spend", [
   ("TSH", "The signal your brain sends to your thyroid.", "The thyroid sets the speed of every cell. TSH tells us if the brain is having to shout to get it going."),
   ("Free T3", "The active thyroid hormone.", "This is the one your cells actually use. Low free T3 feels like cold hands, slow thinking, and no drive, even when TSH looks fine."),
   ("Free T4", "The storage form of thyroid hormone.", "Your body converts T4 to T3. Reading both tells us if the conversion is working."),
@@ -628,7 +628,7 @@ MARKERS = {
   ("IGF-1", "A growth and repair signal.", "Tells us how well your body is rebuilding. Too low means slow repair. Too high is not the goal either."),
   ("SHBG", "A protein that binds hormones and controls how much is free.", "It explains the gap between total and free testosterone, and it moves with insulin, so it connects Output back to Charge."),
  ]),
- "reserve": ("RESERVE", "#157A5C", "What your batteries are built from", [
+ "reserve": ("RESERVE", "#1BAF7A", "What your batteries are built from", [
   ("Omega-3 Index", "The percentage of your red blood cell membranes made of EPA and DHA.", "Required at day 0 and day 90. DHA is what the membranes that receive the light signal are built from, the retina most of all. Low DHA means the signal lands on a degraded receiver. This is the most responsive marker on the panel and the most direct check on whether the protocol is working. Done at home with a finger prick, not at the lab."),
   ("25-OH vitamin D", "The storage form of vitamin D.", "The direct readout on the sun protocol. Almost everyone starts low. It affects immune function, hormones, and mood."),
   ("Ferritin", "Your stored iron.", "Too low means the batteries cannot carry oxygen well. Too high can mean inflammation. Read together with iron saturation."),

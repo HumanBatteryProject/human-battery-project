@@ -53,7 +53,32 @@
   --status-warn:#D9A441;      /* 8.16:1 on field, 6.58:1 on panel */
   --status-critical:#E0705E;  /* 5.81:1 on field, 4.69:1 on panel */
 
-  /* ---- deprecated aliases, straight swaps ---- */
+  /* ------------------------------------------------------------------
+     HELD ALIASES. Only the four-subsystem set is left, and it is held on
+     purpose: charge, drain, output and reserve are superseded by the five
+     scored dimensions, and that migration is blocked on the approved
+     marker mapping in docs/HBP-Marker-Dimension-Mapping-PROPOSAL.md.
+     Colouring them now is work done twice, which is the same reason
+     Chapter 21 is held in docs/HBP-Canonical-Positions.md section 7.
+
+     THEY MUST STAY FOUR DISTINCT VALUES. --teal and --copper previously
+     both aliased to copper-light, which made `drain` and `output` render
+     identically: two subsystems, one appearance, shipped. Exactly the
+     silent collapse that the .tier-1 sweep produced, and worse, because
+     nothing in the markup showed it. If you point two of these at one
+     token again you reintroduce it.
+
+     The fourth value is copper-light because there are four series and
+     three chart tokens. That is interim, not a fourth data colour: it
+     goes away when the dimensions land and these are named once.
+     ------------------------------------------------------------------ */
+  --blue:var(--chart-2);        /* charge  */
+  --copper:var(--chart-1);      /* drain   */
+  --teal:var(--copper-light);   /* output  */
+  --green:var(--chart-3);       /* reserve, and it carries a direct label */
+
+  /* Surfaces and ink, still referenced widely. These merges are intended:
+     two greys to one, two panels to one. */
   --carbon:var(--surface-field);
   --navy:var(--surface-raised);
   --navy-2:var(--surface-raised);
@@ -61,16 +86,6 @@
   --steel:var(--ink-muted);
   --silver:var(--ink-muted);
   --blue-lo:var(--dawn-deep);
-
-  /* ---- deprecated aliases, SPLITS that still need per-use decisions ----
-     These four cannot be resolved by one value. Each use is either a UI
-     accent or a data series, and the target differs. They point at the UI
-     answer for now, which is the common case, and every data use has to be
-     found and moved to a chart token by hand. Tracked in brand/DAWN-NOTES.md. */
-  --teal:var(--copper-light);   /* UI accent. Data uses -> --chart-2 */
-  --blue:var(--chart-2);        /* data. Panel fills -> --surface-raised */
-  --green:var(--chart-3);       /* series. Success states keep a status colour */
-  --copper:var(--copper-light); /* on field/panel. Identity -> --copper-brand */
 
   --rule:rgba(168,160,150,.16);
   --rule-2:rgba(168,160,150,.30);
@@ -295,15 +310,15 @@ strong{font-weight:600;color:#fff}
 @media(min-width:760px){.phase > p{margin-left:12.1rem}}
 @media(min-width:760px){.phase{grid-template-columns:8.5rem 1fr}}
 .phase:last-child{border-bottom:1px solid var(--rule)}
-.phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--blue);letter-spacing:var(--ls-label);text-transform:uppercase;padding-top:.3rem}
+.phase .days{font-family:var(--display);font-size:var(--fs-label);color:var(--copper-light);letter-spacing:var(--ls-label);text-transform:uppercase;padding-top:.3rem}
 
 
 /* ---------- lists ---------- */
 .checks{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.85rem}
 @media(min-width:760px){.checks{grid-template-columns:1fr 1fr;gap:.85rem 2.4rem}}
 .checks li{padding-left:1.5rem;position:relative;font-size:var(--fs-base);line-height:var(--lh-card)}
-.checks li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--teal)}
-.checks.neg li::before{background:var(--copper)}
+.checks li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--copper-light)}
+.checks.neg li::before{background:var(--status-critical)}
 
 /* ---------- price ---------- */
 .price-head{font-family:var(--display);font-size:var(--fs-h1);letter-spacing:var(--ls-display);color:#fff;margin:0 0 .3rem}
@@ -391,7 +406,7 @@ footer p{max-width:var(--measure);margin:0}
    LARGER than the Newsreader complaint it labels. */
 .sym span{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;white-space:nowrap}
 .sym span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.6rem;vertical-align:-.02em;background:currentColor}
-.sym[data-sys="charge"] span{color:var(--blue)}
+.sym[data-sys="charge"] span{color:var(--copper-light)}
 .sym[data-sys="drain"] span{color:var(--copper)}
 .sym[data-sys="output"] span{color:var(--teal)}
 .sym[data-sys="reserve"] span{color:var(--green)}
@@ -454,7 +469,7 @@ footer p{max-width:var(--measure);margin:0}
 .arms{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:2rem}
 @media(min-width:640px){.arms{grid-template-columns:1fr 1fr}}
 .arm{background:var(--carbon);padding:1.5rem 1.35rem}
-.arm .when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--blue);margin-bottom:.7rem}
+.arm .when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--copper-light);margin-bottom:.7rem}
 .arm p{font-size:var(--fs-base);color:var(--steel);margin:0;max-width:none}
 
 /* ================= PLAIN-LANGUAGE VERSION ================= */
@@ -501,7 +516,7 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .step{display:grid;gap:.3rem 1.3rem;padding:1.3rem 0;border-top:1px solid var(--rule)}
 @media(min-width:700px){.step{grid-template-columns:3rem 1fr}}
 .step:last-child{border-bottom:1px solid var(--rule)}
-.step .n{counter-increment:st;font-family:var(--display);font-size:var(--fs-h3);color:var(--blue);line-height:1}
+.step .n{counter-increment:st;font-family:var(--display);font-size:var(--fs-h3);color:var(--copper-light);line-height:1}
 .step .n::before{content:counter(st)}
 .step p{margin:.3rem 0 0;color:#BFCDCE}
 
@@ -534,8 +549,8 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
   color:var(--ice);padding:.5rem .7rem;border:1px solid var(--rule-2);border-radius:3px;white-space:nowrap}
 .menu>summary::-webkit-details-marker{display:none}
 .menu>summary::after{content:"";margin-left:.5rem;border:4px solid transparent;border-top-color:currentColor;position:relative;top:2px}
-.menu>summary:hover{border-color:var(--blue)}
-.menu[open]>summary{border-color:var(--blue);color:#fff}
+.menu>summary:hover{border-color:var(--copper-light)}
+.menu[open]>summary{border-color:var(--copper-light);color:var(--ink)}
 .menu[open]>summary::after{transform:rotate(180deg);top:-2px}
 .menu-panel{position:absolute;top:calc(100% + .45rem);left:0;z-index:40;min-width:17rem;
   background:var(--navy);border:1px solid var(--rule-2);border-radius:3px;padding:.35rem;
@@ -619,7 +634,7 @@ section[id]{scroll-margin-top:5.5rem}
 .next-steps li{counter-increment:ns;display:grid;grid-template-columns:1.6rem 1fr;gap:.7rem;
   align-items:baseline;font-size:var(--fs-sm);color:#BFCDCE;line-height:var(--lh-small);max-width:none}
 .next-steps li::before{content:counter(ns);font-family:var(--display);font-size:var(--fs-label);
-  color:var(--blue)}
+  color:var(--copper-light)}
 
 /* ---------- boundaries ----------
    Section 14 is explicit that these must not be buried in microscopic legal
@@ -692,7 +707,7 @@ section[id]{scroll-margin-top:5.5rem}
 .cite-why{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);margin:0 0 .45rem;max-width:none}
 .cite-doi{margin:0;font-size:var(--fs-xs);max-width:none;line-height:var(--lh-small)}
 .cite-doi a{color:var(--steel);border-bottom-color:transparent;word-break:break-all}
-.cite-doi a:hover{color:var(--copper-light);border-bottom-color:var(--teal)}
+.cite-doi a:hover{color:var(--copper-light);border-bottom-color:var(--copper-light)}
 
 /* ---------- daily inputs ----------
    Nine inputs into one system, colour keyed to the subsystem each shows up in
@@ -724,7 +739,7 @@ section[id]{scroll-margin-top:5.5rem}
   justify-content:space-between;gap:1rem;padding:1.15rem 1.3rem;
   border-left:3px solid transparent}
 .quad summary::-webkit-details-marker{display:none}
-.quad[data-sys="charge"] summary{border-left-color:var(--blue)}
+.quad[data-sys="charge"] summary{border-left-color:var(--copper-light)}
 .quad[data-sys="drain"] summary{border-left-color:var(--copper)}
 .quad[data-sys="output"] summary{border-left-color:var(--teal)}
 .quad[data-sys="reserve"] summary{border-left-color:var(--green)}
@@ -757,7 +772,7 @@ section[id]{scroll-margin-top:5.5rem}
   .strip li{padding-right:2.2rem}
   .strip li + li{padding-left:2.2rem}
   .strip li + li::before{content:"";position:absolute;left:0;top:.55em;
-    width:9px;height:9px;border-top:1.5px solid var(--blue);border-right:1.5px solid var(--blue);
+    width:9px;height:9px;border-top:1.5px solid var(--copper-light);border-right:1.5px solid var(--blue);
     transform:rotate(45deg)}
 }
 /* Two lines reserved on a desktop, because CHANGE THE INPUTS wraps and the
@@ -779,15 +794,15 @@ section[id]{scroll-margin-top:5.5rem}
 @media(min-width:820px){.flow{grid-template-columns:repeat(3,1fr)}}
 .flow-step{background:var(--carbon);padding:1.6rem 1.35rem 1.7rem}
 .flow-when{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
-  text-transform:uppercase;color:var(--blue);margin:0 0 1rem}
+  text-transform:uppercase;color:var(--copper-light);margin:0 0 1rem}
 .flow-list{list-style:none;padding:0;margin:0}
 .flow-list li{font-size:var(--fs-sm);color:#BFCDCE;line-height:var(--lh-small);
   padding:.28rem 0 .28rem 1.15rem;position:relative;max-width:none}
 .flow-list li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;
   border-radius:50%;background:var(--rule-2)}
-.flow-step:nth-child(2) .flow-when{color:var(--teal)}
+.flow-step:nth-child(2) .flow-when{color:var(--copper-light)}
 .flow-step:nth-child(2) .flow-list li::before{background:rgba(42,175,192,.5)}
-.flow-step:nth-child(3) .flow-when{color:var(--green)}
+.flow-step:nth-child(3) .flow-when{color:var(--ink-muted)}
 
 /* The line the brief asks to become a primary brand statement. */
 .statement{font-family:var(--display);font-size:var(--fs-h2);line-height:1.4;

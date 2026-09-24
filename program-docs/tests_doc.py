@@ -1,7 +1,7 @@
 from weasyprint import HTML
 import build as B
 
-def svg_mito(c="#218BBE"):
+def svg_mito(c="#2A78D6"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <defs><clipPath id="m"><rect x="20" y="30" width="360" height="160" rx="80"/></clipPath></defs>
 <rect x="20" y="30" width="360" height="160" rx="80" fill="none" stroke="{c}" stroke-width="3"/>
@@ -28,7 +28,7 @@ def svg_drain(c="#6E655C", warn="#9C603C"):
 <text x="200" y="215" text-anchor="middle" font-family="Michroma" font-size="7" fill="{warn}" letter-spacing="2">INFLAMMATION RUNS IN THE BACKGROUND</text>
 </svg>"""
 
-def svg_output(c="#2AAFC0"):
+def svg_output(c="#7A4A2E"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <rect x="40" y="80" width="90" height="60" rx="8" fill="none" stroke="{c}" stroke-width="3"/><rect x="130" y="98" width="10" height="24" rx="3" fill="{c}"/>
 <rect x="48" y="88" width="74" height="44" rx="4" fill="{c}" opacity=".5"/>
@@ -41,7 +41,7 @@ def svg_output(c="#2AAFC0"):
 <text x="200" y="212" text-anchor="middle" font-family="Michroma" font-size="7" fill="{c}" letter-spacing="2">HORMONES DECIDE HOW MUCH YOU CAN USE</text>
 </svg>"""
 
-def svg_reserve(c="#157A5C", d="#2AAFC0"):
+def svg_reserve(c="#1BAF7A", d="#7A4A2E"):
     heads = "".join(f'<circle cx="{40+i*30}" cy="80" r="7" fill="{c}"/><circle cx="{40+i*30}" cy="140" r="7" fill="{c}"/>' for i in range(11) if i != 5)
     tails = "".join(f'<path d="M{37+i*30} 87 q-3 12 2 24 M{43+i*30} 87 q3 12 -2 24" stroke="{c}" stroke-width="2" fill="none"/><path d="M{37+i*30} 133 q-3 -12 2 -24 M{43+i*30} 133 q3 -12 -2 -24" stroke="{c}" stroke-width="2" fill="none"/>' for i in range(11) if i != 5)
     dha = f'<circle cx="190" cy="80" r="8" fill="{d}"/><path d="M186 88 q-10 12 -1 22 q7 8 -3 14" stroke="{d}" stroke-width="3" fill="none"/><path d="M194 88 q10 12 1 22 q-7 8 3 14" stroke="{d}" stroke-width="3" fill="none"/><circle cx="190" cy="140" r="8" fill="{d}"/><path d="M186 132 q-10 -12 -1 -22" stroke="{d}" stroke-width="3" fill="none"/><path d="M194 132 q10 -12 1 -22" stroke="{d}" stroke-width="3" fill="none"/>'
@@ -52,7 +52,7 @@ def svg_reserve(c="#157A5C", d="#2AAFC0"):
 <text x="200" y="205" text-anchor="middle" font-family="Michroma" font-size="7" fill="{c}" letter-spacing="2">WHAT THE BATTERY IS BUILT FROM</text>
 </svg>"""
 
-def svg_functional(c="#218BBE"):
+def svg_functional(c="#2A78D6"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <g fill="none" stroke="{c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 <path d="M90 60 v70 c0 20 -30 30 -40 20 c-10 -12 5 -40 20 -50 M90 60 v70 c0 20 30 30 40 20 c10 -12 -5 -40 -20 -50"/>
@@ -75,7 +75,7 @@ def svg_lab(c="#7A4A2E", r="#9C603C"):
 <text x="200" y="205" text-anchor="middle" font-family="Michroma" font-size="7" fill="{c}" letter-spacing="2">WALK IN. NO DOCTOR ORDER NEEDED.</text>
 </svg>"""
 
-def svg_rules(c="#218BBE"):
+def svg_rules(c="#2A78D6"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <g fill="none" stroke="{c}" stroke-width="3" stroke-linecap="round">
 <circle cx="120" cy="110" r="55"/><path d="M120 70 v40 l25 15"/>
@@ -88,25 +88,25 @@ def svg_rules(c="#218BBE"):
 ICONS = {"charge": svg_mito, "drain": svg_drain, "output": svg_output, "reserve": svg_reserve}
 
 CSS2 = B.CSS + """
-.divider{background:#05090C;color:#ECF3F4;height:279.4mm;width:215.9mm;padding:22mm 20mm;display:flex;flex-direction:column;justify-content:space-between}
+.divider{background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:22mm 20mm;display:flex;flex-direction:column;justify-content:space-between}
 .divider .k{font-family:'Michroma';font-size:8pt;letter-spacing:.3em}
 .divider h1{color:#fff;font-size:22pt;line-height:1.25;margin:0}
-.divider .d{font-size:13pt;color:#9FB4B8;margin-top:5mm;max-width:130mm}
+.divider .d{font-size:13pt;color:#A8A096;margin-top:5mm;max-width:130mm}
 .divider svg{width:150mm;height:auto;margin:0 auto}
-.divider .n{font-family:'Michroma';font-size:60pt;color:#13323F;line-height:1}
+.divider .n{font-family:'Michroma';font-size:60pt;color:#1A1714;line-height:1}
 .band{height:3mm;border-radius:2mm;margin:0 0 6mm}
 .mk{display:flex;gap:3.5mm;padding:2.1mm 0;border-bottom:.35pt solid #DCE4E5;page-break-inside:avoid}
 .mk .dot{width:8mm;height:8mm;border-radius:50%;flex:none;margin-top:.5mm;display:flex;align-items:center;justify-content:center;font-family:'Michroma';font-size:6.4pt;color:#fff}
 .mk .body{flex:1}
-.mk b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#13323F;display:block;margin-bottom:1mm}
+.mk b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
 .mk p{margin:0 0 .7mm;font-size:8.9pt;line-height:1.42}
 .mk i{font-style:normal;font-family:'Michroma';font-size:5.8pt;letter-spacing:.06em}
-.lab{border:.4pt solid #C3CFD0;border-left:2.5mm solid #2AAFC0;border-radius:1.5mm;padding:4mm 4mm 4mm 5mm;margin:3mm 0;page-break-inside:avoid}
-.lab h3{margin-top:0;color:#13323F}
-.lab.rec{background:rgba(42,175,192,.06)}
+.lab{border:.4pt solid #E4DED2;border-left:2.5mm solid #7A4A2E;border-radius:1.5mm;padding:4mm 4mm 4mm 5mm;margin:3mm 0;page-break-inside:avoid}
+.lab h3{margin-top:0;color:#1A1714}
+.lab.rec{background:rgba(122,74,46,.06)}
 .rulecard{display:flex;gap:4mm;padding:3mm 0;border-bottom:.35pt solid #DCE4E5}
-.rulecard .num{font-family:'Michroma';font-size:14pt;color:#218BBE;width:12mm;flex:none;line-height:1}
-.rulecard b{font-family:'Michroma';font-size:7pt;letter-spacing:.05em;color:#13323F;display:block;margin-bottom:1mm}
+.rulecard .num{font-family:'Michroma';font-size:14pt;color:#2A78D6;width:12mm;flex:none;line-height:1}
+.rulecard b{font-family:'Michroma';font-size:7pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
 .rulecard p{margin:0;font-size:9.4pt}
 .four{display:flex;gap:3mm;margin:4mm 0}
 .four>div{flex:1;border-radius:1.5mm;padding:3.5mm 3mm;color:#fff}
@@ -135,7 +135,7 @@ def divider(k, color, title, desc, svg, n):
 
 def tests_doc():
     sections = "".join(marker_pages(k, i + 1) for i, k in enumerate(["charge", "drain", "output", "reserve"]))
-    fx = "".join(card(i, "#218BBE", n, w, y) for i, (n, w, y) in enumerate(B.FUNCTIONAL))
+    fx = "".join(card(i, "#2A78D6", n, w, y) for i, (n, w, y) in enumerate(B.FUNCTIONAL))
     dr = "".join(f'<div class="rulecard"><div class="num">{i+1}</div><div><b>{n}</b><p>{w}</p></div></div>' for i, (n, w) in enumerate(B.DRAW_RULES))
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS2}</style></head><body>
@@ -149,15 +149,15 @@ def tests_doc():
 </div>
 
 <div class="page">
-  <div class="band" style="background:linear-gradient(90deg,#218BBE 25%,#6E908C 25% 50%,#2AAFC0 50% 75%,#157A5C 75%)"></div>
+  <div class="band" style="background:linear-gradient(90deg,#2A78D6 25%,#6E655C 25% 50%,#7A4A2E 50% 75%,#1BAF7A 75%)"></div>
   <div class="kicker">HOW TO READ THIS</div>
   <h1>Four systems, not thirty-three numbers</h1>
   <p class="lede">Every test on the list belongs to one of four systems. Together they tell us how well your cellular batteries are being charged, what is draining them, how much you can spend, and what they are built from.</p>
   <div class="four">
-    <div style="background:#218BBE"><h3>CHARGE</h3><p>How well fuel becomes energy. Six markers.</p></div>
-    <div style="background:#6E908C"><h3>DRAIN</h3><p>What runs in the background. Nine markers.</p></div>
-    <div style="background:#2AAFC0"><h3>OUTPUT</h3><p>What you can spend. Nine markers.</p></div>
-    <div style="background:#157A5C"><h3>RESERVE</h3><p>What you are built from. Nine markers.</p></div>
+    <div style="background:#2A78D6"><h3>CHARGE</h3><p>How well fuel becomes energy. Six markers.</p></div>
+    <div style="background:#6E655C"><h3>DRAIN</h3><p>What runs in the background. Nine markers.</p></div>
+    <div style="background:#7A4A2E"><h3>OUTPUT</h3><p>What you can spend. Nine markers.</p></div>
+    <div style="background:#1BAF7A"><h3>RESERVE</h3><p>What you are built from. Nine markers.</p></div>
   </div>
   <p>Most lab reports hand you a wall of numbers with a flag next to the ones outside "normal." We do something different. Each marker is scored against where a well-functioning body sits, not against the population average, and the scores roll up into four systems and one Battery Score. A result at the edge of normal on a standard report can be a low score here. That is the point.</p>
   <p>For each test you will see two things. <b>What it is</b>, in plain words. And <b>why we measure it</b>, which is the part most reports leave out.</p>
@@ -169,18 +169,18 @@ def tests_doc():
 
 {sections}
 
-{divider("FUNCTIONAL TESTS", "#218BBE", "What blood cannot show", "Oxygen moved, force produced, and how fast the system recovers. Four measurements you take yourself.", svg_functional(), "+")}
+{divider("FUNCTIONAL TESTS", "#2A78D6", "What blood cannot show", "Oxygen moved, force produced, and how fast the system recovers. Four measurements you take yourself.", svg_functional(), "+")}
 <div class="page">
-  <div class="band" style="background:#218BBE"></div>
-  <div class="kicker" style="color:#218BBE">FUNCTIONAL TESTS</div>
+  <div class="band" style="background:#2A78D6"></div>
+  <div class="kicker" style="color:#2A78D6">FUNCTIONAL TESTS</div>
   <h1>The four things blood cannot show</h1>
   {fx}
 </div>
 
-{divider("GETTING IT DONE", "#2AAFC0", "Where to go", "One walk-in draw. One kit in the mail. Same lab both times.", svg_lab(), "&rarr;")}
+{divider("GETTING IT DONE", "#7A4A2E", "Where to go", "One walk-in draw. One kit in the mail. Same lab both times.", svg_lab(), "&rarr;")}
 <div class="page">
-  <div class="band" style="background:#2AAFC0"></div>
-  <div class="kicker" style="color:#2AAFC0">WHERE TO GET IT DONE</div>
+  <div class="band" style="background:#7A4A2E"></div>
+  <div class="kicker" style="color:#7A4A2E">WHERE TO GET IT DONE</div>
   <h1>Getting your blood drawn</h1>
   <div class="lab rec">
     <h3>Any Lab Test Now &middot; recommended</h3>
@@ -191,30 +191,30 @@ def tests_doc():
     <h3>Other options</h3>
     <p><b>Labcorp OnDemand</b> and <b>Quest via QuestHealth.com</b> let you order online and visit their draw sites. <b>Ulta Lab Tests</b> builds custom panels at Quest locations. Any of these works. Whichever you choose, use the same one for day 90.</p>
   </div>
-  <div class="lab" style="border-left-color:#157A5C">
+  <div class="lab" style="border-left-color:#1BAF7A">
     <h3>The Omega-3 Index</h3>
     <p>Not done at the lab. Order the <b>Omega-3 Index Complete Test</b> from omegaquant.com, $109.95. It arrives in the mail. You prick your finger, put a drop on the card, and mail it back. Allow two to four weeks from ordering to result. Do it the same week as your blood draw, both times.</p>
   <p><b>Buy two at once.</b> They are $93.46 each when you buy two or more, which saves about $33, and you need one for day 0 and one for day 90. The second kit is then already in your drawer when day 90 comes.</p>
   <p><b>Buy Complete, not Basic.</b> Basic is $54.95 and reports the Omega-3 Index on its own. Complete also reports the AA to EPA ratio, which is on your panel under Drain and is the marker most likely to be missing from a standard lab menu. Saving fifty dollars here costs you a marker.</p>
   </div>
-  <div class="lab" style="border-left-color:#218BBE">
+  <div class="lab" style="border-left-color:#2A78D6">
     <h3>VO&#8322;max and grip</h3>
     <p>A VO&#8322;max lab test with a mask runs $150 to $300 at most sports performance centers and university labs. If that is not practical, your First Steps document has a step test you can do at home. Grip strength uses a small hand dynamometer, about forty dollars online, that you keep for day 90.</p>
   </div>
 </div>
 
-{divider("BEFORE THE DRAW", "#218BBE", "Keep the numbers honest", "Day 0 and day 90 only mean something if they were taken the same way.", svg_rules(), "6")}
+{divider("BEFORE THE DRAW", "#2A78D6", "Keep the numbers honest", "Day 0 and day 90 only mean something if they were taken the same way.", svg_rules(), "6")}
 <div class="page">
-  <div class="band" style="background:#218BBE"></div>
-  <div class="kicker" style="color:#218BBE">BEFORE THE DRAW</div>
+  <div class="band" style="background:#2A78D6"></div>
+  <div class="kicker" style="color:#2A78D6">BEFORE THE DRAW</div>
   <h1>Six rules</h1>
   {dr}
   <div class="rule" style="margin-top:7mm"><b>Bring this list to the lab.</b> Ask for exactly these.</div>
-  <p class="small" style="margin-top:3mm"><b style="color:#218BBE">CHARGE</b> &nbsp; fasting glucose, fasting insulin, HbA1c, triglycerides, HDL, standard lipid panel<br>
-  <b style="color:#6E908C">DRAIN</b> &nbsp; hs-CRP, GGT, ALT, AST, uric acid, CBC with differential, homocysteine, omega-3 fatty acid profile with AA and EPA, kynurenine and tryptophan<br>
-  <b style="color:#2AAFC0">OUTPUT</b> &nbsp; TSH, free T3, free T4, total testosterone, free testosterone, DHEA-S, AM cortisol, IGF-1, SHBG<br>
-  <b style="color:#157A5C">RESERVE</b> &nbsp; 25-OH vitamin D, ferritin, iron and TIBC, vitamin B12, folate, RBC magnesium, albumin<br>
-  <span style="color:#6E908C">HOMA-IR and the ratios are calculated, not drawn.</span></p>
+  <p class="small" style="margin-top:3mm"><b style="color:#2A78D6">CHARGE</b> &nbsp; fasting glucose, fasting insulin, HbA1c, triglycerides, HDL, standard lipid panel<br>
+  <b style="color:#6E655C">DRAIN</b> &nbsp; hs-CRP, GGT, ALT, AST, uric acid, CBC with differential, homocysteine, omega-3 fatty acid profile with AA and EPA, kynurenine and tryptophan<br>
+  <b style="color:#7A4A2E">OUTPUT</b> &nbsp; TSH, free T3, free T4, total testosterone, free testosterone, DHEA-S, AM cortisol, IGF-1, SHBG<br>
+  <b style="color:#1BAF7A">RESERVE</b> &nbsp; 25-OH vitamin D, ferritin, iron and TIBC, vitamin B12, folate, RBC magnesium, albumin<br>
+  <span style="color:#6E655C">HOMA-IR and the ratios are calculated, not drawn.</span></p>
   <div class="rule" style="margin-top:6mm">The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition. Any result outside the laboratory's reference range is referred to a physician.</div>
 </div>
 

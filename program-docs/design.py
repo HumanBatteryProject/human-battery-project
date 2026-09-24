@@ -2,38 +2,38 @@ import math
 # Shared design pieces for every Human Battery PDF.
 # Inline SVG only, brand palette only, no raster, no stock.
 
-BLUE, TEAL, GREEN, STEEL, COPPER, NAVY, ICE = "#218BBE", "#2AAFC0", "#157A5C", "#6E655C", "#9C603C", "#0E1424", "#FBF9F5"
+BLUE, TEAL, GREEN, STEEL, COPPER, NAVY, ICE = "#2A78D6", "#7A4A2E", "#1BAF7A", "#6E655C", "#9C603C", "#0E1424", "#FBF9F5"
 
 EXTRA_CSS = """
-.divider{background:#05090C;color:#ECF3F4;height:279.4mm;width:215.9mm;padding:22mm 20mm;display:flex;flex-direction:column;justify-content:space-between}
+.divider{background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:22mm 20mm;display:flex;flex-direction:column;justify-content:space-between}
 .divider .k{font-family:'Michroma';font-size:8pt;letter-spacing:.3em}
-.divider h1{color:#fff;font-size:22pt;line-height:1.25;margin:0}
-.divider .d{font-size:13pt;color:#9FB4B8;margin-top:5mm;max-width:130mm;line-height:1.45}
+.divider h1{color:#F6F1E7;font-size:22pt;line-height:1.25;margin:0}
+.divider .d{font-size:13pt;color:#A8A096;margin-top:5mm;max-width:130mm;line-height:1.45}
 .divider svg{width:150mm;height:auto;margin:0 auto}
-.divider .n{font-family:'Michroma';font-size:60pt;color:#13323F;line-height:1}
+.divider .n{font-family:'Michroma';font-size:60pt;color:#1A1714;line-height:1}
 .band{height:3mm;border-radius:2mm;margin:0 0 6mm}
 .card{display:flex;gap:3.5mm;padding:2.4mm 0;border-bottom:.35pt solid #DCE4E5;page-break-inside:avoid}
 .card .dot{width:8mm;height:8mm;border-radius:50%;flex:none;margin-top:.5mm;display:flex;align-items:center;justify-content:center;font-family:'Michroma';font-size:6.2pt;color:#fff}
 .card .body{flex:1}
-.card b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#13323F;display:block;margin-bottom:1mm}
+.card b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
 .card p{margin:0 0 .8mm;font-size:9pt;line-height:1.45}
 .card i{font-style:normal;font-family:'Michroma';font-size:5.8pt;letter-spacing:.06em}
-.tile{border:.4pt solid #C3CFD0;border-left:2.5mm solid #218BBE;border-radius:1.5mm;padding:3.5mm 4mm 3.5mm 5mm;margin:2.5mm 0;page-break-inside:avoid}
-.tile h3{margin:0 0 1.5mm;color:#13323F}
+.tile{border:.4pt solid #E4DED2;border-left:2.5mm solid #2A78D6;border-radius:1.5mm;padding:3.5mm 4mm 3.5mm 5mm;margin:2.5mm 0;page-break-inside:avoid}
+.tile h3{margin:0 0 1.5mm;color:#1A1714}
 .tile p{margin:0 0 1mm;font-size:9.2pt;line-height:1.48}
-.tile.soft{background:rgba(33,139,190,.05)}
+.tile.soft{background:#F4EFE4}
 .grid2{display:flex;gap:3mm}
 .grid2>div{flex:1}
 .chips{display:flex;flex-wrap:wrap;gap:1.6mm;margin:2mm 0}
-.chip{font-size:8.6pt;padding:1.4mm 2.6mm;border-radius:10mm;border:.4pt solid #C3CFD0;color:#13323F}
+.chip{font-size:8.6pt;padding:1.4mm 2.6mm;border-radius:10mm;border:.4pt solid #E4DED2;color:#1A1714}
 .chip.no{border-color:#A32E22;color:#A32E22}
-.chip.yes{border-color:#157A5C;color:#157A5C}
+.chip.yes{border-color:#1BAF7A;color:#1BAF7A}
 .tierrow{display:flex;gap:3mm;margin-top:3mm}
 .tierrow>div{flex:1;border-radius:1.5mm;padding:3.2mm 3mm;color:#fff}
 .tierrow h3{margin:0 0 1.6mm;font-size:6.6pt;color:#fff}
 .tierrow p{font-size:8.2pt;margin:0;line-height:1.42;color:rgba(255,255,255,.92)}
-.why{font-size:9.2pt;color:#3D5A63;margin-bottom:3.2mm}.fourq{font-size:7.4pt;line-height:1.45;color:#6E908C;margin:2mm 0 4mm;padding-left:3mm;border-left:1.5pt solid #B6BDBC}.fourq.flagged{color:#5E3823;border-left-color:#7A4A2E}
-.stepnum{font-family:'Michroma';font-size:14pt;color:#218BBE;width:12mm;flex:none;line-height:1}
+.why{font-size:9.2pt;color:#6E655C;margin-bottom:3.2mm}.fourq{font-size:7.4pt;line-height:1.45;color:#6E655C;margin:2mm 0 4mm;padding-left:3mm;border-left:1.5pt solid #6E655C}.fourq.flagged{color:#5E3823;border-left-color:#7A4A2E}
+.stepnum{font-family:'Michroma';font-size:14pt;color:#2A78D6;width:12mm;flex:none;line-height:1}
 """
 
 def divider(kicker, color, title, desc, svg, n):
