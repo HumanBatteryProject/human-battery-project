@@ -184,6 +184,7 @@ def tests_doc():
   <h1>Getting your blood drawn</h1>
   <div class="lab rec">
     <h3>What to look for in a draw site</h3>
+    <p><b>Your Human Battery Score is identical at every panel. Higher panels add context, not points.</b></p>
     <p>The specification, and any provider meeting it will do: walk-in or same-week appointments, no physician order required, a custom panel built from a marker list you bring, and samples sent to a national reference laboratory. Several national chains and online-order services meet all four, and most cities have at least one.</p>
     <p>Some markers may not be on a standard menu. RBC magnesium, the AA to EPA ratio and the kynurenine to tryptophan ratio are the ones most likely to need a special request. Ask. If a marker genuinely cannot be run, the program excludes it from your score rather than guessing, so you are not penalized.</p>
   </div>

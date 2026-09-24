@@ -73,6 +73,19 @@ export async function onRequestPost({ request, env }) {
   const results = Array.isArray(body.results) ? body.results : [];
   if (!clientId || !results.length) return json({ error: 'client_id and results required' }, 400);
 
+  // A4: the member's declared panel. A marker outside it is "not in your
+  // panel", never "missing" and never "out of range". That distinction is the
+  // difference between a choice the member made and a failure they did not.
+  const { data: mem } = await sb.from('memberships')
+    .select('panel_id').eq('client_id', clientId).is('completed_on', null).maybeSingle();
+  const declaredPanel = (mem && mem.panel_id) || null;
+  let inPanel = null;
+  if (declaredPanel) {
+    const { data: pm } = await sb.from('lab_panel_markers')
+      .select('marker_id').eq('panel_id', declaredPanel);
+    inPanel = new Set((pm || []).map(r => r.marker_id));
+  }
+
   const { data: markers } = await sb.from('lab_markers')
     .select('id, slug, name, unit, dimension, role, ref_low, ref_high, optimal_low, optimal_high, better_direction, specimen');
   const bySlug = new Map((markers || []).map(m => [m.slug, m]));
@@ -123,7 +136,10 @@ export async function onRequestPost({ request, env }) {
 
   const dimOut = [];
   for (const d of (dims || [])) {
-    const expected = scoredMarkers.filter(m => m.dimension === d.dimension);
+    // only markers the member's panel actually includes are EXPECTED. A
+    // marker they never ordered must not count against their coverage.
+    const expected = scoredMarkers.filter(m => m.dimension === d.dimension
+      && (!inPanel || inPanel.has(m.id)));
     if (!expected.length) { dimOut.push({ dimension: d.dimension, score: null,
       expected: 0, present: 0, note: 'no lab markers; measured by functional tests or logs' }); continue; }
     const present = accepted.filter(a => a.marker.dimension === d.dimension && a.marker.role === 'scored');
@@ -155,6 +171,7 @@ export async function onRequestPost({ request, env }) {
     });
     const top = (hits || [])[0] || null;
     lines.push({
+      in_panel: inPanel ? inPanel.has(a.marker.id) : null,
       slug: a.marker.slug, name: a.marker.name, value: a.value, unit: a.unit,
       flag: a.flag, role: a.marker.role, dimension: a.marker.dimension,
       conversion: a.conversion,
@@ -190,7 +207,17 @@ export async function onRequestPost({ request, env }) {
     await finishRun(env, runId, 'error', { error: String(e).slice(0, 400) });
   }
 
+  // markers the panel includes that did not arrive, and markers outside it
+  const notInPanel = inPanel
+    ? (markers || []).filter(m => !inPanel.has(m.id)).map(m => m.slug) : [];
+  const orderedButMissing = inPanel
+    ? (markers || []).filter(m => inPanel.has(m.id)
+        && !accepted.some(a => a.marker.id === m.id)).map(m => m.slug) : [];
+
   return json({
+    panel_id: declaredPanel,
+    not_in_your_panel: notInPanel,
+    in_your_panel_but_not_reported: orderedButMissing,
     accepted: accepted.length, held: held.length,
     held_detail: held,
     dimensions: dimOut,

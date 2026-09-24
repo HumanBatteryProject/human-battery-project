@@ -39,7 +39,8 @@ STEPS = [
  ("Book your blood test",
   """<p>Book a walk-in blood draw yourself. The specification: a draw site that accepts patients without a physician order, lets you request a custom panel from a marker list, and sends to a national reference laboratory. Several national chains meet this and most cities have one.</p>
 <p><b>Do not eat for 12 hours before. Go in the morning.</b> Water is fine. Some of these numbers move as the day goes on, so a test at 11am does not match a test at 7am. Pick a morning time. Book the same time again at day 90.</p>
-<p>Your tier document lists what to ask for. Take the list with you.</p>"""),
+<p>Your tier document lists what to ask for. Take the list with you.</p>
+<p><b>Your Human Battery Score is identical at every panel. Higher panels add context, not points.</b></p>"""),
  ("Prick your finger and mail the card",
   """<p>When the kit comes, prick your finger, put the drop on the card, and mail it the same day. The envelope is already paid for.</p>
 <p><b>This is the one that decides whether you can start.</b> The card has to be in the mail before day 1. The result comes back in your first two weeks and that is fine. The drop is fixed the moment you take it, so a result that shows up later is still your day 0 number.</p>
