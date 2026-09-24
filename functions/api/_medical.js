@@ -21,7 +21,7 @@ export const SCREENING_ROWS = [
     flag: 'Any eating window change: levothyroxine is taken fasting and a moved window moves the dose. Physician clearance.',
     match: /\bthyroid|levothyroxine|synthroid|armour thyroid|liothyronine\b/i },
   { on: 'Blood pressure medication',
-    flag: 'Sauna and cold, both of which move blood pressure acutely.',
+    flag: 'Sauna and cold, both of which move blood pressure acutely. Physician clearance.',
     match: /\bblood pressure|antihypertens|lisinopril|amlodipine|losartan|metoprolol|beta blocker\b/i },
   { on: 'Diabetes medication',
     flag: 'Any eating window change. Physician clearance.',

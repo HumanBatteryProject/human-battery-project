@@ -474,7 +474,7 @@ This section is for the coach. It runs before anyone starts, and it is a rule.
 |---|---|
 | Anticoagulants | The oily fish target, which is a real omega-3 load from food. Physician clearance. |
 | Thyroid medication | Any eating window change: levothyroxine is taken fasting and a moved window moves the dose. Physician clearance. |
-| Blood pressure medication | Sauna and cold, both of which move blood pressure acutely. |
+| Blood pressure medication | Sauna and cold, both of which move blood pressure acutely. Physician clearance. |
 | Diabetes medication | Any eating window change. Physician clearance. |
 | Lithium | Sauna and heavy sweating, which concentrate the drug. Physician clearance. |
 | Diuretics, or a sodium-restricted diet | The morning glass and the salt added to every bottle. Physician clearance. |
