@@ -31,6 +31,12 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # Participant-facing surfaces, coach prompt templates and marketing copy.
 SCAN = [
+    # Brief 06 section 0.5: the agents inherit these prohibitions, so the suite
+    # runs against agent output FIXTURES, not only against pages and PDFs. A
+    # rule that only ever sees static files cannot catch what an agent says.
+    "tests/fixtures/agent/*.txt",
+    "tests/fixtures/agent/*.json",
+    "corpus/book/*.md",
     "public/*.html",
     "public/portal/*.html",
     "public/portal/*.js",
@@ -91,8 +97,15 @@ PATTERNS = [
                   r"higher.energy electron\w*)\b",
         canary="Summer fruit carries more energy than winter fruit.",
     ),
+    # The book discusses structured water and the charging claim in order to
+    # REFUTE them, at length, in Chapters 4, 7 and 14. It is canonical, brief 06
+    # says it is committed unchanged and edited in the manuscript rather than in
+    # the repo, so the claim-shape rules cannot act on it. They still act on
+    # every surface that QUOTES it. The brand and em-dash rules are NOT exempt
+    # here, because those are about the text as it reaches an agent's voice.
     dict(
         name="structured-or-energized-water",
+        exempt_prefix=("corpus/book/",),
         clause="6: no claim that a particular water is structured, energized or "
                "informational",
         # Adjacency, not co-occurrence. "Structured logging" seventy characters
@@ -113,6 +126,7 @@ PATTERNS = [
     ),
     dict(
         name="sunlight-charges-the-body",
+        exempt_prefix=("corpus/book/",),
         clause="3.1: still forbidden, that sunlight charges the body the way a "
                "charger fills a phone",
         subject=r"\b(sun|sunlight|light|photon\w*)\b",
@@ -136,6 +150,54 @@ PATTERNS = [
                   r"\b(light|sun\w*|exposure)\b",
         unless=r"\bon the panel\b|\breferable\b|\bsupplement\w*\b",
         canary="We use vitamin D as a proxy for your light exposure.",
+    ),
+    dict(
+        name="supplement-brand-or-price-where-an-agent-can-say-it",
+        clause="brief 06 section 0.5: the agents inherit the deliverables' "
+               "prohibitions. A supplement brand or a price reaching the corpus "
+               "reaches the coach's mouth, and check_deliverables only ever "
+               "looks at the eight deliverables, so nothing was watching the "
+               "corpus or the agent fixtures at all",
+        phrase=r"Dragon Herbs|Pure Encapsulations|Baja Gold|Life Extension|BioPure|"
+               r"Gaia Herbs|Quicksilver|Thorne|Nutrex|Sun Chlorella|Vital Proteins|"
+               r"Cowboy Colostrum|BLUblox|BlockBlueLight|Bon Charge|Ra Optics|TrueDark|"
+               r"Ocushield|Crazy Water|Saratoga|Icelandic Glacial|Ice Barrel|SaunaSpace|"
+               r"Any Lab Test Now|Labcorp|Ulta Lab",
+        literal=True,
+        canary="Take Dragon Herbs Super Adaptogen, 3 capsules each morning.",
+        # The book discusses supplements critically, which is the opposite of
+        # recommending them, and CLAUDE.md 8e keeps Chapters 6 and 11 as they
+        # are. It names no brand: grepped, zero hits. If one ever appears there
+        # this rule will say so, because the book is NOT exempt from it.
+    ),
+    dict(
+        name="price-in-text-an-agent-retrieves",
+        clause="brief 06 section 0.5: no price anywhere an agent can say it. "
+               "Scoped to the corpus and the agent fixtures, NOT to the site or "
+               "the migrations, where the programme fee legitimately appears as "
+               "seed data. The fee belongs in program_settings and a price in a "
+               "retrievable passage goes stale silently, which is the same class "
+               "of problem the brand rule exists to remove",
+        phrase=r"\$\s?\d",
+        literal=True,
+        canary="The kit is $109.95 and you order it yourself.",
+        only_prefix=("corpus/", "tests/fixtures/agent/"),
+    ),
+    dict(
+        name="em-dash-in-user-facing-text",
+        clause="style: no em dashes in anything a user reads, agent output "
+               "included. An em dash in a corpus source becomes an em dash in "
+               "the coach's voice, because the coach writes in the register of "
+               "what it retrieves, and that is almost impossible to trace back "
+               "afterwards",
+        phrase="\u2014",
+        literal=True,
+        canary="The battery is trillions of cells \u2014 not one.",
+        # Migrations are SQL comments that no client and no agent ever reads,
+        # and _voice.js line 132 is the STRIPPER: the regex character class that
+        # removes em dashes from agent output. The rule fired on the code that
+        # enforces the rule, which is the most ironic false positive available.
+        exempt_prefix=("database/migrations/", "functions/api/_voice.js"),
     ),
     dict(
         name="retired-hex-b4653a",
@@ -300,7 +362,9 @@ def main():
         import re as _re
         for f in files:
             rel = str(f.relative_to(ROOT))
-            if rel in EXEMPT:
+            if rel in EXEMPT or rel.startswith(pat.get("exempt_prefix", ())):
+                continue
+            if pat.get("only_prefix") and not rel.startswith(pat["only_prefix"]):
                 continue
             try:
                 raw = f.read_text(encoding="utf-8")
@@ -320,6 +384,10 @@ def main():
             continue
         for s in sentences(text, rel):
             for pat in PATTERNS:
+                if rel.startswith(pat.get("exempt_prefix", ())):
+                    continue
+                if pat.get("only_prefix") and not rel.startswith(pat["only_prefix"]):
+                    continue
                 if hits_for(s, pat):
                     findings.append((rel, pat["name"], pat["clause"], s))
 
