@@ -633,7 +633,7 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 | **Router** | Mechanical outlet timer, off 10pm to 6am. Twelve dollars. |
 | **Phone** | Airplane mode at night, and out of the bedroom. |
 | **Bedroom** | Nothing plugged in within six feet of the bed. |
-| **Grounding** | Earthing.com or Hooga grounding sheet for the bed, grounding mat under the desk. Confirm the outlet is actually grounded with a three-dollar outlet tester first. |
+| **Grounding, optional** | Not a required part of the protocol. Evidence tier: hypothesis, and the author's working model rather than a position held in the literature. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Confirm the outlet is actually grounded with a three-dollar outlet tester first. No brand is named and no commission is taken on anything in this protocol. |
 
 ## Water
 
