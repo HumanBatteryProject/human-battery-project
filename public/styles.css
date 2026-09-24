@@ -72,6 +72,20 @@
      three chart tokens. That is interim, not a fourth data colour: it
      goes away when the dimensions land and these are named once.
      ------------------------------------------------------------------ */
+
+  /* ONE OF THESE FORTY-THREE USES WAS UNHELD, DELIBERATELY.
+
+     The hero illustration on the home page is NOT in this held set. It was,
+     and that was reasoning about a count instead of about where the uses
+     appear. Holding is right for a dashboard series, which encodes four
+     things that are about to be renamed by the dimension migration. It is
+     wrong for a brand image, which encodes nothing, has no dependency on the
+     marker mapping, and is the largest thing a visitor sees.
+
+     So the atom takes copper and the dawn accents, not chart tokens: it does
+     not need four distinguishable series because it is not showing four
+     things. Its gradients live in public/index.html and public/science.html.
+     The other forty-two uses stay held here until the mapping lands. */
   --blue:var(--chart-2);        /* charge  */
   --copper:var(--chart-1);      /* drain   */
   --teal:var(--copper-light);   /* output  */
@@ -137,7 +151,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 img,svg{max-width:100%;height:auto}
-a{color:var(--copper-light);text-decoration:none;border-bottom:1px solid rgba(42,175,192,.4)}
+a{color:var(--copper-light);text-decoration:none;border-bottom:1px solid rgba(217,168,122,.4)}
 a:hover{border-bottom-color:var(--copper-light)}
 :focus-visible{outline:2px solid var(--copper-light);outline-offset:3px}
 
@@ -436,9 +450,9 @@ footer p{max-width:var(--measure);margin:0}
       unsupported), so the markup is stale regardless of colour.
    I swept .tier-1 to copper-light by accident and reverted it: it collapsed
    tier-1 and tier-3 into the same copper. */
-.tier-1{color:var(--teal);border-color:rgba(42,175,192,.45)}
-.tier-2{color:var(--silver);border-color:rgba(182,189,188,.35)}
-.tier-3{color:var(--copper);border-color:rgba(180,101,58,.5)}
+.tier-1{color:var(--teal);border-color:rgba(217,168,122,.45)}
+.tier-2{color:var(--silver);border-color:rgba(168,160,150,.35)}
+.tier-3{color:var(--copper);border-color:rgba(210,115,47,.5)}
 
 .layers{margin-top:2.2rem;border-top:1px solid var(--rule)}
 .layer{display:grid;gap:.5rem 1.4rem;padding:1.25rem 0;border-bottom:1px solid var(--rule)}
@@ -456,7 +470,7 @@ footer p{max-width:var(--measure);margin:0}
 .pcell .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:.55rem;vertical-align:.08em}
 .pcell h3{display:inline-block;margin:0 0 .7rem}
 .pcell ul{list-style:none;padding:0;margin:0}
-.pcell li{font-size:var(--fs-base);color:var(--steel);line-height:var(--lh-card);border-bottom:1px solid rgba(182,189,188,.08);padding:.24rem 0}
+.pcell li{font-size:var(--fs-base);color:var(--steel);line-height:var(--lh-card);border-bottom:1px solid rgba(168,160,150,.08);padding:.24rem 0}
 .pcell li:last-child{border-bottom:0}
 .pcell li b{color:#CBD9DA;font-weight:600}
 
@@ -488,7 +502,7 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .sci{margin-top:1.9rem;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 .sci summary{cursor:pointer;list-style:none;padding:.95rem 1.1rem;display:flex;align-items:center;
              gap:.7rem;font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--copper-light);
-             background:rgba(42,175,192,.06)}
+             background:rgba(217,168,122,.06)}
 .sci summary::-webkit-details-marker{display:none}
 .sci summary::before{content:"+";font-size:var(--fs-h3);line-height:1;color:var(--copper-light);width:.8rem}
 .sci[open] summary::before{content:"−"}
@@ -557,7 +571,7 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
   display:grid;gap:.1rem;box-shadow:0 12px 34px rgba(0,0,0,.55)}
 .menu-panel a{display:block;padding:.55rem .7rem;color:var(--ice);border:0;border-radius:2px;
   font-size:var(--fs-sm);line-height:1.35}
-.menu-panel a:hover,.menu-panel a:focus-visible{background:rgba(33,139,190,.2);color:#fff}
+.menu-panel a:hover,.menu-panel a:focus-visible{background:rgba(57,135,229,.2);color:#fff}
 
 /* ---- version switch ----
    The two pages carry the same h1 and the same mark, so nothing in the hero
@@ -570,7 +584,7 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
   text-transform:uppercase;color:var(--steel);padding:.5rem .7rem;
   border:0;white-space:nowrap;background:transparent}
 .vswitch a + a{border-left:1px solid var(--rule-2)}
-.vswitch a:hover{color:var(--ice);background:rgba(33,139,190,.14)}
+.vswitch a:hover{color:var(--ice);background:rgba(57,135,229,.14)}
 .vswitch a[aria-current="page"]{color:#fff;background:var(--blue-lo)}
 @media(max-width:640px){.menu-panel{left:auto;right:0}}
 /* a sticky header would otherwise cover the heading you jumped to */
@@ -603,7 +617,7 @@ section[id]{scroll-margin-top:5.5rem}
   gap:.85rem;max-width:none}
 .bar-name{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--silver)}
-.bar-track{height:8px;background:rgba(182,189,188,.14);border-radius:2px;overflow:hidden}
+.bar-track{height:8px;background:rgba(168,160,150,.14);border-radius:2px;overflow:hidden}
 .bar-fill{display:block;height:100%;border-radius:2px}
 .bar-num{font-family:var(--display);font-size:var(--fs-sm);color:#fff;text-align:right}
 /* O4 colours, the same four everywhere on the site. */
@@ -621,7 +635,7 @@ section[id]{scroll-margin-top:5.5rem}
   text-transform:uppercase;color:var(--steel);margin:0 0 .9rem}
 .compare-col ul{list-style:none;padding:0;margin:0}
 .compare-col li{display:flex;justify-content:space-between;gap:1rem;padding:.4rem 0;
-  border-bottom:1px solid rgba(182,189,188,.08);font-size:var(--fs-sm);color:#BFCDCE;max-width:none}
+  border-bottom:1px solid rgba(168,160,150,.08);font-size:var(--fs-sm);color:#BFCDCE;max-width:none}
 .compare-col li:last-child{border-bottom:0}
 .compare-col b{color:#fff;font-weight:600}
 .compare-col i{font-style:normal;color:var(--steel);font-size:var(--fs-xs)}
@@ -683,12 +697,12 @@ section[id]{scroll-margin-top:5.5rem}
   line-height:1;vertical-align:super;margin-left:.18em;padding:.18em .32em;
   border:1px solid var(--rule-2);border-radius:2px;color:var(--copper-light);
   text-decoration:none;border-bottom:1px solid var(--rule-2)}
-.cite:hover{border-color:var(--copper-light);background:rgba(42,175,192,.12)}
+.cite:hover{border-color:var(--copper-light);background:rgba(217,168,122,.12)}
 
 .refs{margin:2.6rem 0 0;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
 .refs > summary{cursor:pointer;list-style:none;padding:1rem 1.15rem;
   font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
-  text-transform:uppercase;color:var(--copper-light);background:rgba(42,175,192,.06);
+  text-transform:uppercase;color:var(--copper-light);background:rgba(217,168,122,.06);
   display:flex;align-items:center;gap:.6rem}
 .refs > summary::-webkit-details-marker{display:none}
 .refs > summary::before{content:"+";font-size:var(--fs-h3);line-height:1;width:.8rem}
@@ -696,7 +710,7 @@ section[id]{scroll-margin-top:5.5rem}
 .cite-list{list-style:none;padding:0;margin:0}
 .cite-list > li{padding:1.2rem 1.3rem;border-top:1px solid var(--rule)}
 .cite-list > li:first-child{border-top:0}
-.cite-list > li:target{background:rgba(42,175,192,.07)}
+.cite-list > li:target{background:rgba(217,168,122,.07)}
 .cite-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:0 0 .5rem;
   font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:var(--steel);max-width:none}
@@ -743,7 +757,7 @@ section[id]{scroll-margin-top:5.5rem}
 .quad[data-sys="drain"] summary{border-left-color:var(--copper)}
 .quad[data-sys="output"] summary{border-left-color:var(--teal)}
 .quad[data-sys="reserve"] summary{border-left-color:var(--green)}
-.quad summary:hover{background:rgba(33,139,190,.08)}
+.quad summary:hover{background:rgba(57,135,229,.08)}
 .quad-name{font-family:var(--display);font-size:var(--fs-h3);letter-spacing:var(--ls-label);
   text-transform:uppercase;color:#fff}
 .quad-count{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
@@ -753,7 +767,7 @@ section[id]{scroll-margin-top:5.5rem}
 .quad-list{list-style:none;padding:0 1.3rem 1.3rem 1.6rem;margin:0}
 .quad-list li{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
   font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);padding:.3rem 0;
-  border-bottom:1px solid rgba(182,189,188,.08);max-width:none}
+  border-bottom:1px solid rgba(168,160,150,.08);max-width:none}
 .quad-list li:last-child{border-bottom:0}
 .quad-unit{font-size:var(--fs-xs);color:var(--steel);opacity:.7;white-space:nowrap}
 
@@ -801,7 +815,7 @@ section[id]{scroll-margin-top:5.5rem}
 .flow-list li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;
   border-radius:50%;background:var(--rule-2)}
 .flow-step:nth-child(2) .flow-when{color:var(--copper-light)}
-.flow-step:nth-child(2) .flow-list li::before{background:rgba(42,175,192,.5)}
+.flow-step:nth-child(2) .flow-list li::before{background:rgba(217,168,122,.5)}
 .flow-step:nth-child(3) .flow-when{color:var(--ink-muted)}
 
 /* The line the brief asks to become a primary brand statement. */

@@ -171,6 +171,19 @@ PATTERNS = [
         canary='<span class="dot" style="color:#3FA97D" aria-hidden="true"></span>',
     ),
     dict(
+        name="more-than-one-amber-per-view",
+        clause="2 and the README: ONE dawn-amber moment per view. A single "
+               "figure, a single call to action, a single rule. Amber "
+               "everywhere turns this into a finance dashboard, which is the "
+               "only way the direction fails",
+        # Counted per FILE rather than per sentence, because "per view" is a
+        # property of the page, not of a line. Any file naming the amber more
+        # than twice is placing more than one moment: twice covers a token
+        # definition plus a single use.
+        per_file=dict(pattern=r"#E8A24A|--dawn-amber|dawn-amber", limit=2),
+        canary="#E8A24A #E8A24A #E8A24A",
+    ),
+    dict(
         name="measuring-cellular-charge-or-redox",
         clause="6: no feature claiming to measure cellular charge or redox state "
                "in a participant",
@@ -225,6 +238,8 @@ PROXIMITY = 120
 
 
 def hits_for(sentence, pat):
+    if pat.get("per_file"):
+        return False
     unless = pat.get("unless")
     if unless and re.search(unless, sentence, re.I):
         return False
@@ -257,6 +272,12 @@ def main():
     # ---- canaries first. A checker that cannot fail is not a checker. ----
     broken = []
     for pat in PATTERNS:
+        pf = pat.get("per_file")
+        if pf:
+            import re as _re
+            if len(_re.findall(pf["pattern"], pat["canary"], _re.I)) <= pf["limit"]:
+                broken.append(pat["name"])
+            continue
         if not hits_for(pat["canary"], pat):
             broken.append(pat["name"])
     if broken:
@@ -272,6 +293,23 @@ def main():
         files.extend(sorted(ROOT.glob(g)))
 
     findings = []
+    for pat in PATTERNS:
+        pf = pat.get("per_file")
+        if not pf:
+            continue
+        import re as _re
+        for f in files:
+            rel = str(f.relative_to(ROOT))
+            if rel in EXEMPT:
+                continue
+            try:
+                raw = f.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            n = len(_re.findall(pf["pattern"], raw, _re.I))
+            if n > pf["limit"]:
+                findings.append((rel, pat["name"], pat["clause"],
+                                 "%d occurrences, limit %d" % (n, pf["limit"])))
     for f in files:
         rel = str(f.relative_to(ROOT))
         if rel in EXEMPT:

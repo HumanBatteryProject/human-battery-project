@@ -233,10 +233,10 @@ if (!m || !m.day_zero) {
     const dot = document.createElement('div');
     const score = rec ? (rec.daily_five_score ?? 0) : null;
     dot.style.cssText = 'flex:1;height:24px;border-radius:2px;' +
-      (score === null ? 'background:rgba(182,189,188,.14)'
+      (score === null ? 'background:rgba(168,160,150,.14)'
        : score >= 4 ? 'background:#3987E5'
-       : score >= 2 ? 'background:rgba(33,139,190,.55)'
-       : 'background:rgba(180,101,58,.5)');
+       : score >= 2 ? 'background:rgba(57,135,229,.55)'
+       : 'background:rgba(210,115,47,.5)');
     dot.title = key + (rec ? ', ' + score + '/5' : ', not logged');
     dots.appendChild(dot);
   }

@@ -70,6 +70,20 @@
      three chart tokens. That is interim, not a fourth data colour: it
      goes away when the dimensions land and these are named once.
      ------------------------------------------------------------------ */
+
+  /* ONE OF THESE FORTY-THREE USES WAS UNHELD, DELIBERATELY.
+
+     The hero illustration on the home page is NOT in this held set. It was,
+     and that was reasoning about a count instead of about where the uses
+     appear. Holding is right for a dashboard series, which encodes four
+     things that are about to be renamed by the dimension migration. It is
+     wrong for a brand image, which encodes nothing, has no dependency on the
+     marker mapping, and is the largest thing a visitor sees.
+
+     So the atom takes copper and the dawn accents, not chart tokens: it does
+     not need four distinguishable series because it is not showing four
+     things. Its gradients live in public/index.html and public/science.html.
+     The other forty-two uses stay held here until the mapping lands. */
   --blue:var(--chart-2);        /* charge  */
   --copper:var(--chart-1);      /* drain   */
   --teal:var(--copper-light);   /* output  */
@@ -161,7 +175,7 @@ main{padding:1.4rem 0 5.5rem}
 
 /* cards */
 .card{border:1px solid var(--rule);border-radius:4px;padding:1.15rem 1.05rem;margin-bottom:1rem;
-      background:rgba(14,37,48,.35)}
+      background:rgba(28,39,66,.35)}
 .card.flat{background:transparent}
 
 /* big status */
@@ -189,7 +203,7 @@ main{padding:1.4rem 0 5.5rem}
      text-transform:uppercase;padding:.85rem 1.2rem;border:1px solid var(--rule-2);border-radius:3px;
      color:var(--ice);background:transparent;cursor:pointer;width:100%;
      transition:background .15s,border-color .15s}
-.btn:hover{background:rgba(33,139,190,.14);border-color:var(--blue)}
+.btn:hover{background:rgba(57,135,229,.14);border-color:var(--blue)}
 .btn-solid{background:var(--blue-lo);border-color:var(--blue)}
 .btn-solid:hover{background:var(--blue)}
 /* Small only in PADDING. The label size is the shared step, like every
@@ -205,7 +219,7 @@ main{padding:1.4rem 0 5.5rem}
 .chip:active{transform:scale(.97)}
 .chip.on{background:var(--blue-lo);border-color:var(--blue);color:#fff}
 .chip.off-protocol.on{background:rgba(217,164,65,.28);border-color:var(--status-warn);color:#F0C4AC}
-.chip.tier-daily{border-color:rgba(42,175,192,.45)}
+.chip.tier-daily{border-color:rgba(217,168,122,.45)}
 
 /* scale 0-4 */
 .scale5{display:flex;gap:.4rem;margin-top:.5rem}
