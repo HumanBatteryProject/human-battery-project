@@ -38,7 +38,7 @@ def render_tier(key):
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{B.CSS}{D.EXTRA_CSS}
 h3{{color:#218BBE}}
-.rule{{border-left:2px solid #B4653A}}
+.rule{{border-left:2px solid #7A4A2E}}
 </style></head><body>
 <div class="page cover">
   <img src="lockup-dark.png">

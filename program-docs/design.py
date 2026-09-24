@@ -2,7 +2,7 @@ import math
 # Shared design pieces for every Human Battery PDF.
 # Inline SVG only, brand palette only, no raster, no stock.
 
-BLUE, TEAL, GREEN, STEEL, COPPER, NAVY, ICE = "#218BBE", "#2AAFC0", "#157A5C", "#6E908C", "#B4653A", "#13323F", "#ECF3F4"
+BLUE, TEAL, GREEN, STEEL, COPPER, NAVY, ICE = "#218BBE", "#2AAFC0", "#157A5C", "#6E655C", "#9C603C", "#0E1424", "#FBF9F5"
 
 EXTRA_CSS = """
 .divider{background:#05090C;color:#ECF3F4;height:279.4mm;width:215.9mm;padding:22mm 20mm;display:flex;flex-direction:column;justify-content:space-between}
@@ -26,13 +26,13 @@ EXTRA_CSS = """
 .grid2>div{flex:1}
 .chips{display:flex;flex-wrap:wrap;gap:1.6mm;margin:2mm 0}
 .chip{font-size:8.6pt;padding:1.4mm 2.6mm;border-radius:10mm;border:.4pt solid #C3CFD0;color:#13323F}
-.chip.no{border-color:#B4653A;color:#B4653A}
+.chip.no{border-color:#C25A3A;color:#5E3823}
 .chip.yes{border-color:#157A5C;color:#157A5C}
 .tierrow{display:flex;gap:3mm;margin-top:3mm}
 .tierrow>div{flex:1;border-radius:1.5mm;padding:3.2mm 3mm;color:#fff}
 .tierrow h3{margin:0 0 1.6mm;font-size:6.6pt;color:#fff}
 .tierrow p{font-size:8.2pt;margin:0;line-height:1.42;color:rgba(255,255,255,.92)}
-.why{font-size:9.2pt;color:#3D5A63;margin-bottom:3.2mm}.fourq{font-size:7.4pt;line-height:1.45;color:#6E908C;margin:2mm 0 4mm;padding-left:3mm;border-left:1.5pt solid #B6BDBC}.fourq.flagged{color:#B4653A;border-left-color:#B4653A}
+.why{font-size:9.2pt;color:#3D5A63;margin-bottom:3.2mm}.fourq{font-size:7.4pt;line-height:1.45;color:#6E908C;margin:2mm 0 4mm;padding-left:3mm;border-left:1.5pt solid #B6BDBC}.fourq.flagged{color:#5E3823;border-left-color:#7A4A2E}
 .stepnum{font-family:'Michroma';font-size:14pt;color:#218BBE;width:12mm;flex:none;line-height:1}
 """
 

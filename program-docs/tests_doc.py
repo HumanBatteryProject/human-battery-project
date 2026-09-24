@@ -16,7 +16,7 @@ def svg_mito(c="#218BBE"):
 <text x="200" y="212" text-anchor="middle" font-family="Michroma" font-size="9" fill="{c}" letter-spacing="2">PROTONS PUMPED ACROSS THE MEMBRANE</text>
 </svg>"""
 
-def svg_drain(c="#6E908C", warn="#B4653A"):
+def svg_drain(c="#6E655C", warn="#9C603C"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <rect x="70" y="60" width="240" height="100" rx="12" fill="none" stroke="{c}" stroke-width="3"/>
 <rect x="310" y="90" width="18" height="40" rx="4" fill="{c}"/>
@@ -64,7 +64,7 @@ def svg_functional(c="#218BBE"):
 <text x="200" y="40" text-anchor="middle" font-family="Michroma" font-size="9" fill="{c}" letter-spacing="2">WHAT BLOOD CANNOT SHOW</text>
 </svg>"""
 
-def svg_lab(c="#2AAFC0", r="#B4653A"):
+def svg_lab(c="#7A4A2E", r="#9C603C"):
     return f"""<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
 <g fill="none" stroke="{c}" stroke-width="3" stroke-linecap="round">
 <path d="M120 50 h40 v60 l25 55 a10 10 0 0 1 -9 15 h-72 a10 10 0 0 1 -9 -15 l25 -55 z"/><path d="M112 50 h56"/></g>

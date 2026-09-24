@@ -130,6 +130,25 @@ PATTERNS = [
         canary="We use vitamin D as a proxy for your light exposure.",
     ),
     dict(
+        name="retired-hex-b4653a",
+        clause="brand: the old --copper #B4653A is retired. It differs from the "
+               "brand copper #B4794F by one digit in each channel and will be "
+               "'corrected' into it by someone later, so the literal string must "
+               "not come back",
+        phrase=r"#B4653A",
+        literal=True,
+        canary="The accent is #B4653A on the panel.",
+    ),
+    dict(
+        name="plain-copper-on-a-raised-panel",
+        clause="brand: plain copper #B4794F falls to 4.08:1 on surface-raised "
+               "#1C2742 and fails. On a panel the only copper that passes is "
+               "copper-light #D9A87A at 6.93:1",
+        subject=r"(surface-raised|#1C2742|--surface-raised|\.card|\.panel)",
+        predicate=r"(#B4794F|--copper-brand|var\(--copper-brand\))",
+        canary="The .card heading uses #B4794F on #1C2742.",
+    ),
+    dict(
         name="measuring-cellular-charge-or-redox",
         clause="6: no feature claiming to measure cellular charge or redox state "
                "in a participant",
@@ -158,7 +177,16 @@ def sentences(text, path=""):
         text = re.sub(r"^\s*--.*$", " ", text, flags=re.M)
     if path.endswith(".py"):
         text = re.sub(r"^\s*#.*$", " ", text, flags=re.M)
+    # Tag stripping is for prose, but style and fill attributes live INSIDE
+    # tags, and that is exactly where a brand colour hides. Lift those out
+    # before the tags go, or the checker is blind to every inline style.
+    # Found by reinstating a known-bad line and watching the lint stay clean:
+    #   <div class="kicker" style="color:#B4653A">
+    lifted = " ".join(re.findall(
+        r'(?:style|fill|stroke|color|bgcolor)\s*=\s*["\']([^"\']*)["\']', text, re.I))
     text = re.sub(r"<[^>]+>", " ", text)
+    if lifted:
+        text = text + "\n" + lifted
     text = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
     # Prose splits on sentence ends. Source splits on lines as well, so a
     # subject in one string literal cannot meet a predicate in another.
@@ -181,6 +209,14 @@ def hits_for(sentence, pat):
     if pat.get("phrase"):
         if not re.search(pat["phrase"], sentence, re.I):
             return False
+        # A literal banned string is banned whatever surrounds it. The negation
+        # guard exists so a sentence DENYING a claim is not flagged, which makes
+        # sense for prose and no sense for a retired hex. Without this, CSS like
+        # ".chip.no{color:#B4653A}" was excused because "no" is a negation word,
+        # and the lint reported clean while three instances survived. Found by
+        # grepping independently instead of trusting the check.
+        if pat.get("literal"):
+            return True
         return not NEGATION.search(sentence)
     subs = [m for m in re.finditer(pat["subject"], sentence, re.I)]
     preds = [m for m in re.finditer(pat["predicate"], sentence, re.I)]

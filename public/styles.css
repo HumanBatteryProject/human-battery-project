@@ -2,19 +2,66 @@
 @font-face{font-family:'Newsreader';src:url('/fonts/newsreader.woff2') format('woff2-variations');font-weight:200 800;font-display:swap}
 
 :root{
-  --carbon:#05090C;
-  --navy:#0E2530;
-  --navy-2:#13323F;
-  --blue:#218BBE;
-  --blue-lo:#0E557C;
-  --teal:#2AAFC0;
-  --green:#157A5C;
-  --copper:#B4653A;
-  --steel:#6E908C;
-  --silver:#B6BDBC;
-  --ice:#ECF3F4;
-  --rule:rgba(182,189,188,.16);
-  --rule-2:rgba(182,189,188,.30);
+  /* ------------------------------------------------------------------
+     Dawn. Source of truth is brand/tokens.json, copied from the design
+     system. The app is dark: it sits ON the brand field rather than
+     beside it. Documents are ivory, which is a different surface and
+     lives in program-docs.
+
+     The old names are kept as aliases pointing at the new tokens, so the
+     330-odd var() references across the repo did not all have to change
+     in one commit. They are deprecated and come out once the splits
+     below are resolved. Do not add a new use of an alias.
+     ------------------------------------------------------------------ */
+
+  /* Surfaces */
+  --surface-field:#0E1424;    /* the ground */
+  --surface-raised:#1C2742;   /* panels. 1.24:1 on the field, a whisper */
+  --surface-night:#000000;    /* book jacket ONLY, never here */
+
+  /* Ink */
+  --ink:#F6F1E7;              /* body text. 16.30:1 on field, 13.15:1 on panel */
+  --ink-muted:#A8A096;        /* secondary. 7.11:1 on field, 5.74:1 on panel */
+  --rule-line:#2A3550;        /* borders. 1.51:1, never text */
+
+  /* Copper. Which one depends on the ground, and that is the rule people
+     get wrong. Plain copper FAILS on a raised panel at 4.08:1. */
+  --copper-brand:#B4794F;     /* identity on the field only, 5.06:1 */
+  --copper-light:#D9A87A;     /* copper text on dark. The only one that
+                                 passes on a panel, 6.93:1 */
+
+  /* Dawn */
+  --dawn-deep:#2E4A6B;        /* fill on the field, never text, 2.02:1 */
+  --dawn-ember:#C25A3A;       /* emphasis, LARGE TEXT ONLY, 4.21:1 */
+  --dawn-amber:#E8A24A;       /* first light. ONE per view, 8.48:1 */
+
+  /* Charts, dark theme values. Never substitute, reorder or add a fourth.
+     chart-3 always ships with a direct label. */
+  --chart-1:#D2732F;
+  --chart-2:#3987E5;
+  --chart-3:#199E70;
+
+  /* ---- deprecated aliases, straight swaps ---- */
+  --carbon:var(--surface-field);
+  --navy:var(--surface-raised);
+  --navy-2:var(--surface-raised);
+  --ice:var(--ink);
+  --steel:var(--ink-muted);
+  --silver:var(--ink-muted);
+  --blue-lo:var(--dawn-deep);
+
+  /* ---- deprecated aliases, SPLITS that still need per-use decisions ----
+     These four cannot be resolved by one value. Each use is either a UI
+     accent or a data series, and the target differs. They point at the UI
+     answer for now, which is the common case, and every data use has to be
+     found and moved to a chart token by hand. Tracked in brand/DAWN-NOTES.md. */
+  --teal:var(--copper-light);   /* UI accent. Data uses -> --chart-2 */
+  --blue:var(--chart-2);        /* data. Panel fills -> --surface-raised */
+  --green:var(--chart-3);       /* series. Success states keep a status colour */
+  --copper:var(--copper-light); /* on field/panel. Identity -> --copper-brand */
+
+  --rule:rgba(168,160,150,.16);
+  --rule-2:rgba(168,160,150,.30);
   --display:'Michroma',ui-sans-serif,system-ui,sans-serif;
   --body:'Newsreader',Georgia,'Times New Roman',serif;
   --measure:64ch;

@@ -70,7 +70,7 @@ def render(key):
 h3{{color:#218BBE;margin-bottom:2mm}}
 .card{{display:grid;grid-template-columns:12mm 1fr;gap:4mm;margin-bottom:7mm}}
 .card .n{{font-family:'Michroma';font-size:16pt;color:#218BBE;line-height:1}}
-.gate{{border-left:2pt solid #B4653A;padding-left:4mm;margin-top:6mm}}
+.gate{{border-left:2pt solid #7A4A2E;padding-left:4mm;margin-top:6mm}}
 </style></head><body>
 
 <div class="page cover">
@@ -99,7 +99,7 @@ h3{{color:#218BBE;margin-bottom:2mm}}
 
 <div class="page">
   {D.band(D.COPPER)}
-  <div class="kicker" style="color:#B4653A">THE ONE THAT GATES DAY ONE</div>
+  <div class="kicker" style="color:#7A4A2E">THE ONE THAT GATES DAY ONE</div>
   <h1>Why the kit comes first</h1>
   <p>The Omega-3 Index moves more than anything else we measure. Red cell walls rebuild over about four months, so ninety days is long enough to change it and short enough that the change is yours.</p>
   <p>That only works if we have a day 0 number to compare against. Start without one and it is gone. No test later brings it back.</p>

@@ -366,7 +366,7 @@ p{margin:0 0 2.6mm}
 .lede{font-size:11.4pt;line-height:1.45;color:#0E2530;margin-bottom:4mm}
 .seq{font-family:'Michroma';font-size:8pt;letter-spacing:.08em;color:#218BBE;margin:3mm 0 5mm;text-align:center}
 .why{font-size:9.6pt;color:#3D5A63;margin-bottom:3.5mm}
-.rule{border-left:2px solid #B4653A;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#3D5A63}
+.rule{border-left:2px solid #7A4A2E;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#3D5A63}
 table{width:100%;border-collapse:collapse;margin-top:2mm}
 th,td{text-align:left;vertical-align:top;padding:2.2mm 2.4mm;border-bottom:.35pt solid #DCE4E5;font-size:9.2pt}
 th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E908C;width:26mm;padding-top:2.8mm}
@@ -481,7 +481,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 .tierrow>div{{flex:1;border:.4pt solid #C3CFD0;border-radius:1.5mm;padding:3.2mm 3mm}}
 .tierrow h3{{margin:0 0 1.6mm;font-size:6.6pt}}
 .tierrow p{{font-size:8.4pt;margin:0;line-height:1.45}}
-.no{{color:#B4653A}}
+.no{{color:#5E3823}}
 </style></head><body>
 
 <div class="page cover">
