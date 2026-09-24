@@ -189,7 +189,7 @@ main{padding:1.4rem 0 5.5rem}
       transition:background .12s,border-color .12s,color .12s;line-height:1.2}
 .chip:active{transform:scale(.97)}
 .chip.on{background:var(--blue-lo);border-color:var(--blue);color:#fff}
-.chip.off-protocol.on{background:rgba(180,101,58,.28);border-color:var(--copper);color:#F0C4AC}
+.chip.off-protocol.on{background:rgba(217,164,65,.28);border-color:var(--status-warn);color:#F0C4AC}
 .chip.tier-daily{border-color:rgba(42,175,192,.45)}
 
 /* scale 0-4 */
@@ -234,7 +234,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
    text-align:left;padding:.5rem .4rem;border-bottom:1px solid var(--rule)}
 td{padding:.6rem .4rem;border-bottom:1px solid var(--rule);font-size:var(--fs-sm)}
 td.num{text-align:right;font-variant-numeric:tabular-nums}
-.up{color:var(--teal)} .down{color:var(--copper)} .flat{color:var(--steel)}
+.up{color:var(--status-good)} .down{color:var(--status-critical)} .flat{color:var(--steel)}
 
 /* toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(120%);
