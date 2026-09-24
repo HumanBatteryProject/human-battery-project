@@ -139,6 +139,23 @@ fixed in `state_dimensions.body` and must not be softened into an empty state.
 layer, so the failure mode this rule guards against is a UI one: a designer
 reasonably filling an apparent gap.
 
+**Amended 2026-09-24, and the amendment is narrow.** Brief 06 section 6
+rule 4 requires a SCORED dimension to report how many of its own markers
+arrived. That is not the thing this rule bans, and the distinction is the
+whole point of the rule rather than an exception to it.
+
+The banned statement says the MODEL is incomplete because of the participant.
+It never is: charge, redox and leak have no instrument, and nobody's blood
+could fill them, so a coverage figure there tells the member they are missing
+something they could not have had.
+
+The required statement says THIS DRAW was missing a marker. That is a fact
+about a draw, it is true, it changes how much weight the number deserves, and
+it is the member's to know. "Flow was scored from 2 of its 3 markers" is
+allowed. "Your score covers 5 of 8 dimensions" is not, and the lint rule was
+narrowed to the model and the composite so it still catches the second and
+stops catching the first. Both directions are proved by canary.
+
 Two evidence fields, and they do not merge. `evidence_tier` says how good the
 science is, on passages, citations and claims. `evidence_basis` says how this
 participant's number got here, on dimensions. A statement can be `established`

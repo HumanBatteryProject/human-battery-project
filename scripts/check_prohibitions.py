@@ -136,10 +136,21 @@ PATTERNS = [
     ),
     dict(
         name="coverage-or-n-of-eight",
-        clause="2, rule 2: no coverage figure, fraction, or 'n of 8' string",
-        subject=r"\b(dimension\w*|score|model|batter\w*)\b",
-        predicate=r"\b\d+\s*(of|/)\s*8\b|\bcoverage\b|\bpercent of the model\b|"
-                  r"\b\d+\s*of\s*eight\b",
+        clause="2, rule 2: no coverage figure, fraction, or 'n of 8' string "
+               "about the MODEL or the composite. Narrowed 2026-09-24: brief 06 "
+               "section 6 rule 4 requires a SCORED dimension to show how many "
+               "of its own markers arrived, and that is a different statement. "
+               "The banned one says the model is incomplete because of the "
+               "participant, which it never is: charge, redox and leak have no "
+               "instrument and nobody's blood could fill them. The required one "
+               "says this draw was missing a marker, which is a fact about a "
+               "draw and is the member's to know. So the subject is now the "
+               "model and the composite, not any sentence containing the word "
+               "coverage",
+        subject=r"\b(the model|composite|batter\w* score|your score|dimensions?)\b",
+        predicate=r"\b\d+\s*(of|/)\s*(8|eight)\b|\bcoverage of the model\b|"
+                  r"\bpercent of the model\b|\bcovers?\b[^.]{0,30}\b(of|/)\s*(8|eight)\b|"
+                  r"\bincomplete\b",
         canary="Your score covers 5 of 8 dimensions.",
     ),
     dict(
