@@ -258,22 +258,40 @@ strong{font-weight:600;color:#fff}
    W <= (V - 128) / 0.9236. At 390px that allows 283px, which is 73% of the
    screen: most of the width, as intended, without crowding. */
 .landing-mark{
-  /* Full-bleed out of .landing-col, then 64px of padding does the clear space
-     directly. The first version computed the width arithmetically with
-     `min(100%, calc((100vw - 128px) / 0.9236))`. The browser dropped the
-     declaration, the image fell back to its intrinsic 2172px capped at
-     max-width 760px, and the whole page overflowed sideways on a phone with
-     the wordmark and the Apply button both cut off. Padding cannot fail that
-     way: if anything here is not understood, the image is still 100% of a box
-     that is already inside the viewport.
-     This yields 262px at 390px against the 283px the rule would allow, so it
-     gives up 8% of size to buy a layout that degrades safely. */
-  width:100vw;margin-inline:calc(50% - 50vw);
-  padding-inline:64px;
+  /* SIZING. Phone: the full viewport less a 16px gutter each side. Desktop:
+     scales with the viewport and stops at 800px, so it does not become a
+     billboard on a 27in monitor.
+
+     The gutter and the clear space govern DIFFERENT things and both hold.
+     16px is the distance to the SCREEN EDGE. 64px is the distance to any other
+     ELEMENT, which is what "nothing else moves closer to it than that" means.
+     Nothing sits beside the wordmark, so horizontally only the screen edge
+     applies; vertically the margins below carry the 64px.
+
+     No 100vw here, deliberately. 100vw includes the scrollbar, so a full-bleed
+     built on it overflows a real desktop browser by the scrollbar's width. The
+     previous version did exactly that and the screenshots hid it, because
+     --hide-scrollbars was on. Widening the column instead keeps everything in
+     percentages of a box that is already inside the viewport. */
+  padding-inline:16px;
   margin-block:clamp(2.6rem,8vw,4rem) clamp(2.2rem,7vw,3.5rem);
   line-height:0
 }
-.landing-mark img{display:block;height:auto;width:100%;max-width:760px;margin-inline:auto}
+/* The column exists to hold body copy at a readable measure. The home hero has
+   no body copy in it any more, only the wordmark, so on this page it gets out
+   of the way. /science still uses the 640px column. */
+body.home .landing-col{width:100%}
+
+/* VERTICAL CLEAR SPACE, checked rather than assumed. The asset carries its own
+   transparent margin: 25.55% of its height above the ink, 32.46% below. At a
+   rendered width W the height is W/3, so that is 0.0852W above and 0.1082W
+   below. At the 358px phone size: 30.5px built in above, plus the 41.6px floor
+   of the top clamp, is 72.1px. Below: 38.7px plus 35.2px is 73.9px. Both clear
+   64px. At the 800px desktop cap the built-in margin alone is 68px above and
+   87px below, so the clamps are not load-bearing there.
+   Cap height of HUMAN is 5.25% of rendered width, which reaches 64px only past
+   a 1219px render. The 800px cap puts it at 42px, so 64px governs everywhere. */
+.landing-mark img{display:block;height:auto;width:100%;max-width:800px;margin-inline:auto}
 
 /* ---- the atom, retired from the HOME hero only ----
    /science keeps its text h1 and its atom, so these rules stay. The home page
