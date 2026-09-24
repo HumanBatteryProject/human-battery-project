@@ -67,6 +67,39 @@ function weakestDimension(log) {
   return 'environment';
 }
 
+// A3: a change the trend agent applied since the last brief is stated plainly
+// in the next one. The member is told what changed and why BEFORE they are
+// asked to do anything, and they can decline it from the portal. An applied
+// change a member only discovers by noticing their protocol is different is
+// not bounded autonomy, it is a surprise.
+async function appliedSinceLastBrief(sb, clientId) {
+  const { data } = await sb.from('proposals')
+    .select('id, param, from_value, to_value, rationale, evidence_tier, weak_justification')
+    .eq('client_id', clientId).eq('status', 'applied')
+    .is('declined_at', null).is('reverted_at', null)
+    .gte('applied_at', new Date(Date.now() - 8 * 86400000).toISOString())
+    .order('applied_at', { ascending: false }).limit(3);
+  return data || [];
+}
+
+const PARAM_WORDS = {
+  morning_light_min: 'minutes outside in the morning',
+  eating_window_hours: 'hours in your eating window',
+  wake_time_shift_min: 'minutes on your wake time',
+  sauna_min: 'minutes in the sauna',
+  cold_min: 'minutes in the cold',
+  water_l: 'liters of water',
+  sodium_g: 'grams of salt',
+};
+
+export function changeSentence(p) {
+  const what = PARAM_WORDS[p.param] || p.param;
+  const dir = Number(p.to_value) > Number(p.from_value) ? 'up' : 'down';
+  return 'Your target moved ' + dir + ' from ' + p.from_value + ' to ' +
+    p.to_value + ' ' + what + '. ' + (p.rationale || '') +
+    ' You can decline this in the portal under Program.';
+}
+
 export async function buildBrief(sb, env, member, today) {
   const yesterday = shiftDate(today, -1);
   const { data: log } = await sb.from('daily_logs')
@@ -124,8 +157,14 @@ export async function buildBrief(sb, env, member, today) {
     await finishRun(env, runId, 'error', { error: String(e).slice(0, 400) });
     throw e;
   }
+  // the change statement is APPENDED in code, never written by the model, so
+  // it cannot be paraphrased into something vaguer than what happened
+  const changes = await appliedSinceLastBrief(sb, member.client_id);
+  const tail = changes.map(changeSentence).join(' ');
+
   return {
-    content: stripDashes(String(text || '').trim()),
+    content: stripDashes(String(text || '').trim()) + (tail ? '\n\n' + tail : ''),
+    changes_stated: changes.length,
     dimension: dim,
     passage_id: passage ? passage.id : null,
     had_data: hasData,

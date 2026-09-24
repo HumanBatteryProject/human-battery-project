@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proposal queue</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/mark-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<link rel="stylesheet" href="/portal/portal.css?v=8">
+<style>
+.pr{border:1px solid var(--rule-2);border-radius:4px;padding:.9rem;margin:.7rem 0;background:var(--surface-raised)}
+.pr.applied{border-left:3px solid var(--status-good)}
+.pr.queued{border-left:3px solid var(--status-warn)}
+.pr.weak::after{content:"WEAK JUSTIFICATION";display:inline-block;margin-left:.5rem;
+  font-family:var(--display);font-size:.55rem;letter-spacing:.1em;color:var(--status-warn)}
+.pr h4{margin:0 0 .3rem;font-size:.95rem}
+.why{color:var(--ink-muted);font-size:.85rem;margin:.35rem 0}
+.counter{border-left:2px solid var(--status-warn);padding-left:.6rem;margin:.5rem 0;font-size:.85rem}
+.acts{margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.acts button{font-family:var(--display);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.45rem .8rem;border:1px solid var(--rule-2);border-radius:3px;background:transparent;
+  color:var(--ink);cursor:pointer}
+.acts button:hover{border-color:var(--copper-light)}
+</style>
+</head><body>
+<main class="wrap">
+  <h1>Proposal queue</h1>
+  <p class="quiet">Applied changes are already live for the member and are shown
+  here so they can be reverted in one click. Queued changes were stopped by one
+  of the five bounds and say which.</p>
+  <div id="list">Loading.</div>
+</main>
+<script type="module">
+import { sb } from '/portal/config.js';
+const el = s => document.querySelector(s);
+const RULE = p => p.blocked_by || p.permitted_by || '';
+
+async function load() {
+  const { data, error } = await sb.from('proposals')
+    .select('*').order('created_at', { ascending: false }).limit(100);
+  if (error) { el('#list').textContent = error.message; return; }
+  if (!data.length) { el('#list').textContent = 'Nothing in the queue.'; return; }
+  el('#list').innerHTML = data.map(p => `
+    <div class="pr ${p.status}${p.weak_justification ? ' weak' : ''}">
+      <h4>${p.param}: ${p.from_value} to ${p.to_value}</h4>
+      <div class="why">${p.rationale || ''}</div>
+      <div class="why"><b>${p.status.toUpperCase()}</b> &middot; ${RULE(p)}</div>
+      <div class="why">tier: ${p.evidence_tier || 'none'} &middot;
+        passages: ${(p.passage_ids || []).length}</div>
+      ${p.counter_evidence ? '<div class="counter">This proposal carries counter evidence. Both sides are on the passage record.</div>' : ''}
+      <div class="acts">
+        ${p.status === 'applied' ? `<button data-id="${p.id}" data-a="revert">Revert</button>` : ''}
+        ${p.status === 'queued' ? `<button data-id="${p.id}" data-a="approve">Approve</button>
+                                   <button data-id="${p.id}" data-a="decline">Decline</button>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button[data-a]');
+  if (!b) return;
+  b.disabled = true;
+  const { data: { session } } = await sb.auth.getSession();
+  const r = await fetch('/api/proposal', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json',
+               'Authorization': 'Bearer ' + (session ? session.access_token : '') },
+    body: JSON.stringify({ id: b.dataset.id, action: b.dataset.a }),
+  });
+  if (!r.ok) { b.disabled = false; alert((await r.json()).error || 'failed'); return; }
+  load();
+});
+
+load();
+</script>
+</body></html>

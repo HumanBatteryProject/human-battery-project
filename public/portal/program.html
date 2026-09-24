@@ -32,6 +32,18 @@
 </div></header>
 
 <main class="wrap">
+
+  <!-- A3: a change the trend agent applied is shown here with a decline
+       button. The member is told in the morning brief and can act here. An
+       applied change a member cannot undo is not bounded autonomy. -->
+  <section id="changes" hidden>
+    <h2>Recent changes to your protocol</h2>
+    <p class="quiet">These were applied automatically because they stayed
+    inside the range your tier already prescribes. You can decline any of
+    them and your target goes back.</p>
+    <div id="changelist"></div>
+  </section>
+
   <div id="loading" class="card center"><span class="spinner"></span></div>
 
   <div id="locked" class="card" style="display:none">
@@ -133,5 +145,43 @@ if (error || !docs || !docs.length) {
 
   el('#body').style.display = 'block';
 }
+</script>
+
+<script type="module">
+import { sb } from '/portal/config.js';
+const PARAM_WORDS = {
+  morning_light_min: 'minutes outside in the morning',
+  eating_window_hours: 'hours in your eating window',
+  wake_time_shift_min: 'minutes on your wake time',
+  sauna_min: 'minutes in the sauna',
+  cold_min: 'minutes in the cold',
+  water_l: 'liters of water',
+  sodium_g: 'grams of salt',
+};
+async function loadChanges() {
+  const { data } = await sb.from('proposals')
+    .select('id, param, from_value, to_value, rationale, status')
+    .eq('status', 'applied').order('applied_at', { ascending: false }).limit(5);
+  if (!data || !data.length) return;
+  document.querySelector('#changes').hidden = false;
+  document.querySelector('#changelist').innerHTML = data.map(p => `
+    <div class="card" style="margin:.6rem 0">
+      <b>${p.from_value} to ${p.to_value} ${PARAM_WORDS[p.param] || p.param}</b>
+      <p class="quiet">${p.rationale || ''}</p>
+      <button class="btn" data-decline="${p.id}">Decline this</button>
+    </div>`).join('');
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-decline]');
+  if (!b) return;
+  b.disabled = true;
+  const { data: { session } } = await sb.auth.getSession();
+  await fetch('/api/proposal', { method: 'POST',
+    headers: { 'content-type': 'application/json',
+               'Authorization': 'Bearer ' + (session ? session.access_token : '') },
+    body: JSON.stringify({ id: b.dataset.decline, action: 'decline' }) });
+  loadChanges();
+});
+loadChanges();
 </script>
 </body></html>
