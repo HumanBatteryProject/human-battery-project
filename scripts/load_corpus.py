@@ -278,6 +278,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--no-embed", action="store_true")
+    ap.add_argument("--reembed", action="store_true",
+                    help="embed rows that have no vector, or whose vector was "
+                         "made by a different model, and change nothing else")
     a = ap.parse_args()
 
     dburl = None
@@ -286,6 +289,52 @@ def main():
             dburl = line.split("=", 1)[1].strip().strip('"')
     run = pg(dburl)
     canon = canonical_markers(run) if not a.dry_run else {}
+
+    # --reembed is the ONE command to run once VOYAGE_API_KEY exists. It never
+    # re-chunks and never rewrites passage text: it fills in vectors. That is
+    # only possible because the text and the vector are stored independently,
+    # which is why brief 06 section 3 asked for them to be.
+    if a.reembed:
+        key = None
+        for line in (ROOT / ".dev.vars").read_text(encoding="utf-8").split("\n"):
+            if line.startswith("VOYAGE_API_KEY="):
+                key = line.split("=", 1)[1].strip().strip('"')
+        if not key or "REPLACE_ME" in key:
+            print("VOYAGE_API_KEY is not set in .dev.vars. Nothing to do.")
+            return 1
+        rows = run("select id, passage from knowledge_passages "
+                   "where embedding is null or embed_model is distinct from '%s' "
+                   "order by ord;" % EMBED_MODEL)
+        print("%d passage(s) need a vector under %s" % (len(rows), EMBED_MODEL))
+        if not rows:
+            print("nothing to do. Every row already carries a %s vector." % EMBED_MODEL)
+            return 0
+        import subprocess, tempfile
+        done = 0
+        for i in range(0, len(rows), 96):
+            batch = rows[i:i + 96]
+            vecs = embed([r[1] for r in batch], key)
+            with tempfile.NamedTemporaryFile("w", suffix=".sql", delete=False) as fh:
+                fh.write("begin;\n")
+                for (pid, _), v in zip(batch, vecs):
+                    fh.write("update knowledge_passages set embedding='[%s]', "
+                             "embed_model='%s', embed_version='%s' where id='%s';\n"
+                             % (",".join("%.6f" % x for x in v), EMBED_MODEL,
+                                EMBED_VERSION, pid))
+                fh.write("commit;\n")
+                path = fh.name
+            env2 = dict(os.environ)
+            env2["PATH"] = ":".join(PSQL_DIRS) + ":" + env2.get("PATH", "")
+            r = subprocess.run(["psql", dburl, "-v", "ON_ERROR_STOP=1", "-q", "-f", path],
+                               capture_output=True, text=True, env=env2)
+            if r.returncode:
+                print("FAILED at batch %d: %s" % (i // 96, r.stderr.strip()[:300]))
+                return 1
+            done += len(batch)
+            print("  embedded %d/%d" % (done, len(rows)))
+        left = run("select count(*) from knowledge_passages where embedding is null;")
+        print("done. %s row(s) still without a vector." % left[0][0])
+        return 0
 
     book = BOOK_PATH.read_text(encoding="utf-8")
     standings = parse_standings(book)
