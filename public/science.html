@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0E1424">
 <link rel="icon" href="/assets/mark-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/mark-192.png">
-<link rel="stylesheet" href="/styles.css?v=42">
+<link rel="stylesheet" href="/styles.css?v=44">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(168,160,150,.16));border-radius:3px;background:var(--navy,#1C2742)}
@@ -51,36 +51,40 @@
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/assets/wordmark.png" alt="The Human Battery Project"></a>
+    <a class="brand" href="/"><img src="/assets/wordmark-flat-copper.png" alt="The Human Battery Project"></a>
     <nav class="mainnav" aria-label="Sections">
-      <details class="menu">
-        <summary>The program</summary>
-        <div class="menu-panel">
-          <a href="#what">What is The Human Battery Project</a>
-          <a href="#panel">What is measured</a>
-          <a href="#phases">How it works</a>
-          <a href="#included">What you get</a>
-          <a href="#cost">What it costs</a>
-          <a href="#fit">Who it is for</a>
+      <div class="navwrap">
+        <input type="checkbox" id="navtoggle" class="navtoggle-cb">
+        <label for="navtoggle" class="navtoggle">
+          <span class="navtoggle-bars" aria-hidden="true"></span>Menu
+        </label>
+        <div class="navwrap-panel">
+        <details class="menu">
+          <summary>The program</summary>
+          <div class="menu-panel">
+            <a href="#what">What is The Human Battery Project</a>
+            <a href="#panel">What is measured</a>
+            <a href="#phases">How it works</a>
+            <a href="#included">What you get</a>
+            <a href="#cost">What it costs</a>
+            <a href="#fit">Who it is for</a>
+          </div>
+        </details>
+        <details class="menu">
+          <summary>The science</summary>
+          <div class="menu-panel">
+            <a href="#story">The Human Battery</a>
+            <a href="#bridge">It is real</a>
+            <a href="#symptoms">What a low battery feels like</a>
+            <a href="#model">The model</a>
+            <a href="/#honest">What we are not going to tell you</a>
+            <a href="/#influences">Whose work this is built on</a>
+            <a href="#faq">Questions</a>
+          </div>
+        </details>
         </div>
-      </details>
-      <details class="menu">
-        <summary>The science</summary>
-        <div class="menu-panel">
-          <a href="#story">The Human Battery</a>
-          <a href="#bridge">It is real</a>
-          <a href="#symptoms">What a low battery feels like</a>
-          <a href="#model">The model</a>
-          <a href="/#honest">What we are not going to tell you</a>
-          <a href="/#influences">Whose work this is built on</a>
-          <a href="#faq">Questions</a>
-        </div>
-      </details>
-      <nav class="vswitch" aria-label="Which version of this page">
-      <a href="/">Plain</a>
-      <a href="/science" aria-current="page">Detailed</a>
-    </nav>
-    <a class="btn" href="#apply">Apply</a>
+      </div>
+    <a class="btn btn-solid" href="#apply">Apply</a>
     </nav>
   </div>
 </header>
@@ -171,6 +175,16 @@
 
   </div>
 </section>
+
+<div class="vswitch-band">
+  <div class="wrap">
+    <nav class="vswitch" aria-label="Which version of this page">
+          <a href="/">Plain</a>
+          <a href="/science" aria-current="page">Detailed</a>
+        </nav>
+  </div>
+</div>
+
 
 <section id="experiment">
   <div class="wrap">

@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="A 90 day program. We measure what your body runs on, you change the inputs, and we measure again.">
 <meta name="twitter:image" content="https://thehumanbatteryproject.com/assets/mark-512.png">
 <meta name="theme-color" content="#0E1424">
-<link rel="stylesheet" href="/styles.css?v=42">
+<link rel="stylesheet" href="/styles.css?v=44">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(168,160,150,.16));border-radius:3px;background:var(--navy,#1C2742)}
@@ -45,40 +45,44 @@
 }
 </script>
 </head>
-<body class="plain">
+<body class="plain home">
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/assets/wordmark.png" alt="The Human Battery Project"></a>
+    <a class="brand" href="/"><img src="/assets/wordmark-flat-copper.png" width="2172" height="724" alt="The Human Battery Project"></a>
     <nav class="mainnav" aria-label="Sections">
-      <details class="menu">
-        <summary>The program</summary>
-        <div class="menu-panel">
-          <a href="#what">What is The Human Battery Project</a>
-          <a href="#parts">What is measured</a>
-          <a href="#how">How it works</a>
-          <a href="/science#included">What you get</a>
-          <a href="#cost">What it costs</a>
-          <a href="#fit">Who it is for</a>
+      <div class="navwrap">
+        <input type="checkbox" id="navtoggle" class="navtoggle-cb">
+        <label for="navtoggle" class="navtoggle">
+          <span class="navtoggle-bars" aria-hidden="true"></span>Menu
+        </label>
+        <div class="navwrap-panel">
+        <details class="menu">
+          <summary>The program</summary>
+          <div class="menu-panel">
+            <a href="#what">What is The Human Battery Project</a>
+            <a href="#parts">What is measured</a>
+            <a href="#how">How it works</a>
+            <a href="/science#included">What you get</a>
+            <a href="#cost">What it costs</a>
+            <a href="#fit">Who it is for</a>
+          </div>
+        </details>
+        <details class="menu">
+          <summary>The science</summary>
+          <div class="menu-panel">
+            <a href="#story">The Human Battery</a>
+            <a href="#bridge">It is real</a>
+            <a href="#tired">What a low battery feels like</a>
+            <a href="/science#model">The model</a>
+            <a href="#honest">What we are not going to tell you</a>
+            <a href="#influences">Whose work this is built on</a>
+            <a href="/science#faq">Questions</a>
+          </div>
+        </details>
         </div>
-      </details>
-      <details class="menu">
-        <summary>The science</summary>
-        <div class="menu-panel">
-          <a href="#story">The Human Battery</a>
-          <a href="#bridge">It is real</a>
-          <a href="#tired">What a low battery feels like</a>
-          <a href="/science#model">The model</a>
-          <a href="#honest">What we are not going to tell you</a>
-          <a href="#influences">Whose work this is built on</a>
-          <a href="/science#faq">Questions</a>
-        </div>
-      </details>
-      <nav class="vswitch" aria-label="Which version of this page">
-      <a href="/" aria-current="page">Plain</a>
-      <a href="/science">Detailed</a>
-    </nav>
-    <a class="btn" href="#apply">Apply</a>
+      </div>
+    <a class="btn btn-solid" href="#apply">Apply</a>
     </nav>
   </div>
 </header>
@@ -88,87 +92,31 @@
 <section class="landing">
   <div class="landing-col">
 
-    <h1 class="landing-title">The Human Battery Project</h1>
-    <!-- The mark is INLINE, not an <img>, because CSS cannot reach into an
-         external SVG to turn the orbit rings. Decorative: the line above it and
-         the nav lockup both carry the project name in text. -->
-    <svg class="mark-anim" xmlns="http://www.w3.org/2000/svg" viewBox="245 100 660 780" aria-hidden="true" focusable="false">
-<defs>
-<radialGradient id="gTeal" cx="34%" cy="28%" r="78%">
-<stop offset="0%" stop-color="#F4ECE1"/><stop offset="26%" stop-color="#E8A24A"/>
-<stop offset="68%" stop-color="#9B5E10"/><stop offset="100%" stop-color="#4A2C06"/></radialGradient>
-<radialGradient id="gBlue" cx="34%" cy="28%" r="80%">
-<stop offset="0%" stop-color="#869CB6"/><stop offset="22%" stop-color="#2E4A6B"/>
-<stop offset="62%" stop-color="#192A3D"/><stop offset="100%" stop-color="#0B131D"/></radialGradient>
-<radialGradient id="gSilver" cx="34%" cy="26%" r="80%">
-<stop offset="0%" stop-color="#F5F0EB"/><stop offset="24%" stop-color="#D9A87A"/>
-<stop offset="62%" stop-color="#965D28"/><stop offset="100%" stop-color="#472B11"/></radialGradient>
-<radialGradient id="gGreen" cx="34%" cy="28%" r="80%">
-<stop offset="0%" stop-color="#DED1C8"/><stop offset="24%" stop-color="#B4794F"/>
-<stop offset="64%" stop-color="#67432A"/><stop offset="100%" stop-color="#311F13"/></radialGradient>
-<linearGradient id="gMetal" x1="0%" y1="0%" x2="100%" y2="10%">
-<stop offset="0%" stop-color="#57696B"/><stop offset="18%" stop-color="#C9D2D2"/>
-<stop offset="38%" stop-color="#F2F7F7"/><stop offset="58%" stop-color="#AFBAB9"/>
-<stop offset="80%" stop-color="#7E908F"/><stop offset="100%" stop-color="#3E4E50"/></linearGradient>
-<linearGradient id="gMetalV" x1="0%" y1="0%" x2="12%" y2="100%">
-<stop offset="0%" stop-color="#F2EEE9"/><stop offset="30%" stop-color="#A8A096"/>
-<stop offset="62%" stop-color="#7A8C8B"/><stop offset="100%" stop-color="#445658"/></linearGradient>
-<linearGradient id="gOrbit" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#1F7FB0"/><stop offset="30%" stop-color="#8A8279"/>
-<stop offset="55%" stop-color="#D8D2CA"/><stop offset="78%" stop-color="#655D53"/>
-<stop offset="100%" stop-color="#154A63"/></linearGradient>
-<linearGradient id="gHuman" x1="0%" y1="0%" x2="6%" y2="100%">
-<stop offset="0%" stop-color="#B4F2E8"/><stop offset="24%" stop-color="#37C1BE"/>
-<stop offset="60%" stop-color="#199B78"/><stop offset="100%" stop-color="#0C7A55"/></linearGradient>
-<linearGradient id="gBattery" x1="0%" y1="0%" x2="6%" y2="100%">
-<stop offset="0%" stop-color="#A6DBF7"/><stop offset="24%" stop-color="#3A9BD8"/>
-<stop offset="64%" stop-color="#1C72AB"/><stop offset="100%" stop-color="#125889"/></linearGradient>
-<radialGradient id="gGloss" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
-<stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.16"/>
-<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
-</defs>
-<g class="orbit">
-<ellipse cx="575.0" cy="480" rx="272" ry="272" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(0 575.0 480)"/>
-<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(58 575.0 480)"/>
-<ellipse cx="575.0" cy="480" rx="278" ry="168" fill="none" stroke="url(#gOrbit)" stroke-width="5.5" opacity="0.92" transform="rotate(-58 575.0 480)"/>
-</g>
-<rect x="569.0" y="140" width="12" height="670" rx="6" fill="url(#gMetalV)"/>
-<g class="mk-struts">
-<path d="M 523.9 331.3 Q 499.8 391.3 444.5 429.6 L 493.2 463.6 Q 510.1 398.6 558.3 355.3 Z" fill="url(#gMetal)"/>
-<path d="M 501.6 528.4 Q 590.4 498.1 682.7 506.9 L 678.5 459.1 Q 589.2 483.7 496.4 469.2 Z" fill="url(#gMetal)"/>
-<path d="M 681.3 504.0 Q 648.7 564.1 591.4 601.4 L 626.7 634.0 Q 659.3 573.9 716.6 536.6 Z" fill="url(#gMetal)"/>
-<path d="M 594.0 602.4 Q 576.3 477.4 591.0 352.4 L 549.0 352.4 Q 563.7 477.4 546.0 602.4 Z" fill="url(#gMetal)"/>
-</g>
-<circle cx="570.0" cy="128.0" r="23.0" fill="url(#gMetalV)"/>
-<ellipse cx="563.1" cy="119.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
-<circle cx="570.0" cy="816.0" r="23.0" fill="url(#gMetalV)"/>
-<ellipse cx="563.1" cy="807.7" rx="9.7" ry="6.9" fill="url(#gGloss)"/>
-<g class="mk-ball mk-teal">
-<circle cx="570.0" cy="302.0" r="70.0" fill="url(#gTeal)"/>
-<circle cx="570.0" cy="302.0" r="70.0" fill="none" stroke="url(#gMetalV)" stroke-width="7.0" opacity="0.9"/>
-<ellipse cx="549.0" cy="274.0" rx="28.0" ry="18.9" fill="url(#gGloss)" transform="rotate(-24 549.0 274.0)"/>
-</g>
-<g class="mk-ball mk-blue">
-<circle cx="428.0" cy="505.0" r="99.0" fill="url(#gBlue)"/>
-<circle cx="428.0" cy="505.0" r="99.0" fill="none" stroke="url(#gMetalV)" stroke-width="9.9" opacity="0.9"/>
-<ellipse cx="398.3" cy="465.4" rx="39.6" ry="26.7" fill="url(#gGloss)" transform="rotate(-24 398.3 465.4)"/>
-</g>
-<g class="mk-ball mk-silver">
-<circle cx="738.0" cy="478.0" r="80.0" fill="url(#gSilver)"/>
-<circle cx="738.0" cy="478.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
-<ellipse cx="714.0" cy="446.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 714.0 446.0)"/>
-</g>
-<g class="mk-ball mk-green">
-<circle cx="570.0" cy="660.0" r="80.0" fill="url(#gGreen)"/>
-<circle cx="570.0" cy="660.0" r="80.0" fill="none" stroke="url(#gMetalV)" stroke-width="8.0" opacity="0.9"/>
-<ellipse cx="546.0" cy="628.0" rx="32.0" ry="21.6" fill="url(#gGloss)" transform="rotate(-24 546.0 628.0)"/>
-</g>
-</svg>
+    <!-- The wordmark IS the heading. It stays an h1 so the page keeps its
+         heading in the outline, and the alt text carries the full name, which
+         is the accessible name of the h1. A separate visually-hidden span
+         saying the same words was the other option and was rejected: it makes
+         a screen reader announce the project name twice in a row.
+         The gradient wordmark is correct HERE and only here, because this is
+         the one place it renders far above the 120px floor. -->
+    <h1 class="landing-mark">
+      <img src="/assets/wordmark.png" width="2172" height="724"
+           alt="The Human Battery Project">
+    </h1>
 
 
   </div>
 </section>
+
+<div class="vswitch-band">
+  <div class="wrap">
+    <nav class="vswitch" aria-label="Which version of this page">
+          <a href="/" aria-current="page">Plain</a>
+          <a href="/science">Detailed</a>
+        </nav>
+  </div>
+</div>
+
 
 <section id="experiment">
   <div class="wrap">
