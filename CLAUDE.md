@@ -380,6 +380,36 @@ docs/                the model, the spec, the protocol, the strategy
   Take titles from `efetch`, not `esummary`, and when a title reads as though
   it stops early, it probably did.
 
+- **A check must be able to find something you have not already thought of.
+  Enumerate the population, not your suspects.** A check built from a list of
+  things you suspect can only ever confirm your own guess. Ask what the full
+  set is, enumerate it, and let the check tell you what is in it.
+
+  This failure has appeared five times in this project and it wears a different
+  costume each time:
+  - **Contrast numbers carried across a changed input.** Recomputed against the
+    old ground, pasted under a new heading. Five wrong figures.
+  - **A PDF byte search for hex strings.** PDFs store colour as RGB floats in
+    compressed streams, so it reported every old AND every new colour absent.
+    The check could not produce a finding in either direction.
+  - **A linter that stripped tags before matching.** Inline `style=` attributes
+    live inside tags, so the one place a stray brand colour hides was the one
+    place the checker could not see. Every clean run before that fix was weaker
+    than it looked.
+  - **A brand scan built from names I had already guessed.** Reported three
+    brands. There were seventeen. Enumerating every proper noun in the shopping
+    list would have found them; asking "is Kerrygold there?" never could.
+  - **The same shape one level down: the check ran, ran correctly, and ran where
+    the thing was not.** The brand sweep touched `*.py` and the cookbook's
+    brands were in `kitchen_data.json`. Correct check, wrong population.
+
+  Two habits that catch it. Count the population first and make the check
+  account for all of it, so "43 of 43 files scanned" is part of the result. And
+  verify per unit rather than in aggregate: a corpus total of three
+  no-commission statements cannot distinguish three files that need them and
+  have them from three that do not need them plus a fourth that does and has
+  none. The cookbook was exactly that case.
+
 - **A check that cannot find the thing is not evidence the thing is absent.**
   Before reporting a zero result, confirm the query is capable of returning a
   non-zero one. Run it against a case you know is present, or widen it until it
