@@ -233,10 +233,54 @@ strong{font-weight:600;color:#fff}
    centre is exactly the point all three rings share (575,480). Setting a
    user-space origin instead would have to be offset by the viewBox origin
    (245,100), which is the sort of arithmetic that silently drifts. */
-/* The project name, sitting above the mark. On the h3 step rather than the
-   subhead step it started on, which was too quiet for the thing the page is
-   named after. Still a step off the scale, not a one off number. The label
-   tracking because it is set in caps. */
+/* ---- the hero wordmark ----
+   The h1 text and the four-sphere atom both came out on 2026-09-24. The
+   wordmark already says the name, so a text line above it said it twice, and
+   at 390px that line overflowed its own column and rendered as
+   "THE HUMAN BATTERY PROJEC". The atom survives at
+   /assets/mark-atom.svg because it is the source drawing for the favicons.
+
+   SIZING, derived from the asset rather than guessed. wordmark.png is
+   2172x724, exactly 3.0:1, and carries its own transparent margin: the ink
+   spans columns 120..2088 and rows 185..488. So as fractions of the rendered
+   box the built-in clear space is 5.52% of width on the left, 3.82% on the
+   right, 25.55% of height on top and 32.46% on the bottom.
+
+   The rule is 64px of clear space, or the cap height of HUMAN if that is
+   larger. Cap height is 15.75% of the image height, which is 5.25% of the
+   rendered WIDTH, so it only overtakes 64px once the wordmark renders wider
+   than 1219px. Below that, 64px governs, and it governs at every size this
+   ships at.
+
+   The right margin is the tighter of the two sides, so it sets the limit.
+   Centred at width W in a viewport V, the ink's right edge sits
+   (V - W)/2 + 0.0382W from the screen edge, so 64px of clear space means
+   W <= (V - 128) / 0.9236. At 390px that allows 283px, which is 73% of the
+   screen: most of the width, as intended, without crowding. */
+.landing-mark{
+  /* Full-bleed out of .landing-col, then 64px of padding does the clear space
+     directly. The first version computed the width arithmetically with
+     `min(100%, calc((100vw - 128px) / 0.9236))`. The browser dropped the
+     declaration, the image fell back to its intrinsic 2172px capped at
+     max-width 760px, and the whole page overflowed sideways on a phone with
+     the wordmark and the Apply button both cut off. Padding cannot fail that
+     way: if anything here is not understood, the image is still 100% of a box
+     that is already inside the viewport.
+     This yields 262px at 390px against the 283px the rule would allow, so it
+     gives up 8% of size to buy a layout that degrades safely. */
+  width:100vw;margin-inline:calc(50% - 50vw);
+  padding-inline:64px;
+  margin-block:clamp(2.6rem,8vw,4rem) clamp(2.2rem,7vw,3.5rem);
+  line-height:0
+}
+.landing-mark img{display:block;height:auto;width:100%;max-width:760px;margin-inline:auto}
+
+/* ---- the atom, retired from the HOME hero only ----
+   /science keeps its text h1 and its atom, so these rules stay. The home page
+   simply no longer emits the markup that uses them. I deleted them outright
+   first and the grep caught it: science.html still carries both .landing-title
+   and .mark-anim, so removing the CSS would have stripped the science hero
+   while every check still passed. */
 .landing-title{font-family:var(--display);font-size:var(--fs-h3);
   letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--copper-light);
   margin:0 0 1.8rem;line-height:1.45;text-wrap:balance}
@@ -247,9 +291,6 @@ strong{font-weight:600;color:#fff}
   will-change:transform;
 }
 @keyframes mark-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-/* Still for anyone who asked for less motion. The global reduced-motion rule
-   further down already forces animation:none !important on everything; this is
-   here so the intent is legible at the thing it applies to. */
 @media(prefers-reduced-motion:reduce){.mark-anim .orbit{animation:none}}
 
 /* ---- the mark, alive: the spheres too ----
@@ -587,6 +628,94 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .vswitch a:hover{color:var(--ice);background:rgba(57,135,229,.14)}
 .vswitch a[aria-current="page"]{color:#fff;background:var(--blue-lo)}
 @media(max-width:640px){.menu-panel{left:auto;right:0}}
+
+/* ---- the header on a phone ----
+   Before this, the header put four full-width controls on the screen before
+   any content: two dropdowns, the version toggle and Apply, stacked over two
+   rows and eating the top third of a 390px screen. Three changes.
+
+   One. The two dropdowns now live inside a single `Menu` control. They are
+   the same two <details> elements, nested inside an outer one, so there is
+   still exactly one copy of every link in the markup. Above 760px the outer
+   summary is hidden and its panel is forced back to a static flex row, which
+   is an author override of the UA rule that hides a closed <details>'s
+   children. Verified in a real browser rather than assumed.
+
+   Two. Apply stays visible at every width and becomes the solid button. It is
+   the conversion action and it was competing with three neutral boxes.
+
+   Three. The PLAIN/DETAILED toggle left the chrome entirely and now sits
+   directly under the hero in .vswitch-band, with the content it governs. */
+.navwrap{position:relative;display:flex;align-items:center}
+
+/* The toggle is a checkbox and a label, not a <details>. A nested <details>
+   was the first build and it broke the desktop header outright: above 760px
+   the outer one is closed, and the UA rule that hides a closed details' content
+   is not beaten by an author `display:flex`, so both dropdowns disappeared and
+   the header showed nothing but Apply. A checkbox is a state CSS can read at
+   any width, so the same markup is a dropdown on a phone and a plain row on a
+   desktop with no duplicated links.
+   The input is clipped rather than display:none, so it still takes keyboard
+   focus and the label shows a focus ring for it. */
+.navtoggle-cb{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.navtoggle{cursor:pointer;display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ice);padding:.5rem .8rem;
+  border:1px solid var(--rule-2);border-radius:3px;white-space:nowrap}
+.navtoggle:hover{border-color:var(--copper-light)}
+.navtoggle-cb:focus-visible+.navtoggle{outline:2px solid var(--copper-light);outline-offset:2px}
+.navtoggle-cb:checked+.navtoggle{border-color:var(--copper-light);color:var(--ink)}
+.navtoggle-bars{display:inline-block;width:14px;height:10px;position:relative}
+.navtoggle-bars::before,.navtoggle-bars::after{content:"";position:absolute;left:0;right:0;
+  height:1.5px;background:currentColor}
+.navtoggle-bars::before{top:0;box-shadow:0 4.25px 0 currentColor}
+.navtoggle-bars::after{bottom:0}
+
+.navwrap-panel{display:none;position:absolute;top:calc(100% + .45rem);left:0;z-index:40;
+  gap:.4rem;padding:.5rem;min-width:13rem;
+  background:var(--surface-raised);border:1px solid var(--rule-2);border-radius:3px;
+  box-shadow:0 12px 34px rgba(0,0,0,.55)}
+.navtoggle-cb:checked~.navwrap-panel{display:grid}
+.navwrap-panel .menu>summary{width:100%;justify-content:space-between}
+.navwrap-panel .menu-panel{position:static;box-shadow:none;min-width:0;
+  background:transparent;border:0;padding:.2rem 0 .2rem .5rem}
+
+@media(min-width:760px){
+  /* No toggle, and the panel is simply the row it always was. */
+  .navtoggle,.navtoggle-cb{display:none}
+  .navwrap-panel,.navtoggle-cb:checked~.navwrap-panel{
+    display:flex;gap:.5rem;position:static;padding:0;min-width:0;
+    background:none;border:0;box-shadow:none}
+  .navwrap-panel .menu-panel{position:absolute;background:var(--surface-raised);
+    border:1px solid var(--rule-2);padding:.35rem;min-width:17rem;
+    box-shadow:0 12px 34px rgba(0,0,0,.55)}
+}
+
+/* ---- the version switch, now under the hero ----
+   It shows both versions and marks the one you are reading. That was true in
+   the header too; what changed is that it is no longer chrome competing with
+   navigation, it sits with the page it switches. */
+.vswitch-band{border-bottom:1px solid var(--rule-line);padding:.9rem 0}
+.vswitch-band .wrap{display:flex;justify-content:center}
+
+/* ---- the home page header carries no wordmark ----
+   The home hero IS the wordmark, so the header would show the same lockup
+   twice. Every other page keeps its header wordmark unchanged.
+
+   Reveal-on-scroll was built first and then removed, because it could not be
+   made to hold still. Showing the brand makes the header taller, which pushes
+   the hero down, which moves the very offset the reveal is tested against: the
+   measured threshold shifted from 505px to 595px the moment the brand
+   appeared. On top of that, headless Chrome fired no scroll event on the
+   return trip, so the class stuck on after scrolling back to the top and the
+   wordmark appeared over a hero that was already showing it.
+
+   Nothing is lost by leaving it out. The header wordmark's job is to be the
+   link home, and on the home page that link points at the page you are
+   already reading. */
+body.home .top a.brand{display:none}
+body.home .top .wrap{justify-content:flex-end}
 /* a sticky header would otherwise cover the heading you jumped to */
 section[id]{scroll-margin-top:5.5rem}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}

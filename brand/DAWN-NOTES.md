@@ -40,3 +40,25 @@ chart token by hand. Grep the alias names to find them.
 the hues separates them. What separates them is that **every status colour
 ships with an icon and a word**, so colour alone never carries state.
 Enforced by `status-colour-without-a-word` in scripts/check_prohibitions.py.
+
+## The gradient floor, and where the flat wordmark is required
+
+The gradient wordmark needs room for the gradient to read. Below a rendered
+width of **120px** it stops being a gradient and becomes mud, so anything
+narrower than that takes `wordmark-flat-copper.png` instead.
+
+This figure was not written down anywhere in this repo before 2026-09-24. It
+came from the brand brief and is recorded here so the next person does not have
+to be told it.
+
+**The header was in breach at every viewport, not just on a phone.** `.top img`
+is `height:38px` with `width:auto`, and the asset is 2172x724, which is exactly
+3.0:1, so the header wordmark rendered at **114px wide on every screen size**.
+It was never a mobile-only problem; a phone was just where it was noticed.
+Every header on the site now uses the flat asset.
+
+The hero wordmark on the home page is the one place the gradient is correct: it
+renders at 262px on a 390px phone and up to 760px on a desktop.
+
+`wordmark-flat-ink.png` is the ivory-document variant. It measures 1.81:1 on
+`surface-field` and must never be used on a dark surface.
