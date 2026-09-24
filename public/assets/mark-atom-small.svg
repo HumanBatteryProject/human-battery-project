@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- HBP mark, small-size reduction, on Dawn. Generated from
-     brand/svg/09-mark-small.svg on 2026-09-24 by the same old-to-Dawn ramp
-     mapping used for the hero atom. The brand guide requires the reduction
+     the v4 reduction (formerly brand/svg/09-mark-small.svg, deleted with the
+     rest of that family on 2026-09-24) by the same old-to-Dawn ramp mapping
+     used for the hero atom. The v4 source is recoverable from git history at
+     the commit before that deletion. The brand guide requires the reduction
      below 64px: the orbitals are mush at that size, so this drawing has none.
      mark-32.png is built from THIS file; 64, 192 and 512 come from
      mark-atom.svg. -->

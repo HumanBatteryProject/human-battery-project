@@ -81,9 +81,10 @@ def colours_in(path):
 def main():
     tokens = load_tokens()
     print("palette source: brand/tokens.json, %d tokens\n" % len(tokens))
-    # brand/svg holds the v4 originals on the OLD palette. They are an archive
-    # of what the identity was, nothing serves them, and converting them would
-    # destroy the record. They are counted and named, never failed.
+    # brand/svg held the v4 originals and was deleted on 2026-09-24. The glob
+    # stays so the count is visible: if it ever returns files again, someone has
+    # restored the old identity and the report will say so rather than ignoring
+    # a directory that is supposed to be empty.
     globs = ["public/**/*.svg", "public/**/*.css", "public/**/*.html"]
     archive = sorted(ROOT.glob("brand/svg/*.svg"))
     files = sorted({p for g in globs for p in ROOT.glob(g) if p.is_file()})
@@ -96,8 +97,8 @@ def main():
             rel = str(p.relative_to(ROOT))
             bad.append((rel, off))
     print("scanned %d served file(s) across %d glob(s)" % (scanned, len(globs)))
-    print("archive not failed: %d file(s) under brand/svg, the v4 originals\n"
-          % len(archive))
+    print("brand/svg: %d file(s). The v4 originals were deleted; anything here is\n"
+          "           a restoration and wants explaining.\n" % len(archive))
     if not bad:
         print("every colour resolves to a token, a neutral, or a token's ramp")
         return 0
