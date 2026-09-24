@@ -8,7 +8,7 @@
 
 Your body is not one battery. It is a coordinated network of trillions of cellular batteries. Every cell holds a voltage across a membrane, and different tissues are built to hold different voltages. How well each one is made, held, spent and recovered decides how you feel. The goal is tissue-appropriate voltage, never maximum voltage.
 
-**Light is timing information.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into the body. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
+**Light is information, and light is a minor energy input.** Morning light tells the body what time it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. That is job one and it is the larger effect. Job two is a small amount of real chemistry in the skin: chromophores and opsins make vitamin D and release stored nitric oxide. Skin absorbs a great deal of solar energy and almost all of it becomes heat, because there is no machinery for converting photons into ATP. Absorbing energy and converting it into biological work are different things. DHA in the retina and in every cell membrane is what the signal lands on, so membrane quality decides how clearly it is received. Light and membrane are one system, and this protocol treats them as one.
 
 **Water is the medium.** Mineralized and adequate. The cell does its work in water, not in spite of it.
 
@@ -91,7 +91,9 @@ Four or more in a column places you there. Mixed results place you in the lower 
 
 **After dark:** Ra Optics Night Shift red lenses from sunset. Not amber. Red. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or Iris on the darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
 
-**Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Grounding sheet. Blackout. Room at 62 to 65°F.
+**Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Blackout. Grounding sheet optional, see below. Room at 62 to 65°F.
+
+**Grounding, optional.** Grounding is an optional experiment, not a required part of the protocol. Evidence tier: hypothesis, and it is the author's working model rather than a position held in the literature. A participant who never grounds is fully adherent. No brand is recommended and no commission is taken on anything named in this protocol.
 
 ## Eating
 
@@ -144,7 +146,7 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 ## Sleep
 
-Bed at the same time, wake at the same time, seven days, to the minute. Room at 62 to 65°F. Grounding sheet. Mouth tape. Total darkness. Nothing electronic in the room.
+Bed at the same time, wake at the same time, seven days, to the minute. Room at 62 to 65°F. Mouth tape. Total darkness. Grounding sheet optional, see below. Nothing electronic in the room.
 
 ## Testing: Pro runs the full instrument set
 
@@ -279,7 +281,7 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 ## Sleep
 
-Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Grounding sheet. Nasal breathing. If you snore, mouth tape.
+Bed at the same time, seven days. Wake at the same time, seven days. Room at 65°F. Total darkness. Nasal breathing. Grounding sheet optional, see below. If you snore, mouth tape.
 
 ## Supplements: Advanced
 
@@ -631,7 +633,7 @@ Spirulina and chlorella are not interchangeable, and the protocol uses them for 
 | **Router** | Mechanical outlet timer, off 10pm to 6am. Twelve dollars. |
 | **Phone** | Airplane mode at night, and out of the bedroom. |
 | **Bedroom** | Nothing plugged in within six feet of the bed. |
-| **Grounding** | Earthing.com or Hooga grounding sheet for the bed, grounding mat under the desk. Confirm the outlet is actually grounded with a three-dollar outlet tester first. |
+| **Grounding, optional** | Not a required part of the protocol. Evidence tier: hypothesis, and the author's working model rather than a position held in the literature. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Confirm the outlet is actually grounded with a three-dollar outlet tester first. No brand is named and no commission is taken on anything in this protocol. |
 
 ## Water
 

@@ -40,7 +40,7 @@ I put secrets into `.dev.vars` myself. Do not ask me to paste a key into the cha
 
 ---
 
-Read `docs/HBP-Platform-v2-Spec.md` completely before doing anything. It replaces the cohort model with open enrollment, individual 90-day clocks, and five agents. Read `CLAUDE.md` and `docs/HBP-Foundational-Model.md` too. The guardrails in both still apply to every agent.
+Read `docs/HBP-Platform-v2-Spec.md` completely before doing anything. It replaces the cohort model with open enrollment, individual 90-day clocks, and six agents. Read `CLAUDE.md` and `docs/HBP-Foundational-Model.md` too. The guardrails in both still apply to every agent.
 
 Build in the eight phases the spec lays out. Stop at the end of each phase, show me what it looks like, and wait. Do not start the next phase until I say so.
 

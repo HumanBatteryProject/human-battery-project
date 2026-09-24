@@ -88,13 +88,13 @@ def circadian(tier):
         pro="Red lenses from sunset, not amber. Every bulb you use after dark is incandescent or a red LED. Screens off after sunset. Candles are the correct evening light.",
         advanced="Amber or red lenses from sunset. Incandescent or red bulbs in every room you use after dark. Screens filtered with Iris and a blue-blocking film.",
         intermediate="Amber lenses from sunset. Bedroom and living room switched to incandescent or red bulbs. Iris on every screen. Film on the TV.",
-        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: Iris or f.lux on the computer, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
+        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any colour-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
      ),
      "night": dict(
         h="Make the bedroom dark and quiet",
         why="Your body does its repair work while you sleep, and it can only do it in the dark. Even a small light, like a phone screen or a charger glow, can be enough to keep the repair from starting. The phone also keeps your brain on alert, waiting for a buzz. Out of the room means your body can finally switch off.",
-        pro="Phone off, not airplane mode. Router off at the breaker. Nothing plugged in within six feet of the bed. Grounding sheet. Blackout. Room at 62 to 65°F.",
-        advanced="Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Grounding sheet. Room at 65°F.",
+        pro="Phone off, not airplane mode. Router off at the breaker. Nothing plugged in within six feet of the bed. Blackout. Room at 62 to 65°F. Grounding sheet if you want to try one, optional.",
+        advanced="Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Room at 65°F. Grounding sheet if you want to try one, optional.",
         intermediate="Phone out of the bedroom. Router on a timer, off 10pm to 6am.",
         beginner="Your phone sleeps in another room. Starting tonight. Charge it in the kitchen. If you use it as an alarm, buy a ten-dollar alarm clock. Cover any small lights in the room, like the glow on a charger or a TV. As dark as you can get it.",
      ),
@@ -126,11 +126,11 @@ def water(tier):
            "beginner":"Three liters. It will feel like a lot at first. Carry a bottle and refill it three times."}[tier]
     return f"""
 <h3>The morning glass</h3>
-<p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of Baja Gold sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p>
+<p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of unrefined mineral sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p>
 <h3>Through the day</h3>
-<p>{vol} Every bottle gets a pinch of Baja Gold, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
+<p>{vol} Every bottle gets a pinch of unrefined mineral sea salt, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
 <h3>What to drink</h3>
-<p>Crazy Water #4, Saratoga or Icelandic Glacial as bottled water. At home, reverse osmosis with Baja Gold added, a quarter teaspoon per liter. Baja Gold for cooking. Nothing else.</p>
+<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
 """
 
 def movement(tier):
@@ -182,7 +182,7 @@ def food(tier):
 <h3>Window: 7am to 1pm</h3>
 <p>One large meal or two. One 24-hour fast per week.</p>
 <h3>The meal</h3>
-<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. Baja Gold.</p>
+<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. unrefined mineral sea salt.</p>
 <h3>Protein</h3><p>2.2 grams per kilogram of bodyweight, every day, inside the window.</p>
 <h3>Out for 90 days</h3>
 <p>Gluten, all grains, all legumes, all nightshades, seed oils, sugar, alcohol, all dairy except butter and ghee. Nothing processed. Nothing in a package with more than one ingredient.</p>
@@ -229,12 +229,12 @@ def heatcold(tier):
     return {
     "pro": """
 <h3>Cold, every morning after light</h3><p>Five to eight minutes at 45°F or below. Then the day starts.</p>
-<h3>Sauna, every day</h3><p>Two rounds of twenty minutes at 185 to 200°F. Rehydrate with Baja Gold water between rounds.</p>
+<h3>Sauna, every day</h3><p>Two rounds of twenty minutes at 185 to 200°F. Rehydrate with unrefined mineral sea salt water between rounds.</p>
 <h3>Contrast, three times a week</h3><p>Twenty hot, four cold, three rounds.</p>
 <div class="rule">Cold never within four hours after resistance training. Morning cold then a lift is fine. Lift then cold is not.</div>
 """,
     "advanced": """
-<h3>Sauna, five to seven days</h3><p>Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have time. Rehydrate with mineral water and Baja Gold.</p>
+<h3>Sauna, five to seven days</h3><p>Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have time. Rehydrate with mineral water and unrefined mineral sea salt.</p>
 <h3>Cold, four days</h3><p>Three to five minutes at 50°F or below.</p>
 <h3>Contrast, one designated day</h3><p>Sauna then cold, three rounds.</p>
 <div class="rule">Cold goes after zone 2, never after resistance training. If you lift in the morning, cold is in the evening or on a non-lifting day.</div>
@@ -254,8 +254,8 @@ def sleep(tier):
 <p>Same bedtime, same wake time, seven days a week. Room cool and completely dark. Last food three hours before bed. Phone out of the bedroom.</p>
 """
     extra = {
-     "pro":"<p>Room at 62 to 65°F. Grounding sheet. Mouth tape. Nothing electronic in the room. To the minute, not roughly.</p>",
-     "advanced":"<p>Room at 65°F. Grounding sheet. Nasal breathing. If you snore, mouth tape.</p>",
+     "pro":"<p>Room at 62 to 65°F. Mouth tape. Nothing electronic in the room. To the minute, not roughly. A grounding sheet is optional and is not part of the required protocol.</p>",
+     "advanced":"<p>Room at 65°F. Nasal breathing. If you snore, mouth tape. A grounding sheet is optional and is not part of the required protocol.</p>",
      "intermediate":"<p>Fixed wind-down at 9pm: glasses on, screens off, magnesium taken.</p>",
      "beginner":"<p>Pick a wake time and hold it. That is the only sleep rule in month one, and it is the one that makes everything else possible.</p>",
     }[tier]
@@ -267,7 +267,7 @@ def supplements(tier):
 <h3>On waking</h3><p>Cowboy Colostrum, 1 scoop in water.</p>
 <h3>With the morning glass</h3><p>Spirulina powder (Nutrex Hawaii), 1 tablespoon. Quicksilver Methyl B-Complex, 1 pump. Quicksilver NAD+ Platinum, 1 pump.</p>
 <h3>With the meal</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. Pure Encapsulations EPA/DHA Essentials, 2,000 mg EPA+DHA. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. He Shou Wu, 3. Deer Antler Drops, 1 dropper, 21 days on 7 off. Cordyceps, 3. Duanwood Reishi, 3. Gaia Daytime HPA, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump. Life Extension Taurine, 2 g.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. a third-party-tested brand EPA/DHA Essentials, 2,000 mg EPA+DHA. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. He Shou Wu, 3. Deer Antler Drops, 1 dropper, 21 days on 7 off. Cordyceps, 3. Duanwood Reishi, 3. Gaia Daytime HPA, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump. Life Extension Taurine, 2 g.</p>
 <h3>Pre-training</h3><p>Cordyceps, 2 more. Creatine, 5 g more on heavy days.</p>
 <h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon. Goji &amp; Schizandra Drops, 1 dropper. Gaia Daytime HPA, 2.</p>
 <h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. l-Theanine, 200 mg. Zinc 30, 1. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out, nightly for two weeks then as needed.</p>
@@ -276,7 +276,7 @@ def supplements(tier):
 """,
     "advanced": """
 <h3>Morning, with the first meal</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. EPA/DHA Essentials, dosed to your Omega-3 Index: under 4% take 2,000 mg, 4 to 6% take 1,500 mg, over 6% take 1,000 mg. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. Spirulina powder (Nutrex Hawaii), 1 tablespoon. Cowboy Colostrum, 1 scoop on waking before anything.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. EPA/DHA Essentials, dosed to your Omega-3 Index: under 4% take 2,000 mg, 4 to 6% take 1,500 mg, over 6% take 1,000 mg. Vitamin D3/K2 liquid, 5,000 IU, adjusted after labs. Creatine, 5 g. Dragon Herbs Super Adaptogen, 3. Spirulina powder (Nutrex Hawaii), 1 tablespoon. Cowboy Colostrum, 1 scoop on waking before anything.</p>
 <h3>Midday</h3><p>Dragon Herbs Duanwood Reishi, 2. Gaia Turmeric Supreme, 1. Quicksilver Liposomal Glutathione, 1 pump.</p>
 <h3>Afternoon, empty stomach</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 20 g in the tea with lemon.</p>
 <h3>Evening, two hours before bed</h3><p>Chlorella powder (Sun Chlorella), 1 tablespoon, alone. Magnesium Glycinate, 400 mg. Glycine, 3 g. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
@@ -286,14 +286,14 @@ def supplements(tier):
 """,
     "intermediate": """
 <h3>Morning</h3>
-<p>Pure Encapsulations O.N.E. Multivitamin, 1. Life Extension Super Omega-3, 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above. Vitamin D3/K2, 5,000 IU, adjusted after labs. Creatine, 5 g. Gaia Daytime HPA, 2. Spirulina and chlorella blend powder, 1 tablespoon. Cowboy Colostrum, 1 scoop on waking.</p>
+<p>a third-party-tested brand O.N.E. Multivitamin, 1. Life Extension Super Omega-3, 1,500 mg EPA+DHA if starting under 5%, 1,000 mg above. Vitamin D3/K2, 5,000 IU, adjusted after labs. Creatine, 5 g. Gaia Daytime HPA, 2. Spirulina and chlorella blend powder, 1 tablespoon. Cowboy Colostrum, 1 scoop on waking.</p>
 <h3>Afternoon</h3><p>Dragon Herbs Spring Dragon Longevity Tea. Vital Proteins Collagen, 15 g.</p>
 <h3>Evening</h3><p>Magnesium Glycinate, 300 mg. Gaia Nighttime HPA, 2. Dragon Herbs Lights Out as needed.</p>
 <h3>If tired: the Jing stack</h3><p>Dragon Herbs Super Adaptogen, 3 morning. Gaia Daytime HPA, 2 morning and 2 afternoon. Cordyceps, 2 before training.</p>
 """,
     "beginner": """
 <h3>Month one: three bottles</h3>
-<p>Life Extension Super Omega-3, 2,000 mg EPA+DHA. Your baseline is almost certainly low. Pure Encapsulations Vitamin D3/K2, 5,000 IU. Magnesium Glycinate, 300 mg in the evening.</p>
+<p>Life Extension Super Omega-3, 2,000 mg EPA+DHA. Your baseline is almost certainly low. Vitamin D3 with K2, 5,000 IU. Magnesium Glycinate, 300 mg in the evening.</p>
 <p>Nothing else. Three bottles taken every day beats eight bottles abandoned in week three.</p>
 <h3>Month two, add</h3><p>Creatine, 5 g morning. Gaia Daytime HPA, 2 morning.</p>
 <h3>Month three, add</h3><p>Dragon Herbs Super Adaptogen, 2 morning. Spirulina and chlorella blend, 1 teaspoon morning, building to a tablespoon. Gaia Nighttime HPA, 2 evening. Dragon Herbs Lights Out if sleep is still the problem.</p>
@@ -302,16 +302,24 @@ def supplements(tier):
     }[tier]
 
 ENVIRONMENT = """
+<p class="why"><b>Specifications, not brands.</b> Each row says what the thing
+has to do. A brand is named only where it is genuinely hard to find something
+that meets the specification, and then only once, as an example. <b>We take no
+commission on anything named in this guide, and nothing here is a paid
+placement.</b> Evidence tier for this whole table: <b>Dr. Micah's idea, being
+tested</b>, except the two marked otherwise.</p>
 <table>
-<tr><th>Evening glasses</th><td>Ra Optics Sunset (amber) or Night Shift (red). BLUblox Sleep+. TrueDark Twilight. They must block 460 to 490 nm. Ask for the transmission spectrum.</td></tr>
-<tr><th>Screens</th><td>Iris (iristech.co) on every computer, Health mode after sunset. f.lux is the free alternative. BlockBlueLight or Ocushield film on monitors. BlockBlueLight filter on the TV.</td></tr>
-<tr><th>Bulbs</th><td>Incandescent wherever you can find them. Otherwise BlockBlueLight or Bon Charge red bulbs for evening rooms.</td></tr>
+<tr><th>Evening glasses</th><td>Lenses that block 460 to 490 nm. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated and most amber lenses do not reach 490 nm. Red lenses block more than amber. <i>Tier: early evidence for the effect on melatonin onset.</i></td></tr>
+<tr><th>Screens</th><td>Any colour-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
+<tr><th>Bulbs</th><td>Incandescent wherever you can still find them, because they have almost no blue. Otherwise a red or amber bulb in the rooms you use after dark.</td></tr>
 <tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. About twelve dollars.</td></tr>
-<tr><th>Grounding</th><td>Earthing.com or Hooga sheet for the bed, mat for the desk. Test your outlet with a three-dollar tester first.</td></tr>
-<tr><th>Water</th><td>Crazy Water #4, Saratoga, Icelandic Glacial. APEC or iSpring under-sink RO at home. Baja Gold sea salt.</td></tr>
-<tr><th>Sauna</th><td>Gym sauna for most. Sun Home or Almost Heaven barrel for a home unit. Traditional, not infrared.</td></tr>
-<tr><th>Cold</th><td>Cold shower to start. Ice Barrel or a chest freezer conversion with a GFCI for a home plunge.</td></tr>
-<tr><th>Testing</th><td>OmegaQuant Omega-3 Index kit, day 0 and day 90. Camry grip dynamometer.</td></tr>
+<tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Test the outlet with a three-dollar tester first. A participant who never grounds is fully adherent.</td></tr>
+<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre. <i>Example of a salt that meets the specification: Baja Gold. Named once because unrefined salts vary and most table salt does not qualify.</i></td></tr>
+<tr><th>Sauna</th><td>Traditional, not infrared. A gym sauna is fine and is what most people should use. <i>Tier: strong for cardiovascular outcomes in the Finnish cohort data.</i></td></tr>
+<tr><th>Cold</th><td>A cold shower is enough to start. A chest freezer with a GFCI is the cheap home plunge. <i>Tier: contested. One unreplicated trial, and the warm-shower arm improved about as much.</i></td></tr>
+<tr><th>Supplements</th><td>Buy on the compound and the dose, not the label. Vitamin D3 with K2 at 5,000 IU, magnesium glycinate, EPA+DHA at 2,000 mg. <i>Criterion that matters: third-party tested, with the certificate of analysis published. Pure Encapsulations is one brand that publishes them; it is named once as an example of the criterion, not as a recommendation over any other brand that also meets it.</i></td></tr>
+<tr><th>Butter</th><td>Grass-fed, any brand.</td></tr>
+<tr><th>Testing</th><td>A dried-blood-spot Omega-3 Index kit at day 0 and day 90, from a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids. A hand dynamometer for grip. <i>Tier: established for the Omega-3 Index as a defined measurement.</i></td></tr>
 </table>
 """
 
@@ -333,7 +341,7 @@ def phases(tier):
 
 def checklist(tier):
     items = {
-    "pro":["Outside within 15 min of waking, 30+ min, barefoot","Morning glass: water, Baja Gold, lemon","Cold plunge 5 to 8 min","Training block","Meal inside 7am to 1pm","Walk after meal","Midday sun 20+ min","Sunset outside","Sauna, two rounds","Red glasses from sunset, screens off","Four liters of water","Phone off, router off, bed at fixed time","Logged"],
+    "pro":["Outside within 15 min of waking, 30+ min, barefoot","Morning glass: water, mineral salt, lemon","Cold plunge 5 to 8 min","Training block","Meal inside 7am to 1pm","Walk after meal","Midday sun 20+ min","Sunset outside","Sauna, two rounds","Red glasses from sunset, screens off","Four liters of water","Phone off, router off, bed at fixed time","Logged"],
     "advanced":["Outside within 30 min of waking, 20+ min, barefoot","Morning glass","Training or zone 2","Both meals inside 7am to 3pm","Walk after each meal","Midday sun","Sunset outside","Sauna or cold","Amber glasses from sunset","Three liters of water","Phone out of room, fixed bedtime","Logged"],
     "intermediate":["Outside within 30 min of waking, 10+ min","Morning glass","Meals inside 8am to 5pm, no snacks","Walk after each meal","Midday sun 10 min","Training or zone 2 or rest day","Cold finish on shower","Amber glasses two hours before bed","Three liters of water","Wind-down at 9pm, phone out of room","Logged"],
     "beginner":["Outside within 30 min of waking, 15 min, barefoot","Morning glass","Fifteen minutes of afternoon sun","Fifteen minutes at sunset","Glasses on when the sun goes down","Screens filtered","Three liters of water","Nothing three hours before bed","Phone out of the bedroom","Same wake time","Logged"],
@@ -347,37 +355,37 @@ def checklist(tier):
 CSS = """
 @font-face{font-family:'Michroma';src:url('michroma.woff2') format('woff2')}
 @font-face{font-family:'Newsreader';src:url('newsreader.woff2') format('woff2');font-weight:200 800}
-@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Newsreader';font-size:8pt;color:#6E908C;margin-bottom:12mm}}
+@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Newsreader';font-size:8pt;color:#6E655C;margin-bottom:12mm}}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Newsreader',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#13323F}
+body{margin:0;font-family:'Newsreader',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#1A1714}
 .page{page-break-after:always;padding:16mm 17mm 18mm}
 .page:last-child{page-break-after:auto}
-.cover{background:#05090C;color:#ECF3F4;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.cover{background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
 .cover img{width:82mm;margin-bottom:12mm}
 .cover .t{font-family:'Michroma';font-size:19pt;letter-spacing:.06em;margin-bottom:4mm;color:#fff}
-.cover .s{font-family:'Michroma';font-size:8pt;letter-spacing:.24em;color:#2AAFC0}
-.cover .rule{width:30mm;height:.5pt;background:#2AAFC0;margin:8mm auto}
-.cover .tag{font-family:'Newsreader';font-size:11pt;color:#9FB4B8;font-style:italic;margin-top:10mm}
-h1{font-family:'Michroma';font-size:13pt;font-weight:400;margin:0 0 3mm;line-height:1.3;color:#13323F}
-h2{font-family:'Michroma';font-size:8.6pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4mm;padding-bottom:1.8mm;border-bottom:.4pt solid #C3CFD0;color:#13323F}
-h3{font-family:'Michroma';font-size:7.4pt;font-weight:400;letter-spacing:.05em;margin:4.5mm 0 1.4mm;color:#218BBE}
+.cover .s{font-family:'Michroma';font-size:8pt;letter-spacing:.24em;color:#7A4A2E}
+.cover .rule{width:30mm;height:.5pt;background:#7A4A2E;margin:8mm auto}
+.cover .tag{font-family:'Newsreader';font-size:11pt;color:#A8A096;font-style:italic;margin-top:10mm}
+h1{font-family:'Michroma';font-size:13pt;font-weight:400;margin:0 0 3mm;line-height:1.3;color:#1A1714}
+h2{font-family:'Michroma';font-size:8.6pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4mm;padding-bottom:1.8mm;border-bottom:.4pt solid #E4DED2;color:#1A1714}
+h3{font-family:'Michroma';font-size:7.4pt;font-weight:400;letter-spacing:.05em;margin:4.5mm 0 1.4mm;color:#2A78D6}
 p{margin:0 0 2.6mm}
-.kicker{font-family:'Michroma';font-size:6.4pt;letter-spacing:.22em;color:#6E908C;margin:0 0 3mm}
-.lede{font-size:11.4pt;line-height:1.45;color:#0E2530;margin-bottom:4mm}
-.seq{font-family:'Michroma';font-size:8pt;letter-spacing:.08em;color:#218BBE;margin:3mm 0 5mm;text-align:center}
-.why{font-size:9.6pt;color:#3D5A63;margin-bottom:3.5mm}
-.rule{border-left:2px solid #B4653A;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#3D5A63}
+.kicker{font-family:'Michroma';font-size:6.4pt;letter-spacing:.22em;color:#6E655C;margin:0 0 3mm}
+.lede{font-size:11.4pt;line-height:1.45;color:#1C2742;margin-bottom:4mm}
+.seq{font-family:'Michroma';font-size:8pt;letter-spacing:.08em;color:#2A78D6;margin:3mm 0 5mm;text-align:center}
+.why{font-size:9.6pt;color:#6E655C;margin-bottom:3.5mm}
+.rule{border-left:2px solid #7A4A2E;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#6E655C}
 table{width:100%;border-collapse:collapse;margin-top:2mm}
 th,td{text-align:left;vertical-align:top;padding:2.2mm 2.4mm;border-bottom:.35pt solid #DCE4E5;font-size:9.2pt}
-th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E908C;width:26mm;padding-top:2.8mm}
+th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E655C;width:26mm;padding-top:2.8mm}
 .phase{display:flex;gap:5mm;padding:3mm 0;border-bottom:.35pt solid #DCE4E5}
-.phase .d{font-family:'Michroma';font-size:6.8pt;letter-spacing:.06em;color:#218BBE;width:26mm;flex:none;padding-top:.6mm}
+.phase .d{font-family:'Michroma';font-size:6.8pt;letter-spacing:.06em;color:#2A78D6;width:26mm;flex:none;padding-top:.6mm}
 .phase p{margin:0;font-size:9.6pt}
 ul.check{list-style:none;padding:0;margin:3mm 0 0;columns:2;column-gap:8mm}
 ul.check li{font-size:9.4pt;padding:1.6mm 0;break-inside:avoid;display:flex;gap:2.4mm;align-items:flex-start}
-.box{width:3.4mm;height:3.4mm;border:.5pt solid #6E908C;border-radius:.6mm;flex:none;margin-top:1mm}
+.box{width:3.4mm;height:3.4mm;border:.5pt solid #6E655C;border-radius:.6mm;flex:none;margin-top:1mm}
 .small{font-size:8.6pt;color:#4E6B72;line-height:1.5}
-.tier-pill{display:inline-block;font-family:'Michroma';font-size:7pt;letter-spacing:.12em;padding:1.6mm 3mm;border:.5pt solid #2AAFC0;color:#2AAFC0;border-radius:1mm;margin-bottom:5mm}
+.tier-pill{display:inline-block;font-family:'Michroma';font-size:7pt;letter-spacing:.12em;padding:1.6mm 3mm;border:.5pt solid #7A4A2E;color:#7A4A2E;border-radius:1mm;margin-bottom:5mm}
 """
 
 TIERS = {
@@ -475,13 +483,13 @@ if __name__ == '__main__':
 
 DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 .food{{display:flex;gap:4mm;padding:2.4mm 0;border-bottom:.35pt solid #DCE4E5}}
-.food b{{font-family:'Michroma';font-size:6.6pt;letter-spacing:.05em;color:#218BBE;width:34mm;flex:none;padding-top:.8mm}}
+.food b{{font-family:'Michroma';font-size:6.6pt;letter-spacing:.05em;color:#2A78D6;width:34mm;flex:none;padding-top:.8mm}}
 .food p{{margin:0;font-size:9.4pt}}
 .tierrow{{display:flex;gap:3mm;margin-top:3mm}}
-.tierrow>div{{flex:1;border:.4pt solid #C3CFD0;border-radius:1.5mm;padding:3.2mm 3mm}}
+.tierrow>div{{flex:1;border:.4pt solid #E4DED2;border-radius:1.5mm;padding:3.2mm 3mm}}
 .tierrow h3{{margin:0 0 1.6mm;font-size:6.6pt}}
 .tierrow p{{font-size:8.4pt;margin:0;line-height:1.45}}
-.no{{color:#B4653A}}
+.no{{color:#A32E22}}
 </style></head><body>
 
 <div class="page cover">
@@ -507,7 +515,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <h3>The window closes early</h3>
   <p>Your tier sets the hours. Whatever they are, the last meal ends at least three hours before bed. Late eating runs the clock backward.</p>
   <h3>Water with minerals, not with food</h3>
-  <p>Three liters a day with Baja Gold in every bottle. Most of it between meals, not during. The morning glass, with lemon, before anything else.</p>
+  <p>Three liters a day with unrefined mineral sea salt in every bottle. Most of it between meals, not during. The morning glass, with lemon, before anything else.</p>
 </div>
 
 <div class="page">
@@ -519,8 +527,8 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <div class="food"><b>Leafy greens</b><p>Kale, chard, arugula, romaine, spinach. A full bowl. Raw with olive oil or wilted in butter.</p></div>
   <div class="food"><b>Fermented vegetable</b><p>Sauerkraut, kimchi. A forkful with a meal. Refrigerated, unpasteurized, nothing added.</p></div>
   <div class="food"><b>Extra virgin olive oil</b><p>The fat that goes on everything. Cold-pressed, in a dark bottle, from a single origin.</p></div>
-  <div class="food"><b>Grass-fed butter</b><p>For cooking. Kerrygold is fine.</p></div>
-  <div class="food"><b>Baja Gold sea salt</b><p>Minerals, not just sodium. On food and in water.</p></div>
+  <div class="food"><b>Grass-fed butter</b><p>For cooking. Any grass-fed butter is fine.</p></div>
+  <div class="food"><b>unrefined mineral sea salt</b><p>Minerals, not just sodium. On food and in water.</p></div>
   <div class="food"><b>Wild salmon</b><p>Four times a week minimum. Sockeye or coho. Frozen wild beats fresh farmed.</p></div>
   <div class="food"><b>Cruciferous vegetables</b><p>Broccoli, cauliflower, Brussels sprouts, cabbage. Two cups. Roasted in tallow or steamed with butter.</p></div>
   <div class="food"><b>Avocado</b><p>Half to one a day. Potassium and fat.</p></div>
@@ -544,7 +552,7 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
   <h3>Dairy, limited</h3>
   <p>Grass-fed butter and ghee for everyone. Aged hard cheese for Advanced, Intermediate and Beginner. No milk, no yogurt, no soft cheese.</p>
   <h3>Seasoning</h3>
-  <p>Baja Gold. Black pepper. Fresh herbs. Ginger, turmeric, cinnamon. Apple cider vinegar. Mustard with no sugar. Coconut aminos.</p>
+  <p>unrefined mineral sea salt. Black pepper. Fresh herbs. Ginger, turmeric, cinnamon. Apple cider vinegar. Mustard with no sugar. Coconut aminos.</p>
   <h3>Drinks</h3>
   <p>Mineral water. Coffee, black, before noon. Green tea. Herbal tea. Bone broth. Dragon Herbs Spring Dragon tea in the afternoon.</p>
 </div>
@@ -598,7 +606,7 @@ if __name__ == "__main__":
 # =====================================================================
 
 MARKERS = {
- "charge": ("CHARGE", "#218BBE", "How well your body turns fuel into energy", [
+ "charge": ("CHARGE", "#2A78D6", "How well your body turns fuel into energy", [
   ("Fasting glucose", "The sugar in your blood after not eating overnight.", "It is the baseline. If it is high while you are fasting, your body is having trouble putting fuel away."),
   ("Fasting insulin", "The hormone that moves sugar out of your blood and into your cells.", "This goes up years before glucose does. High insulin means your cells are ignoring the signal, and your body is shouting louder to be heard. It is the earliest warning we have."),
   ("HbA1c", "Your average blood sugar over the last three months.", "One number that shows the whole quarter, not just this morning. Ninety days is exactly one HbA1c cycle, which is why the program is ninety days."),
@@ -606,7 +614,7 @@ MARKERS = {
   ("Triglycerides", "Fat traveling in your blood.", "When you eat more fuel than you burn, especially sugar, it turns into this. High triglycerides mean the fuel system is overloaded."),
   ("Triglyceride to HDL ratio", "Triglycerides divided by your good cholesterol.", "One of the best simple signs of whether your cells are handling fuel well. Low is good."),
  ]),
- "drain": ("DRAIN", "#6E908C", "What is quietly using up your energy in the background", [
+ "drain": ("DRAIN", "#6E655C", "What is quietly using up your energy in the background", [
   ("hs-CRP", "A protein your liver makes when there is inflammation anywhere in the body.", "This is the main drain marker. Inflammation is like an app running in the background on your phone. You did not open it, but it is using battery all day."),
   ("GGT", "A liver enzyme.", "It rises when the liver is stressed by alcohol, sugar, or oxidative load. It is one of the earliest signs the drain is on."),
   ("ALT", "A liver enzyme.", "Tells us whether the liver, your main fuel-processing organ, is under strain."),
@@ -617,7 +625,7 @@ MARKERS = {
   ("AA to EPA ratio", "The balance between an inflammatory fat and an anti-inflammatory fat in your cells.", "This is the fat side of the drain. It comes from what you eat, and it moves when you eat sardines instead of seed oils."),
   ("Kynurenine to tryptophan ratio", "How much of an important amino acid is being burned up by inflammation.", "When inflammation is high, your body diverts tryptophan away from where it should go. This ratio shows the diversion. It also connects to some of the newest research in the model."),
  ]),
- "output": ("OUTPUT", "#2AAFC0", "How much power you can actually spend", [
+ "output": ("OUTPUT", "#7A4A2E", "How much power you can actually spend", [
   ("TSH", "The signal your brain sends to your thyroid.", "The thyroid sets the speed of every cell. TSH tells us if the brain is having to shout to get it going."),
   ("Free T3", "The active thyroid hormone.", "This is the one your cells actually use. Low free T3 feels like cold hands, slow thinking, and no drive, even when TSH looks fine."),
   ("Free T4", "The storage form of thyroid hormone.", "Your body converts T4 to T3. Reading both tells us if the conversion is working."),
@@ -628,7 +636,7 @@ MARKERS = {
   ("IGF-1", "A growth and repair signal.", "Tells us how well your body is rebuilding. Too low means slow repair. Too high is not the goal either."),
   ("SHBG", "A protein that binds hormones and controls how much is free.", "It explains the gap between total and free testosterone, and it moves with insulin, so it connects Output back to Charge."),
  ]),
- "reserve": ("RESERVE", "#157A5C", "What your batteries are built from", [
+ "reserve": ("RESERVE", "#1BAF7A", "What your batteries are built from", [
   ("Omega-3 Index", "The percentage of your red blood cell membranes made of EPA and DHA.", "Required at day 0 and day 90. DHA is what the membranes that receive the light signal are built from, the retina most of all. Low DHA means the signal lands on a degraded receiver. This is the most responsive marker on the panel and the most direct check on whether the protocol is working. Done at home with a finger prick, not at the lab."),
   ("25-OH vitamin D", "The storage form of vitamin D.", "The direct readout on the sun protocol. Almost everyone starts low. It affects immune function, hormones, and mood."),
   ("Ferritin", "Your stored iron.", "Too low means the batteries cannot carry oxygen well. Too high can mean inflammation. Read together with iron saturation."),

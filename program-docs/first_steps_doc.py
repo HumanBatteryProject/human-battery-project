@@ -35,7 +35,7 @@ DAY_ONE = {
 
 STEPS = [
  ("Order your Omega-3 kit today",
-  f"""<p>Go to <b>omegaquant.com</b>. Order the <b>{KIT_NAME}</b>. It costs {KIT_PRICE}. You order it yourself and it comes to you.</p>
+  f"""<p>Order a dried-blood-spot <b>Omega-3 Index</b> test: a lab that reports EPA+DHA as a percentage of red cell membrane fatty acids, which is the defined measurement the panel uses. <b>OmegaQuant</b> originated that measurement and sells the <b>{KIT_NAME}</b> at {KIT_PRICE}; it is named once because the assay is theirs, not as a preference over another lab reporting the same thing. You order it yourself and it comes to you. We take no commission on it.</p>
 <p>Do this first. Do it today. It takes the longest of anything on this list. The kit takes three to five days to reach you. Then you mail it back. Then the lab runs it. Allow two to four weeks from ordering to result. Everything else here takes a week at most.</p>
 <p><b>Buy two at once.</b> They are $93.46 each if you buy two or more. You need one now and one at day 90, so buying both saves you about $33 and the second one is already in your drawer when day 90 comes.</p>
 <p><b>Get Complete, not Basic.</b> Basic is cheaper and only gives one number. Complete also gives the AA to EPA ratio, which is on your panel and is hard to get anywhere else. Saving fifty dollars here costs you a marker.</p>"""),
@@ -51,7 +51,7 @@ STEPS = [
   """<p>It is in your portal under Program. Read it once. Do not try to learn it. You are not starting yet.</p>
 <p>Every day has the same shape: light, water, moving, food, moving, light, dark. Your tier sets how much. It does not change the order.</p>"""),
  ("Get a few things",
-  """<p>Amber or red glasses for after dark. Baja Gold sea salt. A water bottle you will actually use. That is enough to begin.</p>
+  """<p>Amber or red glasses for after dark. unrefined mineral sea salt. A water bottle you will actually use. That is enough to begin.</p>
 <p>The full list is in your tier document. Only the glasses are urgent.</p>"""),
  ("Put the weekly call in your calendar",
   """<p>One hour. Everyone together. Every week. The day, the time and the link are in your portal under Calls.</p>
@@ -67,10 +67,10 @@ def render(key):
     steps_now, steps_week = cards(0, 3), cards(3, 6)
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{B.CSS}{D.EXTRA_CSS}
-h3{{color:#218BBE;margin-bottom:2mm}}
+h3{{color:#2A78D6;margin-bottom:2mm}}
 .card{{display:grid;grid-template-columns:12mm 1fr;gap:4mm;margin-bottom:7mm}}
-.card .n{{font-family:'Michroma';font-size:16pt;color:#218BBE;line-height:1}}
-.gate{{border-left:2pt solid #B4653A;padding-left:4mm;margin-top:6mm}}
+.card .n{{font-family:'Michroma';font-size:16pt;color:#2A78D6;line-height:1}}
+.gate{{border-left:2pt solid #7A4A2E;padding-left:4mm;margin-top:6mm}}
 </style></head><body>
 
 <div class="page cover">
@@ -99,7 +99,7 @@ h3{{color:#218BBE;margin-bottom:2mm}}
 
 <div class="page">
   {D.band(D.COPPER)}
-  <div class="kicker" style="color:#B4653A">THE ONE THAT GATES DAY ONE</div>
+  <div class="kicker" style="color:#7A4A2E">THE ONE THAT GATES DAY ONE</div>
   <h1>Why the kit comes first</h1>
   <p>The Omega-3 Index moves more than anything else we measure. Red cell walls rebuild over about four months, so ninety days is long enough to change it and short enough that the change is yours.</p>
   <p>That only works if we have a day 0 number to compare against. Start without one and it is gone. No test later brings it back.</p>
@@ -112,7 +112,7 @@ h3{{color:#218BBE;margin-bottom:2mm}}
 
 <div class="page">
   {D.band(D.TEAL)}
-  <div class="kicker" style="color:#2AAFC0">DAY ONE</div>
+  <div class="kicker" style="color:#7A4A2E">DAY ONE</div>
   <h1>What the first day looks like</h1>
   <span class="tier-pill">{name}</span>
   {DAY_ONE[key]}

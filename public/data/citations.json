@@ -1,0 +1,1402 @@
+{
+  "schema_version": 5,
+  "citations": [
+    {
+      "id": "mitchell-1961-chemiosmotic",
+      "authors": [
+        "Mitchell P"
+      ],
+      "year": 1961,
+      "title": "Coupling of Phosphorylation to Electron and Hydrogen Transfer by a Chemi-Osmotic type of Mechanism",
+      "journal": "Nature",
+      "doi": "10.1038/191144a0",
+      "url": "https://doi.org/10.1038/191144a0",
+      "study_type": "theory",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-01"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-01"
+        }
+      ],
+      "relevance": "The paper that proposed ATP is made by pumping protons across a membrane and letting them back through. It is the mechanism the whole battery framing rests on.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "wallace-1992-mito-paradigm",
+      "authors": [
+        "Wallace DC"
+      ],
+      "year": 1992,
+      "title": "Mitochondrial Genetics: A Paradigm for Aging and Degenerative Diseases?",
+      "journal": "Science",
+      "doi": "10.1126/science.1533953",
+      "url": "https://doi.org/10.1126/science.1533953",
+      "study_type": "review",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-02"
+        }
+      ],
+      "relevance": "Argues that defects in oxidative phosphorylation sit underneath a range of degenerative disease. Contested because it is a proposed paradigm rather than a settled finding.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "berson-2002-ipRGC",
+      "authors": [
+        "Berson DM",
+        "Dunn FA",
+        "Takao M"
+      ],
+      "year": 2002,
+      "title": "Phototransduction by Retinal Ganglion Cells That Set the Circadian Clock",
+      "journal": "Science",
+      "doi": "10.1126/science.1067262",
+      "url": "https://doi.org/10.1126/science.1067262",
+      "study_type": "animal",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-02"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-03"
+        }
+      ],
+      "relevance": "Shows a distinct class of retinal cell carries light to the circadian clock without rods or cones. This is light's larger job, timing, and it is what the protocol is built around.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "lindqvist-2016-sun-mortality",
+      "authors": [
+        "Lindqvist PG",
+        "Epstein E",
+        "Nielsen K",
+        "Landin-Olsson M",
+        "Ingvar C",
+        "Olsson H"
+      ],
+      "year": 2016,
+      "title": "Avoidance of sun exposure as a risk factor for major causes of death: a competing risk analysis of the Melanoma in Southern Sweden cohort",
+      "journal": "Journal of Internal Medicine",
+      "doi": "10.1111/joim.12496",
+      "url": "https://doi.org/10.1111/joim.12496",
+      "study_type": "human_observational",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-03"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-04"
+        }
+      ],
+      "relevance": "A cohort followed for two decades in which women who avoided the sun had higher all-cause mortality. Observational, so it cannot separate sun exposure from everything that travels with it.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "liu-2014-uva-blood-pressure",
+      "authors": [
+        "Liu D",
+        "Fernandez BO",
+        "Hamilton A",
+        "Lang NN",
+        "Gallagher JMC",
+        "Newby DE",
+        "Feelisch M",
+        "Weller RB"
+      ],
+      "year": 2014,
+      "title": "UVA Irradiation of Human Skin Vasodilates Arterial Vasculature and Lowers Blood Pressure Independently of Nitric Oxide Synthase",
+      "journal": "Journal of Investigative Dermatology",
+      "doi": "10.1038/jid.2014.27",
+      "url": "https://doi.org/10.1038/jid.2014.27",
+      "study_type": "human_rct",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-05"
+        }
+      ],
+      "relevance": "Controlled exposure in people, lowering blood pressure through nitric oxide stored in skin, by a route vitamin D does not explain. Contested because it is one small trial.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "harris-2004-omega3-index",
+      "authors": [
+        "Harris WS",
+        "von Schacky C"
+      ],
+      "year": 2004,
+      "title": "The Omega-3 Index: a new risk factor for death from coronary heart disease?",
+      "journal": "Preventive Medicine",
+      "doi": "10.1016/j.ypmed.2004.02.030",
+      "url": "https://doi.org/10.1016/j.ypmed.2004.02.030",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-06"
+        }
+      ],
+      "relevance": "Defines the Omega-3 Index as EPA plus DHA in red cell membranes. The reason that exact measurement is on the panel rather than a general fatty acid panel.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "kodama-2009-fitness-mortality",
+      "authors": [
+        "Kodama S",
+        "Saito K",
+        "Tanaka S",
+        "Maki M",
+        "Yachi Y",
+        "Asumi M",
+        "Sugawara A",
+        "Totsuka K",
+        "Shimano H",
+        "Ohashi Y",
+        "Yamada N",
+        "Sone H"
+      ],
+      "year": 2009,
+      "title": "Cardiorespiratory Fitness as a Quantitative Predictor of All-Cause Mortality and Cardiovascular Events in Healthy Men and Women: A Meta-analysis",
+      "journal": "JAMA",
+      "doi": "10.1001/jama.2009.681",
+      "url": "https://doi.org/10.1001/jama.2009.681",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "supports": [
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-04"
+        },
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-07"
+        },
+        {
+          "page": "science",
+          "section": "panel",
+          "claim": "science-panel-01"
+        }
+      ],
+      "relevance": "Meta-analysis tying cardiorespiratory fitness to all-cause mortality. The reason VO2max is measured at both ends rather than treated as a gym number.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "blades-2024-whm-rct",
+      "authors": [
+        "Blades R",
+        "Mendes WB",
+        "Don BP",
+        "Mayer SE",
+        "Dileo R",
+        "O'Bryan J",
+        "Fromer E",
+        "Guan JY",
+        "Cheng SS",
+        "Mason AE",
+        "Prather AA",
+        "Epel ES"
+      ],
+      "year": 2024,
+      "title": "A randomized controlled clinical trial of a Wim Hof Method intervention in women with high depressive symptoms",
+      "journal": "Comprehensive Psychoneuroendocrinology",
+      "doi": "10.1016/j.cpnec.2024.100272",
+      "url": "https://doi.org/10.1016/j.cpnec.2024.100272",
+      "study_type": "human_rct",
+      "evidence_tier": "contested",
+      "accessed": "2026-09-20",
+      "supports": [
+        {
+          "page": "index",
+          "section": "honest",
+          "claim": "index-honest-01"
+        },
+        {
+          "page": "science",
+          "section": "model",
+          "claim": "science-model-01"
+        }
+      ],
+      "relevance": "84 women randomised to cold exposure with breathwork, or to slow breathing with warm showers. Both groups improved about the same amount, roughly 24% on depressive symptoms. A single unreplicated trial, which is why cold and breathwork are carried in the protocol as contested rather than established.",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "wong-riley-2005-cco",
+      "authors": [
+        "Wong-Riley MT",
+        "Liang HL",
+        "Eells JT",
+        "Chance B",
+        "Henry MM",
+        "Buchmann E",
+        "Kane M",
+        "Whelan HT"
+      ],
+      "year": 2005,
+      "title": "Photobiomodulation directly benefits primary neurons functionally inactivated by toxins: role of cytochrome c oxidase",
+      "journal": "The Journal of Biological Chemistry",
+      "doi": "10.1074/jbc.M409650200",
+      "url": "https://doi.org/10.1074/jbc.M409650200",
+      "study_type": "cell",
+      "evidence_tier": "contested",
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-08"
+        }
+      ],
+      "relevance": "Tests whether cytochrome c oxidase is the photoacceptor for far red and near infrared light, by competing light treatment against a cytochrome c oxidase inhibitor in cultured neurons. This is the mechanism named at the edge of the timing section. Contested, and it is cell culture under LED arrays rather than sunlight.",
+      "accessed": "2026-09-20",
+      "is_authors_model": false,
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-20",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "holick-1980-previtamin-d3",
+      "authors": [
+        "Holick MF",
+        "MacLaughlin JA",
+        "Clark MB",
+        "Holick SA",
+        "Potts JT",
+        "Anderson RR",
+        "Blank IH",
+        "Parrish JA",
+        "Elias P"
+      ],
+      "year": 1980,
+      "title": "Photosynthesis of previtamin D3 in human skin and the physiologic consequences",
+      "journal": "Science",
+      "doi": "10.1126/science.6251551",
+      "url": "https://doi.org/10.1126/science.6251551",
+      "study_type": "cell",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [
+        {
+          "page": "science",
+          "section": "science",
+          "claim": "science-science-09"
+        },
+        {
+          "page": "index",
+          "section": "science",
+          "claim": "index-science-05"
+        }
+      ],
+      "relevance": "The primary source for vitamin D synthesis in skin. Ultraviolet light converts a precursor in the skin into previtamin D3. This is the established half of light's second job, the small amount of real chemistry, and it is why the program no longer says light is only timing.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "pubmed",
+        "confirmed": "crossref",
+        "checked": "2026-09-22",
+        "note": null
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "grba-2020-complex-i-water",
+      "authors": [
+        "Grba DN",
+        "Hirst J"
+      ],
+      "year": 2020,
+      "title": "Mitochondrial complex I structure reveals ordered water molecules for catalysis and proton translocation",
+      "journal": "Nature Structural and Molecular Biology",
+      "doi": "10.1038/s41594-020-0473-x",
+      "url": "https://doi.org/10.1038/s41594-020-0473-x",
+      "study_type": "cell",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The 2.7 angstrom structure that resolved 275 ordered water molecules forming proton-translocation pathways in complex I. This is the established basis for saying interfacial water is part of the proton-transfer machinery, and it is why the program does not deny water a role in cell function.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "luzar-1996-hbond-kinetics",
+      "authors": [
+        "Luzar A",
+        "Chandler D"
+      ],
+      "year": 1996,
+      "title": "Hydrogen-bond kinetics in liquid water",
+      "journal": "Nature",
+      "doi": "10.1038/379055a0",
+      "url": "https://doi.org/10.1038/379055a0",
+      "study_type": "theory",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "Hydrogen bonds in liquid water break and reform in picoseconds, and the correlation decays with a power-law tail rather than a simple exponential. The measurement that sets the timescale everything else in the water position is compared against.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "qin-2025-binding-memory",
+      "authors": [
+        "Qin Y",
+        "Yang W",
+        "Liu J",
+        "Yang Z",
+        "Zhang L",
+        "Wang X",
+        "Chen H"
+      ],
+      "year": 2025,
+      "title": "Binding memory of liquid molecules",
+      "journal": "Nature Communications",
+      "doi": "10.1038/s41467-025-61630-3",
+      "url": "https://doi.org/10.1038/s41467-025-61630-3",
+      "study_type": "theory",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The exponent of the correlation tail tracks the dimensionality of the space the molecules diffuse in. Emerging rather than established, and it is the measurement the Biological Water Correlation Hypothesis would be tested against.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "sterpone-2012-water-slowdown",
+      "authors": [
+        "Sterpone F",
+        "Stirnemann G",
+        "Laage D"
+      ],
+      "year": 2012,
+      "title": "Magnitude and molecular origin of water slowdown next to a protein",
+      "journal": "Journal of the American Chemical Society",
+      "doi": "10.1021/ja3007897",
+      "url": "https://doi.org/10.1021/ja3007897",
+      "study_type": "theory",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "Water in a protein hydration shell is slowed by a factor of roughly 2 to 3, not orders of magnitude. This is the number that makes energy storage in structured water hard, and it is why the program says there is no evidence for it without saying it is impossible.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "laage-2017-hydration-shells",
+      "authors": [
+        "Laage D",
+        "Elsaesser T",
+        "Hynes JT"
+      ],
+      "year": 2017,
+      "title": "Water dynamics in the hydration shells of biomolecules",
+      "journal": "Chemical Reviews",
+      "doi": "10.1021/acs.chemrev.6b00765",
+      "url": "https://doi.org/10.1021/acs.chemrev.6b00765",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The review behind the hydration-shell slowdown figure. Carried alongside Sterpone so the number rests on more than one paper.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "crossref",
+        "confirmed": "supplied and cross-checked",
+        "checked": "2026-09-22",
+        "note": "On the shelf. No surface states a water position yet."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "togo-2012-photoperiod-f344",
+      "authors": [
+        "Togo Y",
+        "Otsuka T",
+        "Goto M",
+        "Furuse M",
+        "Yasuo S"
+      ],
+      "year": 2012,
+      "title": "Photoperiod regulates dietary preferences and energy metabolism in young developing Fischer 344 rats but not in same-age Wistar rats",
+      "journal": "American Journal of Physiology. Endocrinology and Metabolism",
+      "doi": "10.1152/ajpendo.00209.2012",
+      "url": "https://doi.org/10.1152/ajpendo.00209.2012",
+      "study_type": "animal",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The clean factorial test of photoperiod against a high fat diet in F344 rats, with the interaction tested explicitly. It found independent mechanisms and no interaction at the genes carrying the photoperiodic signal. This is evidence AGAINST the Seasonal Redox-Mismatch Hypothesis and ships with it.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "partial",
+        "primary": "pubmed",
+        "confirmed": "crossref doi",
+        "checked": "2026-09-22",
+        "note": "Metadata confirmed independently, PMID 22811472. Abstract not read. Title corrected 2026-09-22: PubMed esummary truncated it at 'Fischer 344 rats', dropping 'but not in same-age Wistar rats', which is the strain-specificity finding this citation exists to carry. Full title from efetch."
+      },
+      "counters": [
+        "The photoperiod and diet effect generalises across species"
+      ],
+      "claims": []
+    },
+    {
+      "id": "usda-2012-orac-withdrawal",
+      "authors": [
+        "United States Department of Agriculture, Agricultural Research Service"
+      ],
+      "year": 2012,
+      "title": "Withdrawal of the USDA ORAC database for selected foods",
+      "journal": "USDA Agricultural Research Service",
+      "doi": null,
+      "url": "https://web.archive.org/web/2012/https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/oxygen-radical-absorbance-capacity-orac-of-selected-foods-release-2-2010/",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "relevance": "The USDA withdrew its own ORAC database in May 2012, on the grounds that the values had no demonstrated relevance to human biology. Cited in the canon as the reason no surface may treat antioxidant capacity as an energy input.",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "unverified",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "PRIMARY TEXT NOT READ. The original ARS page is gone. Date and reasoning are consistent across secondary sources but no snapshot has been pulled. The url above is a Wayback query, not a confirmed snapshot. Do not put this in anything printed or published until someone reads the snapshot."
+      },
+      "claims": [],
+      "counters": []
+    },
+    {
+      "id": "lester-2013-spinach-season",
+      "authors": [
+        "Lester GE",
+        "Makus DJ",
+        "Hodges DM",
+        "Jifon JL"
+      ],
+      "year": 2013,
+      "title": "Summer (subarctic) versus winter (subtropic) production affects spinach leaf bionutrients",
+      "journal": "Journal of Agricultural and Food Chemistry",
+      "doi": "10.1021/jf401461z",
+      "url": "https://doi.org/10.1021/jf401461z",
+      "study_type": "plant",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Growing conditions change the redox-active chemistry of plants",
+        "The direction is compound specific and often opposite within one leaf"
+      ],
+      "counters": [],
+      "relevance": "Growing conditions change the redox-active chemistry of plants",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Summer raised dry matter, dehydroascorbate, tocopherols and total phenols; lowered reduced ascorbate, alpha-carotene, folate and antioxidant capacity."
+      }
+    },
+    {
+      "id": "proietti-2009-spinach-cold",
+      "authors": [
+        "Proietti S",
+        "Moscatello S",
+        "Famiani F",
+        "Battistelli A"
+      ],
+      "year": 2009,
+      "title": "Increase of ascorbic acid content and nutritional quality in spinach leaves during physiological acclimation to low temperature",
+      "journal": "Plant Physiology and Biochemistry",
+      "doi": "10.1016/j.plaphy.2009.03.010",
+      "url": "https://doi.org/10.1016/j.plaphy.2009.03.010",
+      "study_type": "plant",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Cold raises spinach ascorbate by about 41 percent in seven days"
+      ],
+      "counters": [],
+      "relevance": "Cold raises spinach ascorbate by about 41 percent in seven days",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Controlled temperature transfer, single variable, oxalate unchanged as a control."
+      }
+    },
+    {
+      "id": "lefsrud-2005-carotenoid-temp",
+      "authors": [
+        "Lefsrud MG",
+        "Kopsell DA",
+        "Kopsell DE",
+        "Curran-Celentano J"
+      ],
+      "year": 2005,
+      "title": "Air temperature affects biomass and carotenoid pigment accumulation in kale and spinach grown in a controlled environment",
+      "journal": "HortScience",
+      "doi": "10.21273/HORTSCI.40.7.2026",
+      "url": "https://doi.org/10.21273/HORTSCI.40.7.2026",
+      "study_type": "plant",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Carotenoid optima differ by 20 degrees between two leafy greens in the same chamber"
+      ],
+      "counters": [],
+      "relevance": "Carotenoid optima differ by 20 degrees between two leafy greens in the same chamber",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Maximum lutein and beta-carotene at 30 C for kale, 10 C for spinach."
+      }
+    },
+    {
+      "id": "medina-lozano-2024-drought",
+      "authors": [
+        "Medina-Lozano I",
+        "Bertolin JR",
+        "Diaz A"
+      ],
+      "year": 2024,
+      "title": "Impact of drought stress on vitamin C and anthocyanin content in cultivated lettuces and wild relatives",
+      "journal": "Frontiers in Plant Science",
+      "doi": "10.3389/fpls.2024.1369658",
+      "url": "https://doi.org/10.3389/fpls.2024.1369658",
+      "study_type": "plant",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "One stressor moves two antioxidants in opposite directions"
+      ],
+      "counters": [],
+      "relevance": "One stressor moves two antioxidants in opposite directions",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Seven genotypes, two years. Vitamin C fell with drought in all; anthocyanins rose."
+      }
+    },
+    {
+      "id": "vallejo-2003-broccoli-coldchain",
+      "authors": [
+        "Vallejo F",
+        "Tomas-Barberan FA",
+        "Garcia-Viguera C"
+      ],
+      "year": 2003,
+      "title": "Health-promoting compounds in broccoli as influenced by refrigerated transport and retail sale period",
+      "journal": "Journal of Agricultural and Food Chemistry",
+      "doi": "10.1021/jf021065j",
+      "url": "https://doi.org/10.1021/jf021065j",
+      "study_type": "plant",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Ten days of ordinary cold chain removes 60 to 80 percent of broccoli phenolics and glucosinolates"
+      ],
+      "counters": [],
+      "relevance": "Ten days of ordinary cold chain removes 60 to 80 percent of broccoli phenolics and glucosinolates",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex abstract confirms glucosinolates down 71 to 80 percent, flavonoids 59 to 62 percent, caffeoyl-quinic derivatives 73 to 74 percent. The largest single effect in the seasonal argument."
+      }
+    },
+    {
+      "id": "scialo-2017-ret-ros",
+      "authors": [
+        "Scialo F",
+        "Fernandez-Ayala DJM",
+        "Sanz A"
+      ],
+      "year": 2017,
+      "title": "Role of mitochondrial reverse electron transport in ROS signaling: potential roles in health and disease",
+      "journal": "Frontiers in Physiology",
+      "doi": "10.3389/fphys.2017.00428",
+      "url": "https://doi.org/10.3389/fphys.2017.00428",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Glucose yields about five NADH per FADH2, fat about two, changing CoQ pool reduction and reverse electron transport"
+      ],
+      "counters": [],
+      "relevance": "Glucose yields about five NADH per FADH2, fat about two, changing CoQ pool reduction and reverse electron transport",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed, 522 citations. The real channel from food composition to mitochondrion."
+      }
+    },
+    {
+      "id": "lotito-2006-urate",
+      "authors": [
+        "Lotito SB",
+        "Frei B"
+      ],
+      "year": 2006,
+      "title": "Consumption of flavonoid-rich foods and increased plasma antioxidant capacity in humans: cause, consequence, or epiphenomenon?",
+      "journal": "Free Radical Biology and Medicine",
+      "doi": "10.1016/j.freeradbiomed.2006.04.033",
+      "url": "https://doi.org/10.1016/j.freeradbiomed.2006.04.033",
+      "study_type": "review",
+      "evidence_tier": "strong",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "The rise in plasma antioxidant capacity after fruit is urate from fructose metabolism, not the flavonoids"
+      ],
+      "counters": [
+        "Food delivers a redox signal to human mitochondria in proportion to its antioxidant content",
+        "The Seasonal Redox-Mismatch Hypothesis, redox limb"
+      ],
+      "relevance": "The rise in plasma antioxidant capacity after fruit is urate from fructose metabolism, not the flavonoids",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed, 770 citations. The single most damaging paper for the redox limb. Attach permanently to that claim."
+      }
+    },
+    {
+      "id": "bjelakovic-2012-antioxidants",
+      "authors": [
+        "Bjelakovic G",
+        "Nikolova D",
+        "Gluud LL",
+        "Simonetti RG",
+        "Gluud C"
+      ],
+      "year": 2012,
+      "title": "Antioxidant supplements for prevention of mortality in healthy participants and patients with various diseases",
+      "journal": "Cochrane Database of Systematic Reviews",
+      "doi": "10.1002/14651858.CD007176.pub2",
+      "url": "https://doi.org/10.1002/14651858.CD007176.pub2",
+      "study_type": "review",
+      "evidence_tier": "strong",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Antioxidant supplements do not prevent mortality; beta carotene and vitamin E appear to raise it"
+      ],
+      "counters": [
+        "More antioxidant capacity in food means a better redox state in the person"
+      ],
+      "relevance": "Antioxidant supplements do not prevent mortality; beta carotene and vitamin E appear to raise it",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex confirms 78 trials, 296,707 participants. Publication date 9 March 2012. The Cochrane Library landing page displays a later year: do not cite that."
+      }
+    },
+    {
+      "id": "ristow-2009-antioxidants-exercise",
+      "authors": [
+        "Ristow M",
+        "Zarse K",
+        "Oberbach A"
+      ],
+      "year": 2009,
+      "title": "Antioxidants prevent health-promoting effects of physical exercise in humans",
+      "journal": "Proceedings of the National Academy of Sciences",
+      "doi": "10.1073/pnas.0903485106",
+      "url": "https://doi.org/10.1073/pnas.0903485106",
+      "study_type": "human_rct",
+      "evidence_tier": "strong",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Antioxidant supplementation blocked the insulin sensitivity gain from exercise"
+      ],
+      "counters": [
+        "ROS are a damage signal that dietary antioxidants usefully buffer"
+      ],
+      "relevance": "Antioxidant supplementation blocked the insulin sensitivity gain from exercise",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Already cited in Chapter 11."
+      }
+    },
+    {
+      "id": "levine-2025-period2-fat",
+      "authors": [
+        "Levine DC",
+        "Reeh RH",
+        "McMahon T",
+        "Mandrup-Poulsen T",
+        "Fu YH",
+        "Ptacek LJ"
+      ],
+      "year": 2025,
+      "title": "Unsaturated fat alters clock phosphorylation to align rhythms to the season in mice",
+      "journal": "Science",
+      "doi": "10.1126/science.adp3065",
+      "url": "https://doi.org/10.1126/science.adp3065",
+      "study_type": "animal",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Dietary unsaturated fat alters PERIOD2 phosphorylation and determines seasonal entrainment in mice"
+      ],
+      "counters": [
+        "The seasonal mismatch runs through mitochondrial redox"
+      ],
+      "relevance": "Dietary unsaturated fat alters PERIOD2 phosphorylation and determines seasonal entrainment in mice",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed, Science 390(6771). IMPORTANT: supports the SHAPE of the seasonal hypothesis and REPLACES its mechanism. Never cite as support for the redox version. It is a counter as well as a support."
+      }
+    },
+    {
+      "id": "alcalde-2019-polyphenol-voltammetry",
+      "authors": [
+        "Alcalde B",
+        "Granados M",
+        "Saurina J"
+      ],
+      "year": 2019,
+      "title": "Exploring the antioxidant features of polyphenols by spectroscopic and electrochemical methods",
+      "journal": "Antioxidants",
+      "doi": "10.3390/antiox8110523",
+      "url": "https://doi.org/10.3390/antiox8110523",
+      "study_type": "in_vitro",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Catechol groups oxidise near +0.2 to 0.3 V and isolated hydroxyls near +0.65 to 0.85 V against silver silver chloride"
+      ],
+      "counters": [],
+      "relevance": "Catechol groups oxidise near +0.2 to 0.3 V and isolated hydroxyls near +0.65 to 0.85 V against silver silver chloride",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Voltammetry over -0.2 to 0.9 V on screen-printed carbon electrodes, pH 5. Always state the pH with the voltage."
+      }
+    },
+    {
+      "id": "ervin-2016-cultivation-voltammetry",
+      "authors": [
+        "Ervin EM",
+        "Kariuki JK"
+      ],
+      "year": 2016,
+      "title": "Demonstrating the minimal impact of cultivation conditions on antioxidants in fruits and vegetables by differential pulse voltammetry",
+      "journal": "International Journal of Food Properties",
+      "doi": "10.1080/10942912.2015.1048354",
+      "url": "https://doi.org/10.1080/10942912.2015.1048354",
+      "study_type": "in_vitro",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Electrochemical fingerprints do not reliably track farming method"
+      ],
+      "counters": [
+        "You can measure how a food was farmed from its electrochemistry"
+      ],
+      "relevance": "Electrochemical fingerprints do not reliably track farming method",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex confirms no consistent trends across cultivation conditions. OpenAlex year is 2015 online; volume 19 issue 4 is the 2016 print issue. The title alone carries the finding: do not quote internal text without the PDF."
+      }
+    },
+    {
+      "id": "ross-2015-f344-photoperiod",
+      "authors": [
+        "Ross AW",
+        "Russell L",
+        "Helfer G",
+        "Thomson LM",
+        "Dalby MJ",
+        "Morgan PJ"
+      ],
+      "year": 2015,
+      "title": "Photoperiod regulates lean mass accretion, but not adiposity, in growing F344 rats fed a high fat diet",
+      "journal": "PLOS ONE",
+      "doi": "10.1371/journal.pone.0119763",
+      "url": "https://doi.org/10.1371/journal.pone.0119763",
+      "study_type": "animal",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [
+        "Season-dependent substrate interacts with photoperiod to change a metabolic outcome"
+      ],
+      "relevance": "Season-dependent substrate interacts with photoperiod to change a metabolic outcome",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. The cleanest factorial test in the photoresponsive strain; interaction tested explicitly and not found. The strongest single argument against the hypothesis. Must travel with it."
+      }
+    },
+    {
+      "id": "bronson-2004-human-photoperiod",
+      "authors": [
+        "Bronson FH"
+      ],
+      "year": 2004,
+      "title": "Are humans seasonally photoperiodic?",
+      "journal": "Journal of Biological Rhythms",
+      "doi": "10.1177/0748730404264658",
+      "url": "https://doi.org/10.1177/0748730404264658",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [
+        "Humans respond seasonally to day length the way seasonal breeders do"
+      ],
+      "relevance": "Humans respond seasonally to day length the way seasonal breeders do",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. Concludes the evidence is inconsistent and proposes that some people are photoresponsive and others are not."
+      }
+    },
+    {
+      "id": "regmi-2024-photoperiod-metabolic",
+      "authors": [
+        "Regmi P",
+        "Young M",
+        "Minigo G",
+        "Milic N",
+        "Gyawali P"
+      ],
+      "year": 2024,
+      "title": "Photoperiod and metabolic health: evidence, mechanism, and implications",
+      "journal": "Metabolism",
+      "doi": "10.1016/j.metabol.2023.155770",
+      "url": "https://doi.org/10.1016/j.metabol.2023.155770",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [
+        "Rodent photoperiod findings transfer to humans"
+      ],
+      "relevance": "Rodent photoperiod findings transfer to humans",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex metadata confirmed. OpenAlex records 2023 online; volume 152 is the 2024 print issue. Pick one and be consistent. Notes human data are very rare and diurnal humans could show the opposite sign to nocturnal rodents."
+      }
+    },
+    {
+      "id": "castro-dopico-2015-seasonal-genes",
+      "authors": [
+        "Castro Dopico X",
+        "Evangelou M",
+        "Ferreira RC"
+      ],
+      "year": 2015,
+      "title": "Widespread seasonal gene expression reveals annual differences in human immunity and physiology",
+      "journal": "Nature Communications",
+      "doi": "10.1038/ncomms8000",
+      "url": "https://doi.org/10.1038/ncomms8000",
+      "study_type": "human_observational",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "Humans show widespread seasonal variation in gene expression"
+      ],
+      "counters": [],
+      "relevance": "Humans show widespread seasonal variation in gene expression",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "verified",
+        "primary": "openalex",
+        "confirmed": "supplied, cross-checked",
+        "checked": "2026-09-22",
+        "note": "OpenAlex confirms more than 4,000 protein-coding mRNAs, patterns inverted between Europe and Oceania. USE CAREFULLY: establishes human seasonality, not human photoperiodism, and does not separate temperature, infection, crowding or diet."
+      }
+    },
+    {
+      "id": "manach-2005-polyphenol-bioavailability",
+      "authors": [
+        "Manach C",
+        "Williamson G",
+        "Morand C",
+        "Scalbert A",
+        "Remesy C"
+      ],
+      "year": 2005,
+      "title": "Bioavailability and bioefficacy of polyphenols in humans. I. Review of 97 bioavailability studies",
+      "journal": "American Journal of Clinical Nutrition",
+      "doi": "10.1093/ajcn/81.1.230S",
+      "url": "https://doi.org/10.1093/ajcn/81.1.230S",
+      "study_type": "review",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [
+        "Food polyphenols reach tissue at concentrations that alter mitochondrial redox"
+      ],
+      "relevance": "Food polyphenols reach tissue at concentrations that alter mitochondrial redox",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned with this DOI by two independent research passes; NOT confirmed against OpenAlex here. Verify before use. The figure to check is total plasma metabolites of 0 to 4 micromolar at 50 mg intake, circulating as conjugates."
+      }
+    },
+    {
+      "id": "hoyos-2017-electrochem-review",
+      "authors": [
+        "Hoyos-Arbelaez J",
+        "Vazquez M",
+        "Contreras-Calderon J"
+      ],
+      "year": 2017,
+      "title": "Electrochemical methods as a tool for determining the antioxidant capacity of food and beverages: a review",
+      "journal": "Food Chemistry",
+      "doi": "10.1016/j.foodchem.2016.11.017",
+      "url": "https://doi.org/10.1016/j.foodchem.2016.11.017",
+      "study_type": "review",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use."
+      }
+    },
+    {
+      "id": "chevion-2000-cyclic-voltammetry",
+      "authors": [
+        "Chevion S",
+        "Roberts MA",
+        "Chevion M"
+      ],
+      "year": 2000,
+      "title": "The use of cyclic voltammetry for the evaluation of antioxidant capacity",
+      "journal": "Free Radical Biology and Medicine",
+      "doi": "10.1016/S0891-5849(00)00178-7",
+      "url": "https://doi.org/10.1016/S0891-5849(00)00178-7",
+      "study_type": "in_vitro",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use."
+      }
+    },
+    {
+      "id": "brett-2003-quercetin-oxidation",
+      "authors": [
+        "Oliveira Brett AM",
+        "Ghica ME"
+      ],
+      "year": 2003,
+      "title": "Electrochemical oxidation of quercetin",
+      "journal": "Electroanalysis",
+      "doi": "10.1002/elan.200302800",
+      "url": "https://doi.org/10.1002/elan.200302800",
+      "study_type": "in_vitro",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use. Source of the quercetin peak potentials at pH 7.7 and the 65 mV per pH unit slope showing proton-coupled transfer."
+      }
+    },
+    {
+      "id": "chouchani-2014-succinate-ros",
+      "authors": [
+        "Chouchani ET",
+        "Pell VR",
+        "Gaude E"
+      ],
+      "year": 2014,
+      "title": "Ischaemic accumulation of succinate controls reperfusion injury through mitochondrial ROS",
+      "journal": "Nature",
+      "doi": "10.1038/nature13909",
+      "url": "https://doi.org/10.1038/nature13909",
+      "study_type": "animal",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use."
+      }
+    },
+    {
+      "id": "hung-2011-nadh-biosensor",
+      "authors": [
+        "Hung YP",
+        "Albeck JG",
+        "Tantama M",
+        "Yellen G"
+      ],
+      "year": 2011,
+      "title": "Imaging cytosolic NADH-NAD+ redox state with a genetically encoded fluorescent biosensor",
+      "journal": "Cell Metabolism",
+      "doi": "10.1016/j.cmet.2011.08.012",
+      "url": "https://doi.org/10.1016/j.cmet.2011.08.012",
+      "study_type": "cell",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use."
+      }
+    },
+    {
+      "id": "kitazaki-2018-lettuce-led",
+      "authors": [
+        "Kitazaki K",
+        "Fukushima A",
+        "Nakabayashi R"
+      ],
+      "year": 2018,
+      "title": "Metabolic reprogramming in leaf lettuce grown under different light quality and intensity conditions using narrow-band LEDs",
+      "journal": "Scientific Reports",
+      "doi": "10.1038/s41598-018-25686-0",
+      "url": "https://doi.org/10.1038/s41598-018-25686-0",
+      "study_type": "plant",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use. The controlled-environment metabolomics study: temperature, humidity, CO2 and nutrition held constant, only spectrum and photon flux varied."
+      }
+    },
+    {
+      "id": "endo-2022-lettuce-chlorogenic",
+      "authors": [
+        "Endo M",
+        "Fukuda N",
+        "Yoshida H",
+        "Fujiuchi N",
+        "Yano R",
+        "Kusano M"
+      ],
+      "year": 2022,
+      "title": "Effects of light quality, photoperiod, CO2 concentration, and air temperature on chlorogenic acid and rutin accumulation in young lettuce plants",
+      "journal": "Plant Physiology and Biochemistry",
+      "doi": "10.1016/j.plaphy.2022.07.010",
+      "url": "https://doi.org/10.1016/j.plaphy.2022.07.010",
+      "study_type": "plant",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use."
+      }
+    },
+    {
+      "id": "williamson-2025-polyphenol-bioavailability",
+      "authors": [
+        "Williamson G"
+      ],
+      "year": 2025,
+      "title": "Bioavailability of food polyphenols: current state of knowledge",
+      "journal": "Annual Review of Food Science and Technology",
+      "doi": "10.1146/annurev-food-060721-023817",
+      "url": "https://doi.org/10.1146/annurev-food-060721-023817",
+      "study_type": "review",
+      "evidence_tier": "emerging",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [],
+      "counters": [],
+      "relevance": "",
+      "accessed": "2026-09-22",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "Returned by a research pass with this DOI. NOT independently confirmed. Verify before use. Corrects the older poorly-absorbed framing: parent compounds are poorly absorbed but total systemic exposure to polyphenol-derived material can be much higher."
+      }
+    },
+    {
+      "id": "lehninger-redox-potentials",
+      "authors": [
+        "Nelson DL",
+        "Cox MM"
+      ],
+      "year": 2004,
+      "title": "Standard reduction potentials at pH 7, Lehninger Principles of Biochemistry, 4th edition, page 511",
+      "journal": "W.H. Freeman",
+      "doi": null,
+      "url": null,
+      "study_type": "textbook",
+      "evidence_tier": "established",
+      "is_authors_model": false,
+      "supports": [],
+      "claims": [
+        "NAD+/NADH about -0.32 V",
+        "O2/H2O about +0.82 V",
+        "a span of 1.14 V, about 220 kJ per mole for two electrons"
+      ],
+      "counters": [],
+      "relevance": "NAD+/NADH about -0.32 V",
+      "accessed": "2026-09-22",
+      "source_note": "Nelson and Cox, Lehninger Principles of Biochemistry, 4th ed, 2004, p.511, after Loach 1976.",
+      "verification": {
+        "status": "reported",
+        "primary": null,
+        "confirmed": null,
+        "checked": "2026-09-22",
+        "note": "After Loach PA, Handbook of Biochemistry and Molecular Biology, 3rd edition, CRC Press, 1976, pages 122 to 130, the primary compilation behind essentially every textbook table of these values. TWO CAUTIONS: use the signed form delta-G = -nF delta-E, and do NOT write that FADH2 enters at -0.22 V, because the couple governing entry at complex II is fumarate/succinate at +0.03 V."
+      }
+    }
+  ]
+}

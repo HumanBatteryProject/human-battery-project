@@ -37,8 +37,8 @@ def render_tier(key):
         pages += f'<div class="page">{D.band(color)}<div class="kicker" style="color:{color}">{kick}</div><h1>{title}</h1><span class="tier-pill">{name}</span>{body[k]}</div>'
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{B.CSS}{D.EXTRA_CSS}
-h3{{color:#218BBE}}
-.rule{{border-left:2px solid #B4653A}}
+h3{{color:#2A78D6}}
+.rule{{border-left:2px solid #7A4A2E}}
 </style></head><body>
 <div class="page cover">
   <img src="lockup-dark.png">
@@ -53,7 +53,8 @@ h3{{color:#218BBE}}
 <h1>Trillions of batteries, keeping time together</h1>
 <p>Your body is not one battery. It is a coordinated network of trillions of cellular batteries. Every cell holds a voltage across a membrane, and different tissues are built to hold different voltages. A neuron, a muscle cell and an immune cell are supposed to be different. The goal is the voltage appropriate to each tissue, never the maximum.</p>
 <p><b>Coherence</b> is the ability of cells to hold their proper electrical identity while coordinating their voltage, metabolism, timing and behaviour with the tissue around them and with the whole organism. A cell can be individually healthy and still be out of step with its neighbours. That is what the ninety days are for.</p>
-<p>Light is how the timing gets set. Morning light tells the body what hour it is, and that signal synchronises the nervous system, hormones, metabolism and mitochondrial activity. It does not deliver energy into you. Food in season tells it what month it is.</p>
+<p>Light does two jobs. The big one is timing. Morning light tells the body what hour it is, and that signal sets the nervous system, hormones, metabolism and mitochondrial activity. The small one is chemistry in your skin: sunlight makes vitamin D and releases nitric oxide, which widens your arteries. So light is a real energy input, and a small one. Your skin takes in a lot of sunlight and nearly all of it becomes heat, because the body cannot turn light into fuel.</p>
+<p>Eating with the season is in the protocol because different foods give your body different fuel, and daylength sets how your body handles fuel. Lining those up is the idea being tested. It is not a settled fact, and food does not carry any message about the month it grew in.</p>
 <p>The circadian protocol is how coherence is supported. The daily log is how it is tracked. Every element in this document carries a note saying which of the four questions it answers, and where an element answers none of them, it says so.</p>
 </div>
 {pages}

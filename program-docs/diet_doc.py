@@ -10,8 +10,8 @@ def diet_doc():
         ("Leafy greens", "Kale, chard, arugula, romaine, spinach.", "A full bowl. Raw with olive oil or wilted in butter."),
         ("Fermented vegetable", "Sauerkraut, kimchi.", "A forkful with a meal. Refrigerated, unpasteurized, nothing added."),
         ("Extra virgin olive oil", "The fat that goes on everything.", "Cold-pressed, dark bottle, single origin."),
-        ("Grass-fed butter", "For cooking.", "Kerrygold is fine."),
-        ("Baja Gold sea salt", "Minerals, not just sodium.", "On food and in every bottle of water."),
+        ("Grass-fed butter", "For cooking.", "Any grass-fed butter is fine."),
+        ("unrefined mineral sea salt", "Minerals, not just sodium.", "On food and in every bottle of water."),
         ("Wild salmon", "Sockeye or coho.", "Four times a week minimum. Frozen wild beats fresh farmed."),
         ("Cruciferous vegetables", "Broccoli, cauliflower, Brussels sprouts, cabbage.", "Two cups. Roasted in tallow or steamed with butter."),
         ("Avocado", "Potassium and fat.", "Half to one a day."),
@@ -33,7 +33,7 @@ def diet_doc():
         ("Carbohydrates are the smallest part", "Vegetables, and for the lower tiers a fist of white rice or sweet potato. About 20 percent of what you eat.", "Vegetables are on the plate for what they carry, not for bulk. The fuel comes from fat and protein."),
         ("No snacks", "Two or three meals inside your window. Nothing between them.", "Every snack restarts the insulin cycle and stops the body from ever getting to the work it does when it is not digesting. This one rule does more than any other."),
         ("The window closes early", "Your tier sets the hours. The last meal ends at least three hours before bed.", "Late eating runs the clock backward."),
-        ("Water with minerals, not with food", "Three liters a day with Baja Gold in every bottle. Most of it between meals.", "The morning glass, with lemon, before anything else."),
+        ("Water with minerals, not with food", "Three liters a day with unrefined mineral sea salt in every bottle. Most of it between meals.", "The morning glass, with lemon, before anything else."),
     ]
     build_plate = [
         ("The formula", "Protein and fat are most of every meal, roughly 40 percent each. Carbohydrates are the last 20 percent: vegetables, and for Intermediate and Beginner, one fist of starch at the midday meal. Protein the size of your palm, two palms for Pro and Advanced. Fat over everything. Salt."),
@@ -83,12 +83,12 @@ def diet_doc():
   <div class="kicker" style="color:{C}">THE FULL LIST</div>
   <h1>Approved foods</h1>
   <h3>Protein</h3>{chips(["Sardines","Wild salmon","Mackerel","Anchovies","Oysters","Grass-fed beef","Lamb","Bison","Pastured chicken thigh","Pastured eggs","Beef liver","Bone broth","Wild game"], "yes")}
-  <h3>Vegetables</h3>{chips(["All leafy greens","Broccoli","Cauliflower","Brussels sprouts","Cabbage","Bok choy","Asparagus","Celery","Cucumber","Zucchini","Green beans","Artichoke","Mushrooms","Onion","Garlic","Leeks","Radish","Beets","Carrots","Sauerkraut","Kimchi","Fermented pickles"], "yes")}
+  <h3>Vegetables</h3>{chips(["All leafy greens","Broccoli","Cauliflower","Brussels sprouts","Cabbage","Bok choy","Asparagus","Celery","Cucumber","Zucchini","Green beans","Artichoke","Mushrooms","Onion","Shallot","Garlic","Leeks","Radish","Beets","Carrots","Sauerkraut","Kimchi","Fermented pickles"], "yes")}
   <h3>Fats</h3>{chips(["Extra virgin olive oil","Grass-fed butter","Ghee","Tallow","Avocado","Avocado oil for high heat","Coconut oil","Olives","Macadamia nuts","Walnuts"], "yes")}
   <h3>Fruit</h3>{chips(["Blueberries","Blackberries","Raspberries","Lemon","Lime","Avocado","Seasonal fruit, small, with a meal"], "yes")}
   <h3>Starch, Intermediate and Beginner only</h3>{chips(["White rice","Sweet potato","Squash"])}
   <h3>Dairy, limited</h3>{chips(["Grass-fed butter","Ghee","Aged hard cheese (not Pro)"])}
-  <h3>Seasoning</h3>{chips(["Baja Gold","Black pepper","Fresh herbs","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
+  <h3>Seasoning</h3>{chips(["unrefined mineral sea salt","Black pepper","Fresh herbs","Parsley","Thyme","Rosemary","Bay","Basil","Mint","Dill","Chives","Ginger","Turmeric","Cinnamon","Apple cider vinegar","Mustard, no sugar","Coconut aminos"])}
   <h3>Drinks</h3>{chips(["Mineral water","Black coffee, before noon","Green tea","Herbal tea","Bone broth","Spring Dragon tea, afternoon"])}
 </div>
 
@@ -106,13 +106,13 @@ def diet_doc():
   <h1>Your window and your exclusions</h1>
   <p class="lede">Same principles for everyone. The hours and the exclusions change with the tier.</p>
   <div class="tierrow">
-    <div style="background:#0E557C"><h3>PRO</h3><p>7am to 1pm. One 24-hour fast weekly. No grains, legumes, nightshades, starch, or dairy except butter and ghee.</p></div>
-    <div style="background:#218BBE"><h3>ADVANCED</h3><p>7am to 3pm. No grains, legumes, nightshades. Butter and aged cheese only.</p></div>
-    <div style="background:#2AAFC0"><h3>INTERMEDIATE</h3><p>8am to 5pm. White rice and sweet potato allowed. Nightshades in.</p></div>
-    <div style="background:#157A5C"><h3>BEGINNER</h3><p>No window in month one. 9am to 7pm in month two, tightening. Gluten and seed oils out from week 9. Everything else in.</p></div>
+    <div style="background:#2E4A6B"><h3>PRO</h3><p>7am to 1pm. One 24-hour fast weekly. No grains, legumes, nightshades, starch, or dairy except butter and ghee.</p></div>
+    <div style="background:#2A78D6"><h3>ADVANCED</h3><p>7am to 3pm. No grains, legumes, nightshades. Butter and aged cheese only.</p></div>
+    <div style="background:#7A4A2E"><h3>INTERMEDIATE</h3><p>8am to 5pm. White rice and sweet potato allowed. Nightshades in.</p></div>
+    <div style="background:#1BAF7A"><h3>BEGINNER</h3><p>No window in month one. 9am to 7pm in month two, tightening. Gluten and seed oils out from week 9. Everything else in.</p></div>
   </div>
-  <div class="tile soft" style="border-left-color:{C};margin-top:6mm"><h3>The morning glass, every tier</h3><p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of Baja Gold and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p></div>
-  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. Baja Gold in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
+  <div class="tile soft" style="border-left-color:{C};margin-top:6mm"><h3>The morning glass, every tier</h3><p>Before coffee, before food, before anything: 16 to 24 oz of mineral water with a pinch of unrefined mineral sea salt and 1 to 2 oz of pure organic lemon juice. Empty stomach. It is the first thing the body receives after light.</p></div>
+  <div class="tile" style="border-left-color:{C}"><h3>Water for the day</h3><p>Three liters minimum, every tier. More on days you sweat: sauna, hard training, heat. unrefined mineral sea salt in every bottle, because water without minerals passes through and takes minerals with it.</p></div>
 </div>
 
 
@@ -125,17 +125,22 @@ def diet_doc():
   <h3>Your mitochondria are sensors</h3>
   <p>The mitochondria in your cells do not just burn fuel. They read it. Douglas Wallace, who founded the field of mitochondrial medicine, describes them as environmental sensors. Food arriving in a cell is information about the world outside, not just calories.</p>
   <h3>Summer food and winter food are not the same</h3>
-  <p>Summer light is stronger and lasts longer. The food summer makes, fruit, berries, sweet things, carries that. In our model, what matters is not that summer food holds more energy, it is that it only exists when the sun is high. Sugar arriving is a message: the days are long. Your body reads that as summer: store, grow, be active, get ready for the cold.</p>
-  <p>Winter light is weaker. The food winter makes is fat and protein, roots, and animals that ate all summer. A different message. Your body reads that as winter: burn stored fat, repair, rest.</p>
-  <h3>What happens when the signals disagree</h3>
-  <p>Eat watermelon in January under a light bulb and your body receives summer food and winter light at the same time. The mitochondria cannot tell what season it is. In our model, that mismatch is one reason people gain weight through the winter and cannot get it off: the body is being told to store for a winter that, as far as the food is concerned, never comes.</p>
+  <p><b>First, what is not true.</b> Food does not carry a message about the month or the place it grew in. The parts of food that give you energy are electrons, and every electron is identical to every other electron. An electron from a summer peach and an electron from a winter parsnip are the same particle. Nothing about it says peach, or July, or Georgia.</p>
+  <p>Here is what is true. Different foods give your body different fuel. Sugar and fat are handled by different machinery, and switching between them changes how your cells work. That part is settled.</p>
+  <p>Daylength does something separate. Morning light sets your body clock, and your clock changes how your body handles fuel at different times of year. That part is settled too.</p>
+  <h3>What happens when the two do not line up</h3>
+  <p><b>Dr. Micah's idea, being tested.</b> Those two settled things meet in your cells. Summer food is mostly available when the days are long, and winter food when they are short, so for most of human history the fuel and the daylength matched. Eat watermelon in January under a light bulb and they do not.</p>
+  <p>The idea we are testing is about <b>what the food is made of</b>: its sugars and starches, its fats, and what your gut bacteria make from it. Those arrive in a body whose clock has already been set by daylength. The idea is that a long run of the two being out of step matters.</p>
+  <p><b>What this idea is not.</b> It is not that summer food carries more energy, or more antioxidants, or a better kind of electron. Food does not deliver energy to your mitochondria that way at all. Where your energy comes from is fixed chemistry, and it is the same whatever you ate.</p>
+  <p><b>What argues against it.</b> The cleanest animal test looked for the food and daylength effects working together and did not find it: the two worked separately. The result changes from one strain of rat to another. People respond to daylength less consistently than animals do, and some may not respond at all. And there has never been a human trial of in season versus out of season food that measured what it did to metabolism. Not one.</p>
+  <p>You do not need to believe it to follow the protocol. Eating with the season is a simple rule that costs you nothing if the idea turns out to be wrong.</p>
   <h3>What to do</h3>
-  <p>Eat what grows near you, in the season you are in. Fruit and berries in summer, and only then. Fat, animals and roots in winter. Local fish. A farmers market tells you what is in season without you having to look it up. If it flew here from the other side of the world, it is carrying the wrong season.</p>
+  <p>Eat what grows near you, in the season you are in. Fruit and berries in summer, and only then. Fat, animals and roots in winter. Local fish. A farmers market tells you what is in season without you having to look it up. Food does not carry a message about where or when it grew. The reason to eat with the season is simpler: different foods give your body different fuel, and daylength sets how your body handles fuel. Lining those two up is the idea we are testing. It is not a settled fact.</p>
   <div class="tierrow">
-    <div style="background:#0E557C"><h3>PRO</h3><p>No fruit for 90 days regardless of season.</p></div>
-    <div style="background:#218BBE"><h3>ADVANCED</h3><p>No fruit for 90 days regardless of season.</p></div>
-    <div style="background:#2AAFC0"><h3>INTERMEDIATE</h3><p>Berries in season only, with a meal.</p></div>
-    <div style="background:#157A5C"><h3>BEGINNER</h3><p>Fruit in season only, with a meal, never alone.</p></div>
+    <div style="background:#2E4A6B"><h3>PRO</h3><p>No fruit for 90 days regardless of season.</p></div>
+    <div style="background:#2A78D6"><h3>ADVANCED</h3><p>No fruit for 90 days regardless of season.</p></div>
+    <div style="background:#7A4A2E"><h3>INTERMEDIATE</h3><p>Berries in season only, with a meal.</p></div>
+    <div style="background:#1BAF7A"><h3>BEGINNER</h3><p>Fruit in season only, with a meal, never alone.</p></div>
   </div>
   <div class="rule" style="margin-top:6mm">This section is part of the Human Battery working model. That plants make food from light, and that what grows changes with the season, is settled. What your mitochondria do with the difference is the frontier, and it is the part we are here to measure.</div>
 </div>

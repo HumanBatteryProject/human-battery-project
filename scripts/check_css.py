@@ -25,6 +25,38 @@ def strip_comments(text):
     return re.sub(r'/\*.*?\*/', '', text, flags=re.S)
 
 
+
+# ---------------------------------------------------------------------
+# Alias collisions.
+# ---------------------------------------------------------------------
+# Two aliases pointing at one token make two things render identically. That
+# is invisible in the markup, which is what makes it dangerous: --teal and
+# --copper both aliased to copper-light and `drain` and `output` shipped as
+# the same colour. Some merges ARE intended, so those are named here and
+# anything else fails.
+INTENDED_MERGES = {
+    "surface-raised": {"navy", "navy-2"},   # two panels become one
+    "ink-muted":      {"silver", "steel"},  # two greys become one
+}
+
+
+def check_alias_collisions(text, name):
+    import collections
+    block = text.split(":root{", 1)[-1].split("--display:")[0]
+    alias = dict(re.findall(r"--([a-z0-9-]+):var\(--([a-z0-9-]+)\)", block))
+    rev = collections.defaultdict(set)
+    for a, target in alias.items():
+        rev[target].add(a)
+    problems = []
+    for target, names in rev.items():
+        if len(names) > 1 and names != INTENDED_MERGES.get(target, set()):
+            problems.append(
+                "%s: --%s all alias to %s. Two aliases on one token render "
+                "identically. If that is intended, add it to INTENDED_MERGES "
+                "with a reason." % (name, " and --".join(sorted(names)), target))
+    return problems
+
+
 def check(path):
     raw = (ROOT / path).read_text(encoding='utf-8')
     body = strip_comments(raw)
@@ -57,6 +89,7 @@ def check(path):
     for m in re.finditer(r'[a-z-]+:\s*;', body):
         problems.append(f'empty declaration: {m.group(0)!r}')
 
+    problems += check_alias_collisions(raw, path)
     return problems
 
 

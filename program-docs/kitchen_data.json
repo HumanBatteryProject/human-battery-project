@@ -1,0 +1,985 @@
+[
+ {
+  "meal": "breakfast",
+  "icon": "tin",
+  "name": "Sardines, Lemon, Oil",
+  "tiers_raw": "A",
+  "time": "3 min",
+  "tech": "No cooking",
+  "why": "The most important food in the program, eaten the way it costs the least effort. If you do nothing else, do this.",
+  "ing": [
+   "1 tin sardines in olive oil",
+   "Half a lemon",
+   "Extra virgin olive oil",
+   "Mineral salt",
+   "Forkful of sauerkraut"
+  ],
+  "steps": [
+   "Open the tin. Tip the fish onto a plate with the oil it came in.",
+   "Squeeze the lemon over. Add another pour of olive oil on top of the tin's own.",
+   "Salt, more than feels right.",
+   "Sauerkraut on the side, cold, straight from the jar."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "greens",
+  "name": "Sardines on Charred Greens",
+  "tiers_raw": "A",
+  "time": "12 min",
+  "tech": "Char",
+  "why": "The char takes the raw edge off the greens and gives the whole plate a savoury base that you would otherwise need a sauce for.",
+  "ing": [
+   "1 tin sardines",
+   "2 handfuls kale or chard",
+   "Grass-fed butter",
+   "Garlic, 1 clove",
+   "Lemon",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Get a dry pan as hot as it goes. No oil yet.",
+   "Throw the greens in dry. Leave them. Do not stir. Wait until the edges go black in patches, about 90 seconds.",
+   "Now add butter and the sliced garlic, and toss for 30 seconds off the heat.",
+   "Tip onto a plate, lay the sardines over the top with their oil, lemon, salt."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "egg",
+  "name": "The Slow Fold",
+  "tiers_raw": "A",
+  "time": "8 min",
+  "tech": "Heat control",
+  "why": "A French omelette is the test of whether you can control a pan. Low heat and constant movement, and it will be custard instead of rubber.",
+  "ing": [
+   "3 pastured eggs",
+   "Grass-fed butter, a generous knob",
+   "Mineral salt",
+   "Fresh chives or parsley"
+  ],
+  "steps": [
+   "Beat the eggs hard with salt until completely uniform, no streaks of white.",
+   "Melt butter in a non-stick pan over the lowest heat that will still melt it. Do not let it brown.",
+   "Pour in the eggs and stir constantly with a spatula, scraping the base, for about two minutes. It should look like loose curds.",
+   "Stop stirring. Let it set for 20 seconds, then tilt the pan and roll it over on itself.",
+   "Slide onto a plate seam-side down. Herbs, and a little more butter on top."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "egg",
+  "name": "Eggs Confit in Olive Oil",
+  "tiers_raw": "A",
+  "time": "25 min",
+  "tech": "Confit",
+  "why": "Cooked in fat at low heat the whites go silky rather than squeaky, and the oil afterwards is flavoured for everything else that week.",
+  "ing": [
+   "3 pastured eggs",
+   "Enough olive oil to cover, about 250ml",
+   "Garlic, 3 cloves, skin on",
+   "Thyme or rosemary",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Put the oil, garlic and herbs in a small pan. Bring it to just barely warm, around 130°C, which is well below a sizzle.",
+   "Crack the eggs in gently, one at a time.",
+   "Hold it there for 6 to 8 minutes. The white sets, the yolk stays liquid, nothing browns.",
+   "Lift out with a slotted spoon. Salt heavily.",
+   "Strain the oil into a jar once cool. That is now your cooking oil for the week."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "veg",
+  "name": "Charred Leek and Egg",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Char, root to stem",
+  "why": "The dark green tops of a leek normally go in the bin. Charred hard, they are the best-tasting part of the vegetable.",
+  "ing": [
+   "1 whole leek, tops and all",
+   "2 pastured eggs",
+   "Grass-fed butter",
+   "Extra virgin olive oil",
+   "Mineral salt",
+   "Apple cider vinegar"
+  ],
+  "steps": [
+   "Cut the dark tops off the leek and keep them. Split the white part lengthwise and rinse.",
+   "Char the dark tops in a dry, very hot pan until they are properly black. Chop them fine and set aside as a seasoning.",
+   "Cook the white part cut-side down in butter, low, for 10 minutes until it gives to a knife.",
+   "Fry the eggs in the same pan.",
+   "Plate the leek, eggs over, then the blackened tops scattered on top with salt, oil and a splash of vinegar."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "beef",
+  "name": "Liver and Onions, Morning",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Fast, hot, rested",
+  "why": "Your weekly liver, handled so it is not grey. Dense in almost everything the panel measures, and cheapest of all the animal foods.",
+  "ing": [
+   "120g beef liver, sliced thin",
+   "1 onion, sliced",
+   "Grass-fed butter",
+   "Apple cider vinegar",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the liver and leave it on the counter for 10 minutes while you cook the onions.",
+   "Cook the onions slowly in butter until brown and sweet, about 10 minutes.",
+   "Push them aside, raise the heat, and sear the liver for 60 to 90 seconds a side. No longer. It should still be pink inside.",
+   "Take it off, splash vinegar into the hot pan, and pour that over.",
+   "Rest for two minutes before eating."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "fish",
+  "name": "Cold Salmon, Mustard, Herbs",
+  "tiers_raw": "A",
+  "time": "5 min",
+  "tech": "Cook once, eat twice",
+  "why": "A restaurant kitchen never cooks one portion. Cook extra salmon at dinner and the first meal the next day takes no time at all.",
+  "ing": [
+   "Leftover cooked wild salmon",
+   "Mustard, no sugar",
+   "Extra virgin olive oil",
+   "Lemon",
+   "Fresh dill or parsley",
+   "Cucumber",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Take the salmon out of the fridge while the kettle boils. Cold fish tastes of nothing.",
+   "Flake it into large pieces onto the plate. Do not shred it.",
+   "Mix mustard, olive oil and lemon into a loose dressing with a fork.",
+   "Spoon over, add sliced cucumber, herbs and salt."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "broth",
+  "name": "Broth with a Dropped Egg",
+  "tiers_raw": "A",
+  "time": "6 min",
+  "tech": "Stock as a base",
+  "why": "On a morning with no appetite, this goes down when nothing else will, and it still carries protein, minerals and collagen.",
+  "ing": [
+   "400ml bone broth",
+   "1 pastured egg",
+   "Handful of spinach",
+   "Ginger, thumb-sized, sliced",
+   "Coconut aminos",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Bring the broth to a bare simmer with the ginger. Never a rolling boil.",
+   "Stir it into a slow whirlpool and drop the egg into the middle. Leave it for three minutes.",
+   "Add the spinach for the last 30 seconds.",
+   "Coconut aminos and salt to finish. Drink it from a mug if you would rather."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "fish",
+  "name": "Mackerel, Mustard, Radish",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Fast sear",
+  "why": "Mackerel carries more omega-3 per gram than almost anything else you can buy, and it is one of the cheapest fish at the counter.",
+  "ing": [
+   "1 mackerel fillet",
+   "Mustard, no sugar",
+   "Radishes, sliced thin",
+   "Apple cider vinegar",
+   "Ghee",
+   "Mineral salt",
+   "Parsley"
+  ],
+  "steps": [
+   "Salt the skin and leave it 5 minutes, then pat it completely dry. Wet skin will not crisp.",
+   "Ghee in a hot pan. Fish skin-side down, and press it flat for the first 10 seconds.",
+   "Leave it for 3 minutes without moving it. Turn, 30 seconds, out.",
+   "Toss the radishes with vinegar and salt while the fish rests.",
+   "Mustard on the plate, fish on top, radishes alongside."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "veg",
+  "name": "Broccoli Stem Hash",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Root to stem",
+  "why": "The stem is the sweetest part of the broccoli and the part most people throw out. Peeled and diced it behaves like a potato.",
+  "ing": [
+   "Stems from 2 heads of broccoli",
+   "1 onion",
+   "2 pastured eggs",
+   "Tallow or ghee",
+   "Garlic",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Peel the tough outer skin off the stems with a knife. Dice what is left into small cubes.",
+   "Get the tallow hot. Add the stems and onion in one layer and leave them to colour before stirring, about 4 minutes.",
+   "Stir, add garlic, cook another 5 minutes until tender at the edges and browned.",
+   "Make two wells, crack the eggs in, cover, 3 minutes.",
+   "Salt and pepper, straight from the pan."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "veg",
+  "name": "Eggs Baked in Mushrooms",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Slow heat",
+  "why": "Large flat mushrooms hold an egg and their own liquid, so nothing needs a dish and nothing needs washing.",
+  "ing": [
+   "2 large flat mushrooms",
+   "2 pastured eggs",
+   "Grass-fed butter",
+   "Garlic",
+   "Thyme",
+   "Mineral salt",
+   "Aged hard cheese, optional"
+  ],
+  "steps": [
+   "Take the stems out and sit the mushrooms gill-side up in a pan. Butter, garlic and thyme in each cup.",
+   "Low heat, lid on, for 8 minutes. They will release a lot of liquid. Leave it.",
+   "Crack an egg into each one.",
+   "Lid back on, another 6 to 8 minutes until the white is set.",
+   "Salt. A little grated hard cheese if your tier allows it."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "tin",
+  "name": "Avocado, Sardine, Salt",
+  "tiers_raw": "A",
+  "time": "4 min",
+  "tech": "No cooking",
+  "why": "Potassium, fat and DHA in one plate with nothing to wash up. The fastest compliant meal in the book.",
+  "ing": [
+   "1 avocado",
+   "1 tin sardines",
+   "Lemon",
+   "Extra virgin olive oil",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Halve the avocado and score the flesh in the skin.",
+   "Break the sardines over it, oil and all.",
+   "Lemon, olive oil, a heavy pinch of salt, pepper.",
+   "Eat it out of the skin with a spoon."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "egg",
+  "name": "Kimchi and Eggs",
+  "tiers_raw": "A",
+  "time": "8 min",
+  "tech": "Fat and ferment",
+  "why": "A live ferment beside eggs, which is two of the daily list in one pan and the easiest way to get a forkful in before noon.",
+  "ing": [
+   "3 pastured eggs",
+   "3 tbsp kimchi, unpasteurized",
+   "Grass-fed butter",
+   "Spring onion",
+   "Coconut aminos",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Fry the kimchi in butter for 2 minutes until the edges catch. This is where the flavour comes from.",
+   "Push it to the side of the pan.",
+   "Beat the eggs with salt and pour them into the empty half. Stir slowly over low heat.",
+   "Fold the kimchi through at the last moment, not before.",
+   "Coconut aminos, spring onion, off the heat."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "greens",
+  "name": "Charred Cabbage, Anchovy Butter",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Char, compound butter",
+  "why": "Anchovy melts into butter and disappears, leaving savouriness with no sugar and nothing from a bottle. Keep a log of it in the freezer.",
+  "ing": [
+   "Quarter of a green cabbage",
+   "4 anchovy fillets",
+   "Grass-fed butter, 60g",
+   "Garlic",
+   "Lemon",
+   "Mineral salt",
+   "1 pastured egg, optional"
+  ],
+  "steps": [
+   "Mash the anchovies and a grated clove of garlic into soft butter with a fork. That is the anchovy butter.",
+   "Cut the cabbage into two thick wedges through the core so they hold together.",
+   "Dry pan, high heat, cut face down. Leave it for 4 minutes until black.",
+   "Turn, drop in a spoon of the butter, cover, and cook 6 minutes more until a knife goes through.",
+   "Another spoon of the butter over the top, lemon, salt. Fry an egg in the same pan if you want it."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "beef",
+  "name": "Steak and Eggs, Second Day",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Gentle reheat",
+  "why": "Leftover steak reheated hot goes grey and tough. Warmed gently in butter it is better than it was the night before.",
+  "ing": [
+   "Leftover cooked steak",
+   "2 pastured eggs",
+   "Grass-fed butter",
+   "Handful of rocket or watercress",
+   "Extra virgin olive oil",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Slice the steak cold, against the grain, while it is still firm.",
+   "Melt butter in a pan on the lowest heat. Lay the slices in and turn them once. Thirty seconds a side is plenty, you are warming not cooking.",
+   "Lift them out onto the plate immediately.",
+   "Fry the eggs in the same butter.",
+   "Greens alongside with olive oil and salt."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "veg",
+  "name": "Brined Zucchini and Egg",
+  "tiers_raw": "A",
+  "time": "10 min, plus 2 hours",
+  "tech": "Brine",
+  "why": "Zucchini is mostly water, which is why it usually goes soggy. Salt it in advance and it griddles instead of steaming.",
+  "ing": [
+   "2 zucchini",
+   "Mineral salt",
+   "2 pastured eggs",
+   "Extra virgin olive oil",
+   "Lemon",
+   "Fresh mint or basil",
+   "Black pepper"
+  ],
+  "steps": [
+   "Slice the zucchini into thick planks. Salt both sides generously and lay them in a colander for two hours. Do this the night before.",
+   "Pat them completely dry. A lot of water will have come out.",
+   "Dry griddle or heavy pan, very hot, no oil. Three minutes a side until there are black bars on them.",
+   "Fry the eggs separately in olive oil.",
+   "Plate together, lemon, olive oil, herbs, pepper."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "shell",
+  "name": "Oysters to Start the Day",
+  "tiers_raw": "A",
+  "time": "5 min",
+  "tech": "Raw",
+  "why": "Nothing else on the list carries zinc and selenium like an oyster, and they need no cooking at all. Buy them closed and heavy.",
+  "ing": [
+   "6 oysters",
+   "Lemon",
+   "Apple cider vinegar",
+   "Shallot, minced fine",
+   "Black pepper"
+  ],
+  "steps": [
+   "Mix the shallot with a spoon of vinegar and leave it while you shuck.",
+   "Hold each oyster in a folded towel, hinge towards you, and work the knife into the hinge with a twist, not a stab.",
+   "Run the knife along the top shell to cut the muscle, then under the oyster to free it.",
+   "Check for shell fragments. Keep all the liquor.",
+   "Lemon or the shallot vinegar, pepper, and do not drown them."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "greens",
+  "name": "Asparagus, Egg, Brown Butter",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Brown butter",
+  "why": "Butter cooked past melting turns nutty and completely changes what it does to a plate. It takes ninety seconds and most people never do it.",
+  "ing": [
+   "1 bunch asparagus",
+   "2 pastured eggs",
+   "Grass-fed butter, 50g",
+   "Lemon",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Snap the woody ends off the asparagus. They break where they want to.",
+   "Char them in a dry hot pan, rolling, for 4 minutes until blistered.",
+   "In a separate small pan melt the butter and keep going past the foam until the solids at the bottom turn brown and it smells like nuts. Take it off immediately.",
+   "Soft-boil or fry the eggs.",
+   "Asparagus on the plate, egg on top, brown butter poured over, lemon and salt."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "veg",
+  "name": "Sweet Potato and Egg Hash",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "20 min",
+  "tech": "Par-cook, then sear",
+  "why": "For the tiers that still have starch. Par-cooking first means the outside crisps before the inside is raw, which is the whole trick.",
+  "ing": [
+   "1 sweet potato",
+   "2 pastured eggs",
+   "Tallow or ghee",
+   "1 onion",
+   "Garlic",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Dice the sweet potato and boil it for 4 minutes only. Drain it and let it steam dry in the colander.",
+   "Get the tallow properly hot. Add the potato in one layer and leave it alone for 5 minutes.",
+   "Turn once, add the onion, cook another 5 minutes. Garlic in the last minute.",
+   "Wells for the eggs, cover, 3 minutes.",
+   "Salt and pepper. This is a midday meal, not an everyday one."
+  ]
+ },
+ {
+  "meal": "breakfast",
+  "icon": "berry",
+  "name": "Berries Beside Eggs",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "5 min",
+  "tech": "Seasonal",
+  "why": "Berries only, in season, and never on their own. Fruit with fat and protein beside it lands very differently to fruit by itself.",
+  "ing": [
+   "Handful of blueberries or raspberries, in season",
+   "3 pastured eggs",
+   "Grass-fed butter",
+   "Macadamia nuts or walnuts",
+   "Cinnamon",
+   "Mineral salt"
+  ],
+  "steps": [
+   "Cook the eggs first, soft, in butter, with salt.",
+   "Put the berries on the same plate, not in a separate bowl. They are part of the meal.",
+   "Crush a few nuts over them.",
+   "A little cinnamon. Nothing else, and nothing sweet added.",
+   "Out of season, leave the berries off and eat the eggs."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "fish",
+  "name": "Salmon Collar, Garlic Butter",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "The offcut",
+  "why": "The collar is the piece behind the gills, thrown away at industrial scale and richer in fat than the fillet. Ask your fish counter for them and they are close to free.",
+  "ing": [
+   "2 salmon collars",
+   "Grass-fed butter, 60g",
+   "Garlic, 4 cloves",
+   "Lemon",
+   "Mineral salt",
+   "Parsley",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the collars on both sides and leave them 20 minutes while the oven heats to 220°C.",
+   "Roast skin-side up, 12 to 14 minutes, until the skin blisters and the fat runs.",
+   "Melt the butter with crushed garlic in a small pan, low, until the garlic softens but does not colour.",
+   "Pour the garlic butter over the collars straight out of the oven.",
+   "Lemon, parsley, pepper. Eat them with your hands and get into the corners."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "fish",
+  "name": "Whole Roast Mackerel",
+  "tiers_raw": "A",
+  "time": "25 min",
+  "tech": "Whole fish",
+  "why": "A whole fish cooks more evenly than a fillet because the bones conduct heat and the skin holds the moisture in. It also costs less.",
+  "ing": [
+   "1 whole mackerel, gutted",
+   "Lemon, sliced",
+   "Fresh herbs",
+   "Extra virgin olive oil",
+   "Mineral salt",
+   "Garlic",
+   "Fennel or celery, sliced"
+  ],
+  "steps": [
+   "Score the skin three times on each side, down to the bone but not through it. This is what stops it curling.",
+   "Salt inside and out, heavily, 20 minutes ahead.",
+   "Stuff the cavity with lemon slices, garlic and herbs.",
+   "Lay it on the sliced fennel or celery in a hot oven at 220°C for 18 to 20 minutes.",
+   "The eye goes white and the flesh comes away from the bone when it is done. Olive oil over it at the table."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Reverse-Sear Ribeye",
+  "tiers_raw": "A",
+  "time": "45 min",
+  "tech": "Reverse sear",
+  "why": "Low oven first, hard pan second. The whole steak comes out one colour instead of grey-banded, and you cannot overshoot it.",
+  "ing": [
+   "1 thick ribeye, 3cm or more",
+   "Mineral salt",
+   "Tallow or ghee",
+   "Grass-fed butter",
+   "Garlic",
+   "Thyme",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the steak all over and leave it uncovered in the fridge overnight if you can, an hour if you cannot.",
+   "Oven at 110°C. Steak on a rack, 25 to 35 minutes, until the middle reads 48°C.",
+   "Rest it 10 minutes out of the oven while a heavy pan gets as hot as it will go with tallow in it.",
+   "Sear 60 seconds a side. Add butter, garlic and thyme, tilt the pan and spoon it over for 30 seconds more.",
+   "Rest again for 5 minutes. Slice against the grain. Pepper at the end, never before the sear."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Lamb Shoulder, Six Hours",
+  "tiers_raw": "A",
+  "time": "6 hours",
+  "tech": "Low and slow",
+  "why": "Shoulder is the cheap cut with all the connective tissue in it. Time turns that into gelatin, which is exactly what you want and what a lean cut cannot give you.",
+  "ing": [
+   "1 lamb shoulder, bone in",
+   "Mineral salt",
+   "Garlic, 1 whole head",
+   "Rosemary",
+   "Bone broth, 300ml",
+   "Onions, 2",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the shoulder the night before and leave it uncovered in the fridge.",
+   "Sit it on halved onions and the head of garlic in a deep tray. Broth poured around, not over.",
+   "Cover tightly with a lid or two layers of foil. Oven at 140°C for five hours.",
+   "Uncover, turn the oven to 200°C, and give it 30 to 40 minutes to brown.",
+   "Rest 20 minutes. It should pull apart with a spoon. Spoon the fat from the tray back over it."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "greens",
+  "name": "Charred Cabbage Wedge",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "Char",
+  "why": "Cabbage treated like a steak rather than a side. Hard char on the cut face, soft through the middle, and it stands up as the centre of a plate.",
+  "ing": [
+   "Half a green cabbage",
+   "Grass-fed butter, 80g",
+   "Anchovy fillets, 4",
+   "Garlic",
+   "Lemon",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cut two thick wedges through the core so the leaves stay attached.",
+   "Dry heavy pan, no oil, as hot as you dare. Cut face down, 5 minutes, until genuinely black.",
+   "Turn onto the other cut face, 4 minutes.",
+   "Add butter, mashed anchovy and garlic to the pan, cover, and cook 10 minutes on low, spooning the butter over.",
+   "Lemon, salt, pepper. The blackened part is the best part, do not trim it off."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "veg",
+  "name": "Whole Cauliflower, Nothing Wasted",
+  "tiers_raw": "A",
+  "time": "50 min",
+  "tech": "Root to stem",
+  "why": "Leaves, core and florets all cook, all taste different, and all end up on the same plate. The leaves crisp like chips.",
+  "ing": [
+   "1 whole cauliflower with leaves",
+   "Ghee or tallow, melted",
+   "Mineral salt",
+   "Garlic",
+   "Turmeric",
+   "Lemon",
+   "Extra virgin olive oil"
+  ],
+  "steps": [
+   "Pull the outer leaves off and keep them. Trim the base flat so it sits.",
+   "Rub the whole head with melted ghee, salt and turmeric, getting it into the gaps.",
+   "Oven at 200°C for 35 minutes on its own.",
+   "Toss the leaves in ghee and salt and add them to the tray for the last 12 minutes, until they blacken at the tips.",
+   "Carve it in wedges. Olive oil and lemon at the table, crisped leaves on top."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Short Rib in Its Own Broth",
+  "tiers_raw": "A",
+  "time": "4 hours",
+  "tech": "Braise and stock",
+  "why": "The liquid it cooks in becomes the stock for two more meals. Nothing is thrown away and the second night is easier than the first.",
+  "ing": [
+   "1kg beef short rib, bone in",
+   "Bone broth, 1 litre",
+   "Onions, 2",
+   "Carrots, 2",
+   "Garlic, 6 cloves",
+   "Bay",
+   "Mineral salt",
+   "Tallow"
+  ],
+  "steps": [
+   "Salt the ribs hard, then brown them in tallow on every face. Take your time, this is where the colour comes from.",
+   "Take them out. Brown the onions and carrots in the same fat.",
+   "Ribs back in, broth poured to two-thirds up, not covering them. Bay and garlic in.",
+   "Lid on, oven at 150°C, three hours. Turn them once at the halfway point.",
+   "Lift the meat out, skim the fat off the liquid and keep it. Keep the liquid too, it is stock now."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "bird",
+  "name": "Confit Chicken Thigh",
+  "tiers_raw": "A",
+  "time": "2.5 hours",
+  "tech": "Confit",
+  "why": "Submerged in fat and held low, the thigh goes soft all the way through and then crisps in seconds under heat. The fat is reusable for months.",
+  "ing": [
+   "4 pastured chicken thighs, bone in",
+   "Enough tallow or ghee to cover",
+   "Garlic, 1 head, halved",
+   "Thyme",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the thighs heavily and leave them in the fridge for 12 hours. Rinse and dry them completely.",
+   "Sit them in a deep oven dish with the garlic and thyme. Pour over melted fat until they are covered.",
+   "Oven at 130°C for two hours. It should never bubble hard, only the occasional lazy blip.",
+   "Lift them out and drain. They will be falling apart.",
+   "Skin-side down in a screaming hot dry pan for 90 seconds to crisp. Salt, pepper. Strain and keep the fat."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Liver, Onions, Vinegar",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Fast sear, acid finish",
+  "why": "Vinegar hit into the hot pan cuts the iron edge that puts people off liver. It is the difference between eating it and enduring it.",
+  "ing": [
+   "200g beef liver",
+   "2 onions, sliced",
+   "Grass-fed butter",
+   "Apple cider vinegar",
+   "Mineral salt",
+   "Black pepper",
+   "Parsley"
+  ],
+  "steps": [
+   "Slice the liver 1cm thick, salt it, and leave it out for 15 minutes.",
+   "Cook the onions in butter, low, for 15 minutes. Properly brown, not just softened.",
+   "Onions out. Pan up high. Liver in for 90 seconds a side and no more.",
+   "Liver out. A good splash of vinegar into the empty pan, let it hiss, scrape the base.",
+   "Onions back in to warm, pour it all over the liver, parsley and pepper. Rest two minutes."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Bison Burger, No Bun",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Hands off the meat",
+  "why": "The more you handle ground meat the tighter it gets. Shape it once, salt only the outside, and leave it alone in the pan.",
+  "ing": [
+   "400g ground bison or grass-fed beef",
+   "Mineral salt",
+   "Tallow",
+   "1 onion",
+   "Lettuce leaves, large",
+   "Mustard, no sugar",
+   "Black pepper"
+  ],
+  "steps": [
+   "Divide the meat and shape it into two thick patties with as few movements as possible. Do not mix salt into it.",
+   "Salt the outside faces only, just before they hit the pan.",
+   "Tallow in a heavy pan, very hot. Patties in, and do not touch them for 3 minutes.",
+   "Turn once. Three minutes more. Press nothing, ever.",
+   "Rest 4 minutes. Wrap in lettuce leaves with mustard and raw onion."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "shell",
+  "name": "Oysters and Cucumber",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Raw",
+  "why": "A light last meal that still carries dense minerals. Useful on a day you trained hard and do not want a heavy plate before sleep.",
+  "ing": [
+   "12 oysters",
+   "1 cucumber",
+   "Apple cider vinegar",
+   "Shallot",
+   "Lemon",
+   "Black pepper",
+   "Extra virgin olive oil"
+  ],
+  "steps": [
+   "Dice the cucumber very small and toss it with vinegar, minced shallot and pepper. Leave 10 minutes.",
+   "Shuck the oysters, keeping the liquor in the shell.",
+   "A small spoon of the cucumber on each.",
+   "Olive oil and lemon.",
+   "Eat them over ice if you have it, on a cold plate if you do not."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "veg",
+  "name": "Mushrooms Confit in Butter",
+  "tiers_raw": "A",
+  "time": "40 min",
+  "tech": "Confit",
+  "why": "Mushrooms give up water first and take on fat second. Held low in butter for long enough they go dense and meaty instead of rubbery.",
+  "ing": [
+   "500g mushrooms",
+   "Grass-fed butter, 120g",
+   "Garlic, 4 cloves",
+   "Thyme",
+   "Mineral salt",
+   "Black pepper",
+   "Lemon"
+  ],
+  "steps": [
+   "Leave the mushrooms whole or halved. Do not slice them thin.",
+   "Butter, garlic and thyme in a wide pan on the lowest heat. Mushrooms in, one layer.",
+   "Thirty to forty minutes, turning occasionally. They will release water, then reabsorb the butter. Wait for the second part.",
+   "Salt only at the end. Salting early draws the water out too fast.",
+   "Lemon and pepper. Serve them as the whole plate, with an egg if you want more."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "veg",
+  "name": "The Whole Leek",
+  "tiers_raw": "A",
+  "time": "3 hours, mostly waiting",
+  "tech": "Char, confit, crisp",
+  "why": "One vegetable, three techniques, nothing discarded. This is the restaurant method at its clearest and it costs about a pound.",
+  "ing": [
+   "4 leeks, whole, with roots and tops",
+   "Extra virgin olive oil, 400ml",
+   "Garlic",
+   "Mineral salt",
+   "Lemon",
+   "Black pepper"
+  ],
+  "steps": [
+   "Separate each leek into three: the dark tops, the white middle, and the hairy root end. Wash all three carefully.",
+   "Char the tops black in a dry hot pan, then drop them into the olive oil and leave them to steep, overnight if possible, two hours at minimum.",
+   "Strain the oil. It is now dark green and smoky. Confit the white parts in it at 130°C for two and a half hours until completely soft.",
+   "Deep colour the roots in a little of the same oil until crisp, then drain them on paper.",
+   "Plate the soft whites, spoon the smoky oil over, and scatter the crisped roots on top. Salt, lemon, pepper."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Beef and Bone Marrow",
+  "tiers_raw": "A",
+  "time": "40 min",
+  "tech": "Roast, render",
+  "why": "Marrow is the most fat-dense thing on the approved list and it turns a plain piece of beef into something you would pay for.",
+  "ing": [
+   "2 marrow bones, split lengthwise",
+   "1 steak or beef cut",
+   "Mineral salt",
+   "Parsley",
+   "Shallot",
+   "Lemon",
+   "Black pepper",
+   "Watercress"
+  ],
+  "steps": [
+   "Soak the marrow bones in salted cold water for an hour if you have time. It draws the blood out and keeps them pale.",
+   "Roast them cut-side up at 220°C for 15 to 20 minutes, until the marrow is loose and bubbling but has not run out.",
+   "Cook the beef as you like it while they roast, and rest it.",
+   "Chop parsley, shallot and lemon zest together into a rough, sharp salad.",
+   "Spoon marrow onto the beef, parsley over the top, watercress on the side. Salt heavily."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "veg",
+  "name": "Brined Zucchini, Griddled",
+  "tiers_raw": "A",
+  "time": "10 min, plus 2 hours",
+  "tech": "Brine",
+  "why": "The same salting trick as the breakfast version, taken further with char and herbs. A vegetable plate that does not feel like a side.",
+  "ing": [
+   "4 zucchini",
+   "Mineral salt",
+   "Extra virgin olive oil",
+   "Garlic",
+   "Mint and basil",
+   "Lemon",
+   "Apple cider vinegar",
+   "Black pepper"
+  ],
+  "steps": [
+   "Slice thick, salt both sides, and leave in a colander for two hours. Do this in the morning.",
+   "Squeeze and dry them properly. They should feel firm, not wet.",
+   "Dry griddle, very hot, no oil. Three to four minutes a side without moving them, until barred black.",
+   "Straight into a bowl with sliced raw garlic, torn herbs, vinegar and a lot of olive oil while still hot.",
+   "Leave 10 minutes for it to soak in. Lemon and pepper at the table. Better cold the next day."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Dry-Brined Lamb Chops",
+  "tiers_raw": "A",
+  "time": "12 min, plus a day",
+  "tech": "Dry brine",
+  "why": "Salt applied a day ahead goes all the way through and dries the surface, which is the only way to get a real crust on a small cut.",
+  "ing": [
+   "4 lamb chops",
+   "Mineral salt",
+   "Ghee",
+   "Garlic",
+   "Rosemary",
+   "Lemon",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the chops on all faces and sit them uncovered on a rack in the fridge for 24 hours. Uncovered is the important word.",
+   "Take them out an hour before cooking. Do not rinse.",
+   "Render the fat edge first: stand the chops on their fat side in a hot dry pan, held together, for 3 minutes until it runs and browns.",
+   "Lay them flat, 2 minutes a side, with ghee, garlic and rosemary spooned over.",
+   "Rest for as long as they cooked. Lemon and pepper."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "greens",
+  "name": "Asparagus, Brown Butter, Egg",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Brown butter",
+  "why": "Barely a recipe and still one of the better plates in the book. Proof that technique, not ingredients, is what most meals are missing.",
+  "ing": [
+   "2 bunches asparagus",
+   "Grass-fed butter, 80g",
+   "2 pastured eggs",
+   "Lemon",
+   "Mineral salt",
+   "Black pepper",
+   "Walnuts, optional"
+  ],
+  "steps": [
+   "Snap the ends off and char the spears in a dry pan, rolling them, 5 minutes until blistered and still firm.",
+   "Brown the butter in a separate pan: past the foam, until the milk solids turn hazelnut and it smells nutty. Off the heat immediately, it goes from brown to burnt in seconds.",
+   "Soft-boil the eggs for 6 minutes and peel them under cold water.",
+   "Asparagus down, eggs broken over, brown butter poured across both.",
+   "Lemon, salt, pepper, crushed walnuts if you want the crunch."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "broth",
+  "name": "Broth with Beef and Greens",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Stock as a base",
+  "why": "When the stock is already made this is twenty minutes from nothing to a full meal, which is what makes it the one you actually cook on a bad night.",
+  "ing": [
+   "800ml bone broth",
+   "200g thin-sliced beef",
+   "2 handfuls greens",
+   "Ginger",
+   "Garlic",
+   "Coconut aminos",
+   "Mineral salt",
+   "Spring onion"
+  ],
+  "steps": [
+   "Bring the broth up with sliced ginger and smashed garlic. Keep it just below a simmer for 10 minutes, then fish them out.",
+   "Slice the beef as thin as you can manage. Half-frozen meat slices thinner.",
+   "Greens into the broth for a minute.",
+   "Heat off. Beef into the hot liquid raw, and leave it for 60 seconds. It cooks in the residual heat and stays tender.",
+   "Coconut aminos, salt, spring onion. Eat it straight away."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "fish",
+  "name": "Salmon and Rice Bowl",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "25 min",
+  "tech": "Crisp skin",
+  "why": "For the tiers still eating starch. The rice is a fist, not a plate, and it sits under the fish rather than being the point of the meal.",
+  "ing": [
+   "1 wild salmon fillet, skin on",
+   "White rice, one fist cooked",
+   "Cucumber",
+   "Avocado",
+   "Sauerkraut",
+   "Coconut aminos",
+   "Ghee",
+   "Mineral salt",
+   "Lemon"
+  ],
+  "steps": [
+   "Salt the salmon skin and dry it completely. Wet skin steams, dry skin crisps.",
+   "Ghee in a hot pan. Fish skin-side down, pressed flat for 10 seconds, then left alone for 4 minutes.",
+   "Turn it, 90 seconds, out of the pan. It carries on cooking while it rests.",
+   "Rice in the bowl first, then cucumber, avocado and a forkful of sauerkraut around the edge.",
+   "Salmon on top, skin up so it stays crisp. Coconut aminos and lemon."
+  ]
+ },
+ {
+  "meal": "dinner",
+  "icon": "beef",
+  "name": "Slow Beef with Squash",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "3 hours",
+  "tech": "Braise",
+  "why": "The squash goes in late so it holds its shape rather than dissolving, and it soaks up the fat from the beef instead of needing its own.",
+  "ing": [
+   "800g beef chuck",
+   "Bone broth, 800ml",
+   "1 squash",
+   "2 onions",
+   "Garlic",
+   "Tallow",
+   "Bay",
+   "Mineral salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cut the beef into large chunks, salt them, and brown them hard in tallow in batches. Crowding the pan is why beef goes grey.",
+   "Onions in the same fat until dark. Beef back, broth to two-thirds up, bay and garlic.",
+   "Lid on, oven at 150°C, two hours.",
+   "Peel and chunk the squash and add it for the last 40 minutes only.",
+   "Skim the fat, keep it for cooking, and check the salt at the end rather than the start."
+  ]
+ }
+]
