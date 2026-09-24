@@ -1,0 +1,49 @@
+#!/bin/sh
+# Pre-commit gate. A commit over a failing check is impossible from here.
+#
+# This exists because it already happened: on 2026-09-24 check_prohibitions
+# fired on Phase 6 and the commit went through anyway, and the next commit had
+# to undo it. A suite you can commit past is advisory, and an advisory suite is
+# one that gets ignored on exactly the night it matters.
+#
+# Versioned under .githooks and wired up with
+#   git config core.hooksPath .githooks
+# so it travels with the repo instead of living in one clone's .git directory.
+#
+# Deliberately NOT bypassable in normal use. `git commit --no-verify` still
+# works, because git provides it and nothing here can take it away, but it
+# leaves no trace in the commit and the reviewer should treat its use as a
+# thing to explain.
+
+set -e
+cd "$(git rev-parse --show-toplevel)"
+
+PY=python3
+FAILED=""
+
+run () {
+  name="$1"; shift
+  if out=$("$@" 2>&1); then
+    printf '  %-26s ok\n' "$name"
+  else
+    printf '  %-26s FAILED\n' "$name"
+    printf '%s\n' "$out" | sed 's/^/      /' | head -20
+    FAILED="$FAILED $name"
+  fi
+}
+
+echo "pre-commit:"
+run check_prohibitions  $PY scripts/check_prohibitions.py
+run check_deliverables  $PY scripts/check_deliverables.py
+# check_claims runs LAST, per CLAUDE.md: it is the one that has to see the
+# tree exactly as it will be committed.
+run check_claims        $PY scripts/check_claims.py
+
+if [ -n "$FAILED" ]; then
+  echo
+  echo "COMMIT REFUSED. Failing:$FAILED"
+  echo "Fix the check. Do not commit over it."
+  exit 1
+fi
+echo "  all three clean, commit allowed"
+exit 0
