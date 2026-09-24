@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The Battery Kitchen, as a programme PDF.
+"""The Battery Kitchen, as a program PDF.
 
 This existed only as an artifact and was rendered to PDF once, by hand, from
 an inline script. That meant it had no build step, so when the palette moved

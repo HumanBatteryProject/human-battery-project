@@ -33,9 +33,9 @@ CIRCADIAN_INTRO = """
 FOUR_Q = {
  "morning": ("Q3, Q4", "Sets the circadian clock every tissue runs on. Sleep timing and light exposure are logged daily."),
  "midday":  ("Q3, Q4", "Holds the clock set. Vitamin D is on the panel and blood pressure is measured at both ends."),
- "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signalling to night signalling."),
+ "sunset":  ("Q3",     "Red light starts melatonin onset, the handover from day signaling to night signaling."),
  "evening": ("Q3",     "Protects that melatonin signal from blue light that would tell the body it is still daytime."),
- "night":   ("Q3, Q4", "Darkness is when repair signalling runs. Sleep timing and regularity are logged daily."),
+ "night":   ("Q3, Q4", "Darkness is when repair signaling runs. Sleep timing and regularity are logged daily."),
  "fast":    ("Q1, Q4", "Metabolic flexibility and substrate switching. Fasting glucose, insulin and HbA1c are on the panel."),
 }
 
@@ -87,7 +87,7 @@ def circadian(tier):
         pro="Red lenses from sunset, not amber. Every bulb you use after dark is incandescent or a red LED. Screens off after sunset. Candles are the correct evening light.",
         advanced="Amber or red lenses from sunset. Incandescent or red bulbs in every room you use after dark. Screens filtered with Iris and a blue-blocking film.",
         intermediate="Amber lenses from sunset. Bedroom and living room switched to incandescent or red bulbs. Iris on every screen. Film on the TV.",
-        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any colour-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
+        beginner="The moment the sun goes down and you come inside, put on your amber glasses. Wear them until you are in bed. Every screen you use at night gets a blue light filter: any color-temperature shifter on the computer, the free ones work, night mode on your phone, and a blue-blocking film on the TV. Swap the bulb in your bedroom lamp for a warm or red one this week. Add the living room next month.",
      ),
      "night": dict(
         h="Make the bedroom dark and quiet",
@@ -129,7 +129,7 @@ def water(tier):
 <h3>Through the day</h3>
 <p>{vol} Every bottle gets a pinch of unrefined mineral sea salt, because water without minerals passes through and takes minerals with it. Most of it before your last meal.</p>
 <h3>What to drink</h3>
-<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per litre, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
+<p>Bottled water with a measurable mineral content, not distilled. At home, reverse osmosis with unrefined mineral sea salt added back, a quarter teaspoon per liter, and the same salt for cooking. Nothing else. We take no commission on anything named in this guide.</p>
 """
 
 def movement(tier):
@@ -181,7 +181,7 @@ def food(tier):
 <h3>Window: 7am to 1pm</h3>
 <p>One large meal or two. One 24-hour fast per week.</p>
 <h3>The meal</h3>
-<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. unrefined mineral sea salt.</p>
+<p>Two tins of sardines or 8 oz wild salmon, every day. Grass-fed beef, lamb or liver, 10 to 12 oz. Four pastured eggs. Two cups leafy greens, two cups cruciferous. A fermented vegetable. Extra virgin olive oil, grass-fed butter or tallow. An unrefined salt with a full trace-mineral profile, not refined sodium chloride.</p>
 <h3>Protein</h3><p>2.2 grams per kilogram of bodyweight, every day, inside the window.</p>
 <h3>Out for 90 days</h3>
 <p>Gluten, all grains, all legumes, all nightshades, seed oils, sugar, alcohol, all dairy except butter and ghee. Nothing processed. Nothing in a package with more than one ingredient.</p>
@@ -268,11 +268,11 @@ nothing here is a paid placement.</b> Evidence tier for this whole table:
 <b>Dr. Micah's idea, being tested</b>, except the rows marked otherwise.</p>
 <table>
 <tr><th>Evening glasses</th><td>Lenses that block 460 to 490 nm. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated and most amber lenses do not reach 490 nm. Red lenses block more than amber. <i>Tier: early evidence for the effect on melatonin onset.</i></td></tr>
-<tr><th>Screens</th><td>Any colour-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
+<tr><th>Screens</th><td>Any color-temperature shifter set to remove blue after sunset. The free ones work. A film on the monitor does the same job in hardware if you prefer not to run software.</td></tr>
 <tr><th>Bulbs</th><td>Incandescent wherever you can still find them, because they have almost no blue. Otherwise a red or amber bulb in the rooms you use after dark.</td></tr>
 <tr><th>Router</th><td>Mechanical outlet timer, off 10pm to 6am. The cheapest item on this list.</td></tr>
 <tr><th>Grounding, optional</th><td><b>Dr. Micah's idea, being tested.</b> Not a required part of the protocol and the evidence for it is weak. If you want to try it, a conductive sheet for the bed or a mat for the desk is the usual form. Test the outlet with an inexpensive outlet tester first. A participant who never grounds is fully adherent.</td></tr>
-<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with salt added back, a quarter teaspoon per litre. <i>The specification for the salt: an unrefined salt with a full trace-mineral profile, not refined sodium chloride. Unrefined salts vary and most table salt does not qualify, so read the mineral analysis rather than the front of the packet.</i></td></tr>
+<tr><th>Water</th><td>Mineral water with a measurable mineral content, not distilled or reverse-osmosis alone. At home, under-sink reverse osmosis with salt added back, a quarter teaspoon per liter. <i>The specification for the salt: an unrefined salt with a full trace-mineral profile, not refined sodium chloride. Unrefined salts vary and most table salt does not qualify, so read the mineral analysis rather than the front of the packet.</i></td></tr>
 <tr><th>Sauna</th><td>Traditional, not infrared. A gym sauna is fine and is what most people should use. <i>Tier: strong for cardiovascular outcomes in the Finnish cohort data.</i></td></tr>
 <tr><th>Cold</th><td>A cold shower is enough to start. A chest freezer with a GFCI is the cheap home plunge. <i>Tier: contested. One unreplicated trial, and the warm-shower arm improved about as much.</i></td></tr>
 

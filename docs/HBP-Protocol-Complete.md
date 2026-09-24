@@ -22,10 +22,10 @@ Your body is not one battery. It is a coordinated network of trillions of cellul
 - **RESERVE**: what the whole thing is built from. Substrate, membrane composition, minerals.
 
 **Coherence** is the point of all of it. Coherence is the ability of cells to maintain their proper
-electrical identity while coordinating their voltage, metabolism, timing and behaviour with the
+electrical identity while coordinating their voltage, metabolism, timing and behavior with the
 surrounding tissue and the entire organism. A cell can be individually healthy and still be out of
 step with the tissue around it. The circadian protocol is how coherence is supported. The daily
-behavioural log is how it is tracked.
+behavioral log is how it is tracked.
 
 **The Omega-3 kit is posted before day 1, not resolved before day 1.** The dried blood spot fixes the
 sample at collection, so the result arriving during the first two weeks is still a day 0 number. What
@@ -87,7 +87,7 @@ Four or more in a column places you there. Mixed results place you in the lower 
 
 **Sunset:** Outside for the last twenty minutes of light, every day.
 
-**After dark:** Red lenses from sunset, blocking 460 to 490 nm. Not amber. Red. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or a colour-temperature shifter on its darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
+**After dark:** Red lenses from sunset, blocking 460 to 490 nm. Not amber. Red. Ask any seller for the transmission spectrum and do not buy without it, because "blue light blocking" is unregulated. Every bulb in every room you use after dark is incandescent or red. Screens off after sunset, or a color-temperature shifter on its darkest setting with film if you must. Candles are not a joke; they are the correct evening light source.
 
 **Night:** Phone off, not airplane mode. Router off at the breaker. Bedroom has nothing plugged in. Blackout. Grounding sheet optional, see below. Room at 62 to 65째F.
 
@@ -136,7 +136,7 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 **Cold, every morning after light.** Five to eight minutes at 45째F or below. Then the day starts.
 
-**Sauna, every day.** Two rounds of twenty minutes at 185 to 200째F. Rehydrate with mineralised water between rounds.
+**Sauna, every day.** Two rounds of twenty minutes at 185 to 200째F. Rehydrate with mineralized water between rounds.
 
 **Contrast, three times a week.** Sauna, cold, sauna, cold, sauna, cold. Twenty minutes hot, four minutes cold, three rounds.
 
@@ -168,7 +168,7 @@ Bed at the same time, wake at the same time, seven days, to the minute. Room at 
 
 **Sunset:** Outside for the last fifteen minutes of light. Red-shifted spectrum resets the evening cascade.
 
-**After dark:** Red or amber lenses blocking 460 to 490 nm from the moment the sun is down. Every bulb you sit under in the evening is incandescent or a red LED. Screens run a colour-temperature shifter on the lowest setting with a blue-blocking film over the panel.
+**After dark:** Red or amber lenses blocking 460 to 490 nm from the moment the sun is down. Every bulb you sit under in the evening is incandescent or a red LED. Screens run a color-temperature shifter on the lowest setting with a blue-blocking film over the panel.
 
 **Night:** Phone in airplane mode and out of the bedroom. Router off at the wall. Blackout curtains. Grounding sheet on the bed.
 
@@ -217,7 +217,7 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 ## Heat and cold
 
-**Sauna:** Five to seven days a week. Traditional sauna at 175 to 195째F, twenty minutes. Two rounds if you have the time. Rehydrate with mineralised water after every session.
+**Sauna:** Five to seven days a week. Traditional sauna at 175 to 195째F, twenty minutes. Two rounds if you have the time. Rehydrate with mineralized water after every session.
 
 **Cold:** Four days a week. Three to five minutes at 50째F or below. Cold plunge, chest freezer, or a cold lake.
 
@@ -241,7 +241,7 @@ Bed at the same time, seven days. Wake at the same time, seven days. Room at 65�
 
 **Sunset:** Step outside for five minutes.
 
-**After dark:** Amber or red lenses blocking 460 to 490 nm from two hours before bed. Bedroom and living room converted to incandescent or red bulbs. A colour-temperature shifter on every screen. Blue-blocking film on the TV.
+**After dark:** Amber or red lenses blocking 460 to 490 nm from two hours before bed. Bedroom and living room converted to incandescent or red bulbs. A color-temperature shifter on every screen. Blue-blocking film on the TV.
 
 **Night:** Phone out of the bedroom. Router on a timer, off from 10pm to 6am.
 
@@ -383,7 +383,7 @@ Ten minutes. Progress each one when it feels easy.
 |---|---|
 | **Evening glasses** | Amber for the evening, red for the last hour. Must block 460 to 490 nm: ask the seller for the transmission spectrum and do not buy without it. "Blue light blocking" is unregulated and most amber lenses do not reach 490 nm. |
 | **Daytime glasses** | A light filtering lens for anyone under fluorescent light all day |
-| **Screen software** | Any colour-temperature shifter on every computer, set to remove blue after sunset. Free options work. |
+| **Screen software** | Any color-temperature shifter on every computer, set to remove blue after sunset. Free options work. |
 | **Screen film** | A blue-blocking film on monitors and on the television, for anyone who prefers to do it in hardware rather than software. |
 | **Bulbs** | Incandescent wherever you can still find them, because they have almost no blue. Otherwise red or amber bulbs for the bedroom and living room. One red bulb lamp per room you use after dark. |
 | **Night lights** | Red only. |
@@ -479,7 +479,7 @@ This section is for the coach. It runs before anyone starts, and it is a rule.
 | Lithium | Sauna and heavy sweating, which concentrate the drug. Physician clearance. |
 | Diuretics, or a sodium-restricted diet | The morning glass and the salt added to every bottle. Physician clearance. |
 | Heart failure, or fluid restriction | Three liters a day. Physician clearance. |
-| Bipolar diagnosis | Light timing and any sleep restriction, both of which can destabilise mood. Physician clearance. |
+| Bipolar diagnosis | Morning light exposure and the fixed wake time, both of which shift circadian phase and can destabilize mood. Physician clearance. |
 
 ## Who skips what
 
