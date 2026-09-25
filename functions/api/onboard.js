@@ -97,6 +97,18 @@ export async function onRequestPost(context) {
 
     const m = rows[0];
     const client = m.profiles;
+  // dry_run exists so the post-deploy smoke test can prove this endpoint is
+  // reachable, authorizing, and finding its data, WITHOUT the side effect. This
+  // one is not idempotent: it emails the participant, and a
+  // smoke test must never send mail to a real person. So a smoke test that
+  // called it for real on every deploy would corrupt the test member a little
+  // more each time, and a smoke test nobody dares run is not a smoke test.
+  const dryRun = body.dry_run === true;
+  if (dryRun) {
+    return json({ ok: true, dry_run: true, membership_id: m.id, client_id: m.client_id,
+                  would_write: 'onboarding prose and one email to the participant' });
+  }
+
     runId = await startRun(env, AGENT, { clientId: m.client_id, subjectId: m.id, model: MODEL_PER_CLIENT });
 
     // Stripe retries webhooks. Two welcome emails is worse than none.

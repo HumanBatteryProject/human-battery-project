@@ -56,7 +56,7 @@ eq('HARD_CAPS.cold_min', HARD_CAPS.cold_min, 10);
 eq('HARD_CAPS.fasts/week', HARD_CAPS.extended_fasts_per_week, 1);
 
 // --- bounded autonomy ---
-eq('AUTONOMY_MODE', AUTONOMY_MODE, 'bounded');
+eq('AUTONOMY_MODE', AUTONOMY_MODE, 'review_all');   // Brief 08 section 8 decision 1
 eq('CONFIDENCE_FLOOR', CONFIDENCE_FLOOR, 0.7);
 eq('CONFIDENCE_WINDOW_DAYS', CONFIDENCE_WINDOW_DAYS, 14);
 

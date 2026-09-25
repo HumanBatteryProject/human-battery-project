@@ -97,6 +97,13 @@ export async function onRequestPost({ request, env }) {
 
   const accepted = [], held = [];
 
+  // dry_run lets the post-deploy smoke test prove this endpoint is reachable,
+  // authorizing, and resolving markers, without touching lab_results,
+  // dimension_scores or lab_results_held. The classification loop below runs in
+  // full, because that is the part worth smoke testing; only the writes are
+  // skipped.
+  const dryRun = body.dry_run === true;
+
   for (const r of results) {
     const key = String(r.marker || r.slug || r.name || '').trim();
     const m = bySlug.get(key.toLowerCase()) || byName.get(key.toLowerCase());
@@ -126,6 +133,12 @@ export async function onRequestPost({ request, env }) {
 
   // write the accepted results
   if (accepted.length && panelId) {
+  if (dryRun) {
+    return json({ ok: true, dry_run: true, client_id: clientId,
+                  accepted: accepted.length, held: held.length,
+                  markers: accepted.map(a => a.marker.slug) });
+  }
+
     await sb.insert('lab_results', accepted.map(a => ({
       panel_id: panelId, marker_id: a.marker.id, value: a.value, unit: a.unit,
       value_raw: a.value_raw, unit_raw: a.unit_raw, conversion: a.conversion,

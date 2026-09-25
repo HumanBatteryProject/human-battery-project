@@ -33,22 +33,39 @@ run () {
 }
 
 echo "pre-commit:"
+
+# Offline checks. Every one of these runs with no credentials and no network.
 run check_prohibitions  $PY scripts/check_prohibitions.py
 run check_deliverables  $PY scripts/check_deliverables.py
-# check_claims runs LAST, per CLAUDE.md: it is the one that has to see the
-# tree exactly as it will be committed.
-run check_claims        $PY scripts/check_claims.py
+run check_css           $PY scripts/check_css.py
+run check_palette       $PY scripts/check_palette.py
+
+# ALL NINE fixture suites. Until 2026-09-25 only three of the nine ran here and
+# the other six ran nowhere at all: they passed, but nothing would have noticed
+# if they stopped. A suite wired into no gate is a suite that is green until the
+# night it matters. The two that need live credentials, check_rls and
+# check_price_drift, run in scripts/deploy.sh instead.
+run analysis_fixtures   node tests/analysis_fixtures.mjs
+run autonomy_fixtures   node tests/autonomy_fixtures.mjs
+run brief_clock         node tests/brief_clock.mjs
+run completion_fixtures node tests/completion_fixtures.mjs
+run settings_fixtures   node tests/settings_fixtures.mjs
+# Location derivation. The structural checks read the prefix tables out of the
+# source, so a hand edit that overlaps two ranges or points at a state with no
+# timezone fails the commit rather than a member's first morning brief.
+run geo_fixtures        node tests/geo_fixtures.mjs
+# Held results. The set of reasons a row can be held for lives in a database
+# constraint, in normalize(), and in wording on two screens. This is the only
+# thing that notices those four drifting apart.
+run held_fixtures       node tests/held_fixtures.mjs
+run coach_fixtures      $PY tests/coach_fixtures.py
 # The constant pins. A behavioural fixture passes at whatever the constant
 # currently is; this is the only thing that notices the number moved.
 run constants_pinned    node tests/constants_pinned.mjs
-# Location derivation. The structural checks here read the prefix tables out of
-# the source, so a hand edit that overlaps two ranges or points at a state with
-# no timezone fails the commit instead of the member's first morning brief.
-run geo_fixtures       node tests/geo_fixtures.mjs
-# Held result resolution. The set of reasons a row can be held for lives in a
-# database constraint, in normalize(), and in wording on two screens. This is
-# the only thing that notices those four drifting apart.
-run held_fixtures      node tests/held_fixtures.mjs
+
+# check_claims runs LAST, per CLAUDE.md: it is the one that has to see the tree
+# exactly as it will be committed.
+run check_claims        $PY scripts/check_claims.py
 
 if [ -n "$FAILED" ]; then
   echo

@@ -10,7 +10,12 @@
 // noticing; a bound in the database is one a person has to change on purpose.
 
 // DECISION LEFT TO THE OWNER.
-export const AUTONOMY_MODE = 'bounded';      // 'bounded' | 'review_all'
+// Brief 08 section 8 decision 1, recommended and adopted: V1 launches at
+// review_all, so every proposal queues for a human for the first 30 days of
+// real members. The step limits below have never been seen against real data,
+// and a limit that has only been tested against fixtures is a guess. Switch to
+// 'bounded' once they have. This is the one line that changes.
+export const AUTONOMY_MODE = 'review_all';   // 'bounded' | 'review_all'
 
 // DECISION LEFT TO THE OWNER. Rule 5: below this fraction of days logged in
 // the window, the dimension is not a signal and nothing is applied from it.
@@ -41,10 +46,17 @@ export const RULES = {
  *   window_days  the window
  * @returns {{apply: boolean, blocked_by: string|null, permitted_by: string|null, weak: boolean}}
  */
-export function evaluate(c) {
+export function evaluate(c, mode = AUTONOMY_MODE) {
   const weak = !c.tiers || !c.tiers.some(t => CITABLE_TIERS.has(t) && t !== 'hypothesis' && t !== 'contested');
 
-  if (AUTONOMY_MODE === 'review_all') {
+  // The mode is a parameter with the shipped constant as its default, not a
+  // read of the constant. When it was the latter, flipping AUTONOMY_MODE to
+  // review_all made all five bounded rules unreachable and eleven fixtures
+  // failed at once: the mode gate short-circuits before any rule runs, so the
+  // rules could only ever be tested while the product was in the other mode.
+  // The rules have to stay testable in the mode the product is NOT in, because
+  // review_all is temporary and the rules are what it will switch back to.
+  if (mode === 'review_all') {
     return { apply: false, blocked_by: 'AUTONOMY_MODE is review_all', permitted_by: null, weak };
   }
 

@@ -69,6 +69,18 @@ export async function onRequestPost({ request, env }) {
   const nxt = nextCycle({ tier: m.tier, improved, currentMultiplier: Number(m.intensity_multiplier || 1) });
 
   // ---- narrative, from stored numbers, never invented ----
+  // dry_run exists so the post-deploy smoke test can prove this endpoint is
+  // reachable, authorizing, and finding its data, WITHOUT the side effect. This
+  // one is not idempotent: each call writes a completion
+  // summary, marks the membership completed, and chains the next cycle. So a smoke test that
+  // called it for real on every deploy would corrupt the test member a little
+  // more each time, and a smoke test nobody dares run is not a smoke test.
+  const dryRun = body.dry_run === true;
+  if (dryRun) {
+    return json({ ok: true, dry_run: true, client_id: clientId, end_date: endDate,
+                  membership_id: m.id, would_write: 'completion_summaries, memberships, next cycle' });
+  }
+
   const runId = await startRun(env, AGENT, { clientId, model: MODEL_PER_CLIENT });
   let narrative = '';
   try {
@@ -120,7 +132,18 @@ export async function onRequestPost({ request, env }) {
   try { next = (await sb.insert('memberships', {
     client_id: clientId, tier: nxt.next_tier, cycle: Number(m.cycle || 1) + 1,
     intensity_multiplier: nxt.next_multiplier, previous_membership_id: m.id,
-    status: 'pending', arm: m.arm, cohort_id: m.cohort_id, is_internal: m.is_internal,
+    // 'pending' is not a membership_status. The enum is invited, enrolled,
+    // active, completed, withdrawn, so every attempt to chain a next cycle
+    // failed with 22P02 and cycle chaining has never once worked. Found by the
+    // first run of the post-deploy smoke test.
+    //
+    // 'enrolled' rather than 'active' is deliberate and is the safe value:
+    // the next cycle exists and is linked, but it is not running. Master
+    // prompt D9 forbids silent conversion from the initial protocol, and
+    // program_settings.day_90_default is 'lapse', so a cycle that started
+    // itself would contradict both. Activating it is the continuation
+    // purchase, built on Day 10.
+    status: 'enrolled', arm: m.arm, cohort_id: m.cohort_id, is_internal: m.is_internal,
   }, { returning: true }))[0]; } catch (e) { nErr = { message: String(e) }; }
   if (nErr || !next) return json({ error: (nErr && nErr.message) || 'no next cycle', summary_id: summary.id }, 500);
 

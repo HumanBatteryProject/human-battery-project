@@ -23,8 +23,15 @@ const AGENT = 'trend';
 
 // Which interventions a member is flagged on, from their own intake answers.
 async function screeningFlags(sb, clientId) {
-  const data = await sb.select('intake_responses',
-    { where: { client_id: clientId }, columns: 'answer' });
+  // intake_responses has no "answer" column and never did. It stores one value
+  // column per answer type, and asking for "answer" made PostgREST return 42703,
+  // which threw before the trend run could do anything at all. This is the
+  // screening flag lookup, which is autonomy rule 3: the check that stops a
+  // flagged intervention being changed. It has never once executed.
+  const data = await sb.select('intake_responses', {
+    where: { client_id: clientId },
+    columns: 'value_text,value_number,value_boolean,value_date,value_choices',
+  });
   const blob = JSON.stringify(data || []).toLowerCase();
   const flags = new Set();
   for (const r of SCREENING_ROWS) {
@@ -54,6 +61,14 @@ export async function onRequestPost({ request, env }) {
     { where, columns: 'id,client_id,tier', raw: 'onboarded_at=not.is.null' });
 
   const out = { mode: AUTONOMY_MODE, applied: 0, queued: 0, members: [] };
+  // dry_run exists so the post-deploy smoke test can prove this endpoint is
+  // reachable, authorizing, and finding its data, WITHOUT the side effect. This
+  // one is not idempotent: every call writes another proposal
+  // row for the same week. So a smoke test that
+  // called it for real on every deploy would corrupt the test member a little
+  // more each time, and a smoke test nobody dares run is not a smoke test.
+  const dryRun = body.dry_run === true;
+
 
   for (const m of (members || [])) {
     const since = new Date(Date.now() - CONFIDENCE_WINDOW_DAYS * 86400000)
@@ -123,6 +138,7 @@ export async function onRequestPost({ request, env }) {
       permitted_by: verdict.permitted_by, blocked_by: verdict.blocked_by,
       applied_at: verdict.apply ? new Date().toISOString() : null,
     };
+    if (dryRun) { out.members.push({ client_id: m.client_id, dry_run: true, would_propose: row.param }); continue; }
     await sb.insert('proposals', row);
     if (verdict.apply) out.applied++; else out.queued++;
     out.members.push({ client_id: m.client_id, param: row.param, from, to,

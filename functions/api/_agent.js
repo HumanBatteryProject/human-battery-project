@@ -24,6 +24,8 @@ export const MODEL_ACROSS_CLIENTS = 'claude-opus-5';
 // agent_runs
 // ---------------------------------------------------------------------
 
+import { flagOn, FLAGS, GenerationPaused } from './_flags.js';
+
 export async function startRun(env, agent, { clientId = null, subjectId = null, model = null } = {}) {
   const rows = await supabase(env, 'agent_runs', {
     method: 'POST',
@@ -53,6 +55,12 @@ export async function finishRun(env, runId, status, patch = {}) {
 // ---------------------------------------------------------------------
 
 export async function ask(env, { system, messages, maxTokens = 1024, model = MODEL_PER_CLIENT }) {
+  // The kill switch, at the ONE place every agent reaches the model. Putting it
+  // in each endpoint would mean six places to get right and a seventh endpoint
+  // later that nobody remembers to gate.
+  if (!(await flagOn(env, FLAGS.AI_GENERATION_ENABLED))) {
+    throw new GenerationPaused();
+  }
   if (!env.ANTHROPIC_API_KEY) throw new Error('ANTHROPIC_API_KEY is not set');
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
