@@ -45,6 +45,10 @@ run constants_pinned    node tests/constants_pinned.mjs
 # the source, so a hand edit that overlaps two ranges or points at a state with
 # no timezone fails the commit instead of the member's first morning brief.
 run geo_fixtures       node tests/geo_fixtures.mjs
+# Held result resolution. The set of reasons a row can be held for lives in a
+# database constraint, in normalize(), and in wording on two screens. This is
+# the only thing that notices those four drifting apart.
+run held_fixtures      node tests/held_fixtures.mjs
 
 if [ -n "$FAILED" ]; then
   echo

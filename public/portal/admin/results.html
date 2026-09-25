@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=15">
+<link rel="stylesheet" href="/portal/portal.css?v=16">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -32,6 +32,7 @@
     <p class="quiet">Every self-entered result has been checked against its report.</p>
   </div>
 
+  <div id="held" style="display:none"></div>
   <div id="body" style="display:none"></div>
 </main>
 
@@ -43,10 +44,12 @@ await requireAuth();
 // against the number on the report they uploaded. Everything else is
 // arrangement.
 const { data: me } = await sb.from('profiles').select('role').limit(1).single();
-if (!me || !['admin', 'coach', 'staff'].includes(me.role)) {
+// Mirrors is_staff() in 002_identity.sql. app_role is client, coach, admin.
+if (!me || !['admin', 'coach'].includes(me.role)) {
   el('#loading').style.display = 'none';
   el('#denied').style.display = 'block';
 } else {
+  await renderHeld();
   const { data: rows, error } = await sb.from('lab_results')
     .select('id, value, unit, created_at, lab_markers(name, slug, plausible_low, plausible_high, optimal_low, optimal_high), lab_panels(id, draw_point, drawn_on, document_path, profiles!lab_panels_client_id_fkey(full_name, email))')
     .eq('source', 'client_entered')
@@ -126,6 +129,138 @@ if (!me || !['admin', 'coach', 'staff'].includes(me.role)) {
       toast('Marked as checked');
     });
   }
+}
+
+// ---------------------------------------------------------------------
+// Held results
+//
+// A held row is a result the analysis agent REFUSED to score: an unrecognized
+// marker name, no unit, a unit it cannot convert, or a value that is not a
+// number. Holding is correct. What was missing until now is any way to see
+// them, so two rows sat invisible. Each one gets the reason in words and the
+// three things a person can actually decide: what marker it is, what unit it
+// is in, or that it was never a result.
+// ---------------------------------------------------------------------
+async function renderHeld() {
+  const escH = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const { data: held, error: he } = await sb.from('lab_results_held')
+    .select('id, reported_name, reported_value, reported_unit, reason, held_at, lab_panels(drawn_on), profiles!lab_results_held_client_id_fkey(full_name, email)')
+    .is('resolved_at', null)
+    .order('held_at', { ascending: true });
+
+  if (he) {
+    el('#held').innerHTML = '<div class="card"><h2>Held results did not load</h2><p class="quiet">' +
+      escH(he.message) + '</p></div>';
+    el('#held').style.display = 'block';
+    return;
+  }
+  if (!held || !held.length) return;   // nothing held is the normal state
+
+  const { data: markers } = await sb.from('lab_markers')
+    .select('id, name, slug, unit').eq('is_active', true).order('name');
+
+  // The reason is stored as a code. A person reading this screen needs the
+  // sentence, and needs to be told what to do about it.
+  const REASON = {
+    unknown_marker: ['No marker by that name', 'Nothing in the marker list matches what the report called this. Pick the marker it is, or discard it.'],
+    missing_unit: ['No unit given', 'The value arrived with no unit, and assuming one is the most dangerous guess available. Type the unit from the report.'],
+    unconvertible_unit: ['Unit cannot be converted', 'There is no conversion from that unit to this marker\'s canonical unit. Check the report, or discard it.'],
+    implausible_value: ['Not a number', 'The value could not be read as a number at all.'],
+  };
+
+  const opts = (markers || []).map((m) =>
+    '<option value="' + escH(m.id) + '" data-unit="' + escH(m.unit) + '">' +
+    escH(m.name) + ' (' + escH(m.unit) + ')</option>').join('');
+
+  let h = '<div class="card"><h2>' + held.length + ' held, not scored</h2>' +
+    '<p class="tiny" style="margin:0">These did not enter anyone\'s Score. They are not missing and they are not zero: ' +
+    'they are values nothing could safely read. Resolving one writes a real result. Discarding one records that ' +
+    'a person looked and decided it was not a result.</p></div>';
+
+  held.forEach((r) => {
+    const [title, what] = REASON[r.reason] || [r.reason, ''];
+    h += '<section class="card" data-held="' + escH(r.id) + '">' +
+      '<h2>' + escH(r.reported_name) + '</h2>' +
+      '<p class="tiny" style="margin:-.5rem 0 .8rem">' +
+      escH(r.profiles ? (r.profiles.full_name || r.profiles.email) : 'Unknown person') +
+      (r.lab_panels && r.lab_panels.drawn_on ? ' &middot; collected ' + escH(r.lab_panels.drawn_on) : '') +
+      ' &middot; held ' + escH(String(r.held_at).slice(0, 10)) + '</p>' +
+      '<p><b>' + escH(title) + '.</b> <span class="quiet">' + escH(what) + '</span></p>' +
+      '<p>Reported as <b>' + escH(r.reported_value) + '</b> ' +
+      (r.reported_unit ? escH(r.reported_unit) : '<span class="quiet">with no unit</span>') + '</p>' +
+      '<div class="held-fix">' +
+        '<label class="tiny">Which marker<select data-marker><option value="">Pick one</option>' + opts + '</select></label>' +
+        '<label class="tiny">Unit<input data-unit type="text" value="' + escH(r.reported_unit || '') + '" placeholder="as printed"></label>' +
+      '</div>' +
+      '<p><button class="btn btn-sm" data-map="' + escH(r.id) + '">Save as a result</button> ' +
+      '<button class="btn btn-sm" data-discard="' + escH(r.id) + '">Not a result</button></p>' +
+      '<p class="tiny held-msg" style="display:none"></p>' +
+      '</section>';
+  });
+
+  el('#held').innerHTML = h;
+  el('#held').style.display = 'block';
+
+  // Picking a marker fills the unit with that marker's canonical one ONLY when
+  // the field is empty. Overwriting a unit the report actually printed would
+  // convert from a unit the value was never in.
+  el('#held').addEventListener('change', (e) => {
+    const sel = e.target.closest('[data-marker]');
+    if (!sel) return;
+    const card = sel.closest('[data-held]');
+    const unitBox = card.querySelector('[data-unit]');
+    const opt = sel.options[sel.selectedIndex];
+    if (!unitBox.value.trim() && opt && opt.getAttribute('data-unit')) {
+      unitBox.value = opt.getAttribute('data-unit');
+    }
+  });
+
+  el('#held').addEventListener('click', async (e) => {
+    const mapBtn = e.target.closest('[data-map]');
+    const delBtn = e.target.closest('[data-discard]');
+    if (!mapBtn && !delBtn) return;
+    const card = (mapBtn || delBtn).closest('[data-held]');
+    const msg = card.querySelector('.held-msg');
+    const heldId = card.getAttribute('data-held');
+
+    if (delBtn && !window.confirm('Record that this was not a result? It stops being held and never enters a Score.')) return;
+
+    const payload = delBtn
+      ? { held_id: heldId, action: 'discard' }
+      : { held_id: heldId, action: 'map',
+          marker_id: card.querySelector('[data-marker]').value,
+          unit: card.querySelector('[data-unit]').value.trim() };
+
+    (mapBtn || delBtn).disabled = true;
+    const { data: { session: s } } = await sb.auth.getSession();
+    let out;
+    try {
+      const res = await fetch('/api/resolve-held', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token },
+        body: JSON.stringify(payload),
+      });
+      out = await res.json();
+    } catch (err) {
+      out = { error: 'That did not reach the server. Try again.' };
+    }
+
+    if (!out || out.error) {
+      (mapBtn || delBtn).disabled = false;
+      msg.style.display = 'block';
+      msg.textContent = (out && out.error) || 'That did not save';
+      return toast((out && out.error) || 'That did not save', 'err');
+    }
+    card.querySelectorAll('button, select, input').forEach((n) => { n.disabled = true; });
+    msg.style.display = 'block';
+    msg.textContent = out.action === 'discard'
+      ? 'Recorded as not a result.'
+      : 'Saved as ' + out.marker + ': ' + out.value + ' ' + out.unit +
+        (out.conversion ? ' (' + out.conversion + ')' : '');
+    toast(out.action === 'discard' ? 'Recorded' : 'Saved as a result');
+  });
 }
 </script>
 </body></html>

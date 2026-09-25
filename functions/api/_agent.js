@@ -120,7 +120,9 @@ export async function verifyStaff(request, env) {
 
   const rows = await supabase(env, `profiles?id=eq.${user.id}&select=id,role,full_name`);
   if (!rows.length) return null;
-  return ['admin', 'coach', 'staff'].includes(rows[0].role) ? rows[0] : null;
+  // Mirrors is_staff() in 002_identity.sql exactly. app_role has three values
+  // and 'staff' is not one of them.
+  return ['admin', 'coach'].includes(rows[0].role) ? rows[0] : null;
 }
 
 // ---------------------------------------------------------------------

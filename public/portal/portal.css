@@ -362,3 +362,11 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
   .bar img{max-width:none;width:calc(100vw - 32px)}
 }
 .bar .who{margin-bottom:1rem}
+
+/* The two fields that resolve a held result. Layout only: every colour
+   here is inherited from .card and the existing input rules, because a
+   new surface would mean a new colour and there is no token for one. */
+.held-fix{display:flex;gap:.8rem;flex-wrap:wrap;margin:.6rem 0}
+.held-fix label{display:grid;gap:.25rem;flex:1 1 12rem}
+.held-fix select,.held-fix input{width:100%}
+.held-msg{margin:.4rem 0 0}
