@@ -322,8 +322,34 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
    different measurement from the distance to an element, exactly as on the
    marketing hero. */
 .bar .wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
-.bar img,.portal-mark img{
-  display:block;width:100%;max-width:320px;height:auto;margin-inline:auto;
+.bar img{display:block;width:100%;max-width:320px;height:auto;margin-inline:auto}
+
+/* THE SIGN-IN MARK IS THE BIG ONE. 640px, double the header, because the
+   sign-in page is the first thing a member sees and at 320 it was not
+   readable. The colour was never the problem: the asset there is the same
+   A1 wordmark the hero uses, 6.57:1 at the 10th percentile of its
+   letterforms. The problem is stroke width in device pixels.
+
+   The wordmark is 3:1, and the cap height of the letterspaced small caps,
+   THE and PROJECT, is 7.46 percent of its height. So:
+     320px wide  ->  8.0px small caps   the screenshot, unreadable
+     640px wide  -> 15.9px small caps   this
+     800px wide  -> 19.9px small caps   the marketing hero
+   640 rather than 800 so the hero stays the largest instance of the mark and
+   the sign-in card, which is 560px, still sits under something wider than it
+   rather than beside something the same size. */
+/* The mark BREAKS OUT of its parent. login.html wraps the form in a
+   main.wrap with an inline max-width of 26rem, 416px, which sizes the card.
+   Left inside that, the wordmark inherits 416 and max-width 640 never binds:
+   measured at 416px when 640 was asked for. left:50% with a translate back
+   centres it against the viewport without this rule needing to know what the
+   parent is, so the card stays 416 and the mark does not. */
+.portal-mark{
+  position:relative; left:50%; transform:translateX(-50%);
+  width:min(640px, calc(100vw - 32px));
+}
+.portal-mark img{
+  display:block;width:100%;max-width:none;height:auto;margin-inline:auto;
 }
 .bar img{margin-block:40px 32px}
 /* 40px top, not 0. The asset gives 25.55 percent of its height above the ink,
@@ -331,7 +357,8 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
    Measured at 30.5px before this and it failed the rule. */
 .portal-mark img{margin-block:40px 32px}
 @media(max-width:400px){
-  /* full width less a 16px gutter each side */
-  .bar img,.portal-mark img{max-width:none;width:calc(100vw - 32px)}
+  /* full width less a 16px gutter each side. The sign-in mark already gets
+     this from its own min(), so only the header mark needs the override. */
+  .bar img{max-width:none;width:calc(100vw - 32px)}
 }
 .bar .who{margin-bottom:1rem}
