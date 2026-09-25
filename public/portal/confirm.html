@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/mark-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<link rel="stylesheet" href="/portal/portal.css?v=12">
+<style>
+.confirm{min-height:100svh;display:grid;place-items:center;text-align:center;padding:1.5rem}
+.confirm-in{width:min(100% - 2rem,460px)}
+.confirm .portal-mark{margin-bottom:2rem}
+.confirm h1{font-size:var(--fs-h3);margin:0 0 .8rem}
+.confirm p{color:var(--ink-muted);margin:0 0 1.4rem}
+.confirm .btn{min-width:13rem}
+#err{display:none;border:1px solid var(--status-critical);border-left-width:3px;
+  border-radius:3px;padding:.8rem;margin-top:1rem;text-align:left;font-size:.9rem}
+</style>
+</head><body>
+<main class="confirm">
+  <div class="confirm-in">
+    <!-- The wordmark, at the portal size. Same asset as the site hero. -->
+    <div class="portal-mark">
+      <img src="/assets/wordmark.png" width="2172" height="724" alt="The Human Battery Project">
+    </div>
+
+    <h1 id="head">Sign in</h1>
+    <p id="sub">You opened a sign-in link. Press the button to finish signing in.</p>
+    <button class="btn btn-solid" id="go">Sign in</button>
+    <div id="err"></div>
+  </div>
+</main>
+
+<script type="module">
+import { sb } from '/portal/config.js';
+
+// WHY THIS PAGE EXISTS.
+//
+// Mail clients and security scanners PREFETCH links. A one-time sign-in token
+// is consumed by whoever fetches it first, so a scanner that opens the message
+// burns the token and the person who clicks it a second later gets
+// otp_expired. The link had worked perfectly, for a robot.
+//
+// So this page never exchanges anything on load. It parks the token, shows a
+// button, and exchanges ONLY on a real click. A prefetch of this URL renders
+// some HTML and touches no session. That is the whole mechanism.
+//
+// It handles both shapes Supabase can send, because which one arrives depends
+// on the email template and the template is not under this file's control:
+//   token_hash + type   the PKCE shape, exchanged with verifyOtp
+//   #access_token=...   the implicit shape, set with setSession
+// In the implicit shape the redirect has ALREADY happened by the time we are
+// here, so the token is spent whatever we do. That is why the email template
+// should carry {{ .TokenHash }} and point here: it is the only shape a
+// prefetch cannot spend.
+
+const el = (s) => document.querySelector(s);
+const q = new URLSearchParams(location.search);
+const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+const next = q.get('next') || '/portal/';
+
+const tokenHash = q.get('token_hash') || q.get('token');
+const type = q.get('type') || 'magiclink';
+const access = hash.get('access_token');
+const refresh = hash.get('refresh_token');
+const errDesc = q.get('error_description') || hash.get('error_description');
+
+function fail(msg) {
+  el('#err').style.display = 'block';
+  el('#err').textContent = msg;
+  el('#go').disabled = false;
+  el('#go').textContent = 'Sign in';
+}
+
+if (errDesc) {
+  el('#head').textContent = 'That link did not work';
+  el('#sub').textContent =
+    'Sign-in links are single use and expire after an hour. Ask for a new one.';
+  el('#go').textContent = 'Get a new link';
+  el('#go').addEventListener('click', () => { location.href = '/portal/login.html'; });
+} else if (!tokenHash && !access) {
+  el('#head').textContent = 'Nothing to sign in with';
+  el('#sub').textContent = 'Open the link from your email, or ask for a new one.';
+  el('#go').textContent = 'Get a link';
+  el('#go').addEventListener('click', () => { location.href = '/portal/login.html'; });
+} else {
+  el('#go').addEventListener('click', async () => {
+    el('#go').disabled = true;
+    el('#go').innerHTML = '<span class="spinner"></span> Signing in';
+    try {
+      if (tokenHash) {
+        const { error } = await sb.auth.verifyOtp({ token_hash: tokenHash, type });
+        if (error) return fail(error.message);
+      } else {
+        const { error } = await sb.auth.setSession({
+          access_token: access, refresh_token: refresh,
+        });
+        if (error) return fail(error.message);
+      }
+      location.replace(next);
+    } catch (e) {
+      fail(String(e && e.message ? e.message : e));
+    }
+  });
+}
+</script>
+</body></html>

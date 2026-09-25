@@ -306,3 +306,32 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
 .test-banner{border:1px solid var(--status-warn);border-left-width:3px;
   border-radius:3px;padding:.7rem .9rem;margin:.8rem 0;
   background:rgba(217,164,65,.08);font-size:.88rem}
+
+
+/* ---- the portal wordmark ----
+   320px on desktop, full width less a 16px gutter on phones. It was 30px tall,
+   about 90px wide, which is well under the 120px gradient floor and read as a
+   smudge on the one set of screens a member sees every day.
+
+   CLEAR SPACE. 64px from any other element, as everywhere else. The asset
+   carries its own transparent margin, 25.55 percent of its height above the
+   ink and 32.46 percent below, which at a 320px render is 27px and 35px. The
+   margins below make up the difference: 40px top clears 64 with the built-in
+   27, and 32px bottom clears it with the built-in 35.
+   Horizontally the 16px gutter is the distance to the SCREEN EDGE, which is a
+   different measurement from the distance to an element, exactly as on the
+   marketing hero. */
+.bar .wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+.bar img,.portal-mark img{
+  display:block;width:100%;max-width:320px;height:auto;margin-inline:auto;
+}
+.bar img{margin-block:40px 32px}
+/* 40px top, not 0. The asset gives 25.55 percent of its height above the ink,
+   which is 27px at the 320px desktop render, so 40 is what carries it past 64.
+   Measured at 30.5px before this and it failed the rule. */
+.portal-mark img{margin-block:40px 32px}
+@media(max-width:400px){
+  /* full width less a 16px gutter each side */
+  .bar img,.portal-mark img{max-width:none;width:calc(100vw - 32px)}
+}
+.bar .who{margin-bottom:1rem}
