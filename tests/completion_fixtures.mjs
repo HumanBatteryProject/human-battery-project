@@ -36,14 +36,19 @@ t('a pro returning twice does not compound past the ceiling',
   MULTIPLIER_MAX);
 
 // --- HARD CAPS bind regardless of multiplier ---
+// RETURN_MULTIPLIER, not the literal 1.2 it currently equals. With the
+// literal, moving the shipped multiplier to 1.3 left this case passing
+// against a number the product no longer uses.
 t('sauna scales inside the cap',
-  applyMultiplier('sauna_min', 15, 1.2), { value: 18, capped: false });
+  applyMultiplier('sauna_min', 15, RETURN_MULTIPLIER),
+  { value: +(15 * RETURN_MULTIPLIER).toFixed(2), capped: false });
 t('sauna is CAPPED at 25 minutes however large the multiplier',
-  applyMultiplier('sauna_min', 25, 1.5), { value: HARD_CAPS.sauna_min, capped: true });
+  applyMultiplier('sauna_min', 25, MULTIPLIER_MAX), { value: HARD_CAPS.sauna_min, capped: true });
 t('cold is CAPPED at 10 minutes',
-  applyMultiplier('cold_min', 9, 1.5), { value: HARD_CAPS.cold_min, capped: true });
+  applyMultiplier('cold_min', 9, MULTIPLIER_MAX), { value: HARD_CAPS.cold_min, capped: true });
 t('a parameter with no cap scales freely',
-  applyMultiplier('water_l', 3, 1.2), { value: 3.6, capped: false });
+  applyMultiplier('water_l', 3, RETURN_MULTIPLIER),
+  { value: +(3 * RETURN_MULTIPLIER).toFixed(2), capped: false });
 
 console.log('\n%d case(s) failed', bad);
 process.exit(bad ? 1 : 0);

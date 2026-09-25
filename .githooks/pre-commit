@@ -38,6 +38,9 @@ run check_deliverables  $PY scripts/check_deliverables.py
 # check_claims runs LAST, per CLAUDE.md: it is the one that has to see the
 # tree exactly as it will be committed.
 run check_claims        $PY scripts/check_claims.py
+# The constant pins. A behavioural fixture passes at whatever the constant
+# currently is; this is the only thing that notices the number moved.
+run constants_pinned    node tests/constants_pinned.mjs
 
 if [ -n "$FAILED" ]; then
   echo
