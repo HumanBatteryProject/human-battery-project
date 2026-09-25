@@ -277,14 +277,15 @@ strong{font-weight:600;color:#fff}
      previous version did exactly that and the screenshots hid it, because
      --hide-scrollbars was on. Widening the column instead keeps everything in
      percentages of a box that is already inside the viewport. */
-  /* A1 revised: the wordmark is 88% of the viewport on phones, which is 343px
-     at 390. NOTE, because it is a change of direction rather than a change of
-     degree: what shipped before this was padding-inline 16px, which is 91.8%
-     at 390, so 88% makes the hero 15px NARROWER, not wider. The brief says
-     "render the hero larger" and then specifies 88% twice with a worked
-     example. The number is the specification and the sentence is the
-     rationale, so the number wins and the conflict is in the report. */
-  padding-inline:6%;
+  /* WIDTH. Full viewport less a 16px gutter each side on phones, which is
+     what v=47 rendered and what this returns to. 88% was tried in between and
+     was NARROWER than v=47, not wider: 343px against 358px at 390. The gutter
+     is 16px because that is the smallest edge margin the mark reads well at,
+     and anything larger costs width the mark needs more than the edge does.
+
+     The 800px desktop cap is unchanged from v=47, so the mark is never
+     narrower at any width than it was there. */
+  padding-inline:16px;
   margin-block:clamp(2.6rem,8vw,4rem) clamp(2.2rem,7vw,3.5rem);
   line-height:0
 }
