@@ -120,7 +120,8 @@ export async function onRequestPost({ request, env }) {
   // write the held rows so the admin screen can show them
   if (held.length) {
     await sb.insert('lab_results_held',
-      held.map(h => ({ ...h, client_id: clientId, panel_id: panelId })));
+      held.map(h => ({ ...h, client_id: clientId, panel_id: panelId })),
+      { upsert: 'panel_id,reported_name' });
   }
 
   // write the accepted results
