@@ -18,11 +18,12 @@ import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './
 
 const AGENT = 'morning-brief';
 
-// DECISION LEFT TO THE OWNER. The program default when profiles.timezone is
-// null. Deliberately NOT UTC: UTC is a plausible-looking wrong answer that
-// silently shifts a member's day. This is the timezone the program is run
-// from, so a null reads as "same day as the coach" rather than "some day".
-export const DEFAULT_TZ = 'America/New_York';
+// SET BY THE OWNER, Brief 07 section 0. The program default when
+// profiles.timezone is null. Deliberately NOT UTC: UTC is a plausible-looking
+// wrong answer that silently shifts a member's day. America/Chicago because
+// the first cohort is in Texas, so a null reads as "same day as the cohort"
+// rather than "some day".
+export const DEFAULT_TZ = 'America/Chicago';
 // DECISION LEFT TO THE OWNER. How many members one invocation will process.
 export const BATCH_LIMIT = 200;
 // DECISION LEFT TO THE OWNER. The reading grade a brief must not exceed.

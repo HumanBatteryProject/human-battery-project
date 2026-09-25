@@ -6,7 +6,11 @@
 // this guards against is a brief assembled against the server's day, which
 // sends a member in Auckland a Tuesday brief on Monday evening.
 
-const DEFAULT_TZ = 'America/New_York';
+// IMPORTED, not copied. This was a local literal and it still said
+// America/New_York after the shipped constant moved to America/Chicago: the
+// test passed while testing a value the product no longer uses. A fixture that
+// carries its own copy of the thing under test is testing itself.
+import { DEFAULT_TZ } from '../functions/api/brief-run.js';
 
 function localDate(tz, nowISO) {
   return new Intl.DateTimeFormat('en-CA', {
@@ -28,6 +32,7 @@ const CASES = [
   ['2026-09-24T06:59:00Z', 'Europe/London',      '2026-09-24', 'just after London midnight in summer time'],
   ['2026-09-24T23:30:00Z', 'America/New_York',   '2026-09-24', 'late evening, still the same local day'],
   ['2026-09-24T03:00:00Z', null,                 '2026-09-23', 'null timezone falls back to the program default, not UTC'],
+  ['2026-09-24T04:30:00Z', null,                 '2026-09-23', 'the default is America/Chicago, so 04:30 UTC is still the previous day'],
 ];
 
 let bad = 0;
