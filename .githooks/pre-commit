@@ -41,6 +41,10 @@ run check_claims        $PY scripts/check_claims.py
 # The constant pins. A behavioural fixture passes at whatever the constant
 # currently is; this is the only thing that notices the number moved.
 run constants_pinned    node tests/constants_pinned.mjs
+# Location derivation. The structural checks here read the prefix tables out of
+# the source, so a hand edit that overlaps two ranges or points at a state with
+# no timezone fails the commit instead of the member's first morning brief.
+run geo_fixtures       node tests/geo_fixtures.mjs
 
 if [ -n "$FAILED" ]; then
   echo
@@ -48,5 +52,5 @@ if [ -n "$FAILED" ]; then
   echo "Fix the check. Do not commit over it."
   exit 1
 fi
-echo "  all three clean, commit allowed"
+echo "  all clean, commit allowed"
 exit 0

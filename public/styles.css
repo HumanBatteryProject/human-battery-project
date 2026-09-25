@@ -423,6 +423,14 @@ body.home .landing-col{width:100%}
 .apply{background:var(--navy)}
 form{margin-top:2rem;display:grid;gap:1.05rem}
 .field{display:grid;gap:.4rem}
+/* display:grid above beats the hidden attribute's UA display:none, so a
+   conditionally shown field would render for everybody without this. */
+.field[hidden]{display:none}
+/* Small explanatory line under a label. Same role and same tokens as
+   .placement-intro, which is why it borrows them rather than picking a
+   colour. */
+.hint{font-size:var(--fs-sm);color:var(--steel);line-height:var(--lh-small);
+  margin:.1rem 0 .1rem;max-width:56ch}
 label{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--silver)}
 input,select,textarea{
   font-family:var(--body);font-size:var(--fs-base);color:var(--ice);background:rgba(14,20,36,.55);

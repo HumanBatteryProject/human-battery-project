@@ -2,6 +2,8 @@
 // Env vars (Cloudflare dashboard > Settings > Environment variables):
 //   SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY, NOTIFY_EMAIL, FROM_EMAIL
 
+import { derive, OUTSIDE_US, STATE_NAMES } from './_geo.js';
+
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
@@ -44,8 +46,14 @@ export async function onRequestPost({ request, env }) {
   const email = String(body.email || '').trim().toLowerCase().slice(0, 200);
   const state = String(body.state || '').trim().slice(0, 60);
   const source = String(body.source || '').trim().slice(0, 300);
+  const postal = String(body.postal_code || '').trim().slice(0, 12);
+  // The form sends 'US' unless the member picked outside the United States.
+  // CF-IPCountry is where they are RIGHT NOW, which is not where they live, so
+  // it is kept as a separate signal and never used as the answer.
+  const country = String(body.country || '').trim().slice(0, 60);
+  const edgeCountry = request.headers.get('CF-IPCountry') || null;
 
-  if (!name || !EMAIL_RE.test(email) || !state || body.consent_contact !== true) {
+  if (!name || !EMAIL_RE.test(email) || !state || !postal || body.consent_contact !== true) {
     return json({ error: 'Check the form and try again' }, 400);
   }
 
@@ -54,10 +62,34 @@ export async function onRequestPost({ request, env }) {
     console.warn(`[waitlist] placement from ${email} was rejected, storing the application without one`);
   }
 
+  // Timezone, latitude and hemisphere from the postal code. This is the only
+  // place the derivation runs for an application, and its confidence is stored
+  // with the result: 'ask' means the ZIP could not settle the timezone and the
+  // member has to confirm it before a brief is scheduled, because a wrong
+  // timezone sends the brief on the wrong day.
+  const geo = derive(postal, state === OUTSIDE_US ? country : 'US');
+  if (!geo.ok) {
+    return json({ error: 'That does not look like a US ZIP code' }, 400);
+  }
+  // A stated state that disagrees with the ZIP means one of the two is wrong.
+  // The ZIP is kept, because it is what the derivation ran on, but the timezone
+  // drops to 'ask' rather than trusting a contradiction.
+  let tzConfidence = geo.tz_confidence;
+  if (state !== OUTSIDE_US && geo.region && STATE_NAMES[geo.region] !== state) {
+    tzConfidence = 'ask';
+    console.warn(`[waitlist] ${email} chose ${state} but ZIP ${postal.slice(0, 3)}xx is in ${geo.region}, timezone marked ask`);
+  }
+
   const row = {
     name,
     email,
     state,
+    postal_code: postal,
+    timezone: geo.timezone,
+    latitude: geo.latitude,
+    hemisphere: geo.hemisphere,
+    region: geo.region,
+    tz_confidence: tzConfidence,
     source: source || null,
     placement,
     placement_version: placement ? 'placement-v1' : null,
@@ -65,7 +97,7 @@ export async function onRequestPost({ request, env }) {
     consent_version: 'contact-v1',
     submitted_at: new Date().toISOString(),
     ip: request.headers.get('CF-Connecting-IP') || null,
-    country: request.headers.get('CF-IPCountry') || null,
+    country: (state === OUTSIDE_US ? country : 'US') || edgeCountry,
   };
 
   const res = await fetch(`${env.SUPABASE_URL}/rest/v1/applications`, {
@@ -145,7 +177,7 @@ export async function onRequestPost({ request, env }) {
             'notification',
             env.NOTIFY_EMAIL,
             `New application: ${name}`,
-            `Name: ${name}\nEmail: ${email}\nState: ${state}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
+            `Name: ${name}\nEmail: ${email}\nState: ${state}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
           )
         : (emailProblems.push('NOTIFY_EMAIL is not set, so no notification was sent'), undefined),
     ]);

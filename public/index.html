@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="A 90 day program. We measure what your body runs on, you change the inputs, and we measure again.">
 <meta name="twitter:image" content="https://thehumanbatteryproject.com/assets/og-card.png">
 <meta name="theme-color" content="#0E1424">
-<link rel="stylesheet" href="/styles.css?v=56">
+<link rel="stylesheet" href="/styles.css?v=57">
 <style>
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(168,160,150,.16));border-radius:3px;background:var(--navy,#1C2742)}
@@ -1191,6 +1191,19 @@
         <span class="field-err">Please pick your state</span>
       </div>
 
+      <div class="field" id="f-postal">
+        <label for="postal_code">Your ZIP code</label>
+        <p class="hint" id="postal-hint">We use this for your time zone and how long your daylight is, nothing else. We do not ask for a street address and we do not store one.</p>
+        <input id="postal_code" name="postal_code" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="12" required>
+        <span class="field-err" id="postal-err">Please put your ZIP code</span>
+      </div>
+
+      <div class="field" id="f-country" hidden>
+        <label for="country">Which country</label>
+        <input id="country" name="country" type="text" autocomplete="country-name" maxlength="60">
+        <span class="field-err">Please put your country</span>
+      </div>
+
       <div class="field">
         <label for="source">How did you hear about us? <span class="opt">(you can skip this)</span></label>
         <input id="source" name="source" type="text">
@@ -1248,6 +1261,20 @@ var STATES = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","C
 var sel = document.getElementById('state');
 STATES.forEach(function(s){ var o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
 
+// Outside the US there is no ZIP code, so the field stops calling it one and
+// the country is asked instead of assumed.
+var OUTSIDE = 'Outside the United States';
+function syncLocation(){
+  var away = sel.value === OUTSIDE;
+  document.querySelector('label[for="postal_code"]').textContent = away ? 'Your postal code' : 'Your ZIP code';
+  document.getElementById('postal-err').textContent = away ? 'Please put your postal code' : 'Please put your ZIP code';
+  document.getElementById('postal_code').setAttribute('inputmode', away ? 'text' : 'numeric');
+  document.getElementById('f-country').hidden = !away;
+  document.getElementById('country').required = away;
+}
+sel.addEventListener('change', syncLocation);
+syncLocation();
+
 var form = document.getElementById('apply-form');
 var msg = document.getElementById('form-msg');
 var btn = document.getElementById('submit-btn');
@@ -1255,8 +1282,10 @@ var agreeErr = document.getElementById('agree-err');
 
 function bad(id, on){ document.getElementById(id).classList.toggle('bad', on); }
 
-['name','email','state'].forEach(function(id){
-  document.getElementById(id).addEventListener('input', function(){ bad('f-'+id, false); });
+['name','email','state','postal_code','country'].forEach(function(id){
+  var el = document.getElementById(id);
+  var field = 'f-' + (id === 'postal_code' ? 'postal' : id);
+  el.addEventListener('input', function(){ bad(field, false); });
 });
 document.getElementById('agree').addEventListener('change', function(){ agreeErr.style.display = 'none'; });
 
@@ -1358,12 +1387,17 @@ form.addEventListener('submit', function(e){
   var name = document.getElementById('name').value.trim();
   var email = document.getElementById('email').value.trim();
   var state = document.getElementById('state').value;
+  var postal = document.getElementById('postal_code').value.trim();
+  var country = document.getElementById('country').value.trim();
   var agree = document.getElementById('agree').checked;
   var ok = true;
 
   if (!name) { bad('f-name', true); ok = false; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { bad('f-email', true); ok = false; }
   if (!state) { bad('f-state', true); ok = false; }
+  if (!postal) { bad('f-postal', true); ok = false; }
+  else if (state !== OUTSIDE && !/^[0-9]{5}(-[0-9]{4})?$/.test(postal)) { bad('f-postal', true); ok = false; }
+  if (state === OUTSIDE && !country) { bad('f-country', true); ok = false; }
   if (!agree) { agreeErr.style.display = 'block'; ok = false; }
   var placement = readPlacement();
   if (!placement) { bad('f-placement', true); ok = false; }
@@ -1381,6 +1415,8 @@ form.addEventListener('submit', function(e){
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: name, email: email, state: state,
+      postal_code: postal,
+      country: state === OUTSIDE ? country : 'US',
       source: document.getElementById('source').value.trim(),
       consent_contact: true,
       placement: placement
@@ -1391,6 +1427,7 @@ form.addEventListener('submit', function(e){
     if (!res.ok) throw new Error(res.d && res.d.error ? res.d.error : 'Something went wrong');
     form.reset();
     sel.value = '';
+    syncLocation();
     msg.className = 'msg ok';
     msg.textContent = res.d && res.d.duplicate
       ? 'We already have you. We sent the email again.'
