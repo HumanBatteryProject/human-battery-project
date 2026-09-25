@@ -216,6 +216,7 @@ def tests_doc():
   <b style="color:#7A4A2E">OUTPUT</b> &nbsp; TSH, free T3, free T4, total testosterone, free testosterone, DHEA-S, AM cortisol, IGF-1, SHBG<br>
   <b style="color:#1BAF7A">RESERVE</b> &nbsp; 25-OH vitamin D, ferritin, iron and TIBC, vitamin B12, folate, RBC magnesium, albumin<br>
   <span style="color:#6E655C">HOMA-IR and the ratios are calculated, not drawn.</span></p>
+  <p class="small" style="margin-top:4mm"><b>On 25-OH vitamin D.</b> Vitamin D comes from sunlight first and from cold-water fish second (sardines, herring, mackerel, salmon). If a winter blood test shows the level has fallen and sun is not available, D3 may be needed to bring it back up. That is the last step, not the first.</p>
   <div class="rule" style="margin-top:6mm">The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition. Any result outside the laboratory's reference range is referred to a physician.</div>
 </div>
 

@@ -163,6 +163,35 @@ PATTERNS = [
         canary="We use vitamin D as a proxy for your light exposure.",
     ),
     dict(
+        name="d3-outside-the-vitamin-d-sentence",
+        clause="brief 06A A5: the programme names no supplement, with ONE "
+               "exception. The token D3 may appear only inside the agreed "
+               "vitamin D sentence, which puts sunlight first, food second, "
+               "and D3 last and conditional. Anywhere else it is a supplement "
+               "recommendation wearing a shorter name. No brand, no dose",
+        subject=r"\bD3\b",
+        predicate=r".",
+        # Two exemptions, and they are different in kind.
+        # The first is the agreed sentence, which is the whole allowance.
+        # The second is SKIN CHEMISTRY: previtamin D3 and cholecalciferol are
+        # what the body makes from sunlight. Naming the molecule the skin
+        # produces is not recommending a capsule, and the book and /science
+        # both do it. Writing this as an exemption rather than narrowing the
+        # subject keeps the rule readable: it still says "D3 is not allowed",
+        # and then says exactly where it is.
+        unless=r"sun is not available, D3 may be needed|previtamin D3|"
+               r"cholecalciferol|D3 is made in the skin|skin makes|"
+               # a citation id or any hyphenated identifier, e.g.
+               # holick-1980-previtamin-d3
+               r"[\-\"/]d3\b|\bd3[\-\"/]",
+        canary="Take D3 at 5,000 IU with breakfast.",
+        # The book is canonical, is committed unchanged, and discusses D3
+        # critically in the chapter about why the supplementation trials
+        # underperformed. Migrations are internal SQL comments no agent
+        # reads.
+        exempt_prefix=("corpus/book/", "database/migrations/"),
+    ),
+    dict(
         name="supplement-brand-or-price-where-an-agent-can-say-it",
         clause="brief 06 section 0.5: the agents inherit the deliverables' "
                "prohibitions. A supplement brand or a price reaching the corpus "

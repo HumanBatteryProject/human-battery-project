@@ -75,7 +75,8 @@ def diet_doc():
   <div class="kicker" style="color:{C}">THE DAILY LIST</div>
   <h1>Ten foods, every day</h1>
   {dl}
-  <div class="tile" style="border-left-color:{C};margin-top:4mm"><h3>Every week</h3><p>Beef liver once. Bone broth twice. Grass-fed beef three times. Lamb once.</p></div>
+  <div class="tile" style="border-left-color:{C};margin-top:4mm"><p class="why"><b>On vitamin D.</b> Vitamin D comes from sunlight first and from cold-water fish second (sardines, herring, mackerel, salmon). If a winter blood test shows the level has fallen and sun is not available, D3 may be needed to bring it back up. That is the last step, not the first.</p>
+<h3>Every week</h3><p>Beef liver once. Bone broth twice. Grass-fed beef three times. Lamb once.</p></div>
 </div>
 
 <div class="page">

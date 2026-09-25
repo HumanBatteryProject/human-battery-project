@@ -233,7 +233,7 @@ Never build, integrate, claim or imply:
 - any presentation of seasonal eating as "summer food carries more energy", or of season as a single antioxidant dial
 - magnetic or spin-based devices
 - photon emission as a health readout
-- serum vitamin D as a proxy for light exposure (the protocol recommends D3, so it measures supplementation; and Chapter 7 argues the vitamin D trials underperformed precisely because they tested a molecule rather than sunlight)
+- serum vitamin D as a proxy for light exposure (D3 is the last step in the programme and only in winter, so serum vitamin D still measures whatever supplementation happened at least as much as sun exposure; and Chapter 7 argues the vitamin D trials underperformed precisely because they tested a molecule rather than sunlight)
 - any product link in a paid deliverable without an explicit statement that no commission is taken, and an evidence tier beside it
 
 Grounding is an optional experiment labelled hypothesis, never a prescribed requirement.
