@@ -436,23 +436,61 @@ def main():
             "no source id for %s, got %r" % (s, got)
         src_ids[s] = got[0][0]
 
-    # passages, keyed on content hash
-    existing = {r[0] for r in run("select content_sha from knowledge_passages where content_sha is not null;")}
-    fresh = [u for u in units if u["content_sha"] not in existing]
-    print("\n%d passage(s) new or changed, %d unchanged and left alone"
-          % (len(fresh), len(units) - len(fresh)))
+    # ---- passages ----
+    # ord is POSITIONAL WITHIN A SOURCE, so it cannot be used to insert only
+    # the changed rows: a changed passage carries an ord an existing row
+    # already holds and the unique index refuses it. That is exactly what
+    # happened the first time the deploy step reloaded a revised manuscript,
+    # and it had been invisible until then because every earlier run found
+    # nothing changed and inserted nothing.
+    #
+    # So the unit of replacement is a SOURCE, not a passage. Any source whose
+    # set of passages changed is rewritten whole with fresh ords. Embeddings
+    # survive it: they are read by content hash before the delete and
+    # reattached to any passage whose text is unchanged, so a revision
+    # re-embeds only the paragraphs that actually changed. That is what keying
+    # on content hash was for.
+    keep = {}
+    for row in run("select content_sha, embedding from knowledge_passages "
+                   "where embedding is not null and content_sha is not null;"):
+        if len(row) >= 2:
+            keep[row[0]] = row[1]
 
-    vecs = {}
-    if fresh and not a.no_embed and key:
-        for i in range(0, len(fresh), 96):
-            batch = fresh[i:i + 96]
+    changed_sources = []
+    for s in sorted(per_source):
+        want = {u["content_sha"] for u in units if u["source"] == s}
+        have = {r[0] for r in run("select content_sha from knowledge_passages "
+                                  "where source_id = '%s';" % src_ids[s])}
+        if want != have:
+            changed_sources.append(s)
+
+    print("\n%d source(s) changed: %s"
+          % (len(changed_sources), ", ".join(changed_sources) or "none"))
+    if not changed_sources:
+        total = run("select count(*) from knowledge_passages;")[0][0]
+        print("nothing to do. knowledge_passages holds %s row(s)." % total)
+        return 0
+
+    fresh = [u for u in units if u["source"] in changed_sources]
+    reused = sum(1 for u in fresh if u["content_sha"] in keep)
+    print("%d passage(s) to write, %d of them keeping an existing vector"
+          % (len(fresh), reused))
+
+    vecs = {u["content_sha"]: keep[u["content_sha"]]
+            for u in fresh if u["content_sha"] in keep}
+    need = [u for u in fresh if u["content_sha"] not in vecs]
+    if need and not a.no_embed and key:
+        for i in range(0, len(need), 96):
+            batch = need[i:i + 96]
             for u, v in zip(batch, embed([b["passage"] for b in batch], key)):
                 vecs[u["content_sha"]] = v
-            print("  embedded %d/%d" % (min(i + 96, len(fresh)), len(fresh)))
+            print("  embedded %d/%d" % (min(i + 96, len(need)), len(need)))
 
     import subprocess, tempfile
     with tempfile.NamedTemporaryFile("w", suffix=".sql", delete=False) as fh:
         fh.write("begin;\n")
+        for s in changed_sources:
+            fh.write("delete from knowledge_passages where source_id='%s';\n" % src_ids[s])
         for u in fresh:
             v = vecs.get(u["content_sha"])
             fh.write(

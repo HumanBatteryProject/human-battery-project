@@ -12,3 +12,4 @@ dist/
 # build output, the committed PDFs live in tier/ and shared/
 program-docs/out/
 __pycache__/
+.corpus-hash

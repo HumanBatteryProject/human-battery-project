@@ -16,3 +16,11 @@ SITE_ORIGIN = "https://thehumanbatteryproject.com"
 #   wrangler secret put WEBHOOK_SECRET
 # Workers do not see Pages environment variables, so this is deliberate and
 # separate. Nothing else belongs here: see the header of brief.js.
+
+# DEPLOYED 2026-09-25.
+#   https://hbp-brief.micah-bc6.workers.dev
+#   schedule 0 * * * *, version 7fcb2144-9bcb-4821-a473-4920ab36610e
+# Proved on deploy: a firing wrote a real brief; a bad secret and a missing
+# secret both returned 403; and two simultaneous firings produced exactly ONE
+# row, one reporting written=1 and the other skipped_existing=1. The unique
+# index morning_briefs_one_per_day is what made that true, not the worker.
