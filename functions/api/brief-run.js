@@ -11,7 +11,7 @@
 // WEBHOOK_SECRET. Or by a staff member for one member, to test.
 
 import {
-  json, supabase, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
+  json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
   MODEL_PER_CLIENT,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
@@ -73,13 +73,12 @@ function weakestDimension(log) {
 // change a member only discovers by noticing their protocol is different is
 // not bounded autonomy, it is a surprise.
 async function appliedSinceLastBrief(sb, clientId) {
-  const { data } = await sb.from('proposals')
-    .select('id, param, from_value, to_value, rationale, evidence_tier, weak_justification')
-    .eq('client_id', clientId).eq('status', 'applied')
-    .is('declined_at', null).is('reverted_at', null)
-    .gte('applied_at', new Date(Date.now() - 8 * 86400000).toISOString())
-    .order('applied_at', { ascending: false }).limit(3);
-  return data || [];
+  const since = new Date(Date.now() - 8 * 86400000).toISOString();
+  return sb.select('proposals', {
+    where: { client_id: clientId, status: 'applied', declined_at: null, reverted_at: null },
+    columns: 'id,param,from_value,to_value,rationale,evidence_tier,weak_justification',
+    raw: 'applied_at=gte.' + since, order: 'applied_at.desc', limit: 3,
+  });
 }
 
 const PARAM_WORDS = {
@@ -102,14 +101,14 @@ export function changeSentence(p) {
 
 export async function buildBrief(sb, env, member, today) {
   const yesterday = shiftDate(today, -1);
-  const { data: log } = await sb.from('daily_logs')
-    .select('log_date, morning_light_min, waketime, bedtime, first_meal_at, last_meal_at, water_ml, daily_five_score, adherence_pct')
-    .eq('client_id', member.client_id).eq('log_date', yesterday).maybeSingle();
+  const log = await sb.one('daily_logs', {
+    where: { client_id: member.client_id, log_date: yesterday },
+    columns: 'log_date,morning_light_min,waketime,bedtime,first_meal_at,last_meal_at,water_ml,daily_five_score,adherence_pct' });
 
   const dim = weakestDimension(log);
 
   // one passage, for the weakest dimension
-  const { data: hits } = await sb.rpc('search_passages', {
+  const hits = await sb.rpc('search_passages', {
     q: dim + ' ' + (dim === 'environment' ? 'morning light exposure timing'
         : dim === 'timing' ? 'sleep and wake regularity meal timing'
         : 'fuel handling glucose insulin'),
@@ -146,13 +145,15 @@ export async function buildBrief(sb, env, member, today) {
   const runId = await startRun(env, AGENT, { clientId: member.client_id, model: MODEL_PER_CLIENT });
   let text;
   try {
-    text = await ask(env, {
+    const r = await ask(env, {
       system,
       messages: [{ role: 'user', content: hasData
         ? 'Write today\'s brief.' : 'Write today\'s brief asking for the one input.' }],
       maxTokens: 260,
     });
-    await finishRun(env, runId, 'ok', {});
+    text = r.text;
+    await finishRun(env, runId, 'ok',
+      { tokens_in: r.tokensIn, tokens_out: r.tokensOut });
   } catch (e) {
     await finishRun(env, runId, 'error', { error: String(e).slice(0, 400) });
     throw e;
@@ -172,7 +173,7 @@ export async function buildBrief(sb, env, member, today) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
   const isService = hasServiceSecret(request, env);
   if (!isService) {
     const staff = await verifyStaff(request, env);
@@ -183,12 +184,20 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch (e) { body = {}; }
   const only = body.client_id || null;
 
-  let q = sb.from('memberships')
-    .select('id, client_id, tier, day_zero, status, profiles!inner(timezone)')
-    .eq('status', 'active').not('onboarded_at', 'is', null).limit(BATCH_LIMIT);
-  if (only) q = q.eq('client_id', only);
-  const { data: members, error } = await q;
-  if (error) return json({ error: error.message }, 500);
+  const where = { status: 'active' };
+  if (only) where.client_id = only;
+  let members;
+  try {
+    members = await sb.select('memberships', {
+      where, columns: 'id,client_id,tier,day_zero,status,panel_id',
+      raw: 'onboarded_at=not.is.null', limit: BATCH_LIMIT });
+  } catch (e) { return json({ error: String(e).slice(0, 300) }, 500); }
+  // the timezone lives on profiles and is fetched per member rather than
+  // joined, because the REST helper does not do embedded selects
+  for (const m of members) {
+    const pr = await sb.one('profiles', { where: { id: m.client_id }, columns: 'timezone' });
+    m.profiles = pr || {};
+  }
 
   const out = { written: 0, skipped_existing: 0, failed: 0, no_data: 0, members: [] };
   for (const m of (members || [])) {
@@ -198,10 +207,13 @@ export async function onRequestPost({ request, env }) {
       const b = await buildBrief(sb, env, m, today);
       const day = m.day_zero
         ? Math.max(0, Math.round((new Date(today) - new Date(m.day_zero)) / 86400000)) : null;
-      const { error: insErr } = await sb.from('morning_briefs').insert({
-        client_id: m.client_id, membership_id: m.id, brief_date: today,
-        program_day: day, tier: m.tier, content: b.content, source: 'worker',
-      });
+      let insErr = null;
+      try {
+        await sb.insert('morning_briefs', {
+          client_id: m.client_id, membership_id: m.id, brief_date: today,
+          program_day: day, tier: m.tier, content: b.content, source: 'worker',
+        });
+      } catch (e) { insErr = { message: String(e) }; }
       if (insErr) {
         // the unique index is the idempotence guarantee, so a collision here
         // is the worker being correct rather than an error to retry

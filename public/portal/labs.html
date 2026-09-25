@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=5">
+<link rel="stylesheet" href="/portal/portal.css?v=9">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -101,7 +101,7 @@ async function setUpEntry() {
   if (!membership || !membership.day_zero) return;
 
   const { data: markers } = await sb.from('lab_markers')
-    .select('slug, name, entry_hint, plausible_low, plausible_high')
+    .select('is_test, slug, name, entry_hint, plausible_low, plausible_high')
     .eq('client_enterable', true);
   const hint = (slug) => (markers || []).find(m => m.slug === slug) || {};
   el('#hint-omega3').textContent = hint('omega3-index').entry_hint || '';

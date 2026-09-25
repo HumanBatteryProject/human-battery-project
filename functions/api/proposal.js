@@ -4,7 +4,7 @@
 // one with one click. Both are recorded with who and when, because an applied
 // change nobody can undo is not bounded autonomy, it is just autonomy.
 
-import { json, supabase, verifyStaff } from './_agent.js';
+import { json, db, verifyStaff } from './_agent.js';
 
 const NEXT = {
   applied:  { decline: 'declined', revert: 'reverted' },
@@ -14,7 +14,7 @@ const NEXT = {
 };
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
   let body = {}; try { body = await request.json(); } catch (e) {}
   const { id, action } = body;
   if (!id || !action) return json({ error: 'id and action required' }, 400);
@@ -23,10 +23,15 @@ export async function onRequestPost({ request, env }) {
   const jwt = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   const staff = await verifyStaff(request, env);
   let me = null;
-  if (jwt) { const { data } = await sb.auth.getUser(jwt); me = data && data.user ? data.user.id : null; }
+  if (jwt) {
+    const u = await fetch(env.SUPABASE_URL + '/auth/v1/user', {
+      headers: { apikey: env.SUPABASE_SERVICE_KEY, Authorization: 'Bearer ' + jwt },
+    }).then(r => (r.ok ? r.json() : null)).catch(() => null);
+    me = u && u.id ? u.id : null;
+  }
   if (!staff && !me) return json({ error: 'sign in first' }, 401);
 
-  const { data: p } = await sb.from('proposals').select('*').eq('id', id).maybeSingle();
+  const p = await sb.one('proposals', { where: { id } });
   if (!p) return json({ error: 'no such proposal' }, 404);
 
   // a member may only decline, and only their own
@@ -45,7 +50,7 @@ export async function onRequestPost({ request, env }) {
   if (to === 'reverted') { patch.reverted_at = new Date().toISOString(); patch.reverted_by = me; }
   if (to === 'applied')  { patch.applied_at = new Date().toISOString(); patch.permitted_by = 'admin approved from the queue'; }
 
-  const { error } = await sb.from('proposals').update(patch).eq('id', id);
-  if (error) return json({ error: error.message }, 500);
+  try { await sb.update('proposals', { id }, patch); }
+  catch (e) { return json({ error: String(e).slice(0, 300) }, 500); }
   return json({ id, from: p.status, to, by: staff ? 'admin' : 'member' });
 }

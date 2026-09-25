@@ -24,7 +24,7 @@ export default {
 
   // The same path by hand, for testing. Requires the same secret.
   async fetch(request, env) {
-    const given = request.headers.get('X-Webhook-Secret') || '';
+    const given = request.headers.get('x-hbp-secret') || '';
     if (!env.WEBHOOK_SECRET || given !== env.WEBHOOK_SECRET) {
       return new Response('no', { status: 403 });
     }
@@ -41,7 +41,7 @@ async function run(env) {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'X-Webhook-Secret': env.WEBHOOK_SECRET,
+      'x-hbp-secret': env.WEBHOOK_SECRET,
     },
     body: JSON.stringify({}),
   });

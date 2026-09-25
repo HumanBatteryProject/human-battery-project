@@ -165,3 +165,82 @@ export async function signedDocUrl(env, storagePath, seconds = 60 * 60 * 24 * 14
 }
 
 export { supabase };
+
+// ---------------------------------------------------------------------
+// A small query surface over the REST helper.
+//
+// The agents written for brief 06 were drafted against the supabase-js client
+// API, `sb.from(...).select(...)`, which this codebase does not use and does
+// not ship. They threw `sb.from is not a function` on the first real call.
+// Rather than rewrite five agents into raw PostgREST paths, which is where the
+// quoting mistakes live, this exposes exactly the four operations they need.
+//
+// It is deliberately NOT a general client. Anything it cannot express should
+// be written as an explicit supabase(env, path) call so the query is visible.
+// ---------------------------------------------------------------------
+
+const enc = encodeURIComponent;
+
+function qs(filters = {}, extra = '') {
+  const parts = [];
+  for (const [k, v] of Object.entries(filters)) {
+    if (v === null) parts.push(`${k}=is.null`);
+    else if (Array.isArray(v)) parts.push(`${k}=in.(${v.map(enc).join(',')})`);
+    else parts.push(`${k}=eq.${enc(v)}`);
+  }
+  if (extra) parts.push(extra);
+  return parts.length ? '?' + parts.join('&') : '';
+}
+
+export function db(env) {
+  return {
+    async select(table, { where = {}, columns = '*', order = null, limit = null, raw = '' } = {}) {
+      let extra = `select=${columns}`;
+      if (order) extra += `&order=${order}`;
+      if (limit) extra += `&limit=${limit}`;
+      if (raw) extra += `&${raw}`;
+      return (await supabase(env, `${table}${qs(where, extra)}`)) || [];
+    },
+    async one(table, opts = {}) {
+      const rows = await this.select(table, { ...opts, limit: 1 });
+      return rows && rows.length ? rows[0] : null;
+    },
+    // `upsert` is for tables with a natural key, where re-running the same
+    // operation must not be an error. lab_results is unique on
+    // (panel_id, marker_id): re-analysing a panel is a correction, not a
+    // second draw, so it merges rather than colliding.
+    async insert(table, rows, { returning = false, upsert = null } = {}) {
+      const prefer = [returning ? 'return=representation' : 'return=minimal'];
+      if (upsert) prefer.push('resolution=merge-duplicates');
+      return supabase(env, table + (upsert ? `?on_conflict=${upsert}` : ''), {
+        method: 'POST',
+        headers: { Prefer: prefer.join(',') },
+        body: JSON.stringify(Array.isArray(rows) ? rows : [rows]),
+      });
+    },
+    async update(table, where, patch) {
+      return supabase(env, `${table}${qs(where)}`, {
+        method: 'PATCH',
+        headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify(patch),
+      });
+    },
+    async rpc(fn, args) {
+      return (await supabase(env, `rpc/${fn}`, {
+        method: 'POST', body: JSON.stringify(args),
+      })) || [];
+    },
+    // The count a rate limit needs, without pulling the rows.
+    async count(table, where = {}, raw = '') {
+      const res = await fetch(
+        `${env.SUPABASE_URL}/rest/v1/${table}${qs(where, 'select=id' + (raw ? '&' + raw : ''))}`,
+        { headers: {
+            apikey: env.SUPABASE_SERVICE_KEY,
+            Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+            Prefer: 'count=exact', Range: '0-0' } });
+      const cr = res.headers.get('content-range') || '';
+      const n = cr.split('/')[1];
+      return n === '*' ? 0 : Number(n || 0);
+    },
+  };
+}

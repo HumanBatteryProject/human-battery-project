@@ -13,7 +13,7 @@
 // tier of the passage it came from, exactly as the coach does.
 
 import {
-  json, supabase, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
+  json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
   MODEL_PER_CLIENT,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
@@ -60,7 +60,7 @@ function screeningFor(slug, flag) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
   if (!hasServiceSecret(request, env)) {
     const staff = await verifyStaff(request, env);
     if (!staff) return json({ error: 'not allowed' }, 403);
@@ -70,24 +70,28 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch (e) { body = {}; }
   const clientId = body.client_id;
   const panelId = body.panel_id || null;
+  // day_0 unless the caller says otherwise. dimension_scores.draw_point is NOT
+  // NULL, and which end of the program a score belongs to is the whole basis
+  // of the day 0 to day 90 comparison, so it is never guessed silently.
+  const drawPoint = body.draw_point || 'day_0';
   const results = Array.isArray(body.results) ? body.results : [];
   if (!clientId || !results.length) return json({ error: 'client_id and results required' }, 400);
 
   // A4: the member's declared panel. A marker outside it is "not in your
   // panel", never "missing" and never "out of range". That distinction is the
   // difference between a choice the member made and a failure they did not.
-  const { data: mem } = await sb.from('memberships')
-    .select('panel_id').eq('client_id', clientId).is('completed_on', null).maybeSingle();
+  const mem = await sb.one('memberships',
+    { where: { client_id: clientId, completed_on: null }, columns: 'id,panel_id' });
   const declaredPanel = (mem && mem.panel_id) || null;
   let inPanel = null;
   if (declaredPanel) {
-    const { data: pm } = await sb.from('lab_panel_markers')
-      .select('marker_id').eq('panel_id', declaredPanel);
+    const pm = await sb.select('lab_panel_markers',
+      { where: { panel_id: declaredPanel }, columns: 'marker_id' });
     inPanel = new Set((pm || []).map(r => r.marker_id));
   }
 
-  const { data: markers } = await sb.from('lab_markers')
-    .select('id, slug, name, unit, dimension, role, ref_low, ref_high, optimal_low, optimal_high, better_direction, specimen');
+  const markers = await sb.select('lab_markers', { columns:
+    'id,slug,name,unit,dimension,role,ref_low,ref_high,optimal_low,optimal_high,better_direction,specimen' });
   const bySlug = new Map((markers || []).map(m => [m.slug, m]));
   const byName = new Map((markers || []).map(m => [String(m.name || '').toLowerCase(), m]));
 
@@ -115,23 +119,23 @@ export async function onRequestPost({ request, env }) {
 
   // write the held rows so the admin screen can show them
   if (held.length) {
-    await sb.from('lab_results_held').insert(
+    await sb.insert('lab_results_held',
       held.map(h => ({ ...h, client_id: clientId, panel_id: panelId })));
   }
 
   // write the accepted results
   if (accepted.length && panelId) {
-    await sb.from('lab_results').insert(accepted.map(a => ({
+    await sb.insert('lab_results', accepted.map(a => ({
       panel_id: panelId, marker_id: a.marker.id, value: a.value, unit: a.unit,
       value_raw: a.value_raw, unit_raw: a.unit_raw, conversion: a.conversion,
       ref_low: a.marker.ref_low, ref_high: a.marker.ref_high, flag: a.flag,
-      source: 'client',
-    })));
+      source: 'client_entered', is_test: !!body.is_test,
+    })), { upsert: 'panel_id,marker_id' });
   }
 
   // ---- dimensions, with coverage. A missing marker is MISSING, not zero ----
-  const { data: dims } = await sb.from('state_dimensions')
-    .select('dimension, is_scored').eq('is_scored', true);
+  const dims = await sb.select('state_dimensions',
+    { where: { is_scored: true }, columns: 'dimension,is_scored' });
   const scoredMarkers = (markers || []).filter(m => m.role === 'scored');
 
   const dimOut = [];
@@ -153,19 +157,20 @@ export async function onRequestPost({ request, env }) {
     const score = parts.length ? Math.round(parts.reduce((a, b) => a + b, 0) / parts.length) : null;
     dimOut.push({ dimension: d.dimension, score, expected: expected.length, present: present.length });
     if (score != null && panelId) {
-      await sb.from('dimension_scores').insert({
-        client_id: clientId, panel_id: panelId, dimension: d.dimension,
+      await sb.insert('dimension_scores', {
+        client_id: clientId, membership_id: mem ? mem.id : null,
+        panel_id: panelId, draw_point: drawPoint, dimension: d.dimension,
         score, basis: 'calculated', markers_expected: expected.length,
         markers_present: present.length,
         detail: { markers: present.map(p => ({ slug: p.marker.slug, value: p.value, flag: p.flag })) },
-      });
+      }, { upsert: 'membership_id,draw_point,dimension' });
     }
   }
 
   // ---- coaching, retrieved, never from model knowledge ----
   const lines = [];
   for (const a of accepted) {
-    const { data: hits } = await sb.rpc('search_passages', {
+    const hits = await sb.rpc('search_passages', {
       q: a.marker.name + ' ' + (a.marker.dimension || '') + ' ' + a.marker.slug.replace(/-/g, ' '),
       k: 2, qvec: null, min_rank: 0.01,
     });
@@ -186,7 +191,7 @@ export async function onRequestPost({ request, env }) {
   const runId = await startRun(env, AGENT, { clientId, model: MODEL_PER_CLIENT });
   let prose = '';
   try {
-    prose = await ask(env, {
+    const r = await ask(env, {
       system: [IDENTITY, MODEL_SUMMARY, GUARDRAILS,
         'READING LEVEL. ' + (TIER_VOICE[body.tier] || TIER_VOICE.intermediate),
         'You are writing the short note that sits above a results table. You are ' +
@@ -202,7 +207,9 @@ export async function onRequestPost({ request, env }) {
       messages: [{ role: 'user', content: 'Write the note.' }],
       maxTokens: 500,
     });
-    await finishRun(env, runId, 'ok', {});
+    prose = r.text;
+    await finishRun(env, runId, 'ok',
+      { tokens_in: r.tokensIn, tokens_out: r.tokensOut });
   } catch (e) {
     await finishRun(env, runId, 'error', { error: String(e).slice(0, 400) });
   }

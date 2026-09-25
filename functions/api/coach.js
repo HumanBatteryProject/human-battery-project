@@ -21,7 +21,7 @@
 // Score disclaimer, the screening rows, is assembled here in code.
 
 import {
-  json, supabase, ask, startRun, finishRun, MODEL_PER_CLIENT,
+  json, db, supabase, ask, startRun, finishRun, MODEL_PER_CLIENT,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
 import { canClaim, wordingFor, SCORE_DISCLAIMER, SCORE_TRIGGER } from './_evidence.js';
@@ -75,14 +75,18 @@ function systemPrompt(tier, passages, scoreAsked) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
 
   const auth = request.headers.get('Authorization') || '';
   const jwt = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!jwt) return json({ error: 'sign in first' }, 401);
-  const { data: who, error: whoErr } = await sb.auth.getUser(jwt);
-  if (whoErr || !who || !who.user) return json({ error: 'sign in first' }, 401);
-  const clientId = who.user.id;
+  // The JWT is verified against Supabase auth directly. db() is the service
+  // role and must never be used to decide WHO is asking.
+  const who = await fetch(env.SUPABASE_URL + '/auth/v1/user', {
+    headers: { apikey: env.SUPABASE_SERVICE_KEY, Authorization: 'Bearer ' + jwt },
+  }).then(r => (r.ok ? r.json() : null)).catch(() => null);
+  if (!who || !who.id) return json({ error: 'sign in first' }, 401);
+  const clientId = who.id;
 
   let body = {};
   try { body = await request.json(); } catch (e) { body = {}; }
@@ -92,17 +96,14 @@ export async function onRequestPost({ request, env }) {
 
   // rate limit, counted from the log rather than held in memory
   const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-  const { count } = await sb.from('coach_turns')
-    .select('id', { count: 'exact', head: true })
-    .eq('client_id', clientId).gte('asked_at', since);
-  if ((count || 0) >= DAILY_LIMIT) {
+  const count = await sb.count('coach_turns', { client_id: clientId },
+                               'asked_at=gte.' + since);
+  if (count >= DAILY_LIMIT) {
     return json({ error: 'That is today\'s limit. The weekly call has no limit.' }, 429);
   }
 
   const log = async (route, patch) => {
-    await sb.from('coach_turns').insert({
-      client_id: clientId, question, route, ...patch,
-    });
+    await sb.insert('coach_turns', { client_id: clientId, question, route, ...patch });
   };
 
   // ---- 1. classify, before any retrieval ----
@@ -118,10 +119,13 @@ export async function onRequestPost({ request, env }) {
   }
 
   // ---- 2. retrieve ----
-  const { data: hits, error: rErr } = await sb.rpc('search_passages', {
-    q: question, k: RETRIEVE_K, qvec: null, min_rank: FLOOR_LEXICAL,
-  });
-  if (rErr) return json({ error: 'retrieval failed', detail: rErr.message }, 500);
+  let hits;
+  try {
+    hits = await sb.rpc('search_passages',
+      { q: question, k: RETRIEVE_K, qvec: null, min_rank: FLOOR_LEXICAL });
+  } catch (e) {
+    return json({ error: 'retrieval failed', detail: String(e).slice(0, 200) }, 500);
+  }
 
   const usable = (hits || []).filter(h => (h.score || 0) >= FLOOR_LEXICAL);
 
@@ -135,18 +139,19 @@ export async function onRequestPost({ request, env }) {
   const claimable = usable.filter(h => canClaim(h.evidence_tier));
   const scoreAsked = SCORE_TRIGGER.test(question);
 
-  const { data: prof } = await sb.from('memberships')
-    .select('tier').eq('client_id', clientId).is('ended_at', null).maybeSingle();
+  const prof = await sb.one('memberships',
+    { where: { client_id: clientId, completed_on: null }, columns: 'tier' });
   const tier = (prof && prof.tier) || 'intermediate';
 
   const runId = await startRun(env, AGENT, { clientId, model: MODEL_PER_CLIENT });
   let text;
   try {
-    text = await ask(env, {
+    const r = await ask(env, {
       system: systemPrompt(tier, usable, scoreAsked),
       messages: [{ role: 'user', content: question }],
       maxTokens: 700,
     });
+    text = r.text;
   } catch (e) {
     await finishRun(env, runId, 'error', { error: String(e).slice(0, 400) });
     return json({ error: 'the coach is unavailable right now' }, 503);

@@ -12,7 +12,7 @@
 // parameter and a target. Whether that target is allowed is arithmetic.
 
 import {
-  json, supabase, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
+  json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
   MODEL_ACROSS_CLIENTS,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, stripDashes } from './_voice.js';
@@ -23,8 +23,8 @@ const AGENT = 'trend';
 
 // Which interventions a member is flagged on, from their own intake answers.
 async function screeningFlags(sb, clientId) {
-  const { data } = await sb.from('intake_responses')
-    .select('answer').eq('client_id', clientId);
+  const data = await sb.select('intake_responses',
+    { where: { client_id: clientId }, columns: 'answer' });
   const blob = JSON.stringify(data || []).toLowerCase();
   const flags = new Set();
   for (const r of SCREENING_ROWS) {
@@ -40,7 +40,7 @@ async function screeningFlags(sb, clientId) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
   if (!hasServiceSecret(request, env)) {
     const staff = await verifyStaff(request, env);
     if (!staff) return json({ error: 'not allowed' }, 403);
@@ -48,25 +48,25 @@ export async function onRequestPost({ request, env }) {
   let body = {}; try { body = await request.json(); } catch (e) {}
   const only = body.client_id || null;
 
-  let q = sb.from('memberships')
-    .select('id, client_id, tier').eq('status', 'active').not('onboarded_at', 'is', null);
-  if (only) q = q.eq('client_id', only);
-  const { data: members } = await q;
+  const where = { status: 'active' };
+  if (only) where.client_id = only;
+  const members = await sb.select('memberships',
+    { where, columns: 'id,client_id,tier', raw: 'onboarded_at=not.is.null' });
 
   const out = { mode: AUTONOMY_MODE, applied: 0, queued: 0, members: [] };
 
   for (const m of (members || [])) {
     const since = new Date(Date.now() - CONFIDENCE_WINDOW_DAYS * 86400000)
       .toISOString().slice(0, 10);
-    const { data: logs } = await sb.from('daily_logs')
-      .select('log_date, morning_light_min, water_ml, first_meal_at, last_meal_at')
-      .eq('client_id', m.client_id).gte('log_date', since);
+    const logs = await sb.select('daily_logs', {
+      where: { client_id: m.client_id },
+      columns: 'log_date,morning_light_min,water_ml,first_meal_at,last_meal_at',
+      raw: 'log_date=gte.' + since });
     const daysLogged = (logs || []).length;
 
     // the agent proposes a parameter and a target; it does not decide whether
     // the target is allowed
-    const { data: bounds } = await sb.from('protocol_parameters')
-      .select('*').eq('tier', m.tier);
+    const bounds = await sb.select('protocol_parameters', { where: { tier: m.tier } });
 
     // the weakest observable input decides which parameter is proposed
     const avgLight = daysLogged
@@ -79,7 +79,7 @@ export async function onRequestPost({ request, env }) {
     if (to === from) { out.members.push({ client_id: m.client_id, skipped: 'already at target' }); continue; }
 
     // the justification must come from the corpus, with its tier
-    const { data: hits } = await sb.rpc('search_passages', {
+    const hits = await sb.rpc('search_passages', {
       q: 'morning light exposure sets the circadian clock timing', k: 3, qvec: null, min_rank: 0.01,
     });
     const passages = hits || [];
@@ -95,7 +95,7 @@ export async function onRequestPost({ request, env }) {
     const runId = await startRun(env, AGENT, { clientId: m.client_id, model: MODEL_ACROSS_CLIENTS });
     let rationale = '';
     try {
-      rationale = await ask(env, {
+      const r = await ask(env, {
         system: [IDENTITY, MODEL_SUMMARY, GUARDRAILS,
           'You are writing ONE plain sentence telling a member what changed and ' +
           'why. You are given the parameter, the old and new value, and the ' +
@@ -106,7 +106,9 @@ export async function onRequestPost({ request, env }) {
         messages: [{ role: 'user', content: 'Write the sentence.' }],
         maxTokens: 160,
       });
-      await finishRun(env, runId, 'ok', {});
+      rationale = r.text;
+      await finishRun(env, runId, 'ok',
+        { tokens_in: r.tokensIn, tokens_out: r.tokensOut });
     } catch (e) { await finishRun(env, runId, 'error', { error: String(e).slice(0, 300) }); }
 
     const row = {
@@ -121,7 +123,7 @@ export async function onRequestPost({ request, env }) {
       permitted_by: verdict.permitted_by, blocked_by: verdict.blocked_by,
       applied_at: verdict.apply ? new Date().toISOString() : null,
     };
-    await sb.from('proposals').insert(row);
+    await sb.insert('proposals', row);
     if (verdict.apply) out.applied++; else out.queued++;
     out.members.push({ client_id: m.client_id, param: row.param, from, to,
       status: row.status, permitted_by: row.permitted_by, blocked_by: row.blocked_by,

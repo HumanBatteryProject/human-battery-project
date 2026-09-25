@@ -10,7 +10,7 @@
 // and Stripe is parked. It moves the clock, not the rules.
 
 import {
-  json, supabase, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
+  json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff,
   MODEL_PER_CLIENT,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
@@ -21,7 +21,7 @@ const AGENT = 'completion';
 export const IMPROVED_MIN_POINTS = 5;        // composite points, day 0 to day 90
 
 export async function onRequestPost({ request, env }) {
-  const sb = supabase(env);
+  const sb = db(env);
   if (!hasServiceSecret(request, env)) {
     const staff = await verifyStaff(request, env);
     if (!staff) return json({ error: 'not allowed' }, 403);
@@ -30,9 +30,8 @@ export async function onRequestPost({ request, env }) {
   const clientId = body.client_id;
   if (!clientId) return json({ error: 'client_id required' }, 400);
 
-  const { data: m } = await sb.from('memberships')
-    .select('*').eq('client_id', clientId).is('completed_on', null)
-    .order('cycle', { ascending: false }).limit(1).maybeSingle();
+  const m = await sb.one('memberships',
+    { where: { client_id: clientId, completed_on: null }, order: 'cycle.desc' });
   if (!m) return json({ error: 'no open membership' }, 404);
 
   const endDate = body.force_end_date ||
@@ -40,9 +39,10 @@ export async function onRequestPost({ request, env }) {
   if (!endDate) return json({ error: 'no day zero and no forced end date' }, 400);
 
   // ---- the summary, from STORED values only ----
-  const { data: dims } = await sb.from('dimension_scores')
-    .select('dimension, score, draw_point, markers_present, markers_expected, computed_at')
-    .eq('client_id', clientId).order('computed_at');
+  const dims = await sb.select('dimension_scores', {
+    where: { client_id: clientId },
+    columns: 'dimension,score,draw_point,markers_present,markers_expected,computed_at',
+    order: 'computed_at.asc' });
   const first = {}, last = {};
   for (const d of (dims || [])) {
     if (!first[d.dimension]) first[d.dimension] = d;
@@ -60,8 +60,8 @@ export async function onRequestPost({ request, env }) {
   const changes = Object.values(dimensions).map(d => d.change).filter(x => x != null);
   const composite = changes.length ? Math.round(changes.reduce((a, b) => a + b, 0) / changes.length) : null;
 
-  const { data: logs } = await sb.from('daily_logs')
-    .select('adherence_pct').eq('client_id', clientId);
+  const logs = await sb.select('daily_logs',
+    { where: { client_id: clientId }, columns: 'adherence_pct' });
   const adherence = (logs || []).length
     ? Math.round((logs.reduce((a, b) => a + Number(b.adherence_pct || 0), 0) / logs.length)) : null;
 
@@ -72,7 +72,7 @@ export async function onRequestPost({ request, env }) {
   const runId = await startRun(env, AGENT, { clientId, model: MODEL_PER_CLIENT });
   let narrative = '';
   try {
-    narrative = await ask(env, {
+    const r = await ask(env, {
       system: [IDENTITY, MODEL_SUMMARY, GUARDRAILS,
         'READING LEVEL. ' + (TIER_VOICE[m.tier] || TIER_VOICE.intermediate),
         'You are writing a short day 90 summary. You are given the dimension ' +
@@ -85,28 +85,29 @@ export async function onRequestPost({ request, env }) {
       messages: [{ role: 'user', content: 'Write the summary.' }],
       maxTokens: 500,
     });
-    await finishRun(env, runId, 'ok', {});
+    narrative = r.text;
+    await finishRun(env, runId, 'ok',
+      { tokens_in: r.tokensIn, tokens_out: r.tokensOut });
   } catch (e) { await finishRun(env, runId, 'error', { error: String(e).slice(0, 300) }); }
 
-  const { data: summary, error: sErr } = await sb.from('completion_summaries').insert({
+  let summary, sErr = null;
+  try { summary = (await sb.insert('completion_summaries', {
     membership_id: m.id, client_id: clientId, completed_on: endDate,
     dimensions, adherence_pct: adherence, days_logged: (logs || []).length,
     narrative: stripDashes(String(narrative || '').trim()) || null,
     next_tier: nxt.next_tier, next_multiplier: nxt.next_multiplier,
-  }).select().maybeSingle();
-  if (sErr) return json({ error: sErr.message }, 500);
+  }, { returning: true }))[0]; } catch (e) { sErr = { message: String(e) }; }
+  if (sErr || !summary) return json({ error: (sErr && sErr.message) || 'no summary' }, 500);
 
   // ---- close the completed cycle. The ONLY write to it, and it is terminal ----
-  await sb.from('memberships').update({
-    completed_on: endDate, status: 'completed', completion_summary_id: summary.id,
-  }).eq('id', m.id);
+  await sb.update('memberships', { id: m.id },
+    { completed_on: endDate, status: 'completed', completion_summary_id: summary.id });
 
   // ---- chain: a NEW row, linked, never an edit of the old one ----
   const applied = [];
-  const { data: approved } = await sb.from('proposals')
-    .select('param, to_value').eq('client_id', clientId).eq('status', 'applied');
-  const { data: bounds } = await sb.from('protocol_parameters')
-    .select('*').eq('tier', nxt.next_tier);
+  const approved = await sb.select('proposals',
+    { where: { client_id: clientId, status: 'applied' }, columns: 'param,to_value' });
+  const bounds = await sb.select('protocol_parameters', { where: { tier: nxt.next_tier } });
   for (const p of (approved || [])) {
     const b = (bounds || []).find(x => x.param === p.param);
     if (!b) continue;                                   // not a parameter of the next tier
@@ -115,12 +116,13 @@ export async function onRequestPost({ request, env }) {
     applied.push({ param: p.param, carried: Number(p.to_value), next: v, capped: scaled.capped });
   }
 
-  const { data: next, error: nErr } = await sb.from('memberships').insert({
+  let next, nErr = null;
+  try { next = (await sb.insert('memberships', {
     client_id: clientId, tier: nxt.next_tier, cycle: Number(m.cycle || 1) + 1,
     intensity_multiplier: nxt.next_multiplier, previous_membership_id: m.id,
-    status: 'pending', arm: m.arm,
-  }).select().maybeSingle();
-  if (nErr) return json({ error: nErr.message, summary_id: summary.id }, 500);
+    status: 'pending', arm: m.arm, cohort_id: m.cohort_id, is_internal: m.is_internal,
+  }, { returning: true }))[0]; } catch (e) { nErr = { message: String(e) }; }
+  if (nErr || !next) return json({ error: (nErr && nErr.message) || 'no next cycle', summary_id: summary.id }, 500);
 
   return json({
     completed: { membership_id: m.id, on: endDate, immutable: true },
