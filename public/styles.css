@@ -305,23 +305,18 @@ body.home .landing-col{width:100%}
 .landing-mark img{display:block;height:auto;width:100%;max-width:800px;margin-inline:auto}
 
 
-/* ---- the atom, retired from the HOME hero only ----
-   /science keeps its text h1 and its atom, so these rules stay. The home page
-   simply no longer emits the markup that uses them. I deleted them outright
-   first and the grep caught it: science.html still carries both .landing-title
-   and .mark-anim, so removing the CSS would have stripped the science hero
-   while every check still passed. */
-.landing-title{font-family:var(--display);font-size:var(--fs-h3);
-  letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--copper-light);
-  margin:0 0 1.8rem;line-height:1.45;text-wrap:balance}
-.mark-anim{display:block;height:160px;width:auto;margin:0 auto}
-.mark-anim .orbit{
-  transform-box:fill-box;transform-origin:center;
-  animation:mark-orbit 20s linear infinite;
-  will-change:transform;
-}
-@keyframes mark-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.mark-anim .orbit{animation:none}}
+/* ---- the atom and the text heading are gone from BOTH heroes ----
+   The hero is one block now, the same on / and on /science: the wordmark on
+   surface-field and nothing else. The Plain and Detailed toggle changes the
+   explanatory copy below it and never the hero.
+
+   .landing-title and .mark-anim are deleted here because nothing emits them
+   any more, proved by grepping every page for both before removing the rules.
+   That is the same check that caught me last time, when I deleted them while
+   science.html was still using them and every suite stayed green.
+
+   The drawing itself is NOT gone: /assets/mark-atom.svg and
+   /assets/mark-atom-small.svg remain as the source for the favicons. */
 
 /* ---- the mark, alive: the spheres too ----
    Every one of the four struts in this artwork bolts one sphere to another,
@@ -359,7 +354,6 @@ body.home .landing-col{width:100%}
 
 
 @media(max-width:559px){
-  .mark-anim{height:110px}
   /* Padding only. The type size is the scale's job, and overriding it here is
      how the landing ended up a different size per page in the first place. */
 }
@@ -729,6 +723,33 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .vswitch-band{border-bottom:1px solid var(--rule-line);padding:.9rem 0}
 .vswitch-band .wrap{display:flex;justify-content:center}
 
+/* ---- the header is the SAME HEIGHT on every page ----
+   The hero is one block and must land on the same row whether you are on the
+   Plain page or the Detailed one. It could not, because the two headers were
+   different heights: 70px on the home page, which carries no wordmark, and
+   161px on /science at 390px, where the wordmark could not fit beside the nav
+   and wrapped onto its own line.
+
+   Two fixes, and both are about the header rather than the hero.
+   One: a min-height, so the home page's empty brand slot occupies exactly what
+   the wordmark would.
+   Two: below 760px NO page shows the header wordmark. At that width it wraps,
+   and a wrapped header is both taller and worse. The MENU and APPLY row is the
+   navigation there, and the wordmark returns at the width where it fits. */
+.top .wrap{min-height:76px}
+
+/* A control's height must not depend on a prose setting. body.plain sets
+   line-height 1.72 on the body for readability, and .btn, .navtoggle and
+   .vswitch a were inheriting it, so every control was taller on the Plain page
+   than on the Detailed one. That is why the two headers were not pixel
+   identical even after the wordmark and the min-height were settled: the APPLY
+   button was a different height on each page. Pinned here. */
+.btn,.navtoggle,.vswitch a,.top .wrap{line-height:1.2}
+@media(max-width:759px){
+  .top a.brand{display:none}
+  .top .wrap{justify-content:flex-end}
+}
+
 /* ---- the home page header carries no wordmark ----
    The home hero IS the wordmark, so the header would show the same lockup
    twice. Every other page keeps its header wordmark unchanged.
@@ -744,8 +765,13 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
    Nothing is lost by leaving it out. The header wordmark's job is to be the
    link home, and on the home page that link points at the page you are
    already reading. */
-body.home .top a.brand{display:none}
-body.home .top .wrap{justify-content:flex-end}
+/* Any page whose HERO is the wordmark suppresses the header wordmark, because
+   otherwise the same lockup is on screen twice. That was only the home page
+   until /science got the same hero; now it is both, and keying it on the hero
+   rather than on which page it is means it stays true if a third page ever
+   leads with the wordmark. */
+body.heromark .top a.brand{display:none}
+body.heromark .top .wrap{justify-content:flex-end}
 /* a sticky header would otherwise cover the heading you jumped to */
 section[id]{scroll-margin-top:5.5rem}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
