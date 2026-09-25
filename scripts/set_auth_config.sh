@@ -24,12 +24,26 @@ if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
   echo "SUPABASE_ACCESS_TOKEN is not set. Nothing was changed." >&2
   exit 1
 fi
+# Validate the SHAPE, not a list of known placeholders. A blocklist only ever
+# catches the placeholder you already thought of, and the second attempt used a
+# different one. A real personal access token is sbp_ followed by a long run of
+# lowercase hex. Anything with uppercase letters or underscores after the
+# prefix is prose someone forgot to replace.
 case "$SUPABASE_ACCESS_TOKEN" in
-  sbp_xxx|sbp_REPLACE_ME|xxx)
-    echo "SUPABASE_ACCESS_TOKEN is still the placeholder from the example." >&2
-    echo "Get a real one at Supabase, Account, Access Tokens." >&2
-    exit 1 ;;
+  sbp_*) ;;
+  *) echo "SUPABASE_ACCESS_TOKEN does not start with sbp_. That is not a personal access token." >&2
+     echo "Nothing was changed." >&2; exit 1 ;;
 esac
+rest=${SUPABASE_ACCESS_TOKEN#sbp_}
+if printf '%s' "$rest" | grep -qE '[^0-9a-f]' || [ ${#rest} -lt 32 ]; then
+  echo "SUPABASE_ACCESS_TOKEN still looks like placeholder text, not a token." >&2
+  echo "  got: sbp_${rest}" >&2
+  echo "A real one is sbp_ followed by 40 or so lowercase hex characters." >&2
+  echo "Supabase dashboard, avatar menu, Account, Access Tokens, Generate new token." >&2
+  echo "Paste the VALUE in place of the whole placeholder, including the sbp_ prefix." >&2
+  echo "Nothing was changed." >&2
+  exit 1
+fi
 
 show () {
   code=$(curl -s -o /tmp/hbp_auth.json -w '%{http_code}' "$API" \
