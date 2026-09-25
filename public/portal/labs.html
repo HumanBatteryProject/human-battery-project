@@ -101,7 +101,7 @@ async function setUpEntry() {
   if (!membership || !membership.day_zero) return;
 
   const { data: markers } = await sb.from('lab_markers')
-    .select('is_test, slug, name, entry_hint, plausible_low, plausible_high')
+    .select('slug, name, entry_hint, plausible_low, plausible_high')
     .eq('client_enterable', true);
   const hint = (slug) => (markers || []).find(m => m.slug === slug) || {};
   el('#hint-omega3').textContent = hint('omega3-index').entry_hint || '';
