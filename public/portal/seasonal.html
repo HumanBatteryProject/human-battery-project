@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>In season</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/mark-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<link rel="stylesheet" href="/portal/portal.css?v=13">
+<style>
+.foods{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0 0}
+.foods span{border:1px solid var(--rule-2);border-radius:3px;padding:.32rem .6rem;font-size:.88rem}
+.unknown{border-left:3px solid var(--status-warn);padding:.7rem .9rem;margin:1rem 0;
+  border-radius:3px;background:rgba(217,164,65,.07);font-size:.9rem}
+.src{color:var(--ink-muted);font-size:.78rem;margin-top:.7rem}
+.dir{border:1px solid var(--rule-2);border-radius:4px;padding:.85rem;margin:.6rem 0}
+.dir h4{margin:0 0 .25rem;font-size:.95rem}
+.dir p{margin:0 0 .5rem;color:var(--ink-muted);font-size:.86rem}
+.dir a{display:inline-block;margin-right:.7rem}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/wordmark.png" width="2172" height="724" alt="The Human Battery Project">
+  <span class="who" id="who"></span>
+</div></header>
+
+<main class="wrap">
+  <h1>In season near you now</h1>
+  <p class="quiet" id="where">Loading.</p>
+
+  <section id="season">
+    <div class="foods" id="foods"></div>
+    <p class="src" id="src"></p>
+  </section>
+
+  <div class="unknown" id="unknown" hidden></div>
+
+  <h2 style="margin-top:2rem">Find it near you</h2>
+  <p class="quiet">These are public directories. We take no commission on
+  anything found through them and nothing here is a paid placement. We do not
+  keep a list of suppliers and we do not name businesses.</p>
+  <div id="dirs"></div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/calls.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Calls</a></li>
+  <li><a href="/portal/seasonal.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c0-7 4-11 9-12-1 7-4 11-9 12z"/><path d="M12 21c0-5-3-8-7-9 1 5 3 8 7 9z"/></svg>Season</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb } from '/portal/config.js';
+const el = (s) => document.querySelector(s);
+
+// Every food the programme names, so the screen can say what it does NOT know
+// rather than showing a short list and letting it read as complete.
+const PROGRAMME_PRODUCE = [
+  "All leafy greens","Broccoli","Cauliflower","Brussels sprouts","Cabbage","Bok choy",
+  "Asparagus","Celery","Cucumber","Zucchini","Green beans","Artichoke","Mushrooms","Onion",
+  "Shallot","Garlic","Leeks","Radish","Beets","Carrots","Sauerkraut","Kimchi",
+  "Fermented pickles","Blueberries","Blackberries","Raspberries","Lemon","Lime","Avocado",
+  "Seasonal fruit, small, with a meal","White rice","Sweet potato","Squash",
+];
+
+async function load() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { location.href = '/portal/login'; return; }
+
+  const { data: prof } = await sb.from('profiles')
+    .select('postal_code, region, hemisphere, latitude').eq('id', session.user.id).maybeSingle();
+
+  if (!prof || !prof.postal_code) {
+    el('#where').textContent =
+      'We do not have your postal code yet, so we cannot tell you what is in season where you are. Add it in Account.';
+    el('#season').hidden = true;
+    return;
+  }
+
+  const { data: rows, error } = await sb.rpc('in_season_for', { client: session.user.id });
+  if (error) { el('#where').textContent = error.message; return; }
+
+  const season = rows && rows.length ? rows[0].season : null;
+  el('#where').textContent = season
+    ? `${season[0].toUpperCase() + season.slice(1)}, near ${prof.postal_code}.`
+    : `Near ${prof.postal_code}.`;
+
+  // THE UNKNOWN STATE. A food with no sourced entry is reported as unknown.
+  // An empty list presented as "nothing is in season" would be a lie told by
+  // omission, and a member in a region we have no data for would read it as a
+  // fact about their region rather than about our data.
+  const known = new Set((rows || []).map(r => r.food));
+  const covered = new Set();
+  for (const r of (rows || [])) covered.add(r.food);
+  const { data: anyRow } = await sb.from('food_seasonality')
+    .select('food').limit(400);
+  const everSourced = new Set((anyRow || []).map(r => r.food));
+  const unknown = PROGRAMME_PRODUCE.filter(f => !everSourced.has(f));
+
+  if (!rows || !rows.length) {
+    el('#foods').innerHTML = '';
+    el('#season').innerHTML =
+      '<div class="unknown"><b>We do not have seasonal data for your region.</b> ' +
+      'That is a gap in our data, not a statement that nothing is in season where ' +
+      'you live. Use the directories below and ask at the market.</div>';
+  } else {
+    el('#foods').innerHTML = rows.map(r => `<span>${r.food}</span>`).join('');
+    el('#src').textContent =
+      `Source: ${rows[0].source_name}, retrieved ${rows[0].retrieved_on}. ` +
+      `It is organised by season and is national, so it does not vary by state. ` +
+      `Your own growing conditions will.`;
+  }
+
+  if (unknown.length) {
+    el('#unknown').hidden = false;
+    el('#unknown').innerHTML =
+      `<b>Seasonality unknown for ${unknown.length} of the programme's foods.</b> ` +
+      `The guide does not cover them, or they are preserved foods whose season ` +
+      `belongs to the harvest rather than the jar: ${unknown.join(', ')}. ` +
+      `They are left off the list above rather than guessed at.`;
+  }
+
+  const zip = encodeURIComponent(prof.postal_code);
+  const state = (prof.region || '').toLowerCase();
+  const usda = (kind, label, blurb) => `
+    <div class="dir"><h4>${label}</h4><p>${blurb}</p>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://www.usdalocalfoodportal.com/fe/fdirectory_${kind}/?location=${zip}">Search near ${prof.postal_code}</a>
+    </div>`;
+  el('#dirs').innerHTML =
+    usda('farmersmarket', 'Farmers markets', 'USDA Local Food Directory, filtered to your postal code.') +
+    usda('csa', 'CSA shares', 'Community supported agriculture, a box from one farm on a subscription.') +
+    usda('onfarmmarket', 'On-farm markets', 'Buying at the farm itself.') +
+    usda('foodhub', 'Food hubs', 'Aggregators that buy from several local farms.') +
+    `<div class="dir"><h4>Pasture-raised meat</h4>
+      <p>Eatwild's directory is organised by state, not postal code.</p>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://www.eatwild.com/products/${state || 'index'}.html">Open the ${(prof.region || 'state')} list</a></div>
+    <div class="dir"><h4>Seafood</h4>
+      <p>Seafood Watch rates species and fisheries. It is a guide to WHAT to buy,
+      not a directory of shops near you, so there is nothing to filter by postal code.</p>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://www.seafoodwatch.org/recommendations/search">Open the recommendations</a></div>`;
+
+  el('#who').textContent = session.user.email || '';
+}
+load();
+</script>
+</body></html>

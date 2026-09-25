@@ -156,6 +156,19 @@ def diet_doc():
   <div class="rule">The Human Battery Project is an educational wellness program, not medical treatment. If you take prescription medication, review any dietary change with your prescriber. If you have a history of disordered eating, do not use an eating window without professional support.</div>
 </div>
 
+<div class="page">
+  <div class="kicker" style="color:{C}">IN SEASON</div>
+  <h1>In season near you now</h1>
+  <p class="why">Seasonal produce is cheaper, travels less and tends to be picked riper. This table is by season rather than by month or by state, because that is the resolution the source has. Your own growing conditions will vary, and the market will tell you more than a table can.</p>
+  <table>
+  <tr><th>Spring</th><td>All leafy greens, Asparagus, Avocado, Blackberries, Broccoli, Cabbage, Carrots, Celery, Garlic, Lemon, Lime, Mushrooms, Onion, Radish</td></tr>
+  <tr><th>Summer</th><td>Avocado, Beets, Blackberries, Blueberries, Carrots, Celery, Cucumber, Garlic, Green beans, Lemon, Lime, Onion, Raspberries, Squash, Zucchini</td></tr>
+  <tr><th>Fall</th><td>All leafy greens, Beets, Broccoli, Brussels sprouts, Cabbage, Carrots, Cauliflower, Celery, Garlic, Green beans, Lemon, Lime, Mushrooms, Onion, Radish, Raspberries, Squash, Sweet potato</td></tr>
+  <tr><th>Winter</th><td>All leafy greens, Avocado, Beets, Brussels sprouts, Cabbage, Carrots, Celery, Leeks, Lemon, Lime, Onion, Squash, Sweet potato</td></tr>
+  </table>
+  <p class="small"><b>Seasonality unknown for 8 of the foods on the approved list.</b> The guide does not cover them, or they are preserved foods whose season belongs to the harvest rather than to the jar: Bok choy, Artichoke, Shallot, Sauerkraut, Kimchi, Fermented pickles, Seasonal fruit, small, with a meal, White rice. They are left off the table above rather than guessed at.</p>
+  <p class="small">Source: USDA SNAP-Ed Seasonal Produce Guide, retrieved 2026-09-25. Your portal shows the list for your own postal code and hemisphere, and links to the public directories for finding it locally.</p>
+</div>
 </body></html>"""
     path = f"{B.OUT}/HBP-Dietary-Guidelines.pdf"
     HTML(string=html, base_url=B.BASE_URL).write_pdf(path)
