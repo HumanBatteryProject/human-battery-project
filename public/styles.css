@@ -724,6 +724,32 @@ body.plain{--lh-prose:1.72;line-height:var(--lh-prose)}
 .vswitch-band{border-bottom:1px solid var(--rule-line);padding:.9rem 0}
 .vswitch-band .wrap{display:flex;justify-content:center}
 
+/* ---- the document masthead ----
+   The legal pages, 404 and enrolled have no hero, so the only instance of the
+   mark on them was the one in the sticky bar, at 132px wide. The wordmark is
+   3:1 and the cap height of the letterspaced small caps, THE and PROJECT, is
+   7.46 percent of its height, so 132px wide put those letters at 3.3px. They
+   were not small, they were absent.
+
+   Making the sticky bar big enough to fix that is the wrong answer: 420px of
+   mark is 140px of header, and a 140px band that follows you down a privacy
+   policy is worse than no mark at all.
+
+   So the mark moves out of the bar and into the page, once, at the top of the
+   document column, and the bar drops it by reusing body.heromark, the same
+   rule index and science already use. Every page now shows the mark exactly
+   once, at a size it can be read at.
+
+   480px gives 11.9px small caps and 25.2px on HUMAN. Smaller than the portal
+   at 640 and the hero at 800, which is the right order: a document masthead
+   should not out-shout a landing page. */
+.doc-mark{display:block;border:0;width:min(480px, 100%);margin:0 auto clamp(2rem,5vw,2.8rem)}
+.doc-mark img{display:block;width:100%;height:auto}
+/* Clear space. The asset carries 25.55 percent of its height above the ink and
+   32.46 below, which at a 480px render is 41px and 52px. The header above it
+   supplies the rest, and the bottom margin above clears 64 on its own. */
+.legal .doc-mark,main .doc-mark{margin-top:clamp(1.6rem,4vw,2.4rem)}
+
 /* ---- the header is the SAME HEIGHT on every page ----
    The hero is one block and must land on the same row whether you are on the
    Plain page or the Detailed one. It could not, because the two headers were
