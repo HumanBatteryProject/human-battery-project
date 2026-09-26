@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>The canon | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
+<style>
+.gate{border:1px solid var(--dawn-amber);border-radius:4px;padding:1rem;margin-bottom:1rem;
+  background:rgba(232,162,74,.07)}
+.rule{border-top:1px solid var(--rule-line);padding:.9rem 0}
+.rule:first-of-type{border-top:0}
+.rule-head{display:flex;gap:.6rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.rule-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-xs);color:var(--ink-muted)}
+.rule-act{font-size:var(--fs-base);margin:.3rem 0;line-height:var(--lh-card)}
+.rule-meta{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);margin:.25rem 0 0}
+.rule-meta b{color:var(--ink);font-weight:600}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+/* The one amber moment on this page is the gate above: whether anything is
+   approved at all. A repeated status label does not need to shout; the word
+   'pending' carries it, which is the rule about colour never carrying meaning
+   alone. */
+.pill-pending{border-color:var(--copper-light);color:var(--copper-light)}
+.pill-approved{border-color:var(--status-good);color:var(--status-good)}
+.pill-retired{border-color:var(--ink-muted);color:var(--ink-muted)}
+.rule-pick{display:flex;gap:.5rem;align-items:center;margin-top:.5rem}
+.rule-pick input{width:auto;margin:0}
+.bar{position:sticky;bottom:0;background:var(--surface-field);border-top:1px solid var(--rule-line);
+  padding:.8rem 0;margin-top:.5rem}
+.bar .btn{width:100%;min-height:48px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+</style>
+</head><body>
+
+<header class="bar" style="position:static"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">OWNER</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+
+  <div id="body" style="display:none">
+    <div id="gate"></div>
+
+    <section class="card">
+      <h2>The pillar mapping</h2>
+      <p class="tiny" style="margin:0 0 .5rem">Every rule belongs to one pillar. Two protocol sections map to no pillar on purpose, and the reason is recorded against each.</p>
+      <div class="tw"><table id="pillars"><tbody></tbody></table></div>
+    </section>
+
+    <section class="card">
+      <h2>Rules awaiting your approval</h2>
+      <p class="tiny" style="margin:0 0 .5rem">Nothing here can reach a participant until you approve it. Read the action, the evidence tier, and what it will be withheld for.</p>
+      <div id="pending"></div>
+      <div class="bar" id="approvebar" style="display:none">
+        <button class="btn btn-solid" id="approve">Approve the selected rules</button>
+        <p class="tiny" style="margin:.4rem 0 0" id="approve-note"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Approved</h2>
+      <div id="approved"></div>
+    </section>
+
+    <section class="card">
+      <h2>Version history</h2>
+      <div class="tw"><table id="history"><tbody></tbody></table></div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=8a8e67de';
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') {
+    el('#loading').style.display = 'none';
+    el('#denied').style.display = 'block';
+  } else {
+    const TIER_WORD = {
+      established: 'We know this', strong: 'We are confident',
+      emerging: 'Early evidence', contested: 'Published, and argued about',
+      hypothesis: "Dr. Micah's idea, being tested",
+    };
+
+    async function render() {
+      const [{ data: rules }, { data: pillars }, { data: sections }, { data: hist }, { data: keys }] =
+        await Promise.all([
+          sb.from('canonical_rules').select('*').order('pillar_key').order('rule_key'),
+          sb.from('pillars').select('*').order('sort_order'),
+          sb.from('protocol_section_pillars').select('*').order('section_no'),
+          sb.from('rule_reviews').select('*, canonical_rules(rule_key)').order('occurred_at', { ascending: false }).limit(25),
+          sb.from('screening_keys').select('key, on_this'),
+        ]);
+      const byKey = Object.fromEntries((keys || []).map((k) => [k.key, k.on_this]));
+      const pillarLabel = Object.fromEntries((pillars || []).map((p) => [p.key, p.label]));
+
+      const pending = (rules || []).filter((r) => r.review_status === 'pending' && !r.retired_at);
+      const approved = (rules || []).filter((r) => r.review_status === 'approved' && !r.retired_at);
+
+      // The gate, stated plainly at the top: this is what approving changes.
+      el('#gate').innerHTML = '<div class="gate">' +
+        '<h2 style="margin:0 0 .4rem">' +
+          (approved.length ? approved.length + ' rule' + (approved.length === 1 ? '' : 's') + ' approved'
+                           : 'No rule is approved yet') + '</h2>' +
+        '<p class="tiny" style="margin:0">' +
+          (approved.length
+            ? 'Participants can receive plans built from these. ' + pending.length + ' more are waiting.'
+            : 'Until you approve at least one rule, a real participant gets no daily plan at all. The internal test member is the only exception, and any plan it receives is marked as built from unapproved rules.') +
+        '</p></div>';
+
+      el('#pillars').querySelector('tbody').innerHTML =
+        '<tr><th>Section</th><th>Pillar</th><th>Note</th></tr>' +
+        (sections || []).map((s) =>
+          '<tr><td>' + esc(s.section) + '</td>' +
+          '<td>' + (s.pillar_key ? esc(pillarLabel[s.pillar_key] || s.pillar_key)
+                                 : '<span class="pill">no pillar</span>') + '</td>' +
+          '<td class="tiny">' + esc(s.note) + '</td></tr>').join('');
+
+      const card = (r, withPick) =>
+        '<div class="rule" data-rule="' + esc(r.id) + '">' +
+          '<div class="rule-head">' +
+            '<span class="rule-key">' + esc(r.rule_key) + ' v' + esc(r.version) + '</span>' +
+            '<span class="pill pill-' + esc(r.review_status) + '">' + esc(r.review_status) + '</span>' +
+          '</div>' +
+          '<p class="rule-act">' + esc(r.action_text) + '</p>' +
+          '<p class="rule-meta">' +
+            '<b>' + esc(pillarLabel[r.pillar_key] || r.pillar_key) + '</b>. ' +
+            'Evidence: ' + esc(TIER_WORD[r.evidence_tier] || r.evidence_tier) + '. ' +
+            'Reviewed every ' + esc(r.reassess_days) + ' days. ' +
+            'For: ' + esc(r.population) +
+          '</p>' +
+          ((r.contraindications || []).length
+            ? '<p class="rule-meta">Withheld from anyone who reports: ' +
+              esc((r.contraindications || []).map((c) => byKey[c] || c).join(', ')) + '</p>'
+            : '<p class="rule-meta">No contraindications.</p>') +
+          ((r.required_data || []).length
+            ? '<p class="rule-meta">Needs logged: ' + esc((r.required_data || []).join(', ')) + '</p>' : '') +
+          ((r.stop_conditions || []).length
+            ? '<p class="rule-meta">Stop if: ' + esc((r.stop_conditions || []).join(' ')) + '</p>' : '') +
+          '<p class="rule-meta">Cites ' + esc((r.source_passages || []).length) + ' passage' +
+            ((r.source_passages || []).length === 1 ? '' : 's') + ' from the corpus.</p>' +
+          (withPick
+            ? '<label class="rule-pick"><input type="checkbox" data-pick value="' + esc(r.id) + '">' +
+              '<span class="tiny">Approve this one</span></label>'
+            : (r.approved_at ? '<p class="rule-meta">Approved ' + esc(String(r.approved_at).slice(0, 10)) +
+                '. <button class="btn btn-sm" data-retire="' + esc(r.id) + '">Retire</button></p>' : '')) +
+        '</div>';
+
+      el('#pending').innerHTML = pending.length
+        ? pending.map((r) => card(r, true)).join('')
+        : '<p class="quiet" style="margin:0">Nothing is waiting.</p>';
+      el('#approvebar').style.display = pending.length ? 'block' : 'none';
+      el('#approved').innerHTML = approved.length
+        ? approved.map((r) => card(r, false)).join('')
+        : '<p class="quiet" style="margin:0">None yet.</p>';
+
+      el('#history').querySelector('tbody').innerHTML =
+        '<tr><th>When</th><th>Rule</th><th>Change</th><th>Reason</th></tr>' +
+        ((hist || []).length
+          ? (hist || []).map((h) =>
+              '<tr><td>' + esc(String(h.occurred_at).slice(0, 16).replace('T', ' ')) + '</td>' +
+              '<td class="rule-key">' + esc(h.canonical_rules ? h.canonical_rules.rule_key : '') + '</td>' +
+              '<td>' + esc(h.from_status || '') + ' to ' + esc(h.to_status) + '</td>' +
+              '<td class="tiny">' + esc(h.reason || '') + '</td></tr>').join('')
+          : '<tr><td class="quiet">Nothing yet.</td></tr>');
+
+      const picks = () => [...document.querySelectorAll('[data-pick]:checked')].map((b) => b.value);
+      const sync = () => {
+        const n = picks().length;
+        el('#approve').disabled = n === 0;
+        el('#approve-note').textContent = n === 0
+          ? 'Tick the rules you have read and are willing to stand behind.'
+          : n + ' selected. Approving is recorded against your name with the time and your reason.';
+      };
+      document.querySelectorAll('[data-pick]').forEach((b) => b.addEventListener('change', sync));
+      sync();
+    }
+
+    await render();
+    el('#loading').style.display = 'none';
+    el('#body').style.display = 'block';
+
+    el('#approve').addEventListener('click', async () => {
+      const ids = [...document.querySelectorAll('[data-pick]:checked')].map((b) => b.value);
+      if (!ids.length) return;
+      const reason = window.prompt(
+        'Approving ' + ids.length + ' rule' + (ids.length === 1 ? '' : 's') +
+        '. Participants can receive these from their next plan.\n\nWhy? This is recorded.', '') || null;
+      el('#approve').disabled = true;
+      const { data, error } = await sb.rpc('approve_rules', { p_rule_ids: ids, p_reason: reason });
+      if (error || !data || !data.ok) {
+        el('#approve').disabled = false;
+        return toast((data && data.message) || (error && error.message) || 'That did not save', 'err');
+      }
+      toast(data.approved + ' rule' + (data.approved === 1 ? '' : 's') + ' approved');
+      await render();
+    });
+
+    el('#body').addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-retire]');
+      if (!btn) return;
+      const reason = window.prompt('Retiring a rule stops it appearing in any new plan. Past plans that used it are kept and stay readable.\n\nWhy?', '');
+      if (!reason) return toast('A reason is required to retire a rule', 'err');
+      const { data, error } = await sb.rpc('retire_rule', { p_rule_id: btn.getAttribute('data-retire'), p_reason: reason });
+      if (error || !data || !data.ok) return toast((data && data.message) || 'That did not save', 'err');
+      toast('Retired');
+      await render();
+    });
+  }
+}
+</script>
+</body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Owner console | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
+<style>
+.tiles{display:grid;gap:.6rem;grid-template-columns:1fr}
+@media(min-width:34rem){.tiles{grid-template-columns:1fr 1fr}}
+.tile{display:block;border:1px solid var(--rule-line);border-radius:4px;padding:.9rem;
+  background:rgba(28,39,66,.35);min-height:44px}
+.tile b{display:block;font-family:var(--display);font-size:var(--fs-label);
+  letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--ink)}
+.tile p{margin:.3rem 0 0;font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small)}
+/* The counts are reference figures, not the call to action. The one amber
+   moment on this page is the alert that no rule is approved. */
+.tile .n{font-variant-numeric:tabular-nums;color:var(--ink)}
+.blocked{border-left:2px solid var(--status-warn);padding-left:.6rem;margin:.4rem 0;
+  font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small)}
+</style>
+</head><body>
+<header class="bar" style="position:static"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">OWNER</span>
+</div></header>
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+  <div id="body" style="display:none">
+    <div id="alerts"></div>
+    <section class="card">
+      <h2>Owner console</h2>
+      <div class="tiles" id="tiles"></div>
+    </section>
+    <section class="card">
+      <h2>Not built yet</h2>
+      <div id="gaps"></div>
+    </section>
+  </div>
+</main>
+<script type="module">
+import { sb, requireAuth, el, esc } from '../app.js?v=8a8e67de';
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') { el('#loading').style.display='none'; el('#denied').style.display='block'; }
+  else {
+    const [{ count: members }, { count: pendingRules }, { count: approvedRules },
+           { count: heldResults }, { count: openSupport }, { data: flags }] = await Promise.all([
+      sb.from('profiles').select('id', { count: 'exact', head: true }),
+      sb.from('canonical_rules').select('id', { count: 'exact', head: true }).eq('review_status', 'pending'),
+      sb.from('canonical_rules').select('id', { count: 'exact', head: true }).eq('review_status', 'approved'),
+      sb.from('lab_results_held').select('id', { count: 'exact', head: true }).is('resolved_at', null),
+      sb.from('support_requests').select('id', { count: 'exact', head: true }).eq('status', 'open'),
+      sb.from('feature_flags').select('key, enabled'),
+    ]);
+    const ai = (flags || []).find((f) => f.key === 'AI_GENERATION_ENABLED');
+
+    // The one thing that stops the product working for a real person, said first.
+    el('#alerts').innerHTML = (approvedRules === 0)
+      ? '<div class="card" style="border-color:var(--dawn-amber)">' +
+        '<h2 style="margin:0 0 .3rem">No rule is approved</h2>' +
+        '<p class="tiny" style="margin:0">A real participant gets no daily plan until you approve at least one rule. ' +
+        '<a href="/portal/admin/canon.html">Review the ' + esc(pendingRules) + ' waiting</a>.</p></div>'
+      : '';
+
+    const tile = (href, name, detail) =>
+      '<a class="tile" href="' + href + '"><b>' + esc(name) + '</b><p>' + detail + '</p></a>';
+    el('#tiles').innerHTML = [
+      tile('/portal/admin/canon.html', 'Canon',
+        '<span class="n">' + esc(pendingRules) + '</span> waiting, ' + esc(approvedRules) + ' approved. Approve, retire, and the pillar mapping.'),
+      tile('/portal/admin/members.html', 'Members',
+        esc(members) + ' on record. Status, tier, start date, records, and every action audited.'),
+      tile('/portal/admin/queues.html', 'Queues',
+        '<span class="n">' + esc(heldResults) + '</span> held results, proposals, and what is not built yet.'),
+      tile('/portal/admin/results.html', 'Held results', 'Map a value to a marker, set a unit, or record that it was not a result.'),
+      tile('/portal/admin/ops.html', 'Operations',
+        'Feature flags and the emergency stop. AI generation is ' + (ai && ai.enabled ? 'on' : 'STOPPED') + '.'),
+      tile('/portal/admin/audit.html', 'Audit log', 'Every action, filterable by member and by what happened.'),
+      tile('/portal/admin/queue.html', 'Proposal queue', 'The older proposal screen.'),
+    ].join('');
+
+    // Named rather than hidden. A console that only shows what exists implies
+    // everything else is done.
+    el('#gaps').innerHTML = [
+      ['Email log and support inbox', 'notifications and support_requests exist and nothing writes to them yet, because no email besides sign-in is sent. Day 10.'],
+      ['Billing', 'Payments and entitlements are visible on a member. Refunds need the Stripe API and the keys are still placeholders. Day 10.'],
+      ['Purveyors', 'The purveyor index does not exist. Master prompt D11, Day 11.'],
+      ['Failed jobs with retry', 'job_runs exists and nothing writes to it yet. Day 11.'],
+      ['Science and records queues', 'Neither feature is built. Brief 07 section 6 and master prompt D13.'],
+    ].map(([n, d]) => '<p class="blocked"><b>' + esc(n) + '.</b> ' + esc(d) + '</p>').join('');
+
+    el('#loading').style.display='none'; el('#body').style.display='block';
+  }
+}
+</script>
+</body></html>

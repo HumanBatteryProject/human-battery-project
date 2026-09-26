@@ -11,6 +11,7 @@
 // without a participant.
 
 import { readFileSync } from 'node:fs';
+import { prose } from './_prose.mjs';
 
 let bad = 0;
 const ok = (name, cond, detail) => {
@@ -23,7 +24,8 @@ const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 // "...rendered as a ' 'number" otherwise, and the check fails on correct text.
 // Same trap as the hard-wrapped consent body: a phrase that spans a break is
 // still the phrase.
-const flat = (p) => read(p).replace(/'\s*'/g, '').replace(/\s+/g, ' ');
+// One normaliser, shared: tests/_prose.mjs.
+const flat = (p) => prose(read(p));
 
 const m67 = read('../database/migrations/067_program_day_and_baseline.sql');
 const m67f = flat('../database/migrations/067_program_day_and_baseline.sql');

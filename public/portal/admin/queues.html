@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Queues | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
+<style>
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+.filters input,.filters select{min-height:44px;flex:1 1 9rem}
+.empty{color:var(--ink-muted);font-size:var(--fs-sm)}
+.item{border-top:1px solid var(--rule-line);padding:.8rem 0}
+.item:first-of-type{border-top:0}
+.item p{margin:0 0 .3rem;line-height:var(--lh-card)}
+.item .meta{font-size:var(--fs-xs);color:var(--ink-muted)}
+.note{font-size:var(--fs-xs);color:var(--ink-muted);border-left:2px solid var(--rule-line);
+  padding-left:.6rem;margin:.4rem 0}
+</style>
+</head><body>
+<header class="bar" style="position:static"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">OWNER</span>
+</div></header>
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+  <div id="body" style="display:none">
+    <section class="card">
+      <h2>Proposals waiting for you</h2>
+      <p class="tiny" style="margin:0 0 .5rem">Autonomy is review_all, so the trend agent proposes and nothing applies itself.</p>
+      <div id="proposals"></div>
+    </section>
+    <section class="card">
+      <h2>Held results</h2>
+      <p class="tiny" style="margin:0 0 .5rem">Values the analysis agent refused to score. <a href="/portal/admin/results.html">Resolve them here</a>.</p>
+      <div id="held"></div>
+    </section>
+    <section class="card">
+      <h2>Science review</h2>
+      <div id="science"></div>
+    </section>
+    <section class="card">
+      <h2>Records extraction</h2>
+      <div id="records"></div>
+    </section>
+  </div>
+</main>
+<script type="module">
+import { sb, requireAuth, el, esc } from '../app.js?v=8a8e67de';
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') { el('#loading').style.display='none'; el('#denied').style.display='block'; }
+  else {
+    const [{ data: props }, { data: held }] = await Promise.all([
+      sb.from('proposals').select('*').order('created_at', { ascending: false }).limit(40),
+      sb.from('lab_results_held').select('*, profiles!lab_results_held_client_id_fkey(email)').is('resolved_at', null),
+    ]);
+    el('#proposals').innerHTML = (props || []).length
+      ? (props || []).map((p) => '<div class="item"><p>' + esc(p.param || '') + ' to ' + esc(p.to_value || '') + '</p>' +
+          '<p class="meta">' + esc(p.status) + ' &middot; ' + esc(String(p.created_at).slice(0,10)) + '</p></div>').join('')
+      : '<p class="empty">Nothing proposed. The trend agent runs on Mondays.</p>';
+    el('#held').innerHTML = (held || []).length
+      ? (held || []).map((h) => '<div class="item"><p>' + esc(h.reported_name) + ': ' + esc(h.reported_value) + ' ' + esc(h.reported_unit || '') + '</p>' +
+          '<p class="meta">' + esc(h.reason) + ' &middot; ' + esc(h.profiles ? h.profiles.email : '') + '</p></div>').join('')
+      : '<p class="empty">Nothing held.</p>';
+    // Said plainly rather than shown as an empty list that looks like a working
+    // queue with nothing in it.
+    el('#science').innerHTML = '<p class="note">The science intake queue is not built yet. It is Brief 07 section 6 and is scheduled after launch, so this is empty because the feature does not exist, not because nothing is waiting.</p>';
+    el('#records').innerHTML = '<p class="note">The records extraction queue is not built yet. It is master prompt D13 and is scheduled for Day 13.</p>';
+    el('#loading').style.display='none'; el('#body').style.display='block';
+  }
+}
+</script>
+</body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Members | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
+<style>
+.search{width:100%;min-height:44px;margin-bottom:.8rem}
+.mrow{border-top:1px solid var(--rule-line);padding:.75rem 0;cursor:pointer}
+.mrow:first-of-type{border-top:0}
+.mrow-top{display:flex;justify-content:space-between;gap:.5rem;align-items:baseline;flex-wrap:wrap}
+.mrow b{font-size:var(--fs-base)}
+.mrow-meta{font-size:var(--fs-xs);color:var(--ink-muted);margin:.2rem 0 0;line-height:var(--lh-small)}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.pill-active{border-color:var(--status-good);color:var(--status-good)}
+.pill-suspended,.pill-withdrawn{border-color:var(--status-critical);color:var(--status-critical)}
+.pill-internal{border-color:var(--dawn-amber);color:var(--dawn-amber)}
+.pill-flag{border-color:var(--status-warn);color:var(--status-warn)}
+.acts{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0}
+.acts .btn{min-height:44px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.3rem .5rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+/* The one amber moment here is the screening flag pill: on a screen of
+   administrative facts it is the one that changes what the software may do to a
+   person. These notices carry weight through position and wording. */
+.watch{font-size:var(--fs-xs);color:var(--ink-muted);border-left:2px solid var(--rule-line);
+  padding-left:.6rem;margin:.5rem 0}
+</style>
+</head><body>
+
+<header class="bar" style="position:static"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">OWNER</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+
+  <div id="body" style="display:none">
+    <section class="card">
+      <h2 id="count">Members</h2>
+      <input class="search" id="q" type="search" placeholder="Search by name or email" autocomplete="off">
+      <div id="list"></div>
+    </section>
+    <section class="card" id="detail" style="display:none"></section>
+  </div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=8a8e67de';
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') {
+    el('#loading').style.display = 'none';
+    el('#denied').style.display = 'block';
+  } else {
+    let members = [];
+
+    async function load() {
+      // One query per table rather than a deep embed: memberships reaches
+      // profiles by two foreign keys and the embed is ambiguous.
+      const [{ data: profs }, { data: mems }, { data: ents }, { data: logs }, { data: intake }] =
+        await Promise.all([
+          sb.from('profiles').select('id, email, full_name, role, is_active, timezone, postal_code, region').order('email'),
+          sb.from('memberships').select('id, client_id, status, tier, day_zero, cycle, is_internal, panel_id, completed_on'),
+          sb.from('entitlements').select('client_id, kind, status, effective_from, effective_to, access_through'),
+          sb.from('daily_logs').select('client_id, log_date').order('log_date', { ascending: false }),
+          sb.from('intake_responses').select('client_id, value_text, value_choices'),
+        ]);
+
+      const lastLog = {};
+      for (const l of (logs || [])) if (!lastLog[l.client_id]) lastLog[l.client_id] = l.log_date;
+      const memBy = {}; for (const m of (mems || [])) if (!memBy[m.client_id] || m.cycle > memBy[m.client_id].cycle) memBy[m.client_id] = m;
+      const entBy = {}; for (const e of (ents || [])) entBy[e.client_id] = e;
+      const flagged = new Set();
+      for (const r of (intake || [])) {
+        const s = ((r.value_text || '') + ' ' + ((r.value_choices || []).join(' '))).toLowerCase();
+        if (/warfarin|thyroid|blood pressure|diabet|lithium|diuretic|heart failure|bipolar|anticoagul/.test(s)) {
+          flagged.add(r.client_id);
+        }
+      }
+
+      members = (profs || []).map((p) => ({
+        ...p, membership: memBy[p.id] || null, entitlement: entBy[p.id] || null,
+        last_log: lastLog[p.id] || null, flagged: flagged.has(p.id),
+      }));
+      el('#count').textContent = members.length + ' member' + (members.length === 1 ? '' : 's');
+    }
+
+    function programDay(dayZero) {
+      if (!dayZero) return null;
+      const d = Math.round((new Date() - new Date(dayZero + 'T12:00:00Z')) / 86400000) + 1;
+      return d > 0 ? d : null;
+    }
+
+    function renderList(filter) {
+      const q = (filter || '').toLowerCase().trim();
+      const shown = members.filter((m) =>
+        !q || (m.email || '').toLowerCase().includes(q) || (m.full_name || '').toLowerCase().includes(q));
+      el('#list').innerHTML = shown.length ? shown.map((m) => {
+        const mem = m.membership, ent = m.entitlement;
+        const pd = mem ? programDay(mem.day_zero) : null;
+        return '<div class="mrow" data-member="' + esc(m.id) + '">' +
+          '<div class="mrow-top"><b>' + esc(m.full_name || m.email) + '</b>' +
+            '<span>' +
+              (mem ? '<span class="pill pill-' + esc(mem.status) + '">' + esc(mem.status) + '</span> ' : '') +
+              (ent && ent.status !== 'active' ? '<span class="pill pill-suspended">' + esc(ent.status) + '</span> ' : '') +
+              (m.flagged ? '<span class="pill pill-flag">screening</span> ' : '') +
+              (mem && mem.is_internal ? '<span class="pill pill-internal">internal</span>' : '') +
+            '</span></div>' +
+          '<p class="mrow-meta">' + esc(m.email) +
+            (mem ? ' &middot; ' + esc(mem.tier || 'no tier') +
+                   ' &middot; ' + (mem.day_zero ? 'started ' + esc(mem.day_zero) : 'no start date') +
+                   (pd ? ' &middot; day ' + pd : '') +
+                   ' &middot; cycle ' + esc(mem.cycle)
+                 : ' &middot; no membership') +
+            ' &middot; ' + (m.last_log ? 'last check-in ' + esc(m.last_log) : 'never checked in') +
+            (mem && mem.panel_id ? ' &middot; panel set' : ' &middot; no panel') +
+          '</p></div>';
+      }).join('') : '<p class="quiet" style="margin:0">Nobody matches that.</p>';
+    }
+
+    async function openMember(id) {
+      const m = members.find((x) => x.id === id);
+      if (!m) return;
+      // Part G: record that somebody LOOKED. Reading leaves no trace unless
+      // something writes one, and this is a participant's medical record.
+      await sb.rpc('log_record_access', { p_client: id, p_what: 'member_detail' });
+
+      const mem = m.membership;
+      const [{ data: plans }, { data: reviews }, { data: notes }, { data: audit },
+             { data: panels }, { data: pays }, { data: checkins }] = await Promise.all([
+        sb.from('daily_plans').select('plan_date, action_budget, ai_paused').eq('client_id', id).order('plan_date', { ascending: false }).limit(7),
+        sb.from('weekly_reviews').select('week_start, actions_done, actions_total').eq('client_id', id).order('week_start', { ascending: false }).limit(4),
+        sb.from('coach_notes').select('body, created_at').eq('client_id', id).order('created_at', { ascending: false }).limit(10),
+        sb.from('audit_log').select('action, occurred_at, detail').eq('subject_id', id).order('occurred_at', { ascending: false }).limit(15),
+        sb.from('lab_panels').select('draw_point, drawn_on, fasting_status').eq('client_id', id),
+        sb.from('payments').select('plan, installment_no, amount_cents, status, due_on').eq('client_id', id).order('due_on'),
+        sb.from('daily_logs').select('log_date, energy, sleep_quality').eq('client_id', id).order('log_date', { ascending: false }).limit(7),
+      ]);
+
+      const money = (c) => '$' + (c / 100).toLocaleString('en-US', { minimumFractionDigits: 2 });
+      const tbl = (head, rows) => '<div class="tw"><table><tbody><tr>' +
+        head.map((h) => '<th>' + esc(h) + '</th>').join('') + '</tr>' +
+        (rows.length ? rows.map((r) => '<tr>' + r.map((c) => '<td>' + c + '</td>').join('') + '</tr>').join('')
+                     : '<tr><td class="quiet" colspan="' + head.length + '">None.</td></tr>') +
+        '</tbody></table></div>';
+
+      el('#detail').style.display = 'block';
+      el('#detail').innerHTML =
+        '<h2>' + esc(m.full_name || m.email) + '</h2>' +
+        '<p class="tiny" style="margin:0 0 .3rem">' + esc(m.email) + ' &middot; ' +
+          esc(m.timezone || 'no timezone') + ' &middot; ' + esc(m.postal_code || 'no postal code') +
+          ' &middot; role ' + esc(m.role) + '</p>' +
+        '<p class="watch">Opening this record was logged against your name. It holds this person\'s medical information.</p>' +
+        (m.flagged ? '<p class="watch">This participant reported something on the medication screening. Actions it affects are withheld from their plan automatically.</p>' : '') +
+        '<div class="acts">' +
+          '<button class="btn btn-sm" data-act="tier">Change tier</button>' +
+          '<button class="btn btn-sm" data-act="start">Change start date</button>' +
+          '<button class="btn btn-sm" data-act="pause">Pause</button>' +
+          '<button class="btn btn-sm" data-act="resume">Resume</button>' +
+          '<button class="btn btn-sm" data-act="complete">Mark completed</button>' +
+          '<button class="btn btn-sm" data-act="signin">Send sign-in link</button>' +
+          '<button class="btn btn-sm" data-act="note">Add a note</button>' +
+        '</div>' +
+        '<h3>Plans</h3>' + tbl(['Date', 'Actions allowed', 'AI'],
+          (plans || []).map((p) => [esc(p.plan_date), esc(p.action_budget == null ? '' : p.action_budget),
+                                    p.ai_paused ? 'paused' : 'on'])) +
+        '<h3>Check-ins</h3>' + tbl(['Date', 'Energy', 'Sleep'],
+          (checkins || []).map((c) => [esc(c.log_date), esc(c.energy == null ? 'not given' : c.energy),
+                                       esc(c.sleep_quality == null ? 'not given' : c.sleep_quality)])) +
+        '<h3>Weekly reviews</h3>' + tbl(['Week', 'Actions done'],
+          (reviews || []).map((r) => [esc(r.week_start), esc(r.actions_done + ' of ' + r.actions_total)])) +
+        '<h3>Panels</h3>' + tbl(['Draw', 'Collected', 'Fasting'],
+          (panels || []).map((p) => [esc(p.draw_point), esc(p.drawn_on), esc(p.fasting_status)])) +
+        '<h3>Payments</h3>' + tbl(['Plan', 'No', 'Amount', 'Due', 'Status'],
+          (pays || []).map((p) => [esc(p.plan), esc(p.installment_no), esc(money(p.amount_cents)),
+                                   esc(p.due_on), esc(p.status)])) +
+        '<h3>Notes</h3>' + tbl(['When', 'Note'],
+          (notes || []).map((n) => [esc(String(n.created_at).slice(0, 10)), esc(n.body)])) +
+        '<h3>History</h3>' + tbl(['When', 'What', 'Before', 'After'],
+          (audit || []).map((a) => [esc(String(a.occurred_at).slice(0, 16).replace('T', ' ')),
+            esc(a.action),
+            esc(JSON.stringify((a.detail || {}).before || '')),
+            esc(JSON.stringify((a.detail || {}).after || ''))]));
+      el('#detail').setAttribute('data-open', id);
+      el('#detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    await load();
+    renderList('');
+    el('#loading').style.display = 'none';
+    el('#body').style.display = 'block';
+
+    el('#q').addEventListener('input', (e) => renderList(e.target.value));
+    el('#list').addEventListener('click', (e) => {
+      const row = e.target.closest('[data-member]');
+      if (row) openMember(row.getAttribute('data-member'));
+    });
+
+    el('#detail').addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const id = el('#detail').getAttribute('data-open');
+      const act = btn.getAttribute('data-act');
+      const ask = (q, d) => window.prompt(q, d || '');
+      let r = null, err = null;
+
+      if (act === 'tier') {
+        const tier = ask('New tier: beginner, intermediate, advanced or pro');
+        if (!tier) return;
+        const reason = ask('Why? This is recorded with the previous tier.');
+        ({ data: r, error: err } = await sb.rpc('admin_set_tier', { p_client: id, p_tier: tier, p_reason: reason }));
+      } else if (act === 'start') {
+        const d = ask('New start date, as YYYY-MM-DD. Program day, the payment schedule and day ninety all move with it.');
+        if (!d) return;
+        const reason = ask('Why?');
+        ({ data: r, error: err } = await sb.rpc('admin_set_start_date', { p_client: id, p_date: d, p_reason: reason }));
+      } else if (act === 'pause' || act === 'resume' || act === 'complete') {
+        const status = act === 'pause' ? 'enrolled' : act === 'resume' ? 'active' : 'completed';
+        if (act === 'complete' && !window.confirm('Mark this membership completed? This closes the cycle.')) return;
+        const reason = ask('Why?');
+        ({ data: r, error: err } = await sb.rpc('admin_set_status', { p_client: id, p_status: status, p_reason: reason }));
+      } else if (act === 'note') {
+        const note = ask('Note');
+        if (!note) return;
+        ({ data: r, error: err } = await sb.rpc('admin_add_note', { p_client: id, p_note: note }));
+      } else if (act === 'signin') {
+        // Deliberately not built here. Sending a sign-in link needs the Supabase
+        // admin API and a service key, which must never be in the browser. It
+        // belongs behind a Pages Function, and saying so is better than a button
+        // that looks like it works.
+        return toast('Sign-in links need a server side call, which is not built yet', 'err');
+      }
+
+      if (err || !r || !r.ok) return toast((r && r.message) || (err && err.message) || 'That did not save', 'err');
+      toast('Done' + (r.before !== undefined ? ': ' + r.before + ' to ' + r.after : ''));
+      await load(); renderList(el('#q').value); await openMember(id);
+    });
+  }
+}
+</script>
+</body></html>

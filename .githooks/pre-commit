@@ -76,6 +76,7 @@ run review_fixtures     node tests/review_fixtures.mjs
 # Daylight saving. Every scheduled job asks what date it is where the member
 # lives, and two days a year are not 24 hours long.
 run dst_fixtures        node tests/dst_fixtures.mjs
+run admin_fixtures      node tests/admin_fixtures.mjs
 run constants_pinned    node tests/constants_pinned.mjs
 
 # check_claims runs LAST, per CLAUDE.md: it is the one that has to see the tree

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Audit log | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
+<style>
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+.filters input,.filters select{min-height:44px;flex:1 1 9rem}
+.empty{color:var(--ink-muted);font-size:var(--fs-sm)}
+.item{border-top:1px solid var(--rule-line);padding:.8rem 0}
+.item:first-of-type{border-top:0}
+.item p{margin:0 0 .3rem;line-height:var(--lh-card)}
+.item .meta{font-size:var(--fs-xs);color:var(--ink-muted)}
+.note{font-size:var(--fs-xs);color:var(--ink-muted);border-left:2px solid var(--rule-line);
+  padding-left:.6rem;margin:.4rem 0}
+</style>
+</head><body>
+<header class="bar" style="position:static"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">OWNER</span>
+</div></header>
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+  <div id="body" style="display:none">
+    <section class="card">
+      <h2>Audit log</h2>
+      <div class="filters">
+        <input id="f-member" type="search" placeholder="Filter by member email">
+        <select id="f-action"><option value="">Every action</option></select>
+      </div>
+      <div class="tw"><table id="rows"><tbody></tbody></table></div>
+      <p class="tiny" id="shown" style="margin:.5rem 0 0"></p>
+    </section>
+  </div>
+</main>
+<script type="module">
+import { sb, requireAuth, el, esc } from '../app.js?v=8a8e67de';
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') { el('#loading').style.display='none'; el('#denied').style.display='block'; }
+  else {
+    const [{ data: rows }, { data: profs }] = await Promise.all([
+      sb.from('audit_log').select('*').order('occurred_at', { ascending: false }).limit(400),
+      sb.from('profiles').select('id, email'),
+    ]);
+    const emailOf = Object.fromEntries((profs || []).map((p) => [p.id, p.email]));
+    const actions = [...new Set((rows || []).map((r) => r.action))].sort();
+    el('#f-action').innerHTML = '<option value="">Every action</option>' +
+      actions.map((a) => '<option value="' + esc(a) + '">' + esc(a) + '</option>').join('');
+
+    function render() {
+      const mq = el('#f-member').value.toLowerCase().trim();
+      const aq = el('#f-action').value;
+      const shown = (rows || []).filter((r) =>
+        (!aq || r.action === aq) &&
+        (!mq || (emailOf[r.subject_id] || '').toLowerCase().includes(mq)
+             || (emailOf[r.actor_id] || '').toLowerCase().includes(mq)));
+      el('#rows').querySelector('tbody').innerHTML =
+        '<tr><th>When</th><th>Who</th><th>What</th><th>About</th><th>Detail</th></tr>' +
+        (shown.length ? shown.slice(0, 200).map((r) =>
+          '<tr><td>' + esc(String(r.occurred_at).slice(0,16).replace('T',' ')) + '</td>' +
+          '<td>' + esc(emailOf[r.actor_id] || (r.actor_id ? 'unknown' : 'the system')) + '</td>' +
+          '<td>' + esc(r.action) + '</td>' +
+          '<td>' + esc(emailOf[r.subject_id] || '') + '</td>' +
+          '<td class="tiny">' + esc(JSON.stringify(r.detail || {}).slice(0, 150)) + '</td></tr>').join('')
+        : '<tr><td class="empty">Nothing matches.</td></tr>');
+      el('#shown').textContent = shown.length + ' of ' + (rows || []).length + ' entries' +
+        (shown.length > 200 ? ', showing the most recent 200' : '');
+    }
+    el('#f-member').addEventListener('input', render);
+    el('#f-action').addEventListener('change', render);
+    render();
+    el('#loading').style.display='none'; el('#body').style.display='block';
+  }
+}
+</script>
+</body></html>
