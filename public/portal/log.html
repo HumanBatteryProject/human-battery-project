@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=16">
+<link rel="stylesheet" href="/portal/portal.css?v=18">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -129,6 +129,7 @@
 
 <nav class="nav"><ul>
   <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+    <li><a href="/portal/checkin.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Today</a></li>
   <li><a href="/portal/log.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
   <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
   <li><a href="/portal/calls.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Calls</a></li>
@@ -140,7 +141,7 @@
 <script type="module">
 import { sb, requireAuth, activeMembership, getOrCreateLog, foods, practices,
          BEHAVIOR_DOMAINS, MODALITIES, localDateStr, yesterdayStr, fmtDate,
-         el, toast, autosave } from './app.js';
+         el, toast, autosave } from './app.js?v=c1d7589d';
 
 await requireAuth();
 

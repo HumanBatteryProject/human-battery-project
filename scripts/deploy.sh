@@ -48,6 +48,10 @@ else
   echo "  unchanged, corpus load skipped"
 fi
 
+# Stamp the portal JavaScript before the suites, so the committed tree and the
+# deployed tree carry the same version.
+sh scripts/bump_js_version.sh
+
 echo "suites:"
 for c in check_prohibitions check_deliverables check_css check_claims check_palette; do
   if python3 "scripts/$c.py" >/dev/null 2>&1; then printf '  %-22s ok\n' "$c"

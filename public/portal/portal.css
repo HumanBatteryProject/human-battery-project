@@ -165,10 +165,24 @@ p{margin:0 0 .9rem}
 .nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(14,20,36,.96);
      backdrop-filter:blur(10px);border-top:1px solid var(--rule);
      padding-bottom:env(safe-area-inset-bottom)}
-.nav ul{display:flex;margin:0;padding:0;list-style:none}
-.nav li{flex:1}
-.nav a{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.7rem .2rem .75rem;
-       font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--steel)}
+/* Eight tabs at 390px. flex:1 alone does NOT fit them: a flex item will not
+   shrink below its min-content width, so the labels forced the bar to 546px and
+   the last two tabs were off the screen on a phone. min-width:0 lets them
+   shrink, the label tightens at narrow widths, and overflow-x is the last
+   resort rather than the mechanism. */
+.nav ul{display:flex;margin:0;padding:0;list-style:none;overflow-x:auto;
+        scrollbar-width:none;-ms-overflow-style:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav li{flex:1 1 0;min-width:0}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.7rem .15rem .75rem;
+       font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--steel);
+       overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+@media (max-width:430px){
+  /* Tightened rather than truncated: a tab reading "Progr..." is worse than a
+     tab one point smaller. */
+  .nav a{font-size:.58rem;letter-spacing:.06em;padding:.7rem .1rem .75rem}
+  .nav .ic{width:17px;height:17px}
+}
 .nav a.on{color:var(--teal)}
 .nav .ic{width:19px;height:19px;display:block}
 main{padding:1.4rem 0 5.5rem}

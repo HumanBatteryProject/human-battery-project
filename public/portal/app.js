@@ -28,12 +28,16 @@ export async function requireAuth({ skipConsentGate = false } = {}) {
   // be the one that forgot. The consent page itself and the account page are
   // exempt: the first IS the gate, and the second is where a member manages what
   // they agreed to.
-  const here = location.pathname;
-  const exempt = skipConsentGate
-    || here.endsWith('/consent.html')
-    || here.endsWith('/account.html')
-    || here.endsWith('/login.html')
-    || here.endsWith('/confirm.html');
+  // The path is normalised before comparing, because Cloudflare Pages serves
+  // clean URLs: /portal/consent.html is delivered as /portal/consent, and a
+  // trailing slash is possible too. Matching only the .html form meant the
+  // consent page was NOT exempt from its own gate, so it redirected to itself
+  // forever and a member with outstanding consents could not reach any part of
+  // the portal. Found at a true 390px viewport, where the page sat on its
+  // spinner rather than showing an error.
+  const here = location.pathname.replace(/\/$/, '').replace(/\.html$/, '');
+  const EXEMPT = ['/portal/consent', '/portal/account', '/portal/login', '/portal/confirm'];
+  const exempt = skipConsentGate || EXEMPT.includes(here);
   if (!exempt) {
     const { data: missing, error } = await sb.rpc('missing_required_consents');
     // A failed check does NOT wave the member through. If we cannot tell whether

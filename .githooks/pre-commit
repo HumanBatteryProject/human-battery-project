@@ -68,6 +68,7 @@ run cohortless_fixtures node tests/cohortless_fixtures.mjs
 run billing_fixtures    node tests/billing_fixtures.mjs
 run discount_fixtures   node tests/discount_fixtures.mjs
 run onboarding_fixtures node tests/onboarding_fixtures.mjs
+run checkin_fixtures    node tests/checkin_fixtures.mjs
 run constants_pinned    node tests/constants_pinned.mjs
 
 # check_claims runs LAST, per CLAUDE.md: it is the one that has to see the tree

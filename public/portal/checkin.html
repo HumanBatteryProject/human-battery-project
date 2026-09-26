@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Today | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=18">
+<style>
+/* Built for a thumb at 390px. Layout only: every colour is an existing token.
+   The whole screen has to be completable in under a minute, so nothing here is
+   a free text box that a person has to compose a sentence into. */
+.ci-step{border-top:1px solid var(--rule-line);padding:.9rem 0}
+.ci-step:first-of-type{border-top:0;padding-top:.2rem}
+.ci-q{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);margin:0 0 .5rem}
+.ci-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.ci-row>*{flex:1 1 0;min-width:0}
+/* Tap targets, not mouse targets. 44px is the smallest a thumb reliably hits. */
+.ci-pick{appearance:none;-webkit-appearance:none;background:rgba(14,20,36,.55);
+  border:1px solid var(--rule-line);border-radius:3px;color:var(--ink);
+  font-family:var(--body);font-size:var(--fs-base);min-height:44px;padding:.5rem .3rem;
+  text-align:center;cursor:pointer;white-space:nowrap}
+.ci-pick[aria-pressed="true"]{background:var(--dawn-deep);border-color:var(--copper-brand);color:#fff}
+.ci-pick:focus-visible{outline:2px solid var(--dawn-amber);outline-offset:2px}
+.ci-time{display:flex;gap:.5rem}
+.ci-time input{min-height:44px}
+.ci-hint{font-size:var(--fs-xs);color:var(--ink-muted);margin:.35rem 0 0}
+.ci-actions{display:grid;gap:.5rem;margin-top:.4rem}
+.ci-action{border:1px solid var(--rule-line);border-radius:3px;padding:.6rem}
+.ci-action p{margin:0 0 .5rem;font-size:var(--fs-sm);line-height:var(--lh-small)}
+.ci-save{position:sticky;bottom:0;background:var(--surface-field);
+  padding:.8rem 0 1rem;border-top:1px solid var(--rule-line);margin-top:.6rem}
+.ci-save .btn{width:100%;min-height:48px}
+.ci-done{font-size:var(--fs-sm);color:var(--status-good);margin:.5rem 0 0}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who" id="who"></span>
+</div></header>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+    <li><a href="/portal/checkin.html" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Today</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/calls.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Calls</a></li>
+  <li><a href="/portal/seasonal.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c0-7 4-11 9-12-1 7-4 11-9 12z"/><path d="M12 21c0-5-3-8-7-9 1 5 3 8 7 9z"/></svg>Season</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="body" style="display:none">
+    <div class="card">
+      <h2 id="ci-title">Today</h2>
+      <p class="tiny" id="ci-sub" style="margin:0"></p>
+    </div>
+
+    <form class="card" id="ci-form">
+      <!-- Yesterday's actions come first: they are the only part that is about
+           something the software asked of them, and burying it under the numbers
+           is how it gets skipped. -->
+      <div class="ci-step" id="step-actions" hidden>
+        <p class="ci-q">Yesterday's actions</p>
+        <div class="ci-actions" id="action-list"></div>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Sleep</p>
+        <div class="ci-time">
+          <label class="tiny" style="flex:1">In bed<input type="time" id="c-bed"></label>
+          <label class="tiny" style="flex:1">Up<input type="time" id="c-wake"></label>
+        </div>
+        <p class="ci-q" style="margin-top:.7rem">How was it</p>
+        <div class="ci-row" data-pick="sleep_quality">
+          <button type="button" class="ci-pick" value="1">Bad</button>
+          <button type="button" class="ci-pick" value="2">Poor</button>
+          <button type="button" class="ci-pick" value="3">Okay</button>
+          <button type="button" class="ci-pick" value="4">Good</button>
+          <button type="button" class="ci-pick" value="5">Great</button>
+        </div>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Energy today</p>
+        <div class="ci-row" data-pick="energy">
+          <button type="button" class="ci-pick" value="1">1</button>
+          <button type="button" class="ci-pick" value="2">2</button>
+          <button type="button" class="ci-pick" value="3">3</button>
+          <button type="button" class="ci-pick" value="4">4</button>
+          <button type="button" class="ci-pick" value="5">5</button>
+        </div>
+        <p class="ci-hint">1 is flat on your back. 5 is the best you get.</p>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Anything going on</p>
+        <div class="ci-row" data-multi="symptoms">
+          <button type="button" class="ci-pick" value="headache">Headache</button>
+          <button type="button" class="ci-pick" value="gut">Gut</button>
+          <button type="button" class="ci-pick" value="mood">Mood</button>
+          <button type="button" class="ci-pick" value="ache">Aching</button>
+          <button type="button" class="ci-pick" value="wired">Wired</button>
+        </div>
+        <p class="ci-hint">Only if it stood out. Leaving this blank is a normal day, not a missing answer.</p>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Daylight and movement</p>
+        <div class="ci-row">
+          <label class="tiny" style="flex:1">Minutes outside<input type="number" id="c-daylight" min="0" max="600" step="5" inputmode="numeric"></label>
+          <label class="tiny" style="flex:1">Minutes moving<input type="number" id="c-move" min="0" max="600" step="5" inputmode="numeric"></label>
+        </div>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Eating window</p>
+        <div class="ci-time">
+          <label class="tiny" style="flex:1">First food<input type="time" id="c-first"></label>
+          <label class="tiny" style="flex:1">Last food<input type="time" id="c-last"></label>
+        </div>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Water</p>
+        <div class="ci-row" data-pick="water_ml">
+          <button type="button" class="ci-pick" value="1000">1 L</button>
+          <button type="button" class="ci-pick" value="2000">2 L</button>
+          <button type="button" class="ci-pick" value="3000">3 L</button>
+          <button type="button" class="ci-pick" value="4000">4 L +</button>
+        </div>
+      </div>
+
+      <div class="ci-step">
+        <p class="ci-q">Evening light</p>
+        <div class="ci-row" data-pick="evening_light_low">
+          <button type="button" class="ci-pick" value="true">Kept it dim</button>
+          <button type="button" class="ci-pick" value="false">Bright until bed</button>
+        </div>
+      </div>
+
+      <div class="ci-save">
+        <button class="btn btn-solid" type="submit" id="c-save">Save today</button>
+        <p class="ci-hint" id="c-note">Everything here is optional. Save what you know.</p>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast } from './app.js?v=c1d7589d';
+const session = await requireAuth();
+if (session) {
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // The member's own local date and program day, from the database, because the
+  // browser clock is not the clock the program runs on.
+  const { data: pd } = await sb.rpc('program_day');
+  const { data: prof } = await sb.from('profiles').select('timezone, full_name').limit(1).maybeSingle();
+  const tz = (prof && prof.timezone) || 'America/Chicago';
+  const today = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());
+
+  const { data: mem } = await sb.from('memberships')
+    .select('id, day_zero, status').in('status', ['active', 'enrolled'])
+    .order('cycle', { ascending: false }).limit(1).maybeSingle();
+
+  el('#ci-title').textContent = pd ? `Day ${pd}` : 'Today';
+  el('#ci-sub').textContent = pd
+    ? `${today}. Under a minute. Everything is optional.`
+    : `${today}. Your start date is not set yet, so this is not counted as a program day.`;
+
+  // Yesterday's actions, if any exist. They only exist once the canon is approved
+  // and a plan has been generated, so an empty list is the honest normal state
+  // rather than an error.
+  const y = new Date(today + 'T12:00:00Z'); y.setUTCDate(y.getUTCDate() - 1);
+  const yesterday = y.toISOString().slice(0, 10);
+  const { data: plan } = await sb.from('daily_plans')
+    .select('id, plan_date, plan_actions(id, action_text, status, rule_key)')
+    .eq('plan_date', yesterday).maybeSingle();
+  const actions = (plan && plan.plan_actions) || [];
+  if (actions.length) {
+    el('#step-actions').hidden = false;
+    el('#action-list').innerHTML = actions.map((a) =>
+      '<div class="ci-action" data-action="' + esc(a.id) + '">' +
+        '<p>' + esc(a.action_text) + '</p>' +
+        '<div class="ci-row" data-pick="status">' +
+          '<button type="button" class="ci-pick" value="complete">Did it</button>' +
+          '<button type="button" class="ci-pick" value="skip">Skipped</button>' +
+          '<button type="button" class="ci-pick" value="adjust">Too much</button>' +
+        '</div>' +
+        '<input class="ci-barrier" type="text" placeholder="What got in the way? (optional)" hidden style="margin-top:.5rem">' +
+      '</div>').join('');
+  }
+
+  // Existing answers for today, so a second visit edits rather than overwrites
+  // with blanks.
+  const { data: existing } = await sb.from('daily_logs')
+    .select('*').eq('log_date', today).maybeSingle();
+
+  // ---------------------------------------------------------------
+  // Times are timestamptz, so a clock reading needs a DATE and a ZONE before it
+  // means anything. Two things this has to get right, and the existing detailed
+  // log screen gets the second one wrong:
+  //
+  //   THE ZONE. The instant is built in the PARTICIPANT's timezone, not the
+  //   browser's. Usually the same, and wrong by hours when somebody travels or
+  //   their device zone drifts. The whole program is about when things happen.
+  //
+  //   THE DATE. A check-in filled this morning reports LAST NIGHT's bedtime. A
+  //   time of 22:45 belongs to yesterday; a time of 01:30 belongs to today. So
+  //   an evening hour on the bedtime field is attributed to the previous day,
+  //   rather than recording that the member went to bed tonight before they did.
+  // ---------------------------------------------------------------
+  function zoneOffset(dateStr, zone) {
+    try {
+      const f = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'longOffset' });
+      const part = f.formatToParts(new Date(dateStr + 'T12:00:00Z'))
+        .find((x) => x.type === 'timeZoneName');
+      const m = part && part.value.match(/GMT([+-]\d{2}:?\d{2})?/);
+      if (!m) return null;
+      if (!m[1]) return '+00:00';
+      return m[1].includes(':') ? m[1] : m[1].slice(0, 3) + ':' + m[1].slice(3);
+    } catch (e) { return null; }
+  }
+  function shiftDay(dateStr, days) {
+    const d = new Date(dateStr + 'T12:00:00Z');
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
+  // kind 'last_night' attributes an evening time to yesterday.
+  function stamp(timeStr, kind) {
+    if (!timeStr) return null;
+    const hour = Number(String(timeStr).slice(0, 2));
+    const onDate = (kind === 'last_night' && hour >= 18) ? shiftDay(today, -1) : today;
+    const off = zoneOffset(onDate, tz);
+    // No offset means we could not establish the participant's zone, and a
+    // timestamp recorded in the wrong zone is worse than one not recorded.
+    if (!off) return null;
+    return `${onDate}T${timeStr}:00${off}`;
+  }
+
+  const picked = {};
+  function setPick(group, value) {
+    picked[group] = value;
+    group.querySelectorAll('.ci-pick').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.value === value)));
+  }
+  // One handler for the whole form. Delegation rather than a listener per button,
+  // because the action buttons are created after this runs.
+  el('#ci-form').addEventListener('click', (e) => {
+    const b = e.target.closest('.ci-pick');
+    if (!b) return;
+    const group = b.closest('[data-pick],[data-multi]');
+    if (!group) return;
+    if (group.hasAttribute('data-multi')) {
+      const on = b.getAttribute('aria-pressed') === 'true';
+      b.setAttribute('aria-pressed', String(!on));
+      return;
+    }
+    const already = b.getAttribute('aria-pressed') === 'true';
+    group.querySelectorAll('.ci-pick').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', String(!already));
+    // Choosing "Too much" or "Skipped" is when a barrier is worth asking about.
+    const card = b.closest('[data-action]');
+    if (card) {
+      const wants = !already && (b.value === 'skip' || b.value === 'adjust');
+      card.querySelector('.ci-barrier').hidden = !wants;
+    }
+  });
+
+  const pickOf = (group) => {
+    const g = document.querySelector(`[data-pick="${group}"]`);
+    const on = g && g.querySelector('.ci-pick[aria-pressed="true"]');
+    return on ? on.value : null;
+  };
+  const multiOf = (group) => {
+    const g = document.querySelector(`[data-multi="${group}"]`);
+    return g ? [...g.querySelectorAll('.ci-pick[aria-pressed="true"]')].map((b) => b.value) : [];
+  };
+
+  // Prefill from what is already saved.
+  if (existing) {
+    // Read back in the participant's zone, or a 22:45 bedtime reappears as
+    // whatever o'clock it was in UTC.
+    const hhmm = (iso) => {
+      if (!iso) return '';
+      try {
+        return new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false })
+          .format(new Date(iso));
+      } catch (e) { return ''; }
+    };
+    if (existing.bedtime) el('#c-bed').value = hhmm(existing.bedtime);
+    if (existing.waketime) el('#c-wake').value = hhmm(existing.waketime);
+    if (existing.first_meal_at) el('#c-first').value = hhmm(existing.first_meal_at);
+    if (existing.last_meal_at) el('#c-last').value = hhmm(existing.last_meal_at);
+    if (existing.outdoor_daylight_min != null) el('#c-daylight').value = existing.outdoor_daylight_min;
+    if (existing.movement_minutes != null) el('#c-move').value = existing.movement_minutes;
+    for (const [g, v] of [['sleep_quality', existing.sleep_quality], ['energy', existing.energy],
+                          ['water_ml', existing.water_ml],
+                          ['evening_light_low', existing.evening_light_low]]) {
+      if (v == null) continue;
+      const grp = document.querySelector(`[data-pick="${g}"]`);
+      if (grp) setPick(grp, String(v));
+    }
+    (existing.symptoms || []).forEach((s) => {
+      const b = document.querySelector(`[data-multi="symptoms"] .ci-pick[value="${s}"]`);
+      if (b) b.setAttribute('aria-pressed', 'true');
+    });
+    el('#c-note').textContent = 'You already saved today. Changing anything and saving again updates it.';
+  }
+
+  el('#loading').style.display = 'none';
+  el('#body').style.display = 'block';
+
+  el('#ci-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const btn = el('#c-save');
+    btn.disabled = true; btn.textContent = 'Saving';
+
+    // Only send what was actually answered. Writing null over a value somebody
+    // entered yesterday on a different screen would lose it.
+    const patch = { client_id: session.user.id, log_date: today };
+    if (mem) { patch.membership_id = mem.id; }
+    if (pd != null) patch.program_day = pd;
+    const put = (k, v) => { if (v !== null && v !== undefined && v !== '') patch[k] = v; };
+    put('bedtime', stamp(el('#c-bed').value, 'last_night'));
+    put('waketime', stamp(el('#c-wake').value, 'today'));
+    put('first_meal_at', stamp(el('#c-first').value, 'today'));
+    put('last_meal_at', stamp(el('#c-last').value, 'today'));
+    put('sleep_quality', pickOf('sleep_quality') ? Number(pickOf('sleep_quality')) : null);
+    put('energy', pickOf('energy') ? Number(pickOf('energy')) : null);
+    put('water_ml', pickOf('water_ml') ? Number(pickOf('water_ml')) : null);
+    put('outdoor_daylight_min', el('#c-daylight').value === '' ? null : Number(el('#c-daylight').value));
+    put('movement_minutes', el('#c-move').value === '' ? null : Number(el('#c-move').value));
+    const evening = pickOf('evening_light_low');
+    if (evening !== null) patch.evening_light_low = evening === 'true';
+    const syms = multiOf('symptoms');
+    if (syms.length) patch.symptoms = syms;
+    patch.submitted_at = new Date().toISOString();
+
+    const { error } = await sb.from('daily_logs')
+      .upsert(patch, { onConflict: 'client_id,log_date' });
+    if (error) {
+      btn.disabled = false; btn.textContent = 'Save today';
+      return toast(error.message, 'err');
+    }
+
+    // Yesterday's actions, each with its own status and barrier.
+    let actionsSaved = 0;
+    for (const card of document.querySelectorAll('[data-action]')) {
+      const on = card.querySelector('.ci-pick[aria-pressed="true"]');
+      if (!on) continue;
+      const barrier = card.querySelector('.ci-barrier').value.trim();
+      const { error: ae } = await sb.from('plan_actions')
+        .update({ status: on.value, barrier: barrier || null,
+                  responded_at: new Date().toISOString() })
+        .eq('id', card.getAttribute('data-action'));
+      if (!ae) actionsSaved++;
+    }
+
+    btn.textContent = 'Saved';
+    el('#c-note').innerHTML = '<span class="ci-done">Saved' +
+      (actionsSaved ? ' with ' + actionsSaved + ' action' + (actionsSaved > 1 ? 's' : '') : '') +
+      '. <a href="/portal/">Back to your dashboard</a></span>';
+    toast('Saved');
+  });
+}
+</script>
+</body></html>

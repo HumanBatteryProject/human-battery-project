@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=16">
+<link rel="stylesheet" href="/portal/portal.css?v=18">
 </head><body>
 
 <main class="wrap" style="max-width:26rem;padding-top:3.5rem">
@@ -38,7 +38,7 @@
 // Where a sign-in link lands. Pinned, not derived: see the note at the call.
 const SIGNIN_LANDING = 'https://thehumanbatteryproject.com/portal/confirm';
 
-import { sb, el, toast } from './app.js';
+import { sb, el, toast } from './app.js?v=c1d7589d';
 
 const params = new URLSearchParams(location.search);
 const next = params.get('next') || '/portal/';

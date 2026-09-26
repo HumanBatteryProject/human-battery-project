@@ -25,12 +25,21 @@ ok('requireAuth asks the database what is outstanding',
    /missing_required_consents/.test(app));
 ok('it sends an unconsented member to the consent screen',
    /location\.href = '\/portal\/consent\.html'/.test(app));
+// These check the NORMALISED path, because the site serves clean URLs. The
+// previous version matched '/consent.html' and passed while the real page, served
+// as /portal/consent, was not exempt and redirected to itself forever.
+ok('the exempt list is compared against a path with .html and a trailing slash stripped',
+   /replace\(\/\\\/\$\/, ''\)/.test(app) && /replace\(\/\\\.html\$\/, ''\)/.test(app));
 ok('the consent screen itself is exempt, or the redirect loops forever',
-   /consent\.html'\)/.test(app));
+   /'\/portal\/consent'/.test(app));
 ok('the account page is exempt, so a member can still manage what they agreed to',
-   /account\.html'\)/.test(app));
+   /'\/portal\/account'/.test(app));
 ok('login and confirm are exempt, because there is no session to check yet',
-   /login\.html'\)/.test(app) && /confirm\.html'\)/.test(app));
+   /'\/portal\/login'/.test(app) && /'\/portal\/confirm'/.test(app));
+// The loop this guards against: a page that is the gate's destination must never
+// itself be gated.
+ok('every exempt entry is a clean URL, matching how the site serves them',
+   !/EXEMPT = \[[^\]]*\.html/.test(app));
 
 // The most important line in the gate. If the check errors we must NOT wave the
 // member through: not knowing whether they consented is not the same as knowing

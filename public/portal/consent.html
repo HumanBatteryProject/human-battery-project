@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=16">
+<link rel="stylesheet" href="/portal/portal.css?v=18">
 <style>
 /* The consent body is long prose, which nothing else in the portal is. Layout
    only: every colour comes from an existing token. */
@@ -55,7 +55,7 @@
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast } from './app.js';
+import { sb, requireAuth, el, toast } from './app.js?v=c1d7589d';
 const session = await requireAuth();
 if (session) {
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
