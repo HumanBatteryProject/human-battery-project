@@ -18,6 +18,7 @@ import { nextCycle, applyMultiplier } from './_intensity.js';
 import {
   symptomsAndFunction, fitnessMeasures, laboratoryResults,
   habitsAndConsistency, remainingUncertainties, maintenancePriorities,
+  narrativeFacts,
 } from './_completion.js';
 
 const AGENT = 'completion';
@@ -179,12 +180,12 @@ export async function onRequestPost({ request, env }) {
         'THE MAINTENANCE PRIORITIES ARE GIVEN TO YOU. Restate them in your own ' +
         'plain words. Do not add a priority that is not in the list, and do not ' +
         'drop one that is.',
-        JSON.stringify({
-          dimensions, adherence_pct: adherence, days_logged: (logs || []).length,
-          symptoms_and_function: symptoms, fitness_measures: fitness,
-          laboratory_results: labs, habits_and_consistency: habits,
-          remaining_uncertainties: uncertainties, maintenance_priorities: priorities,
-        })].join('\n\n'),
+        // Compacted. The full objects are stored; the model gets a briefing. Handing
+        // it all six whole came to 14,341 input tokens and the reply spent its
+        // entire budget thinking, returning no text at all.
+        JSON.stringify(narrativeFacts({
+          dimensions, symptoms, fitness, labs, habits, uncertainties, priorities,
+        }))].join('\n\n'),
       messages: [{ role: 'user', content: 'Write the summary.' }],
       // Raised from 500 when the prompt grew to carry all six comparisons. At 500
       // the thinking block consumed the entire budget and no text was written at

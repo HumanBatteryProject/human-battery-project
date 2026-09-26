@@ -400,3 +400,81 @@ export function maintenancePriorities({ dimensions, labs, habits }) {
     considered: candidates.length,
   };
 }
+
+// ---------------------------------------------------------------------
+// What the model is given
+// ---------------------------------------------------------------------
+/**
+ * The six comparisons, compacted to the facts a short summary needs.
+ *
+ * WHY THIS EXISTS. The first version handed the model all six objects whole,
+ * which came to 14,341 input tokens for a summary of a few hundred words. The
+ * reply then spent its entire max_tokens on thinking and came back with no text
+ * at all, twice, at 500 and again at 2,000. Raising the budget further is a losing
+ * game: the thinking expands to fill whatever it is given.
+ *
+ * The objects carry things a narrative has no use for. Percentage changes when the
+ * before and after are both stated. Per-symptom day counts across two windows.
+ * Units repeated on every row. Every marker's role. All of it real, none of it
+ * needed to write two paragraphs, and every extra field is one more thing for a
+ * sentence to be built out of wrongly.
+ *
+ * So the model gets the headline of each comparison and the names attached to it.
+ * The full objects are still stored, so nothing is lost: the summary row keeps
+ * everything and the model reads a briefing.
+ */
+export function narrativeFacts({ dimensions, symptoms, fitness, labs, habits, uncertainties, priorities }) {
+  const out = {};
+
+  out.dimension_scores = Object.fromEntries(
+    Object.entries(dimensions || {}).map(([k, d]) => [k,
+      d.day0 == null ? 'no day 0 score, so the change is unknown'
+                     : { day0: d.day0, day90: d.day90, change: d.change }]));
+
+  out.symptoms_and_function = symptoms && symptoms.available
+    ? {
+        resolved: symptoms.resolved,
+        appeared: symptoms.appeared,
+        still_present: (symptoms.symptoms || [])
+          .filter((s) => s.days_at_start > 0 && s.days_at_end > 0).map((s) => s.symptom),
+        energy: symptoms.energy && symptoms.energy.available === false
+          ? 'not logged at both ends'
+          : { day0: symptoms.energy.start, day90: symptoms.energy.end },
+      }
+    : { available: false, why: symptoms ? symptoms.statement : 'not computed' };
+
+  out.fitness_measures = fitness && fitness.available
+    ? (fitness.measures || []).map((m) =>
+        `${m.label}: ${m.day0} to ${m.day90} ${m.unit}, ${m.direction}`)
+    : { available: false, why: fitness ? fitness.statement : 'not computed' };
+
+  out.laboratory_results = labs && labs.available
+    ? {
+        improved: (labs.compared || []).filter((m) => m.direction === 'better')
+          .map((m) => `${m.name}: ${m.day0} to ${m.day90}`),
+        worsened: (labs.compared || []).filter((m) => m.direction === 'worse')
+          .map((m) => `${m.name}: ${m.day0} to ${m.day90}`),
+        changed_but_not_judged: (labs.compared || []).filter((m) => !m.judged)
+          .map((m) => `${m.name}: ${m.day0} to ${m.day90}, no established better direction`),
+        unchanged: (labs.compared || []).filter((m) => m.direction === 'unchanged').map((m) => m.name),
+      }
+    : { available: false, why: labs ? labs.statement : 'not computed' };
+
+  out.habits_and_consistency = habits && habits.available
+    ? {
+        days_logged: habits.days_logged,
+        of_program_days: habits.of_program_days,
+        longest_streak_days: habits.longest_streak_days,
+        adherence_pct_first_two_weeks: habits.adherence_start,
+        adherence_pct_last_two_weeks: habits.adherence_end,
+      }
+    : { available: false, why: habits ? habits.statement : 'not computed' };
+
+  // Already one sentence each, so they pass through as written.
+  out.remaining_uncertainties = ((uncertainties && uncertainties.items) || []).map((i) => i.statement);
+  out.maintenance_priorities = priorities && priorities.available
+    ? priorities.priorities.map((p) => p.statement)
+    : [];
+
+  return out;
+}
