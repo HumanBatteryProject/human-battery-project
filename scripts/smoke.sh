@@ -88,6 +88,7 @@ hit "onboard"    POST "$ORIGIN/api/onboard"   "{\"membership_id\":\"$MEMBERSHIP\
 hit "cycle-boundary" POST "$ORIGIN/api/cycle-boundary" '{"dry_run":true}' "$SEC"
 hit "enroll"     POST "$ORIGIN/api/enroll" "{\"client_id\":\"$CLIENT\",\"plan\":\"three_payments\",\"dry_run\":true}" "$SEC"
 hit "billing-run" POST "$ORIGIN/api/billing-run" '{"dry_run":true}' "$SEC"
+hit "plan-run"   POST "$ORIGIN/api/plan-run" "{\"client_id\":\"$CLIENT\",\"dry_run\":true}" "$SEC"
 hit "discount quote" POST "$ORIGIN/api/discount" "{\"action\":\"quote\",\"applies_to\":\"program\",\"plan\":\"three_payments\",\"client_id\":\"$CLIENT\"}" "$SEC"
 
 # The start dates a person can pick. Public, and a form that offers none reads as

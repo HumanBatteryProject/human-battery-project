@@ -62,7 +62,7 @@ done
 # hook. check_rls is the one that stops the anon hole coming back: instance fixes
 # without a mechanism check is how it survived in the first place.
 set -a; [ -f ./.dev.vars ] && . ./.dev.vars; set +a
-for c in check_rls check_columns check_price_drift; do
+for c in check_rls check_columns check_canon check_price_drift; do
   out=$(python3 "scripts/$c.py" 2>&1)
   if [ $? -eq 0 ]; then printf '  %-22s ok\n' "$c"
   else printf '  %-22s FAILED\n' "$c"; echo "$out" | sed 's/^/      /'; exit 1; fi

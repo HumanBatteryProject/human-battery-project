@@ -14,31 +14,48 @@
 // the copy cannot drift from the source without something saying so.
 
 export const SCREENING_ROWS = [
-  { on: 'Anticoagulants',
+  { key: 'anticoagulants', on: 'Anticoagulants',
     flag: 'The oily fish target, which is a real omega-3 load from food. Physician clearance.',
     match: /\bwarfarin|coumadin|anticoagul|blood thinn|eliquis|apixaban|xarelto|rivaroxaban\b/i },
-  { on: 'Thyroid medication',
+  { key: 'thyroid_medication', on: 'Thyroid medication',
     flag: 'Any eating window change: levothyroxine is taken fasting and a moved window moves the dose. Physician clearance.',
     match: /\bthyroid|levothyroxine|synthroid|armour thyroid|liothyronine\b/i },
-  { on: 'Blood pressure medication',
+  { key: 'blood_pressure_medication', on: 'Blood pressure medication',
     flag: 'Sauna and cold, both of which move blood pressure acutely. Physician clearance.',
     match: /\bblood pressure|antihypertens|lisinopril|amlodipine|losartan|metoprolol|beta blocker\b/i },
-  { on: 'Diabetes medication',
+  { key: 'diabetes_medication', on: 'Diabetes medication',
     flag: 'Any eating window change. Physician clearance.',
     match: /\bdiabet|metformin|insulin (?:dose|injection|pump)|glipizide|ozempic|semaglutide|jardiance\b/i },
-  { on: 'Lithium',
+  { key: 'lithium', on: 'Lithium',
     flag: 'Sauna and heavy sweating, which concentrate the drug. Physician clearance.',
     match: /\blithium\b/i },
-  { on: 'Diuretics, or a sodium-restricted diet',
+  { key: 'diuretics_or_sodium_restriction', on: 'Diuretics, or a sodium-restricted diet',
     flag: 'The morning glass and the salt added to every bottle. Physician clearance.',
     match: /\bdiuretic|furosemide|lasix|hydrochlorothiazide|spironolactone|low[- ]sodium|salt[- ]restrict/i },
-  { on: 'Heart failure, or fluid restriction',
+  { key: 'heart_failure_or_fluid_restriction', on: 'Heart failure, or fluid restriction',
     flag: 'Three liters a day. Physician clearance.',
     match: /\bheart failure|chf\b|fluid restrict|congestive\b/i },
-  { on: 'Bipolar diagnosis',
+  { key: 'bipolar_diagnosis', on: 'Bipolar diagnosis',
     flag: 'Morning light exposure and the fixed wake time, both of which shift circadian phase and can destabilize mood. Physician clearance.',
     match: /\bbipolar|manic|mania\b/i },
 ];
+
+// Every screening key, as a Set, so a canonical rule's contraindication list can
+// be validated against what actually exists. The seed was written with invented
+// keys like 'anticoagulant' and 'levothyroxine' that matched nothing in this
+// table, which would have made the safety gate a no-op: it would have looked for
+// flags that could never be raised and let every action through.
+export const SCREENING_KEYS = new Set(SCREENING_ROWS.map(r => r.key));
+
+export function screeningRowFor(key) {
+  return SCREENING_ROWS.find(r => r.key === key) || null;
+}
+
+// Which screening keys a free text answer raises.
+export function flagsFromText(text) {
+  const s = String(text || '');
+  return SCREENING_ROWS.filter(r => r.match.test(s)).map(r => r.key);
+}
 
 // Anything that asks the coach to practise medicine, whether or not a drug is
 // named. These route regardless of the table.
