@@ -165,6 +165,86 @@ export function pillarNeed(pillarKey, state) {
   }
 }
 
+// ---------------------------------------------------------------------
+// Adaptation. Master prompt D5.
+//
+// THE BOUNDARY, because the two things look similar and one of them is gated.
+// Choosing which APPROVED rule appears today is adaptation, and D5 permits it.
+// Changing a protocol parameter, the eating window or the sauna dose, is a
+// protocol change: AUTONOMY_MODE is review_all, so those queue for the owner and
+// nothing here may do one. Adaptation reorders and withholds from a list a human
+// approved. It never edits the list.
+// ---------------------------------------------------------------------
+
+// How long a rule stays set aside after somebody tells us why they could not do
+// it. Long enough to be a real answer to them, short enough that one bad day
+// does not silently remove a pillar from their program forever.
+export const BARRIER_COOLDOWN_DAYS = 7;
+
+// Adherence bands for the action budget. Deliberately coarse: this decides
+// whether somebody gets one action or three, and a finer scale would imply a
+// precision that three data points cannot carry.
+export const BUDGET_BANDS = [
+  { min: 0.60, actions: 3 },
+  { min: 0.34, actions: 2 },
+  { min: 0.00, actions: 1 },
+];
+
+/**
+ * How many actions this participant should be given.
+ *
+ * D5: simplify an overwhelming plan. The answer to somebody skipping most of
+ * what they are given is FEWER actions, not the same number reworded.
+ *
+ * A null rate means nothing has been answered yet. That returns the full budget,
+ * because silence is not failure: a participant who has not opened the app has
+ * not failed at anything, and cutting their plan for it would be punishing them
+ * for being new.
+ */
+export function actionBudget(rate) {
+  if (rate === null || rate === undefined) return MAX_ACTIONS;
+  const n = Number(rate);
+  if (!Number.isFinite(n)) return MAX_ACTIONS;
+  for (const band of BUDGET_BANDS) if (n >= band.min) return band.actions;
+  return MIN_ACTIONS;
+}
+
+/**
+ * Rules to hold back because the participant told us something about them.
+ *
+ * @param {object[]} history recent plan_actions, each with plan_date attached
+ * @returns {Map<string, {reason: string, until: string, basis: string}>}
+ */
+export function setAsideRules(history, today) {
+  const aside = new Map();
+  for (const a of history || []) {
+    if (!a.plan_date) continue;
+    const age = daysBetween(a.plan_date, today);
+    if (age < 0 || age >= BARRIER_COOLDOWN_DAYS) continue;
+    const until = addDays(a.plan_date, BARRIER_COOLDOWN_DAYS);
+
+    if (a.status === 'skip' && a.barrier) {
+      aside.set(a.rule_key, {
+        basis: 'barrier',
+        until,
+        reason: `You told us what got in the way of this one, so it is not being ` +
+                `asked of you again for now. It comes back on ${until}.`,
+      });
+    } else if (a.status === 'adjust') {
+      // They said it was too much. Repeating it unchanged ignores them, and
+      // lowering the dose is a protocol change that needs approval, so the
+      // honest move is to set it aside and say why.
+      aside.set(a.rule_key, {
+        basis: 'barrier',
+        until,
+        reason: `You said this one was too much. A smaller version has to be ` +
+                `reviewed before it can be offered, so it is set aside until ${until}.`,
+      });
+    }
+  }
+  return aside;
+}
+
 /**
  * The Planner.
  *
@@ -176,9 +256,29 @@ export function pillarNeed(pillarKey, state) {
  *   today        the participant's local date
  * @returns {{selected: object[], excluded: object[], carried: number}}
  */
-export function selectActions({ rules, state, flags = [], previous = [], today, max = MAX_ACTIONS }) {
+export function selectActions({
+  rules, state, flags = [], previous = [], history = [], today,
+  adherenceRate = null, max = null,
+}) {
   const excluded = [];
   const eligible = [];
+  const adaptations = [];
+
+  // D5: simplify an overwhelming plan. The budget is computed from what they
+  // have actually answered, and is the ceiling for this plan.
+  const budget = max !== null ? max : actionBudget(adherenceRate);
+  if (budget < MAX_ACTIONS && adherenceRate !== null) {
+    adaptations.push({
+      change: 'fewer_actions',
+      rule_key: null,
+      reason: `You have been completing about ${Math.round(Number(adherenceRate) * 100)} ` +
+              `out of every 100 actions you answered, so today is ${budget} instead of ` +
+              `${MAX_ACTIONS}. A shorter plan you finish beats a longer one you do not.`,
+    });
+  }
+
+  // Rules the participant has told us something about.
+  const aside = setAsideRules(history, today);
 
   for (const rule of rules || []) {
     // An unapproved rule must never reach here. Checked again rather than
@@ -189,6 +289,15 @@ export function selectActions({ rules, state, flags = [], previous = [], today, 
     }
     const block = safetyBlock(rule, flags);
     if (block) { excluded.push({ rule, ...block }); continue; }
+
+    // Held back because of something they said, not something unsafe. A
+    // different basis so the two never read as the same thing.
+    const held = aside.get(rule.rule_key);
+    if (held) {
+      excluded.push({ rule, basis: held.basis, reason: held.reason });
+      adaptations.push({ change: 'set_aside', rule_key: rule.rule_key, reason: held.reason });
+      continue;
+    }
 
     const missing = missingFor(rule, state);
     const confidence = confidenceFor(rule, state);
@@ -204,7 +313,7 @@ export function selectActions({ rules, state, flags = [], previous = [], today, 
     if (!prev.review_on || prev.review_on <= today) continue;      // due for review
     if (prev.status === 'skip' && prev.barrier) continue;           // they told us why not
     const still = eligible.find((e) => e.rule.rule_key === prev.rule_key);
-    if (!still || selected.length >= max) continue;
+    if (!still || selected.length >= budget) continue;
     selected.push({ ...still, carried: true, previous_action_id: prev.id });
     carriedKeys.add(prev.rule_key);
   }
@@ -220,7 +329,7 @@ export function selectActions({ rules, state, flags = [], previous = [], today, 
   // split into three, which reads as a longer list without asking for more.
   const usedPillars = new Set(selected.map((s) => s.rule.pillar_key));
   for (const e of rest) {
-    if (selected.length >= max) break;
+    if (selected.length >= budget) break;
     if (usedPillars.has(e.rule.pillar_key)) continue;
     selected.push({ ...e, carried: false });
     usedPillars.add(e.rule.pillar_key);
@@ -233,7 +342,22 @@ export function selectActions({ rules, state, flags = [], previous = [], today, 
     selected.push({ ...e, carried: false });
   }
 
+  // What is new today, so the record says what CHANGED rather than only what was
+  // chosen. A plan that is identical to yesterday's is a valid outcome and says
+  // nothing here, which is the point of stability.
+  const prevKeys = new Set((previous || []).map((p) => p.rule_key));
+  for (const s of selected) {
+    if (!prevKeys.has(s.rule.rule_key)) {
+      adaptations.push({
+        change: 'introduced', rule_key: s.rule.rule_key,
+        reason: whyFor(s, state),
+      });
+    }
+  }
+
   return {
+    budget,
+    adaptations,
     selected: selected.map((s, i) => ({
       ...s,
       sort_order: i,

@@ -25,7 +25,7 @@ import {
   json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff, MODEL_PER_CLIENT,
 } from './_agent.js';
 import { GenerationPaused, flagOn, FLAGS } from './_flags.js';
-import { observe, selectActions, reviewPlan, MAX_ACTIONS } from './_plan.js';
+import { observe, selectActions, reviewPlan, MAX_ACTIONS, BARRIER_COOLDOWN_DAYS } from './_plan.js';
 import { flagsFromText } from './_medical.js';
 import { IDENTITY, GUARDRAILS, stripDashes } from './_voice.js';
 
@@ -118,9 +118,31 @@ export async function onRequestPost({ request, env }) {
         ? await sb.select('plan_actions', { where: { plan_id: prevPlan.id }, columns: '*' })
         : [];
 
+      // A wider window for adaptation: what they have told us over the cooldown
+      // period, not only yesterday. A barrier reported three days ago still
+      // means something today.
+      const recentPlans = await sb.select('daily_plans', {
+        where: { client_id: m.client_id },
+        columns: 'id,plan_date', order: 'plan_date.desc', limit: BARRIER_COOLDOWN_DAYS + 1,
+      });
+      const history = [];
+      for (const rp of (recentPlans || [])) {
+        const acts = await sb.select('plan_actions', {
+          where: { plan_id: rp.id }, columns: 'rule_key,status,barrier,review_on,id',
+        });
+        for (const a of (acts || [])) history.push({ ...a, plan_date: rp.plan_date });
+      }
+
+      // Adherence, from the database so the planner, the weekly review and the
+      // admin screen cannot disagree about what it means.
+      const adh = await sb.rpc('adherence_window', { target_client: m.client_id, days: 14 });
+      const adherence = Array.isArray(adh) ? adh[0] : adh;
+      const adherenceRate = adherence && adherence.rate !== null && adherence.rate !== undefined
+        ? Number(adherence.rate) : null;
+
       // Planner and Safety gate.
-      const { selected, excluded, carried } = selectActions({
-        rules, state, flags, previous: previous || [], today, max: MAX_ACTIONS,
+      const { selected, excluded, carried, adaptations, budget } = selectActions({
+        rules, state, flags, previous: previous || [], history, today, adherenceRate,
       });
 
       if (!selected.length) {
@@ -203,6 +225,7 @@ export async function onRequestPost({ request, env }) {
       if (dryRun) {
         out.members.push({
           ...row, dry_run: true, would_write: selected.length, carried,
+          action_budget: budget, adherence_rate: adherenceRate, adaptations,
           excluded: excluded.map((e) => ({ rule: e.rule.rule_key, basis: e.basis })),
           used_pending_rules: usedPending, ai_paused: aiPaused,
           actions: candidate.actions,
@@ -219,6 +242,7 @@ export async function onRequestPost({ request, env }) {
           program_day: m.day_zero ? null : null,
           generated_by: aiPaused ? 'rules' : 'rules+explainer',
           ai_paused: aiPaused, canon_version: CANON_VERSION,
+          adaptations, action_budget: budget,
         }, { returning: true });
         planId = rows && rows[0] && rows[0].id;
       } catch (e) {
@@ -251,14 +275,16 @@ export async function onRequestPost({ request, env }) {
         record_id: planId, subject_id: m.client_id,
         detail: { date: today, actions: selected.length, carried, excluded: excluded.length,
                   ai_paused: aiPaused, used_pending_rules: usedPending,
-                  canon_version: CANON_VERSION, prose: prose ? prose.slice(0, 300) : null },
+                  canon_version: CANON_VERSION, prose: prose ? prose.slice(0, 300) : null,
+                  action_budget: budget, adherence_rate: adherenceRate,
+                  adaptations },
       });
 
       out.written++;
       out.members.push({
         ...row, plan_id: planId, actions: selected.length, carried,
         excluded: excluded.length, ai_paused: aiPaused, used_pending_rules: usedPending,
-        prose,
+        action_budget: budget, adherence_rate: adherenceRate, adaptations, prose,
       });
     } catch (e) {
       out.failed++;

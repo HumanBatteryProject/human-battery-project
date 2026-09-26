@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Operations | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=18">
+<style>
+/* The emergency stop is the loudest thing on the page, on purpose: it is the
+   control somebody reaches for when something is going wrong and they are not
+   reading carefully. Layout and existing tokens only. */
+.stop{border:1px solid var(--status-critical);border-radius:4px;padding:1.1rem;margin-bottom:1rem;
+  background:rgba(224,112,94,.08)}
+.stop h2{margin:0 0 .4rem}
+.flag{display:flex;gap:.9rem;align-items:flex-start;justify-content:space-between;
+  border-top:1px solid var(--rule-line);padding:.9rem 0}
+.flag:first-of-type{border-top:0}
+.flag-txt{flex:1 1 auto;min-width:0}
+.flag-txt b{display:block;/* No --mono token exists in the Dawn set, so the stack is stated rather than
+     referencing a variable that is not there. */
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-sm)}
+.flag-txt p{margin:.3rem 0 0;font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small)}
+.flag-btn{flex:0 0 auto;min-height:44px;min-width:7.5rem}
+.state{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;display:block;margin-bottom:.3rem}
+.state.on{color:var(--status-good)} .state.off{color:var(--status-critical)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img class="portal-mark" src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">STAFF</span>
+</div></header>
+
+<main class="wrap">
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+
+  <div id="body" style="display:none">
+    <div id="stop-box"></div>
+    <section class="card">
+      <h2>Feature flags</h2>
+      <p class="tiny" style="margin:0 0 .3rem">Every change is recorded with who made it and when.</p>
+      <div id="flags"></div>
+    </section>
+    <section class="card">
+      <h2>Recent flag changes</h2>
+      <div class="tw"><table id="flag-log"><tbody></tbody></table></div>
+    </section>
+    <section class="card">
+      <h2>Jobs on a schedule</h2>
+      <p class="tiny" style="margin:0 0 .5rem">What runs without anyone pressing anything.</p>
+      <div class="tw"><table id="jobs"><tbody></tbody></table></div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast } from '../app.js?v=c1d7589d';
+const session = await requireAuth();
+if (session) {
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // Owner only. Mirrors the SQL: set_flag refuses anybody who is not an admin,
+  // so hiding the screen is a courtesy and the function is the enforcement.
+  const { data: me } = await sb.from('profiles').select('role').limit(1).maybeSingle();
+  if (!me || me.role !== 'admin') {
+    el('#loading').style.display = 'none';
+    el('#denied').style.display = 'block';
+  } else {
+    async function render() {
+      const { data: flags } = await sb.from('feature_flags')
+        .select('key, enabled, description, updated_at').order('key');
+      const ai = (flags || []).find((f) => f.key === 'AI_GENERATION_ENABLED');
+
+      // The emergency stop, separately and loudly.
+      el('#stop-box').innerHTML = ai ? (
+        '<div class="stop">' +
+        '<span class="state ' + (ai.enabled ? 'on' : 'off') + '">' +
+          (ai.enabled ? 'AI generation is ON' : 'AI generation is STOPPED') + '</span>' +
+        '<h2>Emergency stop</h2>' +
+        '<p class="tiny" style="margin:0 0 .7rem">' +
+          (ai.enabled
+            ? 'Every model call is allowed. Pressing stop refuses all of them immediately: the daily plan is still written from the approved rules with no connective prose, the coach declines, and the dashboard is unchanged. Nothing is deleted and nothing is lost.'
+            : 'Every model call is being refused. Plans are still written from the approved rules. Turn it back on when you are satisfied.') +
+        '</p>' +
+        '<button class="btn ' + (ai.enabled ? '' : 'btn-solid') + '" id="stop-btn" data-key="AI_GENERATION_ENABLED" data-to="' +
+          (ai.enabled ? 'false' : 'true') + '">' +
+          (ai.enabled ? 'Stop all AI generation' : 'Allow AI generation again') + '</button>' +
+        '</div>') : '';
+
+      el('#flags').innerHTML = (flags || []).map((f) =>
+        '<div class="flag">' +
+          '<div class="flag-txt">' +
+            '<span class="state ' + (f.enabled ? 'on' : 'off') + '">' + (f.enabled ? 'on' : 'off') + '</span>' +
+            '<b>' + esc(f.key) + '</b>' +
+            '<p>' + esc(f.description) + '</p>' +
+          '</div>' +
+          '<button class="btn btn-sm flag-btn" data-key="' + esc(f.key) + '" data-to="' + (!f.enabled) + '">' +
+            (f.enabled ? 'Turn off' : 'Turn on') + '</button>' +
+        '</div>').join('');
+
+      const { data: log } = await sb.from('audit_log')
+        .select('action, occurred_at, detail')
+        .in('action', ['flag.enabled', 'flag.disabled'])
+        .order('occurred_at', { ascending: false }).limit(12);
+      el('#flag-log').querySelector('tbody').innerHTML =
+        ((log || []).length
+          ? '<tr><th>When</th><th>Flag</th><th>Change</th><th>Reason</th></tr>' +
+            (log || []).map((r) =>
+              '<tr><td>' + esc(String(r.occurred_at).slice(0, 16).replace('T', ' ')) + '</td>' +
+              '<td>' + esc((r.detail || {}).key) + '</td>' +
+              '<td>' + esc(String((r.detail || {}).before)) + ' to ' + esc(String((r.detail || {}).after)) + '</td>' +
+              '<td>' + esc((r.detail || {}).reason || '') + '</td></tr>').join('')
+          : '<tr><td class="quiet">Nothing changed yet.</td></tr>');
+    }
+
+    // Read from the Worker's own configuration rather than retyping it here, so
+    // this table cannot claim a job runs that does not.
+    el('#jobs').querySelector('tbody').innerHTML =
+      '<tr><th>Cron, UTC</th><th>What runs</th></tr>' +
+      [['0 * * * *', 'The morning brief, hourly, so each participant gets theirs at their own local morning'],
+       ['0 11 * * *', 'The daily plan, before the brief reads it'],
+       ['0 13 * * 1', 'The weekly trend pass. Every proposal queues for you: autonomy is review_all'],
+       ['0 15 * * *', 'Day ninety, which closes a cycle and opens the next'],
+       ['0 16 * * *', 'Billing, charging whatever is due in the participant timezone']]
+      .map(([c, w]) => '<tr><td>' + c + '</td><td>' + w + '</td></tr>').join('');
+
+    await render();
+    el('#loading').style.display = 'none';
+    el('#body').style.display = 'block';
+
+    el('#body').addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-key]');
+      if (!btn) return;
+      const key = btn.getAttribute('data-key');
+      const to = btn.getAttribute('data-to') === 'true';
+      // Turning the model OFF is safe and needs no ceremony. Turning it back ON
+      // is the one that could resume something somebody stopped for a reason.
+      if (to && key === 'AI_GENERATION_ENABLED' &&
+          !window.confirm('Allow AI generation again? Somebody stopped it, possibly for a reason.')) return;
+      const reason = window.prompt('Why? This is recorded next to your name.', '') || null;
+      btn.disabled = true;
+      const { data, error } = await sb.rpc('set_flag', { p_key: key, p_enabled: to, p_reason: reason });
+      if (error || !data || !data.ok) {
+        btn.disabled = false;
+        return toast((data && data.message) || (error && error.message) || 'That did not save', 'err');
+      }
+      toast(key + ' is now ' + (to ? 'on' : 'off'));
+      await render();
+    });
+  }
+}
+</script>
+</body></html>
