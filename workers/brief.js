@@ -23,7 +23,8 @@ export default {
     // morning brief; the other two are the jobs that had no caller at all.
     const JOBS = {
       '0 * * * *':   '/api/brief-run',       // hourly, each member's local morning
-      '0 13 * * 1':  '/api/trend',           // Monday, the weekly review pass
+      '0 13 * * 1':  '/api/trend',           // Monday, the trend pass
+      '0 12 * * 1':  '/api/weekly-review',  // Monday, before the trend pass
       '0 15 * * *':  '/api/cycle-boundary',  // daily, day ninety
       '0 16 * * *':  '/api/billing-run',     // daily, charges what is due
       '0 11 * * *':  '/api/plan-run',        // daily, the plan before the brief

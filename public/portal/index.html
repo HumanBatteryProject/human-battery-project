@@ -132,6 +132,13 @@
       <a class="btn btn-sm mt" href="/portal/labs.html">See the markers</a>
     </section>
 
+    <!-- The weekly review. Behaviour and measurement both appear here, but every
+         sentence is an observation and none of them claims a cause. -->
+    <section class="card" id="reviewcard" style="display:none">
+      <h2 id="review-h">Your week</h2>
+      <div id="review-body"></div>
+    </section>
+
     <section class="card" id="assesscard">
       <h2>Coming up</h2>
       <div id="assessments"></div>
@@ -159,7 +166,18 @@
 import { sb, requireAuth, currentProfile, activeMembership, programDay,
          adherenceStats, localDateStr, el, esc } from './app.js?v=8a8e67de';
 
-await requireAuth();
+const session = await requireAuth();
+// Every member facing query below scopes to THIS participant explicitly.
+//
+// Row level security already stops one member reading another. What it does NOT
+// do is stop a staff member's own dashboard showing somebody else's data:
+// can_view_client() returns true for staff on every participant, so an unscoped
+// limit(1) on a shared table returns whichever row sorted first. The admin's own
+// dashboard rendered another participant's weekly review, which is how this was
+// found.
+//
+// RLS stays the security boundary. The query still has to say what it wants.
+const ME = session && session.user ? session.user.id : null;
 const profile = await currentProfile();
 if (profile) el('#who').textContent = profile.full_name.split(' ')[0].toUpperCase();
 
@@ -174,6 +192,7 @@ async function showBrief() {
   if (!m) return;
   const { data } = await sb.from('morning_briefs')
     .select('id, program_day, content, read_at')
+    .eq('client_id', ME)
     .eq('membership_id', m.id)
     .order('program_day', { ascending: false })
     .limit(1);
@@ -239,7 +258,7 @@ if (!m || !m.day_zero) {
 
   // Has today been logged?
   const { data: todayLog } = await sb.from('daily_logs')
-    .select('id, daily_five_score').eq('log_date', localDateStr()).maybeSingle();
+    .select('id, daily_five_score').eq('client_id', ME).eq('log_date', localDateStr()).maybeSingle();
   if (todayLog) {
     // A null five score is NOT zero of five. The check-in writes a daily_logs
     // row without touching this field, so treating null as 0 told a member who
@@ -304,6 +323,7 @@ if (!m || !m.day_zero) {
   const { data: pday } = await sb.rpc('program_day');
   const { data: todayPlan } = await sb.from('daily_plans')
     .select('id, plan_date, action_budget, ai_paused, adaptations, plan_actions(id, sort_order, action_text, why, confidence, review_on, missing_data, status, provenance, canonical_rules(evidence_tier, rule_key, version))')
+    .eq('client_id', ME)
     .order('plan_date', { ascending: false }).limit(1).maybeSingle();
 
   if (todayPlan && (todayPlan.plan_actions || []).length) {
@@ -370,6 +390,7 @@ if (!m || !m.day_zero) {
     sb.from('state_dimensions').select('dimension,is_scored,basis,label,body,instruments').order('sort_order'),
     sb.from('dimension_scores')
       .select('dimension,score,basis,draw_point,markers_expected,markers_present,computed_at')
+      .eq('client_id', ME)
       .order('computed_at', { ascending: true }),
     sb.from('feature_flags').select('key,enabled'),
   ]);
@@ -379,7 +400,7 @@ if (!m || !m.day_zero) {
   // the owner confirms a formula, and until then the dimensions launch without it.
   if (scoreOn) {
     const { data: bs } = await sb.from('battery_scores')
-      .select('composite,computed_at').order('computed_at', { ascending: true });
+      .select('composite,computed_at').eq('client_id', ME).order('computed_at', { ascending: true });
     const latest = (bs || []).length ? bs[bs.length - 1] : null;
     el('#scorebox').innerHTML = latest && latest.composite != null
       ? '<div class="center" style="margin-bottom:1rem">' +
@@ -458,6 +479,54 @@ if (!m || !m.day_zero) {
       '<p>' + esc(d.body || '') + '</p></div>').join('');
 
   // =================================================================
+  // THE WEEKLY REVIEW. D7.
+  //
+  // Rendered exactly as stored. _review.js is what guarantees no sentence claims
+  // a cause; rewording anything here would move that guarantee somewhere nothing
+  // checks.
+  // =================================================================
+  const { data: wr } = await sb.from('weekly_reviews')
+    .select('week_start, changed, stable, limitations, barriers, actions_done, actions_total, priorities, narrative')
+    .eq('client_id', ME)
+    .order('week_start', { ascending: false }).limit(1).maybeSingle();
+
+  if (wr) {
+    el('#reviewcard').style.display = 'block';
+    const weekEnd = (() => { const d = new Date(wr.week_start + 'T12:00:00Z');
+      d.setUTCDate(d.getUTCDate() + 6); return d.toISOString().slice(0, 10); })();
+    el('#review-h').textContent = 'Your week, ' + wr.week_start + ' to ' + weekEnd;
+
+    const list = (title, items) => items && items.length
+      ? '<p class="ci-q" style="margin:.8rem 0 .3rem">' + title + '</p>' +
+        items.map((s) => '<p class="today-why" style="margin:0 0 .3rem">' + esc(s) + '</p>').join('')
+      : '';
+
+    const assoc = (wr.priorities && wr.priorities.associations) || [];
+    const next = (wr.priorities && wr.priorities.next) || [];
+
+    el('#review-body').innerHTML =
+      (wr.narrative ? '<p style="margin:0 0 .6rem">' + esc(wr.narrative) + '</p>' : '') +
+      '<p class="sep-note">Everything below is something that happened in the same week as something else. None of it says one thing moved another, because a single week of one person cannot show that.</p>' +
+      list('What changed', (wr.changed || []).map((c) => c.sentence)) +
+      list('What held steady', (wr.stable || []).map((s) => s.sentence)) +
+      list('Where two things moved together', assoc) +
+      '<p class="ci-q" style="margin:.8rem 0 .3rem">Actions</p>' +
+      '<p class="today-why" style="margin:0">' +
+        esc(wr.actions_done) + ' of ' + esc(wr.actions_total) + ' completed' +
+        ((wr.barriers || []).length
+          ? '. You told us what got in the way ' + (wr.barriers || []).length + ' time' +
+            ((wr.barriers || []).length === 1 ? '' : 's') + '.'
+          : '.') +
+      '</p>' +
+      list('What this review cannot tell you', wr.limitations || []) +
+      (next.length
+        ? '<p class="ci-q" style="margin:.8rem 0 .3rem">Next week</p>' +
+          next.map((n) => '<p class="today-why" style="margin:0 0 .3rem">' + esc(n.text) +
+                          ' Reviewed on ' + esc(n.review_on) + '.</p>').join('')
+        : '');
+  }
+
+  // =================================================================
   // COMING UP. Upcoming assessments, with the actual dates, and data
   // completeness so a member can see what the program is missing from them.
   // =================================================================
@@ -484,6 +553,7 @@ if (!m || !m.day_zero) {
   // asserted, and a missing thing is named rather than shown as a zero.
   const { data: recentLogs } = await sb.from('daily_logs')
     .select('log_date, sleep_quality, energy, outdoor_daylight_min, movement_minutes, water_ml, first_meal_at, evening_light_low')
+    .eq('client_id', ME)
     .order('log_date', { ascending: false }).limit(14);
   const FIELD_LABEL = {
     sleep_quality: 'how you slept', energy: 'your energy',
@@ -493,7 +563,7 @@ if (!m || !m.day_zero) {
   const logs = recentLogs || [];
   const missing = Object.keys(FIELD_LABEL)
     .filter((f) => !logs.some((l) => l[f] !== null && l[f] !== undefined));
-  const { data: panels } = await sb.from('lab_panels').select('draw_point, drawn_on');
+  const { data: panels } = await sb.from('lab_panels').select('draw_point, drawn_on').eq('client_id', ME);
   const haveDay0 = (panels || []).some((x) => x.draw_point === 'day_0');
 
   let compl = '<p class="tiny" style="margin:0 0 .5rem">' +

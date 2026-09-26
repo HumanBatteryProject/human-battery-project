@@ -150,21 +150,36 @@ export async function onRequestPost({ request, env }) {
         continue;
       }
 
-      // Is a plan already written for this local date? Checked BEFORE the
-      // Explainer, not after.
+      // CLAIM THE DAY FIRST, then spend. Inserting the plan row before the
+      // Explainer runs makes the unique index on (client_id, plan_date) the thing
+      // that serialises two concurrent firings, so only the firing that wins the
+      // row pays for a model call.
       //
-      // It was after, and the replay proved the cost: the model was called, the
-      // insert then hit the unique index, and the call was paid for and thrown
-      // away. The brief job fires hourly, so that is up to 23 wasted calls per
-      // participant per day. A duplicate check that happens after the expensive
-      // step is not a duplicate check.
-      const already = await sb.one('daily_plans', {
-        where: { client_id: m.client_id, plan_date: today }, columns: 'id',
-      });
-      if (already) {
-        out.skipped_existing++;
-        out.members.push({ ...row, skipped: 'a plan already exists for this local date', plan_id: already.id });
-        continue;
+      // A read-then-write check was not enough: two firings both read "no plan
+      // yet", both called the model, one inserted and one was rejected, and the
+      // rejected one had already paid. Measured, not assumed: two concurrent
+      // firings produced one plan and two model calls.
+      //
+      // The row is claimed as rules-only. If the Explainer then succeeds it is
+      // updated. A crash between the two leaves a valid rules-only plan, which is
+      // the right thing to be left with.
+      let planId = null;
+      if (!dryRun) {
+        try {
+          const rows = await sb.insert('daily_plans', {
+            client_id: m.client_id, membership_id: m.id, plan_date: today,
+            generated_by: 'rules', ai_paused: true, canon_version: CANON_VERSION,
+            adaptations, action_budget: budget,
+          }, { returning: true });
+          planId = rows && rows[0] && rows[0].id;
+        } catch (e) {
+          if (/duplicate key|23505/.test(String(e))) {
+            out.skipped_existing++;
+            out.members.push({ ...row, skipped: 'a plan already exists for this local date' });
+            continue;
+          }
+          throw e;
+        }
       }
 
       // Explainer. One constrained call for the whole plan, not one per action:
@@ -233,25 +248,10 @@ export async function onRequestPost({ request, env }) {
         continue;
       }
 
-      // Write. One plan per participant per local date, enforced by the unique
-      // index, so two firings produce one plan.
-      let planId = null;
-      try {
-        const rows = await sb.insert('daily_plans', {
-          client_id: m.client_id, membership_id: m.id, plan_date: today,
-          program_day: m.day_zero ? null : null,
-          generated_by: aiPaused ? 'rules' : 'rules+explainer',
-          ai_paused: aiPaused, canon_version: CANON_VERSION,
-          adaptations, action_budget: budget,
-        }, { returning: true });
-        planId = rows && rows[0] && rows[0].id;
-      } catch (e) {
-        if (/duplicate key|23505/.test(String(e))) {
-          out.skipped_existing++;
-          out.members.push({ ...row, skipped: 'a plan already exists for this local date' });
-          continue;
-        }
-        throw e;
+      // The row already exists. Record what the Explainer produced, if anything.
+      if (!aiPaused) {
+        await sb.update('daily_plans', { id: planId },
+          { generated_by: 'rules+explainer', ai_paused: false });
       }
 
       for (const s of selected) {

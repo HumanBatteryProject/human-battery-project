@@ -16,7 +16,9 @@ compatibility_date = "2026-09-01"
 #   participant's own timezone. A charge it cannot attempt is recorded as blocked,
 #   never as a payment failure: a vendor outage is not somebody failing to pay.
 # Daily 11:00 UTC: the daily plan. Before the brief, because the brief reads it.
-crons = ["0 * * * *", "0 13 * * 1", "0 15 * * *", "0 16 * * *", "0 11 * * *"]
+# Monday 12:00 UTC: the member facing weekly review, before the trend pass that
+#   proposes changes, so a member reads what happened before anything is proposed.
+crons = ["0 * * * *", "0 13 * * 1", "0 15 * * *", "0 16 * * *", "0 11 * * *", "0 12 * * 1"]
 
 [vars]
 SITE_ORIGIN = "https://thehumanbatteryproject.com"
