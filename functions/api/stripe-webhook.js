@@ -221,11 +221,11 @@ async function enrolMembership(env, clientId, meta) {
   }
   const dayZero = await res.json();
 
-  // memberships.cohort_id is still required, so the membership joins the
-  // wave whose start date matches. The wave caps nothing.
-  const waves = await supabase(env, `cohorts?starts_on=eq.${dayZero}&select=id&limit=1`);
-  if (!waves.length) {
-    console.error(`[webhook] no wave row for ${dayZero}. Run create_waves().`);
+  // No cohort lookup. Removed in 061: every participant is an N of 1 and a
+  // membership belongs to a person, a start date and a cycle number. day_zero is
+  // the start date and there is nothing to join.
+  if (!dayZero) {
+    console.error('[webhook] no start date available for enrolment');
     return null;
   }
 
@@ -250,7 +250,7 @@ async function enrolMembership(env, clientId, meta) {
   const created = await supabase(env, 'memberships', {
     method: 'POST',
     headers: { Prefer: 'return=representation' },
-    body: JSON.stringify({ client_id: clientId, cohort_id: waves[0].id, cycle: 1, ...patch }),
+    body: JSON.stringify({ client_id: clientId, cycle: 1, ...patch }),
   });
   const id = created && created.length ? created[0].id : null;
   console.log(`[webhook] membership ${id} created for ${clientId}, day_zero ${dayZero}`);

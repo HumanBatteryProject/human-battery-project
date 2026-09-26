@@ -45,18 +45,11 @@ problems = []
 if db_cents != code_cents:
     problems.append(f'_payments.js says {code_cents}, program_settings says {db_cents}')
 
-# The INTERNAL cohort is priced at 0 on purpose: internal members are never
-# billed, which is the whole point of is_internal. Exempted by name rather than
-# by "ignore any zero price", because a zero on a real cohort would mean the
-# program is free and that must fail loudly.
-INTERNAL_COHORTS = {'INTERNAL'}
-for c in get('cohorts?select=code,price_cents'):
-    if c['code'] in INTERNAL_COHORTS:
-        if int(c.get('price_cents') or 0) != 0:
-            problems.append(f"cohort {c['code']} is an internal cohort and must be priced 0, not {c['price_cents']}")
-        continue
-    if c.get('price_cents') is not None and int(c['price_cents']) != code_cents:
-        problems.append(f"cohort {c['code']} says {c['price_cents']}, _payments.js says {code_cents}")
+# cohorts no longer govern anything. Removed from this check in 061: there are no
+# cohorts, every participant is an N of 1, and membership does not reference one.
+# The price now has exactly two homes, _payments.js and program_settings, which
+# is what the two way comparison above covers. Checking a deprecated table would
+# be checking something that cannot affect a charge.
 
 if problems:
     print('  PRICE DRIFT:', file=sys.stderr)

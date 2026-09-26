@@ -19,7 +19,6 @@ export async function onRequestPost({ request, env }) {
 
   const planKey = String(body.plan || '');
   const email = String(body.email || '').trim().toLowerCase();
-  const cohortId = String(body.cohort_id || '');
 
   if (!isValidPlan(planKey)) return json({ error: 'Unknown plan' }, 400);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: 'Invalid email' }, 400);
@@ -29,7 +28,7 @@ export async function onRequestPost({ request, env }) {
   // application is the gate, and the only one.
   const apps = await supabase(
     env,
-    `applications?email=eq.${encodeURIComponent(email)}&status=eq.accepted&select=id,name,cohort_id`
+    `applications?email=eq.${encodeURIComponent(email)}&status=eq.accepted&select=id,name`
   );
   if (!apps.length) {
     return json({ error: 'We do not have an accepted application for that email' }, 403);
@@ -53,7 +52,6 @@ export async function onRequestPost({ request, env }) {
     metadata: {
       plan: planKey,
       application_id: application.id,
-      cohort_id: cohortId || application.cohort_id || '',
       program_total_cents: String(amounts.reduce((a, b) => a + b, 0)),
     },
   };

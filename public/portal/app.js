@@ -64,7 +64,9 @@ export async function signOut() {
 export async function activeMembership() {
   const { data } = await sb
     .from('memberships')
-    .select('id, day_zero, status, tier, cycle, omega3_kit_posted_at, omega3_baseline_waived_at, omega3_collected_on, cohort_id, cohorts(code, name, starts_on, ends_on)')
+    // No cohort. Every participant is an N of 1: the membership is the person, the
+    // start date and the cycle number, and nothing groups them with anyone else.
+    .select('id, day_zero, status, tier, cycle, omega3_kit_posted_at, omega3_baseline_waived_at, omega3_collected_on')
     .in('status', ['active', 'enrolled'])
     .order('created_at', { ascending: false })
     .limit(1);

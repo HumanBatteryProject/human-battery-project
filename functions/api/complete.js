@@ -128,10 +128,29 @@ export async function onRequestPost({ request, env }) {
     applied.push({ param: p.param, carried: Number(p.to_value), next: v, capped: scaled.capped });
   }
 
+  // The next cycle's start date: the next 1st or 15th after this one ended, with
+  // no lead time, because a continuing participant already has a protocol and
+  // their day 90 draw is the next cycle's day 0 draw. A cycle with no day_zero
+  // has no program day and the brief cannot place it, which is exactly what
+  // happened the first time chaining succeeded.
+  let nextStart = null;
+  try {
+    const r = await sb.rpc('next_start_date_after', { p_after: endDate });
+    nextStart = typeof r === 'string' ? r : (Array.isArray(r) ? r[0] : (r && r.next_start_date_after)) || null;
+  } catch (e) {
+    console.warn('[complete] next start date lookup failed:', String(e).slice(0, 140));
+  }
+
   let next, nErr = null;
   try { next = (await sb.insert('memberships', {
     client_id: clientId, tier: nxt.next_tier, cycle: Number(m.cycle || 1) + 1,
+    day_zero: nextStart,
     intensity_multiplier: nxt.next_multiplier, previous_membership_id: m.id,
+    // There is no cohort. Removed in 061: memberships was unique on
+    // (client_id, cohort_id) with cohort_id NOT NULL, which meant cycle 2 for the
+    // same person was a duplicate and chaining could not work at all. The
+    // invariant is now unique (client_id, cycle).
+    //
     // 'pending' is not a membership_status. The enum is invited, enrolled,
     // active, completed, withdrawn, so every attempt to chain a next cycle
     // failed with 22P02 and cycle chaining has never once worked. Found by the
@@ -143,7 +162,7 @@ export async function onRequestPost({ request, env }) {
     // program_settings.day_90_default is 'lapse', so a cycle that started
     // itself would contradict both. Activating it is the continuation
     // purchase, built on Day 10.
-    status: 'enrolled', arm: m.arm, cohort_id: m.cohort_id, is_internal: m.is_internal,
+    status: 'enrolled', arm: m.arm, is_internal: m.is_internal,
   }, { returning: true }))[0]; } catch (e) { nErr = { message: String(e) }; }
   if (nErr || !next) return json({ error: (nErr && nErr.message) || 'no next cycle', summary_id: summary.id }, 500);
 
@@ -152,7 +171,7 @@ export async function onRequestPost({ request, env }) {
     summary_id: summary.id,
     composite_change: composite, improved, adherence_pct: adherence,
     dimensions,
-    next: { membership_id: next.id, tier: nxt.next_tier, cycle: next.cycle,
+    next: { membership_id: next.id, tier: nxt.next_tier, cycle: next.cycle, day_zero: nextStart,
             multiplier: nxt.next_multiplier, reason: nxt.reason,
             carried_parameters: applied },
   });

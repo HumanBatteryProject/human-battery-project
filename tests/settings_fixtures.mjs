@@ -93,6 +93,14 @@ ok('a malformed date is not founding rather than throwing',
 ok('a missing window is not founding, so an unset window never gives the price away',
    inFoundingWindow('2026-10-15', null) === false);
 
+// Cycle chaining means a participant has more than one start date, and the
+// founding window must key on the first. This is the case that would otherwise
+// hand somebody a founding price on their fourth cycle in 2028.
+ok('a later cycle start date outside the window does not qualify',
+   inFoundingWindow('2028-03-01', '2026-12-31') === false);
+ok('the first cycle start inside the window does qualify',
+   inFoundingWindow('2026-10-15', '2026-12-31') === true);
+
 console.log('\nNo price is written in code');
 // The whole point of the settings table. A literal price in a shipped file is
 // the thing this replaces.

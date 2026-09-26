@@ -62,6 +62,7 @@ run coach_fixtures      $PY tests/coach_fixtures.py
 # The constant pins. A behavioural fixture passes at whatever the constant
 # currently is; this is the only thing that notices the number moved.
 run consent_fixtures    node tests/consent_fixtures.mjs
+run cohortless_fixtures node tests/cohortless_fixtures.mjs
 run constants_pinned    node tests/constants_pinned.mjs
 
 # check_claims runs LAST, per CLAUDE.md: it is the one that has to see the tree

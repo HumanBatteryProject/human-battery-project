@@ -79,6 +79,12 @@ export async function settings(env, keys) {
  * section 1 resolved the vision document's "no artificial scarcity" against
  * Brief 07's count cap in favour of a real deadline.
  *
+ * PASS THE FIRST CYCLE'S day_zero, not the current one. With cycle chaining a
+ * participant has several memberships with several start dates, and measuring
+ * the window against a later one would re-qualify them for a founding price
+ * every time they continued. first_start_date(client) in the database is the one
+ * right way to get it.
+ *
  * Pure so it can be tested without a database. dayZero and windowEnd are both
  * plain YYYY-MM-DD strings, compared as strings because that is exactly
  * date order for this format and avoids every timezone question a Date would
