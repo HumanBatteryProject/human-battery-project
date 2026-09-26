@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=18">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -69,6 +69,16 @@
         <p id="gatemsg" class="msg"></p>
       </section>
 
+      <!-- D6 puts today's plan first. It is the only thing on this screen that
+           asks anything of the participant today. -->
+      <section class="card" id="todaycard" style="display:none">
+        <h2 id="today-h">Today</h2>
+        <p class="sep-note" id="today-note"></p>
+        <div id="today-actions"></div>
+        <div id="today-withheld"></div>
+        <p class="tiny mt" style="margin-bottom:0"><a href="/portal/checkin.html">Answer these on your check-in</a></p>
+      </section>
+
       <section class="card" id="briefcard">
         <h2 id="brieftitle">Today</h2>
         <div id="brief" class="quiet"><p style="margin-bottom:0">Your morning brief will appear here.</p></div>
@@ -110,11 +120,21 @@
       <p class="tiny mt" style="margin-bottom:0">Last two weeks. A missed day is a missed day, not a failure. The number that matters is the percentage, and it only goes up from here.</p>
     </section>
 
-    <section class="card" id="scorecard" style="display:none">
-      <h2>Your battery</h2>
-      <p class="quiet" style="margin-bottom:.9rem">Your Battery Score is a proxy, assembled from what can be measured today. It is not a validated clinical measure.</p>
-      <div id="scores"></div>
+    <!-- BIOLOGY. Its own card, separate from the behaviour card above it. D6:
+         completing a habit must not imply a laboratory abnormality improved, and
+         two things in one container read as one thing. -->
+    <section class="card" id="biologycard">
+      <h2>What has been measured in you</h2>
+      <p class="sep-note">Measurements only: blood, tests, and the timing derived from them. Nothing here moves when you complete an action. Your habits are in the card above, and they are what change these over months rather than days.</p>
+      <div id="scorebox"></div>
+      <div id="dimensions"></div>
+      <div id="frontierbox" class="mt"></div>
       <a class="btn btn-sm mt" href="/portal/labs.html">See the markers</a>
+    </section>
+
+    <section class="card" id="assesscard">
+      <h2>Coming up</h2>
+      <div id="assessments"></div>
     </section>
 
     <section class="card" id="nextcard">
@@ -137,7 +157,7 @@
 
 <script type="module">
 import { sb, requireAuth, currentProfile, activeMembership, programDay,
-         adherenceStats, localDateStr, el } from './app.js?v=c1d7589d';
+         adherenceStats, localDateStr, el, esc } from './app.js?v=8a8e67de';
 
 await requireAuth();
 const profile = await currentProfile();
@@ -221,7 +241,13 @@ if (!m || !m.day_zero) {
   const { data: todayLog } = await sb.from('daily_logs')
     .select('id, daily_five_score').eq('log_date', localDateStr()).maybeSingle();
   if (todayLog) {
-    el('#logcta').textContent = 'Update today, ' + (todayLog.daily_five_score ?? 0) + ' of 5';
+    // A null five score is NOT zero of five. The check-in writes a daily_logs
+    // row without touching this field, so treating null as 0 told a member who
+    // had just completed their check-in that they had done none of the daily
+    // five, which the check-in never asked them about.
+    el('#logcta').textContent = todayLog.daily_five_score == null
+      ? 'Update today'
+      : 'Update today, ' + todayLog.daily_five_score + ' of 5';
     el('#logcta').classList.remove('btn-solid');
   }
 
@@ -237,7 +263,10 @@ if (!m || !m.day_zero) {
     const key = d.toISOString().slice(0,10);
     const rec = byDate[key];
     const dot = document.createElement('div');
-    const score = rec ? (rec.daily_five_score ?? 0) : null;
+    // Same rule for the fourteen day strip: a day with a log but no five score
+    // is a day nothing was counted on, not a day scored zero, so it gets the
+    // same muted colour as a day with no log at all.
+    const score = rec && rec.daily_five_score != null ? rec.daily_five_score : null;
     dot.style.cssText = 'flex:1;height:24px;border-radius:2px;' +
       (score === null ? 'background:rgba(168,160,150,.14)'
        : score >= 4 ? 'background:#3987E5'
@@ -247,43 +276,252 @@ if (!m || !m.day_zero) {
     dots.appendChild(dot);
   }
 
-  // Battery Score, if a panel has been scored
-  const { data: scores } = await sb.from('battery_scores')
-    .select('composite, charge_score, drain_score, output_score, reserve_score, computed_at')
-    .order('computed_at', { ascending: true });
-  if (scores && scores.length) {
-    el('#scorecard').style.display = 'block';
-    const latest = scores[scores.length - 1];
-    const first = scores[0];
-    const parts = [
-      ['Charge','charge_score','s-charge'],
-      ['Drain','drain_score','s-drain'],
-      ['Output','output_score','s-output'],
-      ['Reserve','reserve_score','s-reserve'],
-    ];
-    let html = '<div class="center" style="margin-bottom:1.2rem">' +
-      '<div class="bignum">' +
-      (latest.composite ?? '\u2014') + '</div><div class="tiny">battery score</div>';
-    if (scores.length > 1 && first.composite != null && latest.composite != null) {
-      const d = (latest.composite - first.composite).toFixed(1);
-      html += '<div class="tiny ' + (d > 0 ? 'up' : d < 0 ? 'down' : 'flat') +
-              '" style="margin-top:.3rem">' + (d > 0 ? '+' : '') + d + ' since day 0</div>';
+  const TIER_WORD = {
+    established: 'We know this',
+    strong: 'We are confident',
+    emerging: 'Early evidence',
+    contested: 'Published, and argued about',
+    hypothesis: "Dr. Micah's idea, being tested",
+    // `unsupported` is deliberately absent. It must never render to a member,
+    // so a missing key renders no badge at all rather than a fallback.
+  };
+  const tierBadge = (tier) => {
+    const word = TIER_WORD[tier];
+    if (!word) return '';
+    return '<span class="tier tier-' + esc(tier) + '" title="Evidence tier: ' + esc(tier) +
+           '"><i></i>' + esc(word) + '</span>';
+  };
+  // Master prompt C2: every rendered number carries its provenance.
+  const basisTag = (b) => '<span class="basis">' + esc(String(b || 'unknown')) + '</span>';
+
+  // =================================================================
+  // BEHAVIOUR. Today's plan, and what was withheld from it.
+  //
+  // Kept in its own card, above and apart from the biology card, because D6 is
+  // explicit that completing a habit must not imply a laboratory abnormality
+  // improved. The separation is structural, not a caption.
+  // =================================================================
+  const { data: pday } = await sb.rpc('program_day');
+  const { data: todayPlan } = await sb.from('daily_plans')
+    .select('id, plan_date, action_budget, ai_paused, adaptations, plan_actions(id, sort_order, action_text, why, confidence, review_on, missing_data, status, provenance, canonical_rules(evidence_tier, rule_key, version))')
+    .order('plan_date', { ascending: false }).limit(1).maybeSingle();
+
+  if (todayPlan && (todayPlan.plan_actions || []).length) {
+    el('#todaycard').style.display = 'block';
+    el('#today-h').textContent = pday ? 'Today, day ' + pday : 'Today';
+    const acts = [...todayPlan.plan_actions].sort((a, b) => a.sort_order - b.sort_order);
+    const CONF = {
+      good: 'from a good run of your own logs',
+      limited: 'from the little you have logged so far',
+      insufficient: 'chosen without your data, because there is none yet',
+    };
+    el('#today-note').textContent =
+      'These are things to do. They are drawn from the approved protocol and from what you have logged, and doing them does not change any measurement below on its own.';
+    el('#today-actions').innerHTML = acts.map((a) =>
+      '<div class="today-action">' +
+        '<p>' + esc(a.action_text) + ' ' +
+          // The tier of the rule this came from. `unsupported` renders nothing,
+          // so an action from an untiered rule shows no badge rather than a
+          // reassuring one.
+          tierBadge(a.canonical_rules && a.canonical_rules.evidence_tier) + '</p>' +
+        '<p class="today-why">' + esc(a.why) +
+          ' Reviewed on ' + esc(a.review_on) + '.' +
+          ' Confidence: ' + esc(CONF[a.confidence] || a.confidence) + '.' +
+          ((a.missing_data || []).length
+            ? ' Still missing: ' + esc((a.missing_data || []).join(', ')) + '.' : '') +
+          ' Based on ' + esc(String(a.provenance).replace('_', ' ')) + '.' +
+        '</p>' +
+      '</div>').join('');
+
+    // What was held back, and why, in words. D4 and D13.4 both require this: a
+    // plan that silently omits something is a plan that cannot be questioned.
+    const { data: withheld } = await sb.from('plan_exclusions')
+      .select('basis, reason').eq('plan_id', todayPlan.id);
+    const shownBases = new Set(['contraindication', 'barrier', 'screening']);
+    const visible = (withheld || []).filter((w) => shownBases.has(w.basis));
+    el('#today-withheld').innerHTML = visible.length
+      ? visible.map((w) => '<p class="withheld">' + esc(w.reason) + '</p>').join('')
+      : '';
+    // What changed since the last plan, if anything did.
+    const adapt = todayPlan.adaptations || [];
+    if (adapt.length) {
+      el('#today-withheld').innerHTML += adapt
+        .filter((a) => a.change === 'fewer_actions')
+        .map((a) => '<p class="withheld">' + esc(a.reason) + '</p>').join('');
     }
-    html += '</div>';
-    parts.forEach(([label, key, cls]) => {
-      const v = latest[key];
-      html += '<div class="row"><label><span class="sysdot ' + cls + '"></span>' + label + '</label>' +
-              '<span style="font-variant-numeric:tabular-nums">' + (v ?? '\u2014') + '</span></div>';
-    });
-    el('#scores').innerHTML = html;
+    if (todayPlan.ai_paused) {
+      el('#today-withheld').innerHTML +=
+        '<p class="withheld">Written from the approved rules alone today. The wording help is switched off, which changes nothing about what is being asked of you.</p>';
+    }
   }
+
+  // =================================================================
+  // BIOLOGY. Five measurable dimensions, the three frontier ones, and the
+  // composite behind its flag.
+  //
+  // The four subsystems this card used to draw (charge, drain, output, reserve)
+  // are gone. Chapter 21 is canonical: five scored dimensions, and the database
+  // has not held a subsystem score since the mapping migration. The card was
+  // drawing a model the data no longer had, from battery_scores, which has zero
+  // rows.
+  // =================================================================
+
+  const [{ data: dims }, { data: dscores }, { data: flags }] = await Promise.all([
+    sb.from('state_dimensions').select('dimension,is_scored,basis,label,body,instruments').order('sort_order'),
+    sb.from('dimension_scores')
+      .select('dimension,score,basis,draw_point,markers_expected,markers_present,computed_at')
+      .order('computed_at', { ascending: true }),
+    sb.from('feature_flags').select('key,enabled'),
+  ]);
+  const scoreOn = (flags || []).some((f) => f.key === 'BATTERY_SCORE_ENABLED' && f.enabled);
+
+  // The composite, only behind its flag. Master prompt C4: it stays hidden until
+  // the owner confirms a formula, and until then the dimensions launch without it.
+  if (scoreOn) {
+    const { data: bs } = await sb.from('battery_scores')
+      .select('composite,computed_at').order('computed_at', { ascending: true });
+    const latest = (bs || []).length ? bs[bs.length - 1] : null;
+    el('#scorebox').innerHTML = latest && latest.composite != null
+      ? '<div class="center" style="margin-bottom:1rem">' +
+          '<div class="bignum">' + esc(latest.composite) + '</div>' +
+          '<div class="tiny">battery score ' + basisTag('calculated') + '</div>' +
+          '<p class="sep-note" style="margin-top:.6rem;text-align:left">Your Battery Score is a proxy, assembled from what can be measured today. It is not a validated clinical measure.</p>' +
+        '</div>'
+      : '';
+  } else {
+    // Said out loud rather than silently omitted. A member who has heard of the
+    // Score and cannot see it deserves to know why.
+    el('#scorebox').innerHTML =
+      '<p class="sep-note">There is no single Battery Score here yet. The five dimensions below are each measured on their own, and a combined number is not shown until the formula that produces it has been approved. Showing one before then would be inventing a figure.</p>';
+  }
+
+  // Latest score per dimension, and the first, so a trend can be honest about
+  // needing two points.
+  const byDim = {};
+  for (const s of (dscores || [])) {
+    if (!byDim[s.dimension]) byDim[s.dimension] = [];
+    byDim[s.dimension].push(s);
+  }
+
+  const scored = (dims || []).filter((d) => d.is_scored);
+  const frontier = (dims || []).filter((d) => !d.is_scored);
+
+  el('#dimensions').innerHTML = scored.map((d) => {
+    const series = byDim[d.dimension] || [];
+    const latest = series.length ? series[series.length - 1] : null;
+    const first = series.length ? series[0] : null;
+    let trend = '';
+    // A sparkline needs two points. One point is not a trend and must not be
+    // drawn as one.
+    if (series.length > 1 && first.score != null && latest.score != null) {
+      const delta = Number(latest.score) - Number(first.score);
+      trend = '<div class="dim-cov">' + (delta > 0 ? 'up ' : delta < 0 ? 'down ' : 'level, ') +
+              (delta === 0 ? '' : Math.abs(delta).toFixed(0) + ' ') +
+              'since your first draw</div>';
+    } else if (series.length === 1) {
+      trend = '<div class="dim-cov">One measurement so far. A second one is what makes a direction.</div>';
+    }
+
+    let value, coverage = '';
+    if (latest && latest.score != null) {
+      value = '<span class="dim-val">' + esc(Number(latest.score).toFixed(0)) + '</span> ' + basisTag(latest.basis);
+      // Coverage in words, per the narrowed rule 8d: a dimension may report its
+      // own marker count.
+      if (latest.markers_expected) {
+        const present = latest.markers_present == null ? 0 : latest.markers_present;
+        coverage = '<div class="dim-cov">From ' + present + ' of the ' + latest.markers_expected +
+                   ' marker' + (latest.markers_expected === 1 ? '' : 's') + ' this dimension uses.</div>';
+      }
+    } else {
+      // Never a null that reads as zero. The sentence says what is actually
+      // true: this has not been measured yet, and what would measure it.
+      value = '<span class="dim-cov">not measured yet</span>';
+      coverage = '<p class="dim-none">' + esc(d.body || '') +
+                 (d.instruments ? ' Measured by: ' + esc(d.instruments) + '.' : '') + '</p>';
+    }
+
+    return '<div class="dim dim-' + esc(d.dimension) + '">' +
+      '<div class="dim-head">' +
+        '<span class="dim-name"><span class="dim-mark"></span>' + esc(d.label) + '</span>' +
+        '<span>' + value + '</span>' +
+      '</div>' + coverage + trend +
+    '</div>';
+  }).join('');
+
+  // The three frontier dimensions. Named, with the reason, and carrying NO
+  // number: master prompt B1 forbids a fabricated value, a progress bar or a
+  // score contribution for these.
+  el('#frontierbox').innerHTML =
+    '<p class="sep-note" style="margin-bottom:.5rem">Three more parts of the model are named in the book and are not measured here, because no instrument measures them in a whole person yet. They carry no number on purpose. The Score is complete across what can be measured today.</p>' +
+    frontier.map((d) =>
+      '<div class="frontier"><b>' + esc(d.label) + ' ' + basisTag('frontier') + '</b>' +
+      '<p>' + esc(d.body || '') + '</p></div>').join('');
+
+  // =================================================================
+  // COMING UP. Upcoming assessments, with the actual dates, and data
+  // completeness so a member can see what the program is missing from them.
+  // =================================================================
+  const upcoming = [];
+  if (m && m.day_zero) {
+    const dayOf = (n) => {
+      const d = new Date(m.day_zero + 'T12:00:00Z');
+      d.setUTCDate(d.getUTCDate() + n - 1);
+      return d.toISOString().slice(0, 10);
+    };
+    const now = pday || 0;
+    // Day 0 and day 90 are the assessment anchors, and the actual dates are what
+    // a person can put in a calendar.
+    const marks = [
+      [1, 'Day 1, your start', dayOf(1)],
+      [90, 'Day 90, your second blood draw and tests', dayOf(90)],
+    ];
+    for (const [n, label, date] of marks) {
+      if (n >= now) upcoming.push({ label, date, days: n - now });
+    }
+  }
+
+  // What the program has, and what it is waiting for. Counted rather than
+  // asserted, and a missing thing is named rather than shown as a zero.
+  const { data: recentLogs } = await sb.from('daily_logs')
+    .select('log_date, sleep_quality, energy, outdoor_daylight_min, movement_minutes, water_ml, first_meal_at, evening_light_low')
+    .order('log_date', { ascending: false }).limit(14);
+  const FIELD_LABEL = {
+    sleep_quality: 'how you slept', energy: 'your energy',
+    outdoor_daylight_min: 'time outside', movement_minutes: 'movement',
+    water_ml: 'water', first_meal_at: 'meal times', evening_light_low: 'evening light',
+  };
+  const logs = recentLogs || [];
+  const missing = Object.keys(FIELD_LABEL)
+    .filter((f) => !logs.some((l) => l[f] !== null && l[f] !== undefined));
+  const { data: panels } = await sb.from('lab_panels').select('draw_point, drawn_on');
+  const haveDay0 = (panels || []).some((x) => x.draw_point === 'day_0');
+
+  let compl = '<p class="tiny" style="margin:0 0 .5rem">' +
+    (logs.length
+      ? 'You have logged on ' + logs.length + ' of the last 14 days.'
+      : 'You have not logged anything in the last 14 days.') + '</p>';
+  if (missing.length) {
+    compl += '<p class="sep-note" style="margin:0 0 .7rem">Never logged: ' +
+      esc(missing.map((f) => FIELD_LABEL[f]).join(', ')) +
+      '. Those are the parts the program cannot see, so anything it says about them is guesswork rather than measurement.</p>';
+  }
+  if (!haveDay0) {
+    compl += '<p class="sep-note" style="margin:0 0 .7rem">No day 0 blood panel is recorded yet. Until it is, four of the five dimensions have nothing to be measured from and will keep saying so.</p>';
+  }
+
+  el('#assessments').innerHTML = compl + (upcoming.length
+    ? upcoming.map((u) => '<div class="row"><label>' + esc(u.label) + '</label>' +
+        '<span>' + esc(u.date) + (u.days > 0 ? ', in ' + u.days + ' day' + (u.days === 1 ? '' : 's') : ', today') + '</span></div>').join('')
+    : '<p class="quiet" style="margin:0">Nothing scheduled yet. Your dates appear here once your start date is set.</p>');
 
   // What's next
   const next = [];
   if (!todayLog) next.push('Log today. It takes under a minute.');
   if (shown <= 7) next.push('Book your day 0 blood draw if you have not yet.');
   if (shown >= 83 && shown <= 90) next.push('Book your day 90 draw: same lab, same fasting state, same hour of the morning.');
-  if (!scores || !scores.length) next.push('Your day 0 results will appear here once they are back and entered.');
+  // dscores, not the removed battery_scores array: the question is the same and
+  // the five dimensions are what answers it now.
+  if (!dscores || !dscores.length) next.push('Your day 0 results will appear here once they are back and entered.');
   if (!next.length) next.push('Nothing outstanding. Keep going.');
   el('#next').innerHTML = next.map(n => '<p class="quiet" style="margin-bottom:.6rem">' + n + '</p>').join('');
 }

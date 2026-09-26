@@ -201,6 +201,20 @@ export const MODALITIES = [
 // ---------------------------------------------------------------------
 // UI helpers
 // ---------------------------------------------------------------------
+// HTML escaping, in ONE place. Four identical copies of this lived across the
+// portal pages. An escaper is security relevant, so four copies that must stay
+// identical is four chances for one to drift and open an injection hole on a
+// single page while the others look fine.
+//
+// Escapes the five characters that matter inside an element or a double quoted
+// attribute. Never use this for a URL, a style or an unquoted attribute: those
+// need different escaping and this would look like it had handled them.
+export function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
 export function el(sel) { return document.querySelector(sel); }
 export function els(sel) { return Array.from(document.querySelectorAll(sel)); }
 

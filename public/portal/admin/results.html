@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=18">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
 </head><body>
 
 <header class="bar"><div class="wrap">
@@ -37,7 +37,7 @@
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast } from '../app.js?v=c1d7589d';
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=8a8e67de';
 await requireAuth();
 
 // The point of this screen is one comparison: the number the client typed
@@ -72,8 +72,6 @@ if (!me || !['admin', 'coach'].includes(me.role)) {
       panels.get(key).results.push(r);
     });
 
-    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
-      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     let html = '<div class="card"><h2>' + rows.length + ' to check</h2>' +
       '<p class="tiny" style="margin:0">Open the report, compare the number, mark it checked. ' +
@@ -142,8 +140,6 @@ if (!me || !['admin', 'coach'].includes(me.role)) {
 // is in, or that it was never a result.
 // ---------------------------------------------------------------------
 async function renderHeld() {
-  const escH = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   const { data: held, error: he } = await sb.from('lab_results_held')
     .select('id, reported_name, reported_value, reported_unit, reason, held_at, lab_panels(drawn_on), profiles!lab_results_held_client_id_fkey(full_name, email)')
@@ -152,7 +148,7 @@ async function renderHeld() {
 
   if (he) {
     el('#held').innerHTML = '<div class="card"><h2>Held results did not load</h2><p class="quiet">' +
-      escH(he.message) + '</p></div>';
+      esc(he.message) + '</p></div>';
     el('#held').style.display = 'block';
     return;
   }
@@ -171,8 +167,8 @@ async function renderHeld() {
   };
 
   const opts = (markers || []).map((m) =>
-    '<option value="' + escH(m.id) + '" data-unit="' + escH(m.unit) + '">' +
-    escH(m.name) + ' (' + escH(m.unit) + ')</option>').join('');
+    '<option value="' + esc(m.id) + '" data-unit="' + esc(m.unit) + '">' +
+    esc(m.name) + ' (' + esc(m.unit) + ')</option>').join('');
 
   let h = '<div class="card"><h2>' + held.length + ' held, not scored</h2>' +
     '<p class="tiny" style="margin:0">These did not enter anyone\'s Score. They are not missing and they are not zero: ' +
@@ -181,21 +177,21 @@ async function renderHeld() {
 
   held.forEach((r) => {
     const [title, what] = REASON[r.reason] || [r.reason, ''];
-    h += '<section class="card" data-held="' + escH(r.id) + '">' +
-      '<h2>' + escH(r.reported_name) + '</h2>' +
+    h += '<section class="card" data-held="' + esc(r.id) + '">' +
+      '<h2>' + esc(r.reported_name) + '</h2>' +
       '<p class="tiny" style="margin:-.5rem 0 .8rem">' +
-      escH(r.profiles ? (r.profiles.full_name || r.profiles.email) : 'Unknown person') +
-      (r.lab_panels && r.lab_panels.drawn_on ? ' &middot; collected ' + escH(r.lab_panels.drawn_on) : '') +
-      ' &middot; held ' + escH(String(r.held_at).slice(0, 10)) + '</p>' +
-      '<p><b>' + escH(title) + '.</b> <span class="quiet">' + escH(what) + '</span></p>' +
-      '<p>Reported as <b>' + escH(r.reported_value) + '</b> ' +
-      (r.reported_unit ? escH(r.reported_unit) : '<span class="quiet">with no unit</span>') + '</p>' +
+      esc(r.profiles ? (r.profiles.full_name || r.profiles.email) : 'Unknown person') +
+      (r.lab_panels && r.lab_panels.drawn_on ? ' &middot; collected ' + esc(r.lab_panels.drawn_on) : '') +
+      ' &middot; held ' + esc(String(r.held_at).slice(0, 10)) + '</p>' +
+      '<p><b>' + esc(title) + '.</b> <span class="quiet">' + esc(what) + '</span></p>' +
+      '<p>Reported as <b>' + esc(r.reported_value) + '</b> ' +
+      (r.reported_unit ? esc(r.reported_unit) : '<span class="quiet">with no unit</span>') + '</p>' +
       '<div class="held-fix">' +
         '<label class="tiny">Which marker<select data-marker><option value="">Pick one</option>' + opts + '</select></label>' +
-        '<label class="tiny">Unit<input data-unit type="text" value="' + escH(r.reported_unit || '') + '" placeholder="as printed"></label>' +
+        '<label class="tiny">Unit<input data-unit type="text" value="' + esc(r.reported_unit || '') + '" placeholder="as printed"></label>' +
       '</div>' +
-      '<p><button class="btn btn-sm" data-map="' + escH(r.id) + '">Save as a result</button> ' +
-      '<button class="btn btn-sm" data-discard="' + escH(r.id) + '">Not a result</button></p>' +
+      '<p><button class="btn btn-sm" data-map="' + esc(r.id) + '">Save as a result</button> ' +
+      '<button class="btn btn-sm" data-discard="' + esc(r.id) + '">Not a result</button></p>' +
       '<p class="tiny held-msg" style="display:none"></p>' +
       '</section>';
   });

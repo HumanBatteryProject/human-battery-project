@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=18">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
 <style>
 /* The emergency stop is the loudest thing on the page, on purpose: it is the
    control somebody reaches for when something is going wrong and they are not
@@ -71,11 +71,9 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast } from '../app.js?v=c1d7589d';
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=8a8e67de';
 const session = await requireAuth();
 if (session) {
-  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // Owner only. Mirrors the SQL: set_flag refuses anybody who is not an admin,
   // so hiding the screen is a courtesy and the function is the enforcement.

@@ -206,8 +206,18 @@ export async function onRequestPost({ request, env }) {
     const today = localDate(tz);
     try {
       const b = await buildBrief(sb, env, m, today);
-      const day = m.day_zero
-        ? Math.max(0, Math.round((new Date(today) - new Date(m.day_zero)) / 86400000)) : null;
+      // ASK the database, rather than computing a second answer. This line used
+      // to be (today - day_zero) with no +1, which makes day_zero day 0 while
+      // program_day() in SQL and the payment schedule both make it day 1. The
+      // result was a member seeing "Today, day 47" on their dashboard and "Day
+      // 46" on the brief directly above it, on the same screen on the same day.
+      // Three implementations of one number is two too many.
+      let day = null;
+      if (m.day_zero) {
+        const r = await sb.rpc('program_day', { target_client: m.client_id, on_date: today });
+        day = Array.isArray(r) ? r[0] : r;
+        if (typeof day === 'object' && day !== null) day = day.program_day;
+      }
       let insErr = null;
       try {
         await sb.insert('morning_briefs', {

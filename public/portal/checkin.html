@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=18">
+<link rel="stylesheet" href="/portal/portal.css?v=19">
 <style>
 /* Built for a thumb at 390px. Layout only: every colour is an existing token.
    The whole screen has to be completable in under a minute, so nothing here is
@@ -158,11 +158,9 @@
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast } from './app.js?v=c1d7589d';
+import { sb, requireAuth, el, toast, esc } from './app.js?v=8a8e67de';
 const session = await requireAuth();
 if (session) {
-  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // The member's own local date and program day, from the database, because the
   // browser clock is not the clock the program runs on.

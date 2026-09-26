@@ -134,6 +134,22 @@
 
   --ls-label:.09em;        /* uppercase micro labels  */
   --ls-display:.02em;      /* headings                */
+
+  /* ---- The five measurable dimensions, Brief 07 section 2 ----
+     Measured, not assumed: every one of these was checked against both grounds
+     before it was used. chart-2 and chart-3 reach 4.07 and 4.35 on
+     surface-raised, which is below the 4.5 a text colour needs, so a dimension
+     NAME never renders in its hue. The hue is a marker and a sparkline, where
+     3:1 is the bar and all five clear it. The name is ink.
+     ENVIRONMENT is the one exception the brief anticipated: dawn-deep is 1.63 on
+     surface-raised, which fails for any purpose. Lightened along its own hue,
+     212.5 degrees, at the same saturation, to the first step that passes 4.5.
+     A tint of a token, not a new colour. */
+  --dim-flow:        var(--chart-2);      /* #3987E5, raised 4.07 as a marker */
+  --dim-capacity:    var(--chart-3);      /* #199E70, raised 4.35 as a marker */
+  --dim-timing:      var(--dawn-amber);   /* #E8A24A, raised 6.84, passes as text too */
+  --dim-structure:   var(--copper-light); /* #D9A87A, raised 6.93, passes as text too */
+  --dim-environment: #7096C2;             /* dawn-deep lightened, raised 4.82 */
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -384,3 +400,67 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
 .held-fix label{display:grid;gap:.25rem;flex:1 1 12rem}
 .held-fix select,.held-fix input{width:100%}
 .held-msg{margin:.4rem 0 0}
+
+/* =====================================================================
+   Evidence tier badges, Brief 05 section 4.
+   ONE component, built once against all six evidence_tier values.
+   The WORD carries the tier. One copper throughout, with the fill doing the
+   grading: solid for what we know, half for what is emerging or argued about,
+   hollow for an idea being tested. Colour never carries it alone, because a
+   badge that means something different in six shades of the same hue is a badge
+   nobody reads correctly.
+   `unsupported` has no rendering on purpose: it must never reach a member.
+   ===================================================================== */
+.tier{display:inline-flex;align-items:center;gap:.32rem;border-radius:3px;
+  border:1px solid var(--copper-brand);padding:.1rem .4rem;
+  font-family:var(--display);font-size:var(--fs-xs);letter-spacing:.04em;
+  color:var(--ink);white-space:nowrap;vertical-align:.05em}
+.tier i{width:.5rem;height:.5rem;border-radius:50%;border:1px solid var(--copper-light);
+  flex:0 0 auto;display:block}
+.tier-established i,.tier-strong i{background:var(--copper-light)}
+.tier-emerging i,.tier-contested i{
+  background:linear-gradient(90deg,var(--copper-light) 0 50%,transparent 50% 100%)}
+.tier-hypothesis i{background:transparent}
+
+/* =====================================================================
+   The five dimensions, and the three frontier ones that carry no number.
+   ===================================================================== */
+.dim{border-top:1px solid var(--rule-line);padding:.85rem 0}
+.dim:first-of-type{border-top:0;padding-top:.2rem}
+.dim-head{display:flex;align-items:baseline;gap:.5rem;justify-content:space-between}
+.dim-name{display:flex;align-items:center;gap:.45rem;font-family:var(--display);
+  font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--ink)}
+/* The hue lives here, as a marker beside an ink label, never as the label. */
+.dim-mark{width:.6rem;height:.6rem;border-radius:2px;flex:0 0 auto}
+.dim-flow .dim-mark{background:var(--dim-flow)}
+.dim-capacity .dim-mark{background:var(--dim-capacity)}
+.dim-timing .dim-mark{background:var(--dim-timing)}
+.dim-structure .dim-mark{background:var(--dim-structure)}
+.dim-environment .dim-mark{background:var(--dim-environment)}
+.dim-val{font-variant-numeric:tabular-nums;font-size:1.15rem;color:var(--ink)}
+.dim-none{font-size:var(--fs-sm);color:var(--ink-muted);line-height:var(--lh-small);margin:.3rem 0 0}
+.dim-cov{font-size:var(--fs-xs);color:var(--ink-muted);margin:.25rem 0 0}
+/* A frontier dimension gets a name and a sentence. No number, no bar, nothing
+   that could be read as a measurement. */
+.frontier{border-top:1px solid var(--rule-line);padding:.7rem 0}
+.frontier:first-of-type{border-top:0}
+.frontier b{font-family:var(--display);font-size:var(--fs-label);
+  letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--ink-muted);display:block}
+.frontier p{margin:.25rem 0 0;font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small)}
+
+/* The MEASURED / CALCULATED / FRONTIER label master prompt C2 requires on every
+   rendered number. Deliberately plain: it is a provenance label, not a status. */
+.basis{font-family:var(--display);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-muted);border:1px solid var(--rule-line);border-radius:2px;
+  padding:.05rem .25rem;white-space:nowrap;vertical-align:.12em}
+
+/* Behaviour and biology, kept apart. D6: completing a habit must not imply that
+   a laboratory abnormality improved, so the two never share a container. */
+.sep-note{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);
+  border-left:2px solid var(--rule-line);padding-left:.6rem;margin:.1rem 0 .9rem}
+.today-action{border-top:1px solid var(--rule-line);padding:.75rem 0}
+.today-action:first-of-type{border-top:0;padding-top:.1rem}
+.today-action p{margin:0 0 .3rem;line-height:var(--lh-card)}
+.today-why{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);margin:0}
+.withheld{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);
+  border-left:2px solid var(--status-warn);padding-left:.6rem;margin:.5rem 0 0}
