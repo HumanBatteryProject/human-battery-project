@@ -42,12 +42,33 @@ import Stripe from 'stripe';
 import { json, supabase } from './_payments.js';
 import { isHandled, isStale, eventIso, sessionIntent } from './_webhook.js';
 import { isContinuationKind, continuationDates, addDays } from './_continuation.js';
+import { stripeState } from './enroll.js';
 
 const PROVIDER = 'stripe';
 const API_VERSION = '2026-07-29.dahlia';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+
+  // CHECK THE CONFIGURATION BEFORE CONSTRUCTING ANYTHING.
+  //
+  // Found by posting a signed event at the live deployment and getting a
+  // Cloudflare error page instead of JSON. Cloudflare Pages holds four secrets
+  // and none of them is a Stripe one, so env.STRIPE_SECRET_KEY is undefined in
+  // production, and new Stripe(undefined) throws "Neither apiKey nor
+  // config.authenticator provided". That throw sat above the try block, so it
+  // escaped the handler entirely: error 1101, a worker exception, with no
+  // indication of what was wrong.
+  //
+  // It matters more than an unhelpful error page. Stripe treats any non-2xx as
+  // retryable and re-sends for days, so the shape of this failure was an
+  // unbounded retry loop against an endpoint that could never succeed, with
+  // nothing in the response to say why.
+  const ready = stripeState(env);
+  if (!ready.ready) {
+    console.error('[webhook] refusing: ' + ready.why);
+    return json({ error: 'Stripe is not configured', why: ready.why, stripe_ready: false }, 503);
+  }
 
   const signature = request.headers.get('stripe-signature');
   const payload = await request.text();
@@ -131,7 +152,11 @@ async function claimEvent(env, event) {
         event_id: event.id,
         event_type: event.type,
         created_at_provider: eventIso(event.created),
-        status: 'claimed',
+        // 'received' IS the claim, and the table already had the word. I first
+        // wrote 'claimed', which webhook_events_status_check refused: the allowed
+        // set is received, processed, ignored, failed. The concept was already
+        // named and I invented a second name for it.
+        status: 'received',
         payload: event,
       }),
     });
