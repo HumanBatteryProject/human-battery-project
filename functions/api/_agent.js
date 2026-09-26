@@ -54,7 +54,36 @@ export async function finishRun(env, runId, status, patch = {}) {
 // Anthropic
 // ---------------------------------------------------------------------
 
-export async function ask(env, { system, messages, maxTokens = 1024, model = MODEL_PER_CLIENT }) {
+/**
+ * Ask the model, and insist on getting words back.
+ *
+ * WHY THERE IS A RETRY AND WHY IT IS THIS ONE. The reply carries a thinking block
+ * and then a text block, and both are drawn from max_tokens, so thinking can spend
+ * the whole budget and leave no text at all. My first reading was that this is a
+ * function of input size, and it is not. The same prompt at the same max_tokens of
+ * 2000 came back three times as 1,679 output tokens with text, 407 with text, and
+ * 2,144 truncated with none. THINKING LENGTH IS STOCHASTIC.
+ *
+ * That rules out fixing it by choosing a better constant. Any budget has some
+ * chance of being consumed, so a single attempt has some chance of silently
+ * producing nothing, and the only question is how often. So the specific failure,
+ * stop_reason max_tokens with no text block, is retried once with double the
+ * budget. Bounded, because a retry loop against a paid API is its own hazard, and
+ * targeted, because every other failure should still surface immediately.
+ */
+export async function ask(env, opts) {
+  try {
+    return await askOnce(env, opts);
+  } catch (e) {
+    if (!e || !e.noTextFromBudget) throw e;
+    const doubled = Math.min((opts.maxTokens || 1024) * 2, 8000);
+    console.warn(`[ask] the thinking spent the whole budget and left no text. ` +
+                 `Retrying once at max_tokens ${doubled}.`);
+    return askOnce(env, { ...opts, maxTokens: doubled });
+  }
+}
+
+async function askOnce(env, { system, messages, maxTokens = 1024, model = MODEL_PER_CLIENT }) {
   // The kill switch, at the ONE place every agent reaches the model. Putting it
   // in each endpoint would mean six places to get right and a seventh endpoint
   // later that nobody remembers to gate.
@@ -101,14 +130,17 @@ export async function ask(env, { system, messages, maxTokens = 1024, model = MOD
   // So it throws, with the numbers needed to fix it rather than just a complaint.
   if (!text) {
     const kinds = blocks.map((b) => b.type).join(', ') || 'no content blocks';
-    throw new Error(
+    const err = new Error(
       `the model returned no text. stop_reason=${data.stop_reason}, blocks=[${kinds}], ` +
       `max_tokens=${maxTokens}, output_tokens=${data.usage ? data.usage.output_tokens : '?'}, ` +
       `input_tokens=${data.usage ? data.usage.input_tokens : '?'}. ` +
       (data.stop_reason === 'max_tokens'
-        ? 'The budget was spent before any text was written, so max_tokens is too low for this prompt.'
+        ? 'The budget was spent before any text was written.'
         : 'No text block was present in the reply.')
     );
+    // Flagged so ask() can retry THIS failure and nothing else.
+    err.noTextFromBudget = data.stop_reason === 'max_tokens';
+    throw err;
   }
 
   return {
