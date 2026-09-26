@@ -121,8 +121,20 @@ export function accessDecision(entitlement, today) {
   if (e.status === 'suspended') {
     return { allowed: false, reason: 'suspended: ' + (e.suspended_reason || 'unpaid balance') };
   }
-  if (e.status === 'cancelled' && e.access_until && e.access_until < today) {
-    return { allowed: false, reason: 'cancelled, paid period ended ' + e.access_until };
+  // Cancelled keeps access to the end of the paid period, and needs a date to
+  // keep it until. The first version only refused when access_until was set AND
+  // past, so a cancelled entitlement with NO date fell through every remaining
+  // check and came out allowed: cancel, lose the date, keep the program forever.
+  // has_program_access in the database now reads the same way, and these two must
+  // not drift, because one is what the product shows and the other is what it
+  // enforces.
+  if (e.status === 'cancelled') {
+    if (!e.access_until) {
+      return { allowed: false, reason: 'cancelled, with no paid period remaining' };
+    }
+    if (e.access_until < today) {
+      return { allowed: false, reason: 'cancelled, paid period ended ' + e.access_until };
+    }
   }
   if (e.status === 'expired') return { allowed: false, reason: 'expired' };
   if (e.effective_from && e.effective_from > today) {

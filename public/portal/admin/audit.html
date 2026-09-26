@@ -51,7 +51,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
   </div>
 </main>
 <script type="module">
-import { sb, requireAuth, el, esc } from '../app.js?v=8a8e67de';
+import { sb, requireAuth, el, esc } from '../app.js?v=3c1c951d';
 const session = await requireAuth();
 if (session) {
   const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();

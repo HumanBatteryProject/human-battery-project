@@ -67,6 +67,13 @@ run cohortless_fixtures node tests/cohortless_fixtures.mjs
 # run before every commit and compare the page a buyer reads to the code.
 run billing_fixtures    node tests/billing_fixtures.mjs
 run discount_fixtures   node tests/discount_fixtures.mjs
+
+# Day 10. continuation_fixtures holds the renewal-date arithmetic and the
+# duplicate and out-of-order event rules; day90_fixtures holds the direction of
+# improvement, which is the line that can congratulate somebody on a marker that
+# got worse.
+run continuation_fixtures node tests/continuation_fixtures.mjs
+run day90_fixtures      node tests/day90_fixtures.mjs
 run onboarding_fixtures node tests/onboarding_fixtures.mjs
 run checkin_fixtures    node tests/checkin_fixtures.mjs
 run planner_fixtures    node tests/planner_fixtures.mjs

@@ -162,6 +162,18 @@ ok('a cancelled entitlement keeps access to the end of the paid period',
    accessDecision({ ...base, status: 'cancelled', access_until: '2026-12-31' }, TODAY).allowed === true);
 ok('and stops after it',
    accessDecision({ ...base, status: 'cancelled', access_until: '2026-11-01' }, TODAY).allowed === false);
+// Day 10. A cancelled entitlement with no paid-through date at all used to fall
+// through every check and come out ALLOWED, so cancelling and losing the date
+// kept the program forever. The database function had the mirror image of this
+// bug: its comment said a cancelled subscription keeps access to the end of the
+// paid period, while its WHERE began with status = 'active' and could never
+// reach the clause the comment described.
+ok('cancelled with NO paid-through date is refused',
+   accessDecision({ ...base, status: 'cancelled', access_until: null }, TODAY).allowed === false);
+ok('and the reason says there is no period left',
+   /no paid period remaining/.test(accessDecision({ ...base, status: 'cancelled', access_until: null }, TODAY).reason));
+ok('cancelled on the last paid day still has access',
+   accessDecision({ ...base, status: 'cancelled', access_until: TODAY }, TODAY).allowed === true);
 ok('an entitlement that has not started yet does not allow access',
    accessDecision({ ...base, effective_from: '2026-12-01' }, TODAY).allowed === false);
 

@@ -24,6 +24,12 @@
 
   <div id="body" style="display:none">
     <section class="card">
+      <h2>Billing</h2>
+      <p class="quiet">What you have paid, what is owed, and your membership after day 90.</p>
+      <p><a href="/portal/billing">Go to billing</a></p>
+    </section>
+
+    <section class="card">
       <h2>You</h2>
       <div class="field"><label class="lab" for="name">Name</label><input id="name" type="text"></div>
       <div class="field"><label class="lab" for="email">Email</label><input id="email" type="email" disabled></div>
@@ -60,7 +66,7 @@
 </ul></nav>
 
 <script type="module">
-import { sb, requireAuth, currentProfile, signOut, el, toast } from './app.js?v=8a8e67de';
+import { sb, requireAuth, currentProfile, signOut, el, toast } from './app.js?v=3c1c951d';
 await requireAuth();
 
 const p = await currentProfile();

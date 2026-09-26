@@ -36,7 +36,13 @@ export async function requireAuth({ skipConsentGate = false } = {}) {
   // the portal. Found at a true 390px viewport, where the page sat on its
   // spinner rather than showing an error.
   const here = location.pathname.replace(/\/$/, '').replace(/\.html$/, '');
-  const EXEMPT = ['/portal/consent', '/portal/account', '/portal/login', '/portal/confirm'];
+  // /portal/billing is exempt for the same reason /portal/account is: it is where
+  // a member fixes the thing that is blocking them. A suspended member has to
+  // reach the screen that takes a payment, and REACHABLE_WHILE_SUSPENDED in
+  // _billing.js already lists it, so leaving it behind the consent gate would
+  // have made the two disagree about the one page that has to stay open.
+  const EXEMPT = ['/portal/consent', '/portal/account', '/portal/login', '/portal/confirm',
+                  '/portal/billing'];
   const exempt = skipConsentGate || EXEMPT.includes(here);
   if (!exempt) {
     const { data: missing, error } = await sb.rpc('missing_required_consents');

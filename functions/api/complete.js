@@ -15,6 +15,10 @@ import {
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
 import { nextCycle, applyMultiplier } from './_intensity.js';
+import {
+  symptomsAndFunction, fitnessMeasures, laboratoryResults,
+  habitsAndConsistency, remainingUncertainties, maintenancePriorities,
+} from './_completion.js';
 
 const AGENT = 'completion';
 // DECISION LEFT TO THE OWNER. What counts as improved, for the tier decision.
@@ -60,10 +64,73 @@ export async function onRequestPost({ request, env }) {
   const changes = Object.values(dimensions).map(d => d.change).filter(x => x != null);
   const composite = changes.length ? Math.round(changes.reduce((a, b) => a + b, 0) / changes.length) : null;
 
-  const logs = await sb.select('daily_logs',
-    { where: { client_id: clientId }, columns: 'adherence_pct' });
+  // Everything D8 asks to compare. Six comparisons, not two.
+  //
+  // The logs query used to select adherence_pct alone, which is why four of the
+  // six comparisons could not be made: the data was never fetched.
+  const logs = await sb.select('daily_logs', {
+    where: { client_id: clientId },
+    columns: 'log_date,program_day,adherence_pct,daily_five_score,energy,symptoms',
+    order: 'log_date.asc',
+  });
   const adherence = (logs || []).length
     ? Math.round((logs.reduce((a, b) => a + Number(b.adherence_pct || 0), 0) / logs.length)) : null;
+
+  // Labs: three plain queries rather than one nested embed. The panel carries the
+  // client and the draw point, the result carries the value, the marker carries
+  // the direction, and an ambiguous PostgREST embed across three tables is how
+  // this breaks silently at deploy time rather than loudly here.
+  const panels = await sb.select('lab_panels', {
+    where: { client_id: clientId }, columns: 'id,draw_point,drawn_on' });
+  const panelIds = (panels || []).map((r) => r.id);
+  let labResults = [];
+  if (panelIds.length) {
+    labResults = await sb.select('lab_results', {
+      columns: 'panel_id,marker_id,value,unit',
+      raw: `panel_id=in.(${panelIds.join(',')})`,
+    });
+  }
+  const markerDefs = await sb.select('lab_markers', {
+    columns: 'id,slug,name,unit,better_direction,role' });
+
+  // Latest panel per draw point, so a repeat draw does not produce two baselines.
+  const panelAt = {};
+  for (const pnl of (panels || [])) {
+    const cur = panelAt[pnl.draw_point];
+    if (!cur || String(pnl.drawn_on || '') > String(cur.drawn_on || '')) panelAt[pnl.draw_point] = pnl;
+  }
+  const valueAt = (point, markerId) => {
+    const pnl = panelAt[point];
+    if (!pnl) return null;
+    const hit = labResults.find((r) => r.panel_id === pnl.id && r.marker_id === markerId);
+    return hit ? hit.value : null;
+  };
+  const markerRows = (markerDefs || []).map((md) => ({
+    slug: md.slug, name: md.name, unit: md.unit, role: md.role,
+    better_direction: md.better_direction,
+    day0: valueAt('day_0', md.id),
+    day90: valueAt('day_90', md.id),
+  }));
+
+  const tests = await sb.select('functional_tests', {
+    where: { client_id: clientId },
+    columns: 'draw_point,tested_on,method,vo2max,mets,hr_recovery_60s,lactate_rest_mmol,fixed_load_watts',
+  });
+
+  // The frontier dimensions are uncertain by construction, not by omission, and
+  // the table already carries the sentence that says why.
+  const frontier = await sb.select('state_dimensions', {
+    where: { is_scored: false }, columns: 'dimension,body' });
+
+  const heldCount = await sb.count('lab_results_held', { client_id: clientId }, 'resolved_at=is.null');
+
+  const symptoms = symptomsAndFunction(logs);
+  const fitness = fitnessMeasures(tests);
+  const labs = laboratoryResults(markerRows);
+  const habits = habitsAndConsistency(logs, 90);
+  const uncertainties = remainingUncertainties({
+    dimensions, labs, fitness, habits, frontier, held: heldCount });
+  const priorities = maintenancePriorities({ dimensions, labs, habits });
 
   const improved = composite != null && composite >= IMPROVED_MIN_POINTS;
   const nxt = nextCycle({ tier: m.tier, improved, currentMultiplier: Number(m.intensity_multiplier || 1) });
@@ -78,7 +145,13 @@ export async function onRequestPost({ request, env }) {
   const dryRun = body.dry_run === true;
   if (dryRun) {
     return json({ ok: true, dry_run: true, client_id: clientId, end_date: endDate,
-                  membership_id: m.id, would_write: 'completion_summaries, memberships, next cycle' });
+                  membership_id: m.id,
+                  comparisons: {
+                    symptoms_function: symptoms.available, fitness: fitness.available,
+                    laboratory: labs.available, habits: habits.available,
+                    uncertainties: uncertainties.count, priorities: priorities.available,
+                  },
+                  would_write: 'completion_summaries, memberships, continuation offer, next cycle' });
   }
 
   const runId = await startRun(env, AGENT, { clientId, model: MODEL_PER_CLIENT });
@@ -87,13 +160,31 @@ export async function onRequestPost({ request, env }) {
     const r = await ask(env, {
       system: [IDENTITY, MODEL_SUMMARY, GUARDRAILS,
         'READING LEVEL. ' + (TIER_VOICE[m.tier] || TIER_VOICE.intermediate),
-        'You are writing a short day 90 summary. You are given the dimension ' +
-        'scores at day 0 and day 90 and the adherence. Use ONLY those numbers. ' +
-        'Do not invent one. Do not promise an outcome. No supplement, brand or ' +
-        'price. No em dash. If a dimension shows fewer markers than expected, ' +
-        'say the score rests on fewer markers rather than treating it as equal.',
-        JSON.stringify({ dimensions, adherence_pct: adherence,
-                         days_logged: (logs || []).length })].join('\n\n'),
+        'You are writing a short day 90 summary. You are given six comparisons. ' +
+        'Use ONLY the numbers in them. Do not invent one. Do not promise an ' +
+        'outcome. No supplement, brand or price. No em dash. If a dimension shows ' +
+        'fewer markers than expected, say the score rests on fewer markers rather ' +
+        'than treating it as equal.',
+        // Every section can say available: false. That is a fact to report, not a
+        // gap to fill, and it is the most likely thing to get written over: a
+        // missing baseline invites a sentence about progress that nothing
+        // measured. Say what is missing instead.
+        'WHERE A COMPARISON SAYS available false, SAY SO PLAINLY and move on. Do ' +
+        'not describe a change you were not given. Do not average an absent value ' +
+        'to zero. A marker listed under unjudged changed but has no established ' +
+        'better direction, so report the change and do not call it good or bad.',
+        // The priorities are computed from the stored numbers by rule. The model
+        // may phrase them and must not add to them, or the summary starts
+        // prescribing.
+        'THE MAINTENANCE PRIORITIES ARE GIVEN TO YOU. Restate them in your own ' +
+        'plain words. Do not add a priority that is not in the list, and do not ' +
+        'drop one that is.',
+        JSON.stringify({
+          dimensions, adherence_pct: adherence, days_logged: (logs || []).length,
+          symptoms_and_function: symptoms, fitness_measures: fitness,
+          laboratory_results: labs, habits_and_consistency: habits,
+          remaining_uncertainties: uncertainties, maintenance_priorities: priorities,
+        })].join('\n\n'),
       messages: [{ role: 'user', content: 'Write the summary.' }],
       maxTokens: 500,
     });
@@ -106,6 +197,12 @@ export async function onRequestPost({ request, env }) {
   try { summary = (await sb.insert('completion_summaries', {
     membership_id: m.id, client_id: clientId, completed_on: endDate,
     dimensions, adherence_pct: adherence, days_logged: (logs || []).length,
+    // markers_moved has existed as a column since the table was created and
+    // nothing had ever written to it. The laboratory comparison is what it was
+    // for.
+    markers_moved: labs,
+    symptoms_function: symptoms, fitness, habits,
+    uncertainties, maintenance_priorities: priorities,
     narrative: stripDashes(String(narrative || '').trim()) || null,
     next_tier: nxt.next_tier, next_multiplier: nxt.next_multiplier,
   }, { returning: true }))[0]; } catch (e) { sErr = { message: String(e) }; }
@@ -114,6 +211,36 @@ export async function onRequestPost({ request, env }) {
   // ---- close the completed cycle. The ONLY write to it, and it is terminal ----
   await sb.update('memberships', { id: m.id },
     { completed_on: endDate, status: 'completed', completion_summary_id: summary.id });
+
+  // ---- the continuation offer ----
+  //
+  // completion_invitations existed as a table with no writer and no reader, so
+  // the offer at the end of the program was a column layout rather than a
+  // feature. D8 ends with carrying the participant's history into membership, and
+  // this row is what the billing screen reads to know there is something to
+  // accept.
+  //
+  // It is an OFFER and nothing more. It creates no entitlement and charges
+  // nothing. D9 forbids silent conversion from the initial protocol, and
+  // program_settings.day_90_default is 'lapse', so an offer that enrolled anybody
+  // by existing would contradict both. Accepting it is a purchase, and the
+  // purchase is the only thing that writes an entitlement.
+  let offer = null, oErr = null;
+  try {
+    offer = (await sb.insert('completion_invitations', {
+      client_id: clientId,
+      from_membership_id: m.id,
+      offered_tier: nxt.next_tier,
+      offered_multiplier: nxt.next_multiplier,
+      improved,
+      score_delta: composite,
+      // The markers that actually moved the right way, by name. Empty is a real
+      // answer and is stored as empty rather than as nothing.
+      markers_improved: (labs && labs.improved) || [],
+      sent_at: new Date().toISOString(),
+    }, { returning: true, upsert: 'from_membership_id' }))[0] || null;
+  } catch (e) { oErr = String(e).slice(0, 200); }
+  if (!offer) console.error('[complete] continuation offer not written:', oErr);
 
   // ---- chain: a NEW row, linked, never an edit of the old one ----
   const applied = [];
@@ -171,6 +298,16 @@ export async function onRequestPost({ request, env }) {
     summary_id: summary.id,
     composite_change: composite, improved, adherence_pct: adherence,
     dimensions,
+    comparisons: {
+      symptoms_and_function: symptoms, fitness_measures: fitness,
+      laboratory_results: labs, habits_and_consistency: habits,
+      remaining_uncertainties: uncertainties, maintenance_priorities: priorities,
+    },
+    offer: offer
+      ? { id: offer.id, tier: offer.offered_tier, multiplier: offer.offered_multiplier,
+          improved: offer.improved, markers_improved: offer.markers_improved,
+          creates_entitlement: false, charges_nothing: true }
+      : { error: oErr || 'not written' },
     next: { membership_id: next.id, tier: nxt.next_tier, cycle: next.cycle, day_zero: nextStart,
             multiplier: nxt.next_multiplier, reason: nxt.reason,
             carried_parameters: applied },
