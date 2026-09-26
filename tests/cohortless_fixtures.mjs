@@ -79,11 +79,11 @@ ok('it comes from next_start_date_after and not from arithmetic here',
 ok('the chained cycle is enrolled, not active, so nothing starts itself',
    /status: 'enrolled'/.test(complete));
 
-console.log('\nThe founding price keys on the FIRST start date');
+console.log('\nfirst_start_date answers the first cycle, not a later one');
 const mig62 = read('../database/migrations/062_first_start_date.sql');
 ok('first_start_date orders by cycle ascending',
    /order by cycle asc/.test(mig62));
-ok('and says why a later cycle must not qualify',
+ok('and says why a later cycle must not be mistaken for it',
    /qualify again every time they continued/.test(mig62.replace(/\s+/g, ' ')));
 
 console.log('\nNothing member facing groups people');

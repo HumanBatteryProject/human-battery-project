@@ -8,16 +8,14 @@
 // cannot be read is an outage, and an outage is loud. A price that is quietly
 // wrong is not.
 //
-// The same argument applies to the day-90 default and the founding window: both
-// decide whether a real person is billed.
+// The same argument applies to the day-90 default: it decides whether a real
+// person is billed.
 
 // Every setting this module will read, with what it is for. Listed rather than
 // accepted as an arbitrary string so a typo in a key name is a failure here
 // instead of a silent miss at the call site.
 export const KEYS = {
   PROGRAM_PRICE_CENTS: 'program_price_cents',
-  FOUNDING_PRICE_CENTS: 'founding_price_cents',
-  FOUNDING_WINDOW_ENDS_ON: 'founding_window_ends_on',
   CONTINUATION_MONTHLY_CENTS: 'continuation_monthly_cents',
   CONTINUATION_ANNUAL_CENTS: 'continuation_annual_cents',
   DAY_90_DEFAULT: 'day_90_default',
@@ -27,7 +25,7 @@ export const KEYS = {
 };
 
 const MONEY = new Set([
-  KEYS.PROGRAM_PRICE_CENTS, KEYS.FOUNDING_PRICE_CENTS,
+  KEYS.PROGRAM_PRICE_CENTS,
   KEYS.CONTINUATION_MONTHLY_CENTS, KEYS.CONTINUATION_ANNUAL_CENTS,
 ]);
 
@@ -74,24 +72,7 @@ export async function settings(env, keys) {
   return out;
 }
 
-/**
- * Is this member inside the founding window? A date, not a seat count: Brief 08
- * section 1 resolved the vision document's "no artificial scarcity" against
- * Brief 07's count cap in favour of a real deadline.
- *
- * PASS THE FIRST CYCLE'S day_zero, not the current one. With cycle chaining a
- * participant has several memberships with several start dates, and measuring
- * the window against a later one would re-qualify them for a founding price
- * every time they continued. first_start_date(client) in the database is the one
- * right way to get it.
- *
- * Pure so it can be tested without a database. dayZero and windowEnd are both
- * plain YYYY-MM-DD strings, compared as strings because that is exactly
- * date order for this format and avoids every timezone question a Date would
- * introduce. A member starting on the window's last day IS founding.
- */
-export function inFoundingWindow(dayZero, windowEndsOn) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dayZero || ''))) return false;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(windowEndsOn || ''))) return false;
-  return String(dayZero) <= String(windowEndsOn);
-}
+// inFoundingWindow and the two founding settings were removed on 26 September:
+// the ruling is "no founding price". first_start_date() in the database stays,
+// because a participant's first start date is worth being able to ask for on its
+// own, and it is what any future dated offer would key on.

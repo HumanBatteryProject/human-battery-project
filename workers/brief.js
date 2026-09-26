@@ -25,6 +25,7 @@ export default {
       '0 * * * *':   '/api/brief-run',       // hourly, each member's local morning
       '0 13 * * 1':  '/api/trend',           // Monday, the weekly review pass
       '0 15 * * *':  '/api/cycle-boundary',  // daily, day ninety
+      '0 16 * * *':  '/api/billing-run',     // daily, charges what is due
     };
     const path = JOBS[event.cron];
     if (path && path !== '/api/brief-run') {

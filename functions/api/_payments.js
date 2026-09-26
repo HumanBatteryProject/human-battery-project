@@ -16,49 +16,102 @@ export const CURRENCY = 'usd';
 // Single source of truth. Must match cohorts.price_cents in the database.
 export const PROGRAM_TOTAL_CENTS = 100000; // $1,000. Lives here rather than in program_settings only because Stripe needs it at request time.
 
+// The three options, confirmed 26 September. All three are the SAME $1,000; only
+// the timing differs. Day 1 is the participant's start date, so Day N is
+// day_zero + (N - 1) days.
+//
+// WHY THE DAY NUMBERS ARE HERE AND NOT AN INTERVAL. The old version billed every
+// 30 days, which is not what was asked for: two payments fall on Day 1 and Day
+// 45, which is 44 days apart, and three fall on Day 1, 31 and 61, which is 30.
+// One of those is not a uniform interval, so a Stripe interval_count cannot
+// express both and would have quietly produced the wrong date for one option.
+// Explicit day numbers cannot be wrong by a fortnight.
 export const PLANS = {
   paid_in_full: {
-    label: 'Paid in full',
-    description: 'One payment when your seat is confirmed.',
+    label: 'Pay in full',
     installments: 1,
-    amount_cents: PROGRAM_TOTAL_CENTS,
-    interval: null,
-    mode: 'payment',
+    days: [1],
   },
   two_payments: {
     label: 'Two payments',
-    description: '$500 today, $500 at day 30.',
     installments: 2,
-    amount_cents: PROGRAM_TOTAL_CENTS / 2,
-    interval: 'day',
-    interval_count: 30,
-    mode: 'subscription',
+    days: [1, 45],
   },
   three_payments: {
     label: 'Three payments',
-    // Billed on the client's day 30 and day 60, not on the 1st of the
-    // month. Calendar billing means someone who starts on the 26th pays
-    // again five days later, which forces proration and turns into
-    // refund arguments. Relative billing has no edge case.
-    description: '$333.33 now, then at day 30 and day 60.',
     installments: 3,
-    amount_cents: Math.floor(PROGRAM_TOTAL_CENTS / 3),
-    interval: 'day',
-    interval_count: 30,
-    mode: 'subscription',
+    days: [1, 31, 61],
   },
 };
 
-// $1,000 / 3 = $333.333..., so the final installment absorbs the
-// remainder: 333.33 + 333.33 + 333.34 = exactly 1,000.00. Never bill
-// three equal thirds of a price that doesn't divide, and you end up a cent
-// short and the books never reconcile.
+// $1,000 / 3 = $333.333..., so the FINAL installment absorbs the remainder:
+// 333.33 + 333.33 + 333.34 = exactly 1,000.00. Never bill three equal thirds of
+// a price that does not divide, or the books are a cent short forever.
 export function installmentAmounts(planKey) {
   const plan = PLANS[planKey];
+  if (!plan) throw new Error(`unknown plan: ${planKey}`);
   const base = Math.floor(PROGRAM_TOTAL_CENTS / plan.installments);
   const amounts = Array(plan.installments).fill(base);
   amounts[amounts.length - 1] += PROGRAM_TOTAL_CENTS - base * plan.installments;
   return amounts;
+}
+
+/**
+ * The full schedule for a plan, as rows ready for the payments table.
+ *
+ * dayZero is the participant's start date as YYYY-MM-DD. Dates are computed in
+ * plain date arithmetic at midday UTC, then truncated, which keeps a due date on
+ * the intended calendar day regardless of the participant's offset. The
+ * participant's timezone decides WHEN on that day the charge runs, and that is
+ * the billing job's business, not this function's.
+ *
+ * @returns {{installment_no:number, amount_cents:number, due_on:string, program_day:number}[]}
+ */
+export function installmentSchedule(planKey, dayZero) {
+  const plan = PLANS[planKey];
+  if (!plan) throw new Error(`unknown plan: ${planKey}`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dayZero || ''))) {
+    throw new Error(`day zero must be YYYY-MM-DD, got ${JSON.stringify(dayZero)}`);
+  }
+  const amounts = installmentAmounts(planKey);
+  return plan.days.map((programDay, i) => {
+    const d = new Date(dayZero + 'T12:00:00Z');
+    d.setUTCDate(d.getUTCDate() + (programDay - 1));   // Day 1 IS day zero
+    return {
+      installment_no: i + 1,
+      amount_cents: amounts[i],
+      due_on: d.toISOString().slice(0, 10),
+      program_day: programDay,
+    };
+  });
+}
+
+// What checkout and the billing portal show. Money formatted in exactly one
+// place, so two surfaces cannot disagree about a price.
+export function money(cents) {
+  return '$' + (cents / 100).toLocaleString('en-US',
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+export function planSummary(planKey, dayZero) {
+  const plan = PLANS[planKey];
+  const rows = dayZero ? installmentSchedule(planKey, dayZero) : null;
+  const amounts = installmentAmounts(planKey);
+  return {
+    key: planKey,
+    label: plan.label,
+    total_cents: PROGRAM_TOTAL_CENTS,
+    total: money(PROGRAM_TOTAL_CENTS),
+    installments: plan.installments,
+    schedule: (rows || plan.days.map((d, i) => ({ program_day: d, amount_cents: amounts[i] })))
+      .map((r) => ({
+        installment_no: r.installment_no || (plan.days.indexOf(r.program_day) + 1),
+        program_day: r.program_day,
+        amount_cents: r.amount_cents,
+        amount: money(r.amount_cents),
+        due_on: r.due_on || null,
+      })),
+  };
 }
 
 export function isValidPlan(key) {
