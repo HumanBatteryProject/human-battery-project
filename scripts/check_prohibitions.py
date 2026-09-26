@@ -198,7 +198,15 @@ PATTERNS = [
                "reaches the coach's mouth, and check_deliverables only ever "
                "looks at the eight deliverables, so nothing was watching the "
                "corpus or the agent fixtures at all",
-        phrase=r"Dragon Herbs|Pure Encapsulations|Baja Gold|Life Extension|BioPure|"
+        # TWO EXEMPTIONS, ruled 26 September: "Baja Gold" and "Icelandic" salt
+        # may be named in recipes and guidelines. They are salt, not
+        # supplements, and the Dietary Guidelines specify them by name because
+        # the mineral content is the point. Removed from the phrase list rather
+        # than special-cased downstream, so there is one place to read the
+        # answer. "Icelandic Glacial" stays prohibited: that is bottled water,
+        # a different product, and the rule must not let it through on the
+        # strength of sharing a word with the salt.
+        phrase=r"Dragon Herbs|Pure Encapsulations|Life Extension|BioPure|"
                r"Gaia Herbs|Quicksilver|Thorne|Nutrex|Sun Chlorella|Vital Proteins|"
                r"Cowboy Colostrum|BLUblox|BlockBlueLight|Bon Charge|Ra Optics|TrueDark|"
                r"Ocushield|Crazy Water|Saratoga|Icelandic Glacial|Ice Barrel|SaunaSpace|"

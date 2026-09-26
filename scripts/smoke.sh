@@ -85,6 +85,7 @@ hit "brief-run"  POST "$ORIGIN/api/brief-run" "{\"client_id\":\"$CLIENT\"}" "$SE
 hit "trend"      POST "$ORIGIN/api/trend"     "{\"client_id\":\"$CLIENT\",\"dry_run\":true}" "$SEC"
 hit "complete"   POST "$ORIGIN/api/complete"  "{\"client_id\":\"$CLIENT\",\"force_end_date\":\"2026-11-09\",\"dry_run\":true}" "$SEC"
 hit "onboard"    POST "$ORIGIN/api/onboard"   "{\"membership_id\":\"$MEMBERSHIP\",\"dry_run\":true}" "$SEC"
+hit "cycle-boundary" POST "$ORIGIN/api/cycle-boundary" '{"dry_run":true}' "$SEC"
 if [ -n "$PANEL" ]; then
   # A real marker with a real unit, so the classification path actually runs.
   # dry_run stops it writing lab_results or dimension_scores.

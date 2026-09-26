@@ -7,7 +7,12 @@ compatibility_date = "2026-09-01"
 # second write for a local day a no-op. So the Worker never needs to know what
 # a timezone is.
 [triggers]
-crons = ["0 * * * *"]
+# Hourly: the morning brief, which works out each member's own local date.
+# Monday 13:00 UTC: the weekly trend pass, which had no caller and so had never
+#   run. AUTONOMY_MODE is review_all, so everything it finds queues for approval.
+# Daily 15:00 UTC: the cycle boundary, which asks /api/complete to close any
+#   membership that has reached its ninetieth day in the member's own timezone.
+crons = ["0 * * * *", "0 13 * * 1", "0 15 * * *"]
 
 [vars]
 SITE_ORIGIN = "https://thehumanbatteryproject.com"
