@@ -19,6 +19,8 @@ import { DEFAULT_TZ, BATCH_LIMIT, MAX_GRADE } from '../functions/api/brief-run.j
 import { FLOOR_LEXICAL, FLOOR_VECTOR, RETRIEVE_K, DAILY_LIMIT } from '../functions/api/coach.js';
 import { COVERAGE_FLOOR } from '../functions/api/analyze.js';
 import { IMPROVED_MIN_POINTS } from '../functions/api/complete.js';
+import { WEEKLY_RECOVERY_WEEKS, ACCESS_DAYS_PER_WEEKLY_PAYMENT } from '../functions/api/_billing.js';
+import { PROGRAM_TOTAL_CENTS } from '../functions/api/_payments.js';
 import { AUTONOMY_MODE, CONFIDENCE_FLOOR, CONFIDENCE_WINDOW_DAYS,
          TRIGGERING_TIERS, CITABLE_TIERS } from '../functions/api/_autonomy.js';
 import { RETURN_MULTIPLIER, MULTIPLIER_MAX, HARD_CAPS } from '../functions/api/_intensity.js';
@@ -57,6 +59,9 @@ eq('HARD_CAPS.fasts/week', HARD_CAPS.extended_fasts_per_week, 1);
 
 // --- bounded autonomy ---
 eq('AUTONOMY_MODE', AUTONOMY_MODE, 'review_all');   // Brief 08 section 8 decision 1
+eq('WEEKLY_RECOVERY_WEEKS', WEEKLY_RECOVERY_WEEKS, 4);   // confirmed 26 Sep 2026
+eq('ACCESS_DAYS_PER_WEEKLY_PAYMENT', ACCESS_DAYS_PER_WEEKLY_PAYMENT, 7);
+eq('PROGRAM_TOTAL_CENTS', PROGRAM_TOTAL_CENTS, 100000);  // $1,000, confirmed
 eq('CONFIDENCE_FLOOR', CONFIDENCE_FLOOR, 0.7);
 eq('CONFIDENCE_WINDOW_DAYS', CONFIDENCE_WINDOW_DAYS, 14);
 

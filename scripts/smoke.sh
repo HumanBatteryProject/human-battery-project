@@ -89,6 +89,14 @@ hit "cycle-boundary" POST "$ORIGIN/api/cycle-boundary" '{"dry_run":true}' "$SEC"
 hit "enroll"     POST "$ORIGIN/api/enroll" "{\"client_id\":\"$CLIENT\",\"plan\":\"three_payments\",\"dry_run\":true}" "$SEC"
 hit "billing-run" POST "$ORIGIN/api/billing-run" '{"dry_run":true}' "$SEC"
 hit "discount quote" POST "$ORIGIN/api/discount" "{\"action\":\"quote\",\"applies_to\":\"program\",\"plan\":\"three_payments\",\"client_id\":\"$CLIENT\"}" "$SEC"
+
+# The start dates a person can pick. Public, and a form that offers none reads as
+# a program that is not taking anybody.
+printf '  %-24s ' "start dates"
+SD=$(curl -s "$ORIGIN/api/start-dates?count=4")
+n=$(printf '%s' "$SD" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{try{console.log((JSON.parse(s).dates||[]).length)}catch(e){console.log(0)}})")
+if [ "$n" -ge 1 ]; then printf 'ok      %s date(s) offered, next %s\n' "$n" "$(printf '%s' "$SD" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{try{console.log(JSON.parse(s).dates[0])}catch(e){console.log('?')}})")"; PASSED=$((PASSED+1))
+else printf 'FAILED  no start dates offered\n'; FAILED="$FAILED start-dates"; fi
 if [ -n "$PANEL" ]; then
   # A real marker with a real unit, so the classification path actually runs.
   # dry_run stops it writing lab_results or dimension_scores.

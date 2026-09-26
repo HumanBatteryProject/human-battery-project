@@ -52,6 +52,7 @@ export async function onRequestPost({ request, env }) {
   // it is kept as a separate signal and never used as the answer.
   const country = String(body.country || '').trim().slice(0, 60);
   const edgeCountry = request.headers.get('CF-IPCountry') || null;
+  const preferredStart = String(body.preferred_start_date || '').trim();
 
   if (!name || !EMAIL_RE.test(email) || !state || !postal || body.consent_contact !== true) {
     return json({ error: 'Check the form and try again' }, 400);
@@ -67,6 +68,28 @@ export async function onRequestPost({ request, env }) {
   // with the result: 'ask' means the ZIP could not settle the timezone and the
   // member has to confirm it before a brief is scheduled, because a wrong
   // timezone sends the brief on the wrong day.
+  // The chosen start date must be one the program actually offers. Checked by
+  // is_offered_start_date() in the database rather than by re-deriving the 1st and
+  // 15th here: the lead time exists so the baseline draw happens before day 1, and
+  // a second implementation of that rule would eventually accept a date that does
+  // not leave time for it.
+  if (preferredStart) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(preferredStart)) {
+      return json({ error: 'That start date is not a date' }, 400);
+    }
+    const chk = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/is_offered_start_date`, {
+      method: 'POST',
+      headers: { apikey: env.SUPABASE_SERVICE_KEY,
+                 Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+                 'Content-Type': 'application/json' },
+      body: JSON.stringify({ d: preferredStart }),
+    });
+    const offered = chk.ok ? await chk.json() : null;
+    if (offered !== true) {
+      return json({ error: 'That is not one of the available start dates. Programs start on the 1st and the 15th, with enough time before day 1 for your baseline blood draw.' }, 400);
+    }
+  }
+
   const geo = derive(postal, state === OUTSIDE_US ? country : 'US');
   if (!geo.ok) {
     return json({ error: 'That does not look like a US ZIP code' }, 400);
@@ -90,6 +113,7 @@ export async function onRequestPost({ request, env }) {
     hemisphere: geo.hemisphere,
     region: geo.region,
     tz_confidence: tzConfidence,
+    preferred_start_date: preferredStart || null,
     source: source || null,
     placement,
     placement_version: placement ? 'placement-v1' : null,
@@ -117,11 +141,29 @@ export async function onRequestPost({ request, env }) {
   // both wrong and the worst possible moment to show an error, because they are
   // usually resubmitting precisely because they are unsure the first one worked.
   let duplicate = false;
+  let startDateKept = null;
   if (!res.ok) {
     const detail = await res.text();
     if (res.status === 409 || detail.includes('23505')) {
       duplicate = true;
       console.log(`[waitlist] duplicate application from ${email}, the original is kept`);
+      // Keeping the first application is right. Letting somebody believe their
+      // NEW start date took effect is not. A person who resubmits is usually
+      // unsure the first one worked, but a person who resubmits with a different
+      // date is trying to change it, and they have to be told it did not.
+      if (preferredStart) {
+        try {
+          const cur = await fetch(
+            `${env.SUPABASE_URL}/rest/v1/applications?email=eq.${encodeURIComponent(email)}&select=preferred_start_date`,
+            { headers: { apikey: env.SUPABASE_SERVICE_KEY,
+                         Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}` } });
+          const rows = cur.ok ? await cur.json() : [];
+          const stored = rows && rows[0] ? rows[0].preferred_start_date : null;
+          if (stored && stored !== preferredStart) startDateKept = stored;
+        } catch (e) {
+          console.warn('[waitlist] could not compare start dates:', String(e).slice(0, 120));
+        }
+      }
     } else {
       console.error('supabase insert failed', res.status, detail);
       return json({ error: 'We could not save that' }, 500);
@@ -177,7 +219,7 @@ export async function onRequestPost({ request, env }) {
             'notification',
             env.NOTIFY_EMAIL,
             `New application: ${name}`,
-            `Name: ${name}\nEmail: ${email}\nState: ${state}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
+            `Name: ${name}\nEmail: ${email}\nState: ${state}\nWants to start: ${preferredStart || 'no date chosen'}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
           )
         : (emailProblems.push('NOTIFY_EMAIL is not set, so no notification was sent'), undefined),
     ]);
@@ -190,7 +232,13 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  return json({ ok: true, duplicate });
+  return json({
+    ok: true, duplicate,
+    start_date_kept: startDateKept,
+    message: startDateKept
+      ? `We already have your application, and it is still set to start on ${startDateKept}. We have not changed it to the date you just picked. Reply to the email we sent and we will move you.`
+      : null,
+  });
 }
 
 export const onRequest = () => json({ error: 'Method not allowed' }, 405);

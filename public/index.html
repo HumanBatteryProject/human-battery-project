@@ -1210,6 +1210,15 @@
         <span class="field-err">Please put your country</span>
       </div>
 
+      <div class="field" id="f-start">
+        <label for="start_date">When do you want to start</label>
+        <p class="hint" id="start-why">Loading the next start dates.</p>
+        <select id="start_date" name="start_date" required>
+          <option value="">Pick a date</option>
+        </select>
+        <span class="field-err">Please pick a start date</span>
+      </div>
+
       <div class="field">
         <label for="source">How did you hear about us? <span class="opt">(you can skip this)</span></label>
         <input id="source" name="source" type="text">
@@ -1281,6 +1290,30 @@ function syncLocation(){
 sel.addEventListener('change', syncLocation);
 syncLocation();
 
+// The start dates come from /api/start-dates, which reads program_start_dates()
+// in the database. Computing the 1st and the 15th here as well would be a second
+// implementation of the lead time rule, and the two would disagree the first time
+// the lead time changed.
+var startSel = document.getElementById('start_date');
+fetch('/api/start-dates?count=4').then(function(r){ return r.json(); }).then(function(d){
+  if (!d || !d.dates || !d.dates.length) throw new Error('no dates');
+  document.getElementById('start-why').textContent = d.why;
+  d.dates.forEach(function(iso, i){
+    var o = document.createElement('option');
+    o.value = iso;
+    var dt = new Date(iso + 'T12:00:00Z');
+    o.textContent = dt.toLocaleDateString('en-US',
+      { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+      + (i === 0 ? ' (the soonest)' : '');
+    startSel.appendChild(o);
+  });
+}).catch(function(){
+  // Loud rather than an empty dropdown that reads as "not taking anyone".
+  document.getElementById('start-why').textContent =
+    'We could not load the start dates just now. Send the form anyway and we will confirm your date by email.';
+  startSel.required = false;
+});
+
 var form = document.getElementById('apply-form');
 var msg = document.getElementById('form-msg');
 var btn = document.getElementById('submit-btn');
@@ -1288,10 +1321,11 @@ var agreeErr = document.getElementById('agree-err');
 
 function bad(id, on){ document.getElementById(id).classList.toggle('bad', on); }
 
-['name','email','state','postal_code','country'].forEach(function(id){
+['name','email','state','postal_code','country','start_date'].forEach(function(id){
   var el = document.getElementById(id);
-  var field = 'f-' + (id === 'postal_code' ? 'postal' : id);
+  var field = 'f-' + (id === 'postal_code' ? 'postal' : (id === 'start_date' ? 'start' : id));
   el.addEventListener('input', function(){ bad(field, false); });
+  el.addEventListener('change', function(){ bad(field, false); });
 });
 document.getElementById('agree').addEventListener('change', function(){ agreeErr.style.display = 'none'; });
 
@@ -1395,6 +1429,7 @@ form.addEventListener('submit', function(e){
   var state = document.getElementById('state').value;
   var postal = document.getElementById('postal_code').value.trim();
   var country = document.getElementById('country').value.trim();
+  var startDate = document.getElementById('start_date').value;
   var agree = document.getElementById('agree').checked;
   var ok = true;
 
@@ -1404,6 +1439,7 @@ form.addEventListener('submit', function(e){
   if (!postal) { bad('f-postal', true); ok = false; }
   else if (state !== OUTSIDE && !/^[0-9]{5}(-[0-9]{4})?$/.test(postal)) { bad('f-postal', true); ok = false; }
   if (state === OUTSIDE && !country) { bad('f-country', true); ok = false; }
+  if (startSel.required && !startDate) { bad('f-start', true); ok = false; }
   if (!agree) { agreeErr.style.display = 'block'; ok = false; }
   var placement = readPlacement();
   if (!placement) { bad('f-placement', true); ok = false; }
@@ -1422,6 +1458,7 @@ form.addEventListener('submit', function(e){
     body: JSON.stringify({
       name: name, email: email, state: state,
       postal_code: postal,
+      preferred_start_date: startDate || null,
       country: state === OUTSIDE ? country : 'US',
       source: document.getElementById('source').value.trim(),
       consent_contact: true,
@@ -1435,9 +1472,11 @@ form.addEventListener('submit', function(e){
     sel.value = '';
     syncLocation();
     msg.className = 'msg ok';
-    msg.textContent = res.d && res.d.duplicate
-      ? 'We already have you. We sent the email again.'
-      : 'Got it. Check your email for the plan and the dates.';
+    msg.textContent = (res.d && res.d.message)
+      ? res.d.message
+      : (res.d && res.d.duplicate
+          ? 'We already have you. We sent the email again.'
+          : 'Got it. Check your email for the plan and the dates.');
     btn.textContent = 'Sent';
   }).catch(function(err){
     msg.className = 'msg err';

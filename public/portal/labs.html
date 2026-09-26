@@ -38,6 +38,19 @@
     </div>
 
     <div class="field">
+      <label for="e-fasting">Had you eaten before the sample</label>
+      <select id="e-fasting">
+        <option value="unknown">I am not sure</option>
+        <option value="fasted">No, I was fasted</option>
+        <option value="not_fasted">Yes, I had eaten</option>
+      </select>
+      <p class="tiny">This changes what some numbers mean, so we would rather record that you are
+      not sure than assume. If you were fasted, say roughly how many hours.</p>
+      <input id="e-fasted-hours" type="number" min="0" max="48" step="1" inputmode="numeric"
+             placeholder="hours fasted, if you know" style="margin-top:.4rem">
+    </div>
+
+    <div class="field">
       <label for="e-omega3">Omega-3 Index</label>
       <input id="e-omega3" type="number" step="0.01" inputmode="decimal" placeholder="5.8">
       <p class="tiny" id="hint-omega3"></p>
@@ -186,6 +199,8 @@ async function setUpEntry() {
         p_membership_id: membership.id,
         p_draw_point: el('#e-when').value,
         p_collected_on: el('#e-date').value,
+        p_fasting: el('#e-fasting').value || 'unknown',
+        p_fasted_hours: el('#e-fasted-hours').value === '' ? null : Number(el('#e-fasted-hours').value),
         p_document_path: path,
         p_values: values,
       });

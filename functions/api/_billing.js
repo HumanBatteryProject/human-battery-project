@@ -11,10 +11,10 @@
 
 import { PROGRAM_TOTAL_CENTS, money } from './_payments.js';
 
-// DECISION LEFT TO THE OWNER, safe value set. How many weeks the outstanding
-// balance is spread over. Four gives a month to catch up, which is long enough to
-// be a real offer and short enough that the balance does not outlive the program.
-// Listed in the daily report as an owner item.
+// CONFIRMED BY THE OWNER, 26 September 2026: four weeks. Long enough to be a
+// real offer, short enough that the balance does not outlive the program. This is
+// a ruling, not the safe default it started as, so changing it is a decision
+// rather than a tuning.
 export const WEEKLY_RECOVERY_WEEKS = 4;
 
 // One week of access per payment. Not a constant anyone should change casually:
