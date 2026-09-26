@@ -76,26 +76,56 @@ evidence = node("""import('./functions/api/_evidence.js').then(m=>{
 disclaimer = evidence.split("\x1e")[0].strip()
 tiers = [l.split("\x1f") for l in evidence.split("\x1e")[1].strip().split("\n") if "\x1f" in l]
 
-def body_html(text):
-    """The consent bodies are plain text with blank-line paragraphs and short
-    SHOUTED headings. Rendered as written: reformatting a document somebody is
-    about to approve would mean approving something they did not read."""
-    out = []
+def body_html(text, title=""):
+    """Render a consent body as written.
+
+    Two heading styles exist in these five documents and both have to survive.
+    The two new ones SHOUT their headings and put the paragraph on the very next
+    line. The three older ones use Title Case headings separated by blank lines,
+    and also carry bullet lists whose items start with a dash, which a naive
+    "short line is a heading" rule would promote into headings.
+
+    Nothing is reworded or reordered. Reformatting a document somebody is about
+    to approve would mean approving something they did not read.
+    """
+    out, bullets = [], []
+
+    def flush():
+        if bullets:
+            out.append("<ul>" + "".join(f"<li>{e(b)}</li>" for b in bullets) + "</ul>")
+            bullets.clear()
+
     for block in re.split(r"\n\s*\n", text.strip()):
         b = block.strip()
-        if not b: continue
-        lines = b.split("\n")
-        # A shouted first line is a section heading even when its paragraph
-        # follows on the very next line rather than after a blank one. Splitting
-        # only on blank lines ran every heading into its own prose.
-        head = lines[0].strip()
-        if head.isupper() and len(head) < 70:
+        if not b:
+            continue
+        # The stored body repeats its own title as the first line. The page
+        # already carries it as the heading.
+        if title and b.strip().lower() == title.strip().lower():
+            continue
+        if b.startswith("-"):
+            flush_needed = False
+            for line in b.split("\n"):
+                line = line.strip()
+                if line.startswith("-"):
+                    bullets.append(line.lstrip("- ").strip())
+                elif line:
+                    bullets.append(line)
+            continue
+        flush()
+        lines = [l.strip() for l in b.split("\n") if l.strip()]
+        head = lines[0]
+        shouted = head.isupper() and len(head) < 70
+        titled = (len(head) < 60 and not head.endswith(".")
+                  and not head.endswith(":") and len(lines) == 1)
+        if shouted or titled:
             out.append(f'<p class="sec">{e(head)}</p>')
-            rest = " ".join(l.strip() for l in lines[1:]).strip()
+            rest = " ".join(lines[1:]).strip()
             if rest:
                 out.append("<p>" + e(rest) + "</p>")
         else:
-            out.append("<p>" + e(" ".join(l.strip() for l in lines)) + "</p>")
+            out.append("<p>" + e(" ".join(lines)) + "</p>")
+    flush()
     return "".join(out)
 
 CSS = f"""
@@ -168,7 +198,7 @@ for (kind, version, title, body, required, eff, sha, hash_ok) in docs:
     <b>SHA256 OF THE TEXT BELOW</b> <span class="hash">{e(sha)}</span><br>
     <b>MATCHES WHAT IS STORED</b> {'yes' if yes(hash_ok) else 'NO, THE STORED HASH DOES NOT MATCH THE STORED TEXT'}
   </div>
-  {body_html(body)}
+  {body_html(body, title)}
   {sign_block(kind)}
 </div>""")
 
@@ -235,6 +265,58 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
   </div>
 </div>
 
+<div class="page">
+  <p class="kicker">READ THIS BEFORE THE DOCUMENTS</p>
+  <h1>Six sentences that are now wrong</h1>
+  <p class="lead">These are in the stored consent text, which is what a member
+  legally agrees to. They were true when written and were overtaken by later
+  decisions. The public pages on the site were updated; these were not, and that
+  is a miss rather than a difference of opinion.</p>
+
+  <div class="box gap">
+    <h3>Terms of service, the program and payment</h3>
+    <p>Says: <i>"Cohorts run for ninety days with thirty participants, all
+    starting on the same date and following the same protocol."</i></p>
+    <p>There are no cohorts. Every participant is an N of 1, there is no group
+    size, and people start individually on the 1st or the 15th.</p>
+  </div>
+
+  <div class="box gap">
+    <h3>Terms of service, the payment schedule</h3>
+    <p>Says: <i>"in two payments of $500 at enrollment and at day thirty, or in
+    three payments of approximately $333 at enrollment, day thirty and day
+    sixty."</i></p>
+    <p>Both schedules are wrong and the amounts are not approximate. Two payments
+    fall on Day 1 and Day 45. Three fall on Day 1, Day 31 and Day 61, at $333.33,
+    $333.33 and $333.34, which is what the software will actually charge.</p>
+  </div>
+
+  <div class="box gap">
+    <h3>Terms of service, refunds and materials</h3>
+    <p>Says: <i>"no refund, because the cohort seat, the panel, and the coaching
+    schedule are committed"</i> and <i>"Do not share program materials outside
+    your cohort."</i></p>
+    <p>There is no seat and no cohort to be outside of.</p>
+  </div>
+
+  <div class="box gap">
+    <h3>Privacy policy, why we collect it</h3>
+    <p>Says: <i>"To send you cohort dates, the protocol, and the blood panel."</i></p>
+    <p>A participant has a start date, not a cohort date.</p>
+  </div>
+
+  <div class="box">
+    <h3>What I have not done, and why</h3>
+    <p>I have not edited these. Changing what a member agrees to is your decision,
+    and the version discipline says a change makes it v2 with a new hash, not a
+    quiet correction to v1.</p>
+    <p>The cost of fixing it is currently near zero. Four of the five have been
+    agreed to exactly once, by the internal test account, during a test of the
+    consent flow. No real participant has agreed to anything. That stops being
+    true the day somebody enrolls.</p>
+  </div>
+</div>
+
 {''.join(pages)}
 
 <div class="page">
@@ -290,3 +372,65 @@ out = os.path.join(ROOT, "program-docs", "out", "HBP-Documents-For-Approval.pdf"
 os.makedirs(os.path.dirname(out), exist_ok=True)
 HTML(string=DOC, base_url=FONTS + os.sep).write_pdf(out)
 print("  wrote", out)
+
+
+# Verify, every build, that every word of every stored consent body actually
+# reached the page. A document presented for approval that is quietly missing
+# its last two sections is worse than no document, and "Limitation of liability"
+# and "Governing law" are the first two clauses anybody would look for.
+#
+# The extraction has one trap, and it cost me a false alarm before it cost me a
+# real one. Section headings carry letter-spacing, so pdftotext returns them one
+# glyph at a time: "G o ve r n i n g l a w". Word-splitting that yields single
+# letters, which get filtered as noise, and the checker then reports a heading
+# missing from a document that renders it perfectly. So each word is looked for
+# twice: as a word, and failing that, inside the page with every space removed.
+# The second form is weaker, and it is a fallback rather than the rule.
+def verify(out_path):
+    """Compare the rendered page against what the DATABASE stores, not against
+    the bodies this script happens to be holding.
+
+    The distinction is the whole point. Checking against the in-memory bodies
+    looks equivalent and is not: anything that shortens a body before it is
+    rendered shortens the expectation with it, and the check passes on a
+    truncated document. Proved by seeding exactly that, which the in-memory
+    version reported as complete. The database is what a member agreed to, so
+    the database is the thing the page has to match.
+
+    Bodies are fetched one at a time because every one of them contains blank
+    lines, which tears a multi-row result into fragments.
+
+    One extraction trap, and it produced a false alarm before it produced a real
+    one. Section headings carry letter-spacing, so pdftotext returns them a glyph
+    at a time: "G o ve r n i n g l a w". Splitting that yields single letters,
+    which get filtered as noise, and the checker then calls a heading missing
+    from a document that renders it perfectly. So each word is looked for twice:
+    as a word, and failing that, inside the page with every space removed. The
+    second form is weaker and is a fallback, not the rule.
+    """
+    import re as _re
+    txt = subprocess.run(["pdftotext", out_path, "-"],
+                         capture_output=True, text=True, check=True).stdout.lower()
+    on_page = set(w for w in _re.findall(r"[a-z]+", txt) if len(w) > 1)
+    despaced = _re.sub(r"[^a-z]", "", txt)
+
+    total = absent = 0
+    for (kind,) in q("select kind::text from consent_documents "
+                     "where retired_at is null order by kind"):
+        stored = subprocess.run(
+            ["psql", os.environ["SUPABASE_DB_URL"], "-At", "-c",
+             "select body from consent_documents "
+             "where retired_at is null and kind = '%s'" % kind],
+            capture_output=True, text=True, check=True).stdout.lower()
+        want = set(w for w in _re.findall(r"[a-z]+", stored) if len(w) > 1)
+        gone = sorted(w for w in want if w not in on_page and w not in despaced)
+        total += len(want); absent += len(gone)
+        print("  %-14s %3d distinct words stored, %d absent from the page %s"
+              % (kind, len(want), len(gone), gone[:5] if gone else ""))
+
+    print("  %d distinct words checked against the database, %d absent" % (total, absent))
+    if absent:
+        raise SystemExit("  REFUSING TO SHIP: the rendered document is missing %d "
+                         "word(s) of text somebody is being asked to approve." % absent)
+
+verify(out)

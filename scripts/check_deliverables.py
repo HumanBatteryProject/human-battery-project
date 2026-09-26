@@ -28,9 +28,21 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-# The population: every file that becomes a document a client pays for.
+# The population: every file that becomes a document A CLIENT PAYS FOR.
+#
+# Two generators in this directory produce documents for the OWNER rather than a
+# client: the approvals list and the consent documents for legal review. They are
+# excluded by name rather than by a pattern, because a pattern would quietly grow
+# to cover a real deliverable somebody named badly.
+#
+# Excluding them matters for one rule in particular. The approval documents have
+# to QUOTE the wrong payment schedule out of the terms of service in order to
+# point out that it is wrong, and a rule that forbids a price in anything would
+# otherwise make the discrepancy impossible to report.
+INTERNAL_ONLY = {"design", "approvals_doc", "documents_doc"}
+
 DELIVERABLES = sorted(
-    [p for p in (ROOT / "program-docs").glob("*.py") if p.stem != "design"]
+    [p for p in (ROOT / "program-docs").glob("*.py") if p.stem not in INTERNAL_ONLY]
 ) + [ROOT / "program-docs" / "kitchen_data.json",
      ROOT / "docs" / "HBP-Protocol-Complete.md"]
 
