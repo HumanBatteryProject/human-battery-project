@@ -186,7 +186,10 @@ export async function onRequestPost({ request, env }) {
           remaining_uncertainties: uncertainties, maintenance_priorities: priorities,
         })].join('\n\n'),
       messages: [{ role: 'user', content: 'Write the summary.' }],
-      maxTokens: 500,
+      // Raised from 500 when the prompt grew to carry all six comparisons. At 500
+      // the thinking block consumed the entire budget and no text was written at
+      // all. The budget has to cover the thinking as well as the summary.
+      maxTokens: 2000,
     });
     narrative = r.text;
     await finishRun(env, runId, 'ok',

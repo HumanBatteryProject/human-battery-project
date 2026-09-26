@@ -28,11 +28,23 @@ export const PROGRAM_DAYS = 90;
 export function stripeState(env) {
   const key = String(env.STRIPE_SECRET_KEY || '');
   const hook = String(env.STRIPE_WEBHOOK_SECRET || '');
-  if (!key || key === 'sk_test_' || key === 'sk_live_') {
+  // ABSENT and PLACEHOLDER are different facts and the message says which.
+  // Both stop the same work, but they are fixed in different places: a placeholder
+  // is edited in .dev.vars, an absent one is added to Cloudflare with wrangler
+  // pages secret put. The message used to say "is the literal placeholder" for
+  // both, and in production, where there is no Stripe secret at all, that sent me
+  // looking at the wrong thing.
+  if (!key) {
+    return { ready: false, why: 'STRIPE_SECRET_KEY is not set at all in this environment, so no payment method can be saved and no charge can be made. In production it is added with: wrangler pages secret put STRIPE_SECRET_KEY.' };
+  }
+  if (key === 'sk_test_' || key === 'sk_live_') {
     return { ready: false, why: 'STRIPE_SECRET_KEY is the literal placeholder, so no payment method can be saved and no charge can be made.' };
   }
-  if (!hook || hook === 'whsec_') {
-    return { ready: false, why: 'STRIPE_WEBHOOK_SECRET is the literal placeholder. Going live needs BOTH: a secret key without a webhook secret means the payment succeeds, the webhook 500s on signature verification, and nobody gets onboarded.' };
+  if (!hook) {
+    return { ready: false, why: 'STRIPE_WEBHOOK_SECRET is not set at all in this environment. Going live needs BOTH: a secret key without a webhook secret means the payment succeeds, the webhook fails signature verification, and nobody gets onboarded.' };
+  }
+  if (hook === 'whsec_') {
+    return { ready: false, why: 'STRIPE_WEBHOOK_SECRET is the literal placeholder. Going live needs BOTH: a secret key without a webhook secret means the payment succeeds, the webhook fails signature verification, and nobody gets onboarded.' };
   }
   return { ready: true, why: null };
 }

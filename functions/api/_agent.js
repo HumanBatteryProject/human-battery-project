@@ -78,14 +78,42 @@ export async function ask(env, { system, messages, maxTokens = 1024, model = MOD
   }
 
   const data = await res.json();
-  const text = (data.content || [])
+  const blocks = data.content || [];
+  const text = blocks
     .filter((b) => b.type === 'text')
     .map((b) => b.text)
     .join('')
     .trim();
 
+  // AN ANSWER WITH NO TEXT IN IT IS A FAILURE, and it used to be recorded as a
+  // success. The model replies with a thinking block and then a text block, and
+  // both are drawn from max_tokens. So a large enough input makes the thinking
+  // long enough to spend the whole budget, the reply comes back with a thinking
+  // block and no text block, and this function returned text: '' with a normal
+  // status. The caller then stored an empty result and finishRun wrote 'ok'.
+  //
+  // Found on the day 90 summary. Growing that prompt from about 2,000 input
+  // tokens to 12,593, by adding the six comparisons D8 asks for, left its
+  // max_tokens of 500 entirely consumed by thinking: 267 output tokens, zero of
+  // them text, a summary row with a null narrative, and an agent run marked ok.
+  // Nothing anywhere said the model had not answered.
+  //
+  // So it throws, with the numbers needed to fix it rather than just a complaint.
+  if (!text) {
+    const kinds = blocks.map((b) => b.type).join(', ') || 'no content blocks';
+    throw new Error(
+      `the model returned no text. stop_reason=${data.stop_reason}, blocks=[${kinds}], ` +
+      `max_tokens=${maxTokens}, output_tokens=${data.usage ? data.usage.output_tokens : '?'}, ` +
+      `input_tokens=${data.usage ? data.usage.input_tokens : '?'}. ` +
+      (data.stop_reason === 'max_tokens'
+        ? 'The budget was spent before any text was written, so max_tokens is too low for this prompt.'
+        : 'No text block was present in the reply.')
+    );
+  }
+
   return {
     text,
+    stopReason: data.stop_reason || null,
     tokensIn: data.usage ? data.usage.input_tokens : null,
     tokensOut: data.usage ? data.usage.output_tokens : null,
     model: data.model || model,
