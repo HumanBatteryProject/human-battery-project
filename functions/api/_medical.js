@@ -72,7 +72,11 @@ export function classify(question) {
 }
 
 export function prescriberReply(rows) {
-  const head = 'That one is for your prescriber, not for me. I can tell you why the program flags it.';
+  // D1: nothing here may imply that a clinician is watching. "I can tell you why
+  // the program flags it" is fine; what would not be fine is any suggestion that
+  // this conversation reaches a person, or that somebody will follow it up.
+  const head = 'That one is for your prescriber, not for me. I can tell you why the program flags it, ' +
+    'but nobody here is reading this as you type it and nobody here will follow it up.';
   if (!rows.length) {
     return head + '\n\nBring it to them before you change anything. If it is urgent, call them today.';
   }
@@ -85,4 +89,8 @@ export const URGENT_REPLY =
   'Stop and seek medical care now. What you have described is on the list the program ' +
   'treats as urgent: chest pain, fainting, shortness of breath at rest, blood pressure ' +
   'over 160 over 100, glucose over 200, or any new neurological symptom. ' +
-  'This is not something to bring to the weekly call. Call your physician or emergency services today.';
+  'This is not something to bring to the weekly call. Call your physician or emergency services today. ' +
+  // The sentence that has to be here. Telling somebody to seek care, without
+  // this, reads as though writing it here counts as raising it with someone. It
+  // does not. Nothing here alerts anybody.
+  'Writing it here does not alert anyone. This software is not monitored and cannot send help.';

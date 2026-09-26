@@ -17,11 +17,31 @@ export const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 // ---------------------------------------------------------------------
 // Auth
 // ---------------------------------------------------------------------
-export async function requireAuth() {
+export async function requireAuth({ skipConsentGate = false } = {}) {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
     location.href = '/portal/login.html?next=' + encodeURIComponent(location.pathname);
     return null;
+  }
+  // D1: no member proceeds without consent. The gate lives here so every portal
+  // page inherits it, rather than in each page where the next page added would
+  // be the one that forgot. The consent page itself and the account page are
+  // exempt: the first IS the gate, and the second is where a member manages what
+  // they agreed to.
+  const here = location.pathname;
+  const exempt = skipConsentGate
+    || here.endsWith('/consent.html')
+    || here.endsWith('/account.html')
+    || here.endsWith('/login.html')
+    || here.endsWith('/confirm.html');
+  if (!exempt) {
+    const { data: missing, error } = await sb.rpc('missing_required_consents');
+    // A failed check does NOT wave the member through. If we cannot tell whether
+    // they consented, we have not established that they did.
+    if (error || (missing && missing.length)) {
+      location.href = '/portal/consent.html';
+      return null;
+    }
   }
   return session;
 }

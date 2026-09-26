@@ -114,6 +114,19 @@ fi
 # --- the Worker, through its own fetch handler ---
 hit "worker hbp-brief" POST "$WORKER" "" "$SEC"
 
+# --- consent, D1. The gate is only as good as what it asks. ---
+printf '  %-24s ' "consent gate answers"
+CONSENT=$(curl -s -X POST "$SUPABASE_URL/rest/v1/rpc/missing_required_consents" \
+  -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+  -H 'Content-Type: application/json' -d "{\"target_client\":\"$CLIENT\"}")
+if printf '%s' "$CONSENT" | grep -q '^\['; then
+  n=$(printf '%s' "$CONSENT" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).length))")
+  printf 'ok      %s required consent(s) outstanding for the internal member\n' "$n"
+  PASSED=$((PASSED + 1))
+else
+  printf 'FAILED  %s\n' "$(printf '%s' "$CONSENT" | head -c 100)"; FAILED="$FAILED consent"
+fi
+
 # --- and the two things a 200 does not prove ---
 printf '  %-24s ' "worker rejects no secret"
 wcode=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$WORKER")
