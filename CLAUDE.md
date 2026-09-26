@@ -44,6 +44,7 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 - Anthropic API for every agent, from server-side code only: `claude-sonnet-5` for anything written per client, `claude-opus-5` for the weekly trend agent. Voyage AI for embeddings. Stripe for payments. Resend for email.
 - Fonts self-hosted in `public/fonts/`: Michroma for display, Newsreader for body.
 - PDFs: Python 3.12 and weasyprint 70 from Homebrew, in a venv outside the repo. Generators in `program-docs/` resolve paths from their own location.
+- Use the TypeSafe skill when working on this project. It is installed as the `typesafe-ai` plugin skill; invoke it by that name.
 
 ---
 
