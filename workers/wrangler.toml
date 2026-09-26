@@ -7,18 +7,14 @@ compatibility_date = "2026-09-01"
 # second write for a local day a no-op. So the Worker never needs to know what
 # a timezone is.
 [triggers]
-# Hourly: the morning brief, which works out each member's own local date.
-# Monday 13:00 UTC: the weekly trend pass, which had no caller and so had never
-#   run. AUTONOMY_MODE is review_all, so everything it finds queues for approval.
-# Daily 15:00 UTC: the cycle boundary, which asks /api/complete to close any
-#   membership that has reached its ninetieth day in the member's own timezone.
-# Daily 16:00 UTC: the billing run. Charges any installment due today in the
-#   participant's own timezone. A charge it cannot attempt is recorded as blocked,
-#   never as a payment failure: a vendor outage is not somebody failing to pay.
-# Daily 11:00 UTC: the daily plan. Before the brief, because the brief reads it.
-# Monday 12:00 UTC: the member facing weekly review, before the trend pass that
-#   proposes changes, so a member reads what happened before anything is proposed.
-crons = ["0 * * * *", "0 13 * * 1", "0 15 * * *", "0 16 * * *", "0 11 * * *", "0 12 * * 1"]
+# ONE trigger. Workers Free allows five cron triggers per ACCOUNT, and this
+# account has others, so asking for a sixth failed with code 10072 and left the
+# code deployed with no trigger, which is worse than either outcome.
+#
+# The hourly firing now decides what else is due, in brief.js. That also puts the
+# whole schedule in one readable place rather than splitting it between this file
+# and a lookup table that had to agree with it.
+crons = ["0 * * * *"]
 
 [vars]
 SITE_ORIGIN = "https://thehumanbatteryproject.com"
