@@ -72,7 +72,7 @@ export async function settings(env, keys) {
   return out;
 }
 
-// inFoundingWindow and the two founding settings were removed on 26 September:
-// the ruling is "no founding price". first_start_date() in the database stays,
-// because a participant's first start date is worth being able to ask for on its
-// own, and it is what any future dated offer would key on.
+// inFoundingWindow, the two founding settings and first_start_date() were all
+// removed on 26 September: the ruling is "no founding price", and a helper kept
+// alive for a retired concept is the concept waiting to come back. Discounts the
+// owner creates are the mechanism instead, in _discounts.js.

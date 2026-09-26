@@ -66,6 +66,7 @@ run cohortless_fixtures node tests/cohortless_fixtures.mjs
 # Money. The failure mode is charging a real person the wrong amount, so these
 # run before every commit and compare the page a buyer reads to the code.
 run billing_fixtures    node tests/billing_fixtures.mjs
+run discount_fixtures   node tests/discount_fixtures.mjs
 run constants_pinned    node tests/constants_pinned.mjs
 
 # check_claims runs LAST, per CLAUDE.md: it is the one that has to see the tree

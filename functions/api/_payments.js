@@ -44,15 +44,31 @@ export const PLANS = {
   },
 };
 
-// $1,000 / 3 = $333.333..., so the FINAL installment absorbs the remainder:
-// 333.33 + 333.33 + 333.34 = exactly 1,000.00. Never bill three equal thirds of
-// a price that does not divide, or the books are a cent short forever.
-export function installmentAmounts(planKey) {
+// Splitting a total that does not divide. Each installment is the total divided
+// by the count, ROUNDED, and the last one absorbs whatever is left over, which
+// may be a cent less or a cent more.
+//
+// WHY ROUNDED AND NOT FLOORED. Both answers were ruled explicitly, and only
+// rounding gives both:
+//   $1,000 over 3  ->  333.33, 333.33, 333.34   (floor also gives this)
+//   $800 over 3    ->  266.67, 266.67, 266.66   (floor gives 266.66, 266.66, 266.68)
+// The second is the 20 percent discount case. Flooring would have produced a
+// schedule a cent different from the one that was ruled, in the direction that
+// charges the last installment more.
+//
+// totalCents is a parameter so a discounted total splits by the same rule. Two
+// different splitters, one for list price and one for discounted, is how the
+// installments stop summing to what was agreed.
+export function installmentAmounts(planKey, totalCents = PROGRAM_TOTAL_CENTS) {
   const plan = PLANS[planKey];
   if (!plan) throw new Error(`unknown plan: ${planKey}`);
-  const base = Math.floor(PROGRAM_TOTAL_CENTS / plan.installments);
-  const amounts = Array(plan.installments).fill(base);
-  amounts[amounts.length - 1] += PROGRAM_TOTAL_CENTS - base * plan.installments;
+  if (!Number.isInteger(totalCents) || totalCents < 0) {
+    throw new Error(`total must be a whole number of cents, got ${JSON.stringify(totalCents)}`);
+  }
+  const n = plan.installments;
+  const base = Math.round(totalCents / n);
+  const amounts = Array(n).fill(base);
+  amounts[n - 1] = totalCents - base * (n - 1);
   return amounts;
 }
 
@@ -67,13 +83,13 @@ export function installmentAmounts(planKey) {
  *
  * @returns {{installment_no:number, amount_cents:number, due_on:string, program_day:number}[]}
  */
-export function installmentSchedule(planKey, dayZero) {
+export function installmentSchedule(planKey, dayZero, totalCents = PROGRAM_TOTAL_CENTS) {
   const plan = PLANS[planKey];
   if (!plan) throw new Error(`unknown plan: ${planKey}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dayZero || ''))) {
     throw new Error(`day zero must be YYYY-MM-DD, got ${JSON.stringify(dayZero)}`);
   }
-  const amounts = installmentAmounts(planKey);
+  const amounts = installmentAmounts(planKey, totalCents);
   return plan.days.map((programDay, i) => {
     const d = new Date(dayZero + 'T12:00:00Z');
     d.setUTCDate(d.getUTCDate() + (programDay - 1));   // Day 1 IS day zero
@@ -93,15 +109,15 @@ export function money(cents) {
     { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-export function planSummary(planKey, dayZero) {
+export function planSummary(planKey, dayZero, totalCents = PROGRAM_TOTAL_CENTS) {
   const plan = PLANS[planKey];
-  const rows = dayZero ? installmentSchedule(planKey, dayZero) : null;
-  const amounts = installmentAmounts(planKey);
+  const rows = dayZero ? installmentSchedule(planKey, dayZero, totalCents) : null;
+  const amounts = installmentAmounts(planKey, totalCents);
   return {
     key: planKey,
     label: plan.label,
-    total_cents: PROGRAM_TOTAL_CENTS,
-    total: money(PROGRAM_TOTAL_CENTS),
+    total_cents: totalCents,
+    total: money(totalCents),
     installments: plan.installments,
     schedule: (rows || plan.days.map((d, i) => ({ program_day: d, amount_cents: amounts[i] })))
       .map((r) => ({

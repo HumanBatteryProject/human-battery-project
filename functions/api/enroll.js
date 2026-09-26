@@ -19,6 +19,7 @@ import { json, db, hasServiceSecret, verifyStaff } from './_agent.js';
 import {
   PLANS, isValidPlan, installmentSchedule, planSummary, PROGRAM_TOTAL_CENTS, CURRENCY,
 } from './_payments.js';
+import { quote, quoteBalances } from './_discounts.js';
 
 export const PROGRAM_DAYS = 90;
 
@@ -61,8 +62,30 @@ export async function onRequestPost({ request, env }) {
   if (!m) return json({ error: 'no open membership' }, 404);
   if (!m.day_zero) return json({ error: 'the membership has no start date yet' }, 409);
 
-  const schedule = installmentSchedule(plan, m.day_zero);
-  const summary = planSummary(plan, m.day_zero);
+  // A discount, if the owner created one and it is still valid. Validated in the
+  // database so the answer cannot differ between this endpoint and the quote the
+  // participant was shown.
+  const code = body.discount_code ? String(body.discount_code).trim() : null;
+  let discount = null, discountRejected = null;
+  const v = await sb.rpc('validate_discount', {
+    p_code: code, p_client: clientId, p_target: 'program',
+  });
+  const vr = Array.isArray(v) ? v[0] : v;
+  if (vr && vr.ok) discount = { kind: vr.kind, amount: vr.amount, name: vr.name, id: vr.discount_id };
+  else if (code) discountRejected = (vr && vr.reason) || 'That discount is not valid.';
+
+  // A code that was typed and refused must NOT quietly enrol at list price. The
+  // participant chose to use it and would find out from their card statement.
+  if (discountRejected) return json({ error: discountRejected, discount_rejected: true }, 409);
+
+  const q = quote({ planKey: plan, dayZero: m.day_zero,
+                    listCents: PROGRAM_TOTAL_CENTS, discount });
+  if (!quoteBalances(q)) {
+    return json({ error: 'the quote did not balance, refusing to write a schedule' }, 500);
+  }
+
+  const schedule = installmentSchedule(plan, m.day_zero, q.charged_cents);
+  const summary = planSummary(plan, m.day_zero, q.charged_cents);
 
   // The entitlement runs Day 1 to Day 90 inclusive, for every option. A person on
   // three payments is not buying less program.
@@ -74,7 +97,7 @@ export async function onRequestPost({ request, env }) {
 
   if (dryRun) {
     return json({
-      ok: true, dry_run: true, client_id: clientId, plan, summary,
+      ok: true, dry_run: true, client_id: clientId, plan, summary, quote: q,
       entitlement: { kind: 'program', effective_from: m.day_zero, effective_to: effectiveTo },
       stripe_ready: stripe.ready, stripe_note: stripe.why,
     });
@@ -112,8 +135,19 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
+  // Redeemed only after the schedule exists, and only once: the unique index on
+  // (discount_id, client_id) plus the atomic use-limit increment inside
+  // redeem_discount are what stop a replay counting twice.
+  let redemption = null;
+  if (discount && scheduled > 0) {
+    redemption = await sb.rpc('redeem_discount', {
+      p_discount: discount.id, p_client: clientId, p_target: 'program',
+      p_plan: plan, p_list_cents: q.list_cents, p_discount_cents: q.discount_cents,
+    });
+  }
+
   return json({
-    ok: true, client_id: clientId, plan, summary,
+    ok: true, client_id: clientId, plan, summary, quote: q, redemption,
     entitlement_id: entitlementId,
     entitlement: { kind: 'program', effective_from: m.day_zero, effective_to: effectiveTo },
     scheduled, skipped_as_duplicate: skipped,
