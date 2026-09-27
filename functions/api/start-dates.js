@@ -10,8 +10,15 @@
 // disagree the first time the lead time changed.
 
 import { json } from './_agent.js';
+import { rateLimit, tooMany, callerIp } from './_ratelimit.js';
 
 export async function onRequestGet({ request, env }) {
+  // Read only and harmless in itself, but it is still a database round trip per
+  // request, so the limit is generous rather than absent. The application form
+  // calls it once per visit.
+  const limit = await rateLimit(env, 'start_dates_ip', callerIp(request));
+  if (!limit.allowed) return tooMany(limit, 'requests');
+
   const url = new URL(request.url);
   const count = Math.min(12, Math.max(1, parseInt(url.searchParams.get('count') || '4', 10) || 4));
 

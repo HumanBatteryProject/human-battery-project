@@ -3,6 +3,7 @@
 //   SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY, NOTIFY_EMAIL, FROM_EMAIL
 
 import { derive, OUTSIDE_US, STATE_NAMES } from './_geo.js';
+import { rateLimit, tooMany, callerIp } from './_ratelimit.js';
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -35,6 +36,12 @@ function cleanPlacement(raw) {
 }
 
 export async function onRequestPost({ request, env }) {
+  // This endpoint writes a row and had no limit at all, which is how a waitlist
+  // becomes a table of rubbish that somebody then has to read through to find the
+  // real people.
+  const limit = await rateLimit(env, 'waitlist_ip', callerIp(request));
+  if (!limit.allowed) return tooMany(limit, 'sign-ups from this connection');
+
   let body;
   try {
     body = await request.json();

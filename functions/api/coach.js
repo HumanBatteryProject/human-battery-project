@@ -26,6 +26,7 @@ import {
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
 import { canClaim, wordingFor, SCORE_DISCLAIMER, SCORE_TRIGGER } from './_evidence.js';
 import { classify, prescriberReply, URGENT_REPLY } from './_medical.js';
+import { rateLimit } from './_ratelimit.js';
 
 const AGENT = 'coach';
 
@@ -96,6 +97,23 @@ export async function onRequestPost({ request, env }) {
 
   // rate limit, counted from the log rather than held in memory
   const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  // TWO GATES, AND THE ORDER MATTERS.
+  //
+  // The count over coach_turns is the honest per-day allowance and it stays,
+  // because those rows are also the record of what was asked. But reading a count
+  // and then deciding is not atomic: fifty simultaneous questions all read
+  // nineteen, all pass, and fifty model calls happen against a limit of twenty.
+  // Same shape as the concurrent-brief cost leak, and it spends money rather than
+  // merely letting somebody talk too much.
+  //
+  // So the atomic counter goes FIRST, before anything is spent. Proved elsewhere:
+  // 12 simultaneous hits against a limit of 5 allowed exactly 5.
+  const atomic = await rateLimit(env, 'coach_client', clientId, { limit: DAILY_LIMIT });
+  if (!atomic.allowed) {
+    return json({ error: 'That is today\'s limit. The weekly call has no limit.',
+                  retry_after_seconds: atomic.retryAfterSeconds || null }, 429);
+  }
+
   const count = await sb.count('coach_turns', { client_id: clientId },
                                'asked_at=gte.' + since);
   if (count >= DAILY_LIMIT) {

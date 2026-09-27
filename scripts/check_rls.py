@@ -56,13 +56,37 @@ select c.relname, c.relrowsecurity::text, count(p.polname)::text
   from pg_class c join pg_namespace n on n.oid=c.relnamespace and n.nspname='public'
   left join pg_policy p on p.polrelid=c.oid
  where c.relkind='r' group by 1,2 order by 1;""")
+
+# ZERO POLICIES IS A DEFECT OR A DECISION, and the difference is whether any user
+# role was given a privilege on the table at all.
+#
+# Forgetting a policy leaves a table that a screen queries and gets nothing from,
+# which is the case worth failing. But a table meant only for the server, like
+# rate_limits, correctly has row level security on and no policies: service_role
+# bypasses RLS, and no participant should know how close anybody is to a limit.
+#
+# So the exemption is computed rather than a list of names to maintain: a table is
+# server-only when anon and authenticated hold NO privilege on it. Grant one and it
+# becomes a table somebody expects to read, and the missing policy is a defect
+# again.
+server_only = set(r[0] for r in q("""
+  select c.relname
+    from pg_class c join pg_namespace n on n.oid=c.relnamespace and n.nspname='public'
+   where c.relkind='r'
+     and not exists (
+       select 1 from information_schema.role_table_grants g
+        where g.table_schema='public' and g.table_name=c.relname
+          and g.grantee in ('anon','authenticated'))
+   order by 1;"""))
+
 for name, rls, npol in rows:
     if SEED == 1 and name == rows[0][0]:
         rls = 'false'
     if rls != 'true':
         problems.append(f'table {name}: row level security is OFF')
-    elif npol == '0':
-        problems.append(f'table {name}: row level security on but ZERO policies, so nothing can read it and nobody will notice until a screen is empty')
+    elif npol == '0' and name not in server_only:
+        problems.append(f'table {name}: row level security on but ZERO policies, and a user role holds '
+                        f'privileges on it, so a screen will query it and get nothing')
 
 # 2. security_invoker on every view.
 views = q("""
@@ -101,19 +125,34 @@ if anon_fns:
 #    bodies arrived as 361 fragments, the guard scan read fragments instead of
 #    functions, and the check reported "361 definer functions all guarded" while
 #    being incapable of failing. One row per function is the whole fix.
+#    A DEFINER FUNCTION NO USER ROLE CAN CALL NEEDS NO CHECK INSIDE IT, because
+#    the grant is the authorization. rate_limit_hit and rate_limits_purge are like
+#    this: service_role only, and service_role is the server's own key. Asking
+#    them to call auth.uid() would be asking them to authorize a caller that is
+#    never a user.
+#
+#    So the exemption is computed, not asserted. A function is exempt only when
+#    public, anon AND authenticated all hold no EXECUTE, checked with
+#    has_function_privilege rather than by reading an ACL string, because a null
+#    ACL means default privileges apply and a string scan reads that as "no grant"
+#    when it can mean the opposite.
 defs = q(r"""
 select p.proname,
        (p.prosrc ~* '(insert[[:space:]]+into|update[[:space:]]+[a-z_]|delete[[:space:]]+from)')::text,
-       (p.prosrc ~* '(is_staff[[:space:]]*\(|auth\.uid[[:space:]]*\(|current_role_is[[:space:]]*\(|is_enrolled[[:space:]]*\()')::text
+       (p.prosrc ~* '(is_staff[[:space:]]*\(|auth\.uid[[:space:]]*\(|current_role_is[[:space:]]*\(|is_enrolled[[:space:]]*\()')::text,
+       (   has_function_privilege('public', p.oid, 'EXECUTE')
+        or has_function_privilege('anon', p.oid, 'EXECUTE')
+        or has_function_privilege('authenticated', p.oid, 'EXECUTE'))::text
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace and n.nspname='public'
  where p.prosecdef
    and not exists (select 1 from pg_depend d where d.objid=p.oid and d.deptype='e')
  order by 1;""")
-for name, writes, guarded in defs:
+for name, writes, guarded, callable_by_user in defs:
     if SEED == 4 and name == defs[0][0]:
-        writes, guarded = 'true', 'false'
-    if writes == 'true' and guarded != 'true':
-        problems.append(f'function {name}: SECURITY DEFINER, writes, and names no authorization helper')
+        writes, guarded, callable_by_user = 'true', 'false', 'true'
+    if writes == 'true' and guarded != 'true' and callable_by_user == 'true':
+        problems.append(f'function {name}: SECURITY DEFINER, writes, reachable by a user role, '
+                        f'and names no authorization helper')
 
 # 5. Default privileges must not hand anon anything on objects we create.
 #    The supabase_admin entry cannot be changed from the postgres role on a
@@ -199,6 +238,6 @@ if problems:
         print('   ', p, file=sys.stderr)
     sys.exit(1)
 
-print(f'  rls ok: {len(rows)} tables all protected, {len(views)} views all security_invoker, '
+print(f'  rls ok: {len(rows)} tables all protected ({len(server_only)} server-only, no user grant), {len(views)} views all security_invoker, '
       f'anon holds nothing, {len(defs)} definer functions all guarded, '
       f'no TRUNCATE/TRIGGER/REFERENCES for anon or authenticated, profiles.role not self-editable')

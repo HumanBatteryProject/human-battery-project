@@ -33,6 +33,7 @@ import {
   CONTINUATION_PLANS, isContinuationKind, continuationDates, purchaseDecision,
 } from './_continuation.js';
 import { stripeState } from './enroll.js';
+import { rateLimit, tooMany, callerIp, hashed } from './_ratelimit.js';
 
 const API_VERSION = '2026-07-29.dahlia';
 
@@ -46,6 +47,17 @@ export async function onRequestPost({ request, env }) {
   const dryRun = body.dry_run === true;
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: 'Invalid email' }, 400);
+
+  // Rate limited before anything else happens, and by BOTH the address and the
+  // email. By IP alone, one machine walking a list of addresses is one caller. By
+  // email alone, a botnet gets a fresh allowance per address. The email limit is
+  // the one that matters here, because this endpoint answers differently depending
+  // on whether an application was accepted, and that makes it an oracle worth
+  // sweeping.
+  const ipLimit = await rateLimit(env, 'checkout_ip', callerIp(request));
+  if (!ipLimit.allowed) return tooMany(ipLimit, 'checkout attempts');
+  const emailLimit = await rateLimit(env, 'checkout_email', await hashed(email));
+  if (!emailLimit.allowed) return tooMany(emailLimit, 'checkout attempts');
 
   // Stripe first, and loudly. An unconfigured key must not produce a session URL
   // that 404s, and must not look like the participant did something wrong.
