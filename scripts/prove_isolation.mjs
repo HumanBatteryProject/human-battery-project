@@ -240,6 +240,28 @@ console.log('\nWrites, which matter more than reads');
      `status ${w.status}, role went ${before} -> ${after}`);
 }
 
+console.log('\nThe export endpoint, which takes a client_id and must not honour it');
+{
+  const BASE = process.env.HBP_BASE || 'https://thehumanbatteryproject.com';
+  const get = async (jwt, qs) => {
+    const res = await fetch(`${BASE}/api/export${qs}`, { headers: { Authorization: 'Bearer ' + jwt } });
+    let body = null; try { body = await res.json(); } catch {}
+    return { status: res.status, body };
+  };
+  const own = await get(A_JWT, '');
+  ok('A can export their own records', own.status === 200, `HTTP ${own.status}`);
+
+  // The whole risk of that query parameter in one line. Staff may use it; a member
+  // must not, and a member is what almost everybody is.
+  const theirs = await get(A_JWT, `?client_id=${B_CLIENT}`);
+  ok("A cannot export B's records by asking for their client_id",
+     theirs.status === 403, `HTTP ${theirs.status}`);
+
+  // And even if the status were wrong, the body must not carry B's rows.
+  const leaked = JSON.stringify(theirs.body || {}).includes('Private matter');
+  ok("and B's support request is not in the response either", !leaked);
+}
+
 console.log('\nThe anonymous case, with no session at all');
 {
   const res = await fetch(`${URL_}/rest/v1/lab_results?select=value&limit=5`, { headers: { apikey: ANON } });

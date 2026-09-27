@@ -47,6 +47,9 @@
       <h2>Your data</h2>
       <p class="quiet">Everything you have logged, and every result, belongs to you.</p>
       <button class="btn btn-sm" id="export">Download everything</button>
+      <p class="quiet">Every record we hold about you, as one file.</p>
+      <button class="btn btn-sm" id="delete-request">Ask us to delete my records</button>
+      <p class="quiet">We answer within forty five days. Nothing is deleted until a person reviews it, and this is separate from cancelling a membership.</p>
       <p class="tiny mt">To delete your account and all of your data, email <a href="mailto:admin@thehumanbatteryproject.com">admin@thehumanbatteryproject.com</a>. We respond within 45 days and usually within two.</p>
     </section>
 
@@ -123,33 +126,66 @@ const cc = el('#consents');
   cc.appendChild(row);
 });
 
-// export
+// Export.
+//
+// This used to build the file here, from twelve tables. The database holds 39 that
+// carry a participant's records, so a button labelled "Download everything" was
+// producing about a quarter of somebody's record: no dimension scores, no briefs, no
+// plans, no weekly reviews, no measurements, no intake answers, no memberships, no
+// entitlements, no payments, no support requests.
+//
+// It is one endpoint now, /api/export, whose coverage is checked against the
+// database by scripts/check_export.py so it cannot drift again. The endpoint reads
+// with this same session, so row level security still decides what comes back.
 el('#export').addEventListener('click', async () => {
-  el('#export').innerHTML = '<span class="spinner"></span> Building';
-  const [logs, foods, ex, beh, prac, labs, res, fx, scores] = await Promise.all([
-    sb.from('daily_logs').select('*'),
-    sb.from('log_foods').select('*'),
-    sb.from('log_exercises').select('*'),
-    sb.from('log_behaviors').select('*'),
-    sb.from('log_practices').select('*'),
-    sb.from('lab_panels').select('*'),
-    sb.from('lab_results').select('*'),
-    sb.from('functional_tests').select('*'),
-    sb.from('battery_scores').select('*'),
-  ]);
-  const blob = new Blob([JSON.stringify({
-    exported_at: new Date().toISOString(),
-    profile: p,
-    daily_logs: logs.data, log_foods: foods.data, log_exercises: ex.data,
-    log_behaviors: beh.data, log_practices: prac.data,
-    lab_panels: labs.data, lab_results: res.data,
-    functional_tests: fx.data, battery_scores: scores.data,
-  }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'human-battery-export-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-  el('#export').textContent = 'Download everything';
+  const btn = el('#export');
+  const label = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span> Building';
+  try {
+    const { data: s } = await sb.auth.getSession();
+    const res = await fetch('/api/export', {
+      headers: { Authorization: 'Bearer ' + (s.session ? s.session.access_token : '') },
+    });
+    if (!res.ok && res.status !== 207) { toast('We could not build your export.', 'err'); return; }
+    const payload = await res.json();
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'human-battery-export-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    // A partial export must not look complete. 207 means at least one table could
+    // not be read, and the file names which.
+    if (res.status === 207) {
+      toast(payload.total_rows + ' rows, but ' + payload.tables_failed +
+            ' table(s) could not be read. The file lists them.', 'err');
+    } else {
+      toast(payload.total_rows + ' rows from ' + payload.tables_exported + ' tables', 'ok');
+    }
+  } catch (e) {
+    toast('We could not build your export.', 'err');
+  } finally {
+    btn.textContent = label;
+  }
+});
+
+// Asking us to delete their records. Recorded with a due date, never performed
+// here: deletion cannot be undone, so a person reviews it. Kept separate from
+// cancelling a membership, which is a different thing and does not imply this.
+el('#delete-request').addEventListener('click', async () => {
+  if (!confirm('Ask us to delete your records?\n\nWe will review it and answer you. This is not the same as cancelling a membership, and nothing is deleted right now.')) return;
+  const { data: s } = await sb.auth.getSession();
+  const res = await fetch('/api/data-request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+               Authorization: 'Bearer ' + (s.session ? s.session.access_token : '') },
+    body: JSON.stringify({ kind: 'delete' }),
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok) { toast(out.error || 'We could not record that.', 'err'); return; }
+  toast(out.already_open
+    ? 'You already have a deletion request open. We kept the original.'
+    : 'Recorded. We will answer you by ' + new Date(out.due_by).toLocaleDateString('en-US'), 'ok');
 });
 
 el('#signout').addEventListener('click', signOut);

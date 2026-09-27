@@ -62,7 +62,7 @@ done
 # hook. check_rls is the one that stops the anon hole coming back: instance fixes
 # without a mechanism check is how it survived in the first place.
 set -a; [ -f ./.dev.vars ] && . ./.dev.vars; set +a
-for c in check_rls check_columns check_canon check_price_drift; do
+for c in check_rls check_columns check_canon check_price_drift check_export; do
   # `if out=$(...)` rather than an assignment followed by a test. With set -e a
   # bare assignment from a failing command kills the script at that line, so the
   # FAILED branch never printed and the deploy died with no message at all. The
