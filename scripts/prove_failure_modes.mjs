@@ -16,6 +16,7 @@
 // Every change made here is reverted in a finally block, including on failure.
 
 import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 
 const BASE = process.env.HBP_BASE || 'https://thehumanbatteryproject.com';
 const DB = process.env.SUPABASE_DB_URL;
@@ -77,11 +78,58 @@ const flag = (key) => sql(`select enabled::text from feature_flags where key='${
 const setFlag = (key, on) =>
   sql(`update feature_flags set enabled=${on ? 'true' : 'false'}, updated_at=now() where key='${key}'`);
 
+// A finally block is not enough, and I proved that the hard way: I piped a run to
+// `head -4`, node took SIGPIPE when head closed the pipe, the finally never ran, and
+// AI_GENERATION_ENABLED was left OFF on the live system. Nothing was obviously
+// broken. The next smoke test failed on the coach, which was correctly refusing to
+// answer because generation was switched off, and it took reading the flag table to
+// see why. Exactly the risk the guard comment above describes, caused by the person
+// who wrote the comment.
+//
+// So the intent to restore is written down BEFORE anything is flipped, and any
+// leftover intent from a crashed run is honoured at startup. Two mechanisms, because
+// a signal handler cannot be trusted to run and a file cannot restore anything by
+// itself.
+const STATE_FILE = new URL('../.failure-mode-probe-state', import.meta.url).pathname;
+
+function rememberToRestore(pairs) {
+  writeFileSync(STATE_FILE, JSON.stringify(pairs), 'utf8');
+}
+function restoreNow(why) {
+  if (!existsSync(STATE_FILE)) return false;
+  let pairs = {};
+  try { pairs = JSON.parse(readFileSync(STATE_FILE, 'utf8')); } catch { /* corrupt, below */ }
+  for (const [key, on] of Object.entries(pairs)) {
+    try { setFlag(key, on === true || on === 'true'); } catch (e) { /* reported below */ }
+  }
+  unlinkSync(STATE_FILE);
+  if (Object.keys(pairs).length) {
+    console.log(`  ${why}: restored ${Object.entries(pairs).map(([k, v]) => k + '=' + v).join(', ')}`);
+  }
+  return true;
+}
+
+// Anything left over from a previous run that did not finish.
+if (restoreNow('LEFTOVER STATE FROM AN EARLIER RUN')) {
+  console.log('  A previous run did not restore its own changes. Fixed before starting.\n');
+}
+
+// sql() is synchronous, so a signal handler can genuinely finish the work.
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGPIPE']) {
+  process.on(sig, () => { restoreNow(`interrupted by ${sig}`); process.exit(130); });
+}
+process.on('uncaughtException', (e) => {
+  restoreNow('uncaught exception');
+  console.error('  ' + String(e && e.message || e).slice(0, 200));
+  process.exit(1);
+});
+
 // =====================================================================
 console.log('The kill switch: AI_GENERATION_ENABLED off');
 // =====================================================================
 const aiWas = flag('AI_GENERATION_ENABLED');
 try {
+  rememberToRestore({ AI_GENERATION_ENABLED: aiWas === 'true' });
   setFlag('AI_GENERATION_ENABLED', false);
   ok('the flag reads false', flag('AI_GENERATION_ENABLED') === 'false');
 
@@ -122,6 +170,7 @@ try {
      `status ${runs}`);
 } finally {
   setFlag('AI_GENERATION_ENABLED', aiWas === 'true');
+  if (existsSync(STATE_FILE)) unlinkSync(STATE_FILE);
   ok('the kill switch is back where it was', flag('AI_GENERATION_ENABLED') === aiWas, `now ${flag('AI_GENERATION_ENABLED')}`);
 }
 
