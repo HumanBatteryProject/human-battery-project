@@ -57,10 +57,14 @@ export async function hashed(value) {
  * here is used for either: those are guarded by entitlements and by row level
  * security, neither of which fails open.
  */
-export async function rateLimit(env, name, discriminator, override = null) {
-  const rule = override ? { ...LIMITS[name], ...override } : LIMITS[name];
-  if (!rule) throw new Error(`no rate limit named ${name}`);
-  const bucket = `${name}:${discriminator}`;
+// `limitName` rather than `name`, because check_logs.py flags a log line that
+// mentions `name` and it is right to: the next `name` in this codebase really
+// might be a participant's. Renaming the variable is a better answer than teaching
+// the check to ignore the word.
+export async function rateLimit(env, limitName, discriminator, override = null) {
+  const rule = override ? { ...LIMITS[limitName], ...override } : LIMITS[limitName];
+  if (!rule) throw new Error(`no rate limit named ${limitName}`);
+  const bucket = `${limitName}:${discriminator}`;
 
   try {
     const res = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/rate_limit_hit`, {
@@ -77,7 +81,7 @@ export async function rateLimit(env, name, discriminator, override = null) {
       }),
     });
     if (!res.ok) {
-      console.error(`[ratelimit] ${name} unreachable: ${res.status} ${(await res.text()).slice(0, 160)}. Allowing this request UNCOUNTED.`);
+      console.error(`[ratelimit] ${limitName} unreachable: ${res.status} ${(await res.text()).slice(0, 160)}. Allowing this request UNCOUNTED.`);
       return { allowed: true, counted: false };
     }
     const out = await res.json();
@@ -85,7 +89,7 @@ export async function rateLimit(env, name, discriminator, override = null) {
              hits: out.hits, limit: out.limit,
              retryAfterSeconds: out.retry_after_seconds };
   } catch (e) {
-    console.error(`[ratelimit] ${name} threw: ${(e && e.message) || e}. Allowing this request UNCOUNTED.`);
+    console.error(`[ratelimit] ${limitName} threw: ${(e && e.message) || e}. Allowing this request UNCOUNTED.`);
     return { allowed: true, counted: false };
   }
 }

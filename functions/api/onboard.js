@@ -379,7 +379,10 @@ async function notifyStaff(env, client, membership, reason) {
   try {
     await sendEmail(env, {
       to: env.NOTIFY_EMAIL,
-      subject: `Onboarding needs a human: ${client.full_name || client.email}`,
+      // Same reason as the application notification: the subject IS the preview,
+      // readable by anybody near the phone. The membership id is enough to find
+      // the person and means nothing to a stranger.
+      subject: `Onboarding needs a human: membership ${membership.id}`,
       text: `${reason}\n\nClient: ${client.full_name || 'no name'} <${client.email}>\nMembership: ${membership.id}\n\nPlace them by hand, then re-run onboarding for this membership id.`,
     });
   } catch (e) {

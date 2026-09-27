@@ -42,6 +42,7 @@ import Stripe from 'stripe';
 import { json, supabase } from './_payments.js';
 import { isHandled, isStale, eventIso, sessionIntent } from './_webhook.js';
 import { isContinuationKind, continuationDates, addDays } from './_continuation.js';
+import { scrub } from './_redact.js';
 import { stripeState } from './enroll.js';
 
 const PROVIDER = 'stripe';
@@ -583,8 +584,12 @@ async function triggerOnboarding(env, origin, membershipId) {
       body: JSON.stringify({ membership_id: membershipId }),
     });
     const detail = (await res.text()).slice(0, 300);
-    if (res.ok) console.log(`[webhook] onboarding ${membershipId}: ${detail}`);
-    else console.error(`[webhook] ONBOARDING FAILED ${membershipId}: HTTP ${res.status} ${detail}`);
+    // detail is the onboarding agent's response body, which can carry a plan, a
+    // reason, or whatever the agent chose to say. The membership id identifies the
+    // row to somebody who already has database access; the body might identify the
+    // person to anybody reading a log.
+    if (res.ok) console.log(`[webhook] onboarding ${membershipId}: ${scrub(detail)}`);
+    else console.error(`[webhook] ONBOARDING FAILED ${membershipId}: HTTP ${res.status} ${scrub(detail)}`);
   } catch (e) {
     console.error(`[webhook] ONBOARDING THREW for ${membershipId}: ${(e && e.message) || e}`);
   }

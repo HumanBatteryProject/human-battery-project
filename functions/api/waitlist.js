@@ -3,6 +3,7 @@
 //   SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY, NOTIFY_EMAIL, FROM_EMAIL
 
 import { derive, OUTSIDE_US, STATE_NAMES } from './_geo.js';
+import { emailTag, placeTag, scrub } from './_redact.js';
 import { rateLimit, tooMany, callerIp } from './_ratelimit.js';
 
 const json = (body, status = 200) =>
@@ -67,7 +68,7 @@ export async function onRequestPost({ request, env }) {
 
   const placement = cleanPlacement(body.placement);
   if (body.placement && !placement) {
-    console.warn(`[waitlist] placement from ${email} was rejected, storing the application without one`);
+    console.warn(`[waitlist] placement from ${await emailTag(email)} was rejected, storing the application without one`);
   }
 
   // Timezone, latitude and hemisphere from the postal code. This is the only
@@ -107,7 +108,11 @@ export async function onRequestPost({ request, env }) {
   let tzConfidence = geo.tz_confidence;
   if (state !== OUTSIDE_US && geo.region && STATE_NAMES[geo.region] !== state) {
     tzConfidence = 'ask';
-    console.warn(`[waitlist] ${email} chose ${state} but ZIP ${postal.slice(0, 3)}xx is in ${geo.region}, timezone marked ask`);
+    // Was: the address, the chosen state, the first three digits of the postal
+      // code and the derived region, all on one line. Identity plus location. The
+      // CONTRADICTION is what is worth logging, and it can be logged without naming
+      // anybody or narrowing them to a few streets.
+      console.warn(`[waitlist] ${await emailTag(email)} chose a state that contradicts their postal code (${placeTag(geo.region)}), timezone marked ask`);
   }
 
   const row = {
@@ -153,7 +158,7 @@ export async function onRequestPost({ request, env }) {
     const detail = await res.text();
     if (res.status === 409 || detail.includes('23505')) {
       duplicate = true;
-      console.log(`[waitlist] duplicate application from ${email}, the original is kept`);
+      console.log(`[waitlist] duplicate application from ${await emailTag(email)}, the original is kept`);
       // Keeping the first application is right. Letting somebody believe their
       // NEW start date took effect is not. A person who resubmits is usually
       // unsure the first one worked, but a person who resubmits with a different
@@ -172,7 +177,10 @@ export async function onRequestPost({ request, env }) {
         }
       }
     } else {
-      console.error('supabase insert failed', res.status, detail);
+      // detail is PostgREST's error body, which ECHOES THE FAILING ROW: name, email,
+        // state and postal code together. An insert failure is exactly when somebody
+        // goes looking at logs, so this was an identity dump waiting for a bad day.
+        console.error('[waitlist] supabase insert failed', res.status, scrub(detail));
       return json({ error: 'We could not save that' }, 500);
     }
   }
@@ -199,7 +207,7 @@ export async function onRequestPost({ request, env }) {
         });
       } catch (e) {
         const why = `${label} email to ${to} threw: ${(e && e.message) || e}`;
-        console.error(`[waitlist] EMAIL FAILED ${why}`);
+        console.error(`[waitlist] EMAIL FAILED ${scrub(why)}`);
         emailProblems.push(why);
         return;
       }
@@ -209,7 +217,7 @@ export async function onRequestPost({ request, env }) {
         let detail = '';
         try { detail = (await res.text()).slice(0, 500); } catch { detail = '(body unreadable)'; }
         const why = `${label} email to ${to} rejected: HTTP ${res.status} from=${env.FROM_EMAIL} ${detail}`;
-        console.error(`[waitlist] EMAIL FAILED ${why}`);
+        console.error(`[waitlist] EMAIL FAILED ${scrub(why)}`);
         emailProblems.push(why);
       }
     };
@@ -225,7 +233,11 @@ export async function onRequestPost({ request, env }) {
         ? send(
             'notification',
             env.NOTIFY_EMAIL,
-            `New application: ${name}`,
+            // NOT `New application: ${name}`. The subject is what appears on a lock
+            // screen, and a name there tells anybody who can see the phone that this
+            // person applied to a health program. The name is in the body, which
+            // requires opening the mail.
+            'New application received',
             `Name: ${name}\nEmail: ${email}\nState: ${state}\nWants to start: ${preferredStart || 'no date chosen'}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
           )
         : (emailProblems.push('NOTIFY_EMAIL is not set, so no notification was sent'), undefined),
@@ -235,7 +247,7 @@ export async function onRequestPost({ request, env }) {
   if (emailProblems.length) {
     // One line per application so it is greppable in `wrangler pages deployment tail`.
     console.error(
-      `[waitlist] APPLICATION SAVED BUT EMAIL DID NOT FULLY SEND. id=${row.email} problems=${JSON.stringify(emailProblems)}`
+      `[waitlist] APPLICATION SAVED BUT EMAIL DID NOT FULLY SEND. ${await emailTag(row.email)} problems=${scrub(JSON.stringify(emailProblems))}`
     );
   }
 

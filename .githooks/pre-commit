@@ -40,6 +40,11 @@ run check_deliverables  $PY scripts/check_deliverables.py
 run check_css           $PY scripts/check_css.py
 run check_palette       $PY scripts/check_palette.py
 
+# Day 11. No address, no measured value and nothing a participant typed in a log
+# line or a notification subject. Needs no credentials, so it belongs here rather
+# than in the deploy.
+run check_logs          $PY scripts/check_logs.py
+
 # ALL NINE fixture suites. Until 2026-09-25 only three of the nine ran here and
 # the other six ran nowhere at all: they passed, but nothing would have noticed
 # if they stopped. A suite wired into no gate is a suite that is green until the
