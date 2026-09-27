@@ -27,6 +27,7 @@ import {
 import { accessDecision } from './_billing.js';
 import { stripeState } from './enroll.js';
 import Stripe from 'stripe';
+import { requireSubject } from './_subject.js';
 
 const API_VERSION = '2026-07-29.dahlia';
 const ACTIONS = ['consent', 'cancel', 'resume'];
@@ -59,8 +60,9 @@ export async function onRequestGet({ request, env }) {
   // A member can only ever ask about themselves. Staff must name a client, and
   // an unscoped read is how the admin dashboard once showed one participant
   // another participant's weekly review.
-  const clientId = who.kind === 'member' ? who.id : String(url.searchParams.get('client_id') || '').trim();
-  if (!clientId) return json({ error: 'client_id required' }, 400);
+  const subject = requireSubject(who, url.searchParams.get('client_id'));
+  if (!subject.ok) return json({ error: subject.error }, subject.status);
+  const clientId = subject.clientId;
 
   const sb = db(env);
   return json(await membershipState(env, sb, clientId));
@@ -200,7 +202,9 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'action must be one of: ' + ACTIONS.join(', ') }, 400);
   }
 
-  const clientId = who.kind === 'member' ? who.id : String(body.client_id || '').trim();
+  const subjectP = requireSubject(who, body.client_id);
+  if (!subjectP.ok) return json({ error: subjectP.error }, subjectP.status);
+  const clientId = subjectP.clientId;
   if (!clientId) return json({ error: 'client_id required' }, 400);
 
   const sb = db(env);

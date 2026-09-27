@@ -16,6 +16,7 @@ import {
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
 import { GenerationPaused } from './_flags.js';
+import { wearableContext, WEARABLE_RULES } from './_wearable_voice.js';
 
 const AGENT = 'morning-brief';
 
@@ -118,6 +119,15 @@ export async function buildBrief(sb, env, member, today) {
   });
   const passage = (hits && hits[0]) || null;
 
+  // Device readings for yesterday and the day before, because a night's sleep lands on the
+  // provider hours after it ends and the brief is written in the morning.
+  const wearables = await sb.select('wearable_daily', {
+    where: { client_id: member.client_id, is_held: false },
+    columns: '*', raw: `day=gte.${shiftDate(today, -2)}&day=lte.${today}`,
+    order: 'day.desc', limit: 6,
+  });
+  const deviceContext = wearableContext(wearables);
+
   const hasData = !!log;
   const missing = hasData ? null : FIRST_ASK[0];
 
@@ -142,7 +152,13 @@ export async function buildBrief(sb, env, member, today) {
         (passage ? '\n\nONE PASSAGE, for context only:\n' + passage.passage.slice(0, 900) : '')
       : 'THIS MEMBER LOGGED NOTHING YESTERDAY. Do not write a report of zeros. ' +
         'Write two sentences that ask for ONE thing today: ' + missing[1] + '.',
-  ].join('\n\n');
+    // Device readings, and the rules that govern how they may be spoken about. Before the
+    // facts, so the constraint is read before the numbers, and omitted entirely when there
+    // is nothing rather than sending an empty section.
+    deviceContext && deviceContext.length
+      ? WEARABLE_RULES + '\n\nDEVICE READINGS:\n' + JSON.stringify(deviceContext, null, 1)
+      : '',
+  ].filter(Boolean).join('\n\n');
 
   const runId = await startRun(env, AGENT, { clientId: member.client_id, model: MODEL_PER_CLIENT });
   let text;

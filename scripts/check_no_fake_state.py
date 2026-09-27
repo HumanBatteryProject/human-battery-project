@@ -72,6 +72,20 @@ def strip_comments(src, html):
     src = re.sub(r'^\s*//.*$', '', src, flags=re.M)
     return src
 
+# THE DEVICES PAGE IS EXEMPT FROM THE STRING SCAN, and the reason matters.
+#
+# It contains the words "connect" and "your ring" because it RENDERS them conditionally, from
+# the live flag state fetched when the page loads. A static scan cannot tell markup behind a
+# condition from a control somebody can press, so on this page it produced two findings that
+# were both wrong, and the only way to quiet it would have been to weaken it everywhere.
+#
+# So the string scan keeps doing what it is good at, catching a stray connect control on a page
+# that has no business having one, and the devices page is checked at RUNTIME instead by
+# scripts/prove_wearables.mjs: the page is loaded in a browser and asserted to offer no connect
+# control and show no connected state for any provider whose flag is off. That is the only kind
+# of check that can answer this question.
+RUNTIME_CHECKED = {'public/portal/devices.html'}
+
 hits = []
 for dirpath, _dirs, files in os.walk(os.path.join(ROOT, 'public')):
     for fn in files:
@@ -80,6 +94,8 @@ for dirpath, _dirs, files in os.walk(os.path.join(ROOT, 'public')):
         path = os.path.join(dirpath, fn)
         rel = os.path.relpath(path, ROOT)
         src = strip_comments(open(path, encoding='utf-8', errors='replace').read(), fn.endswith('.html'))
+        if rel in RUNTIME_CHECKED:
+            continue
         for m in CONTROL.finditer(src):
             line = src[:m.start()].count('\n') + 1
             hits.append(f'{rel}:{line} "{m.group(0).strip()[:40]}"')
@@ -163,7 +179,25 @@ for h in hits:
     problems.append(f'a connect control or connected state exists in the interface while its '
                     f'provider is switched off: {h}')
 
-# F2's last sentence.# F2's last sentence. The internal account IS demonstration data, so the portal has
+# The exemption above is only honest if the runtime check it defers to exists.
+prove = os.path.join(ROOT, 'scripts/prove_wearables.mjs')
+if not os.path.exists(prove):
+    problems.append('the devices page is exempt from the string scan because prove_wearables.mjs '
+                    'checks it at runtime, and prove_wearables.mjs does not exist')
+else:
+    # Looked for by the two things the runtime check cannot do without: it loads the page in a
+    # browser, and it inspects the connect controls that are actually present. A single string
+    # match on a variable name would have been a weaker proxy, and was: the first version looked
+    # for 'flag_on' and failed against a proof that does the right thing under other names.
+    proof = open(prove, encoding='utf-8').read()
+    if 'cdp.mjs' not in proof:
+        problems.append('prove_wearables.mjs never loads the devices page in a browser, so the '
+                        'exemption from the string scan is not replaced by anything')
+    if 'data-connect' not in proof:
+        problems.append('prove_wearables.mjs never inspects the connect controls on the page, so '
+                        'nothing checks that a switched-off provider is not offered')
+
+# F2's last sentence. The internal account IS demonstration data, so the portal has
 # to say so. portal.css carried .test-banner unused since it was written.
 app = open(os.path.join(ROOT, 'public/portal/app.js'), encoding='utf-8').read()
 if SEED == 'banner':

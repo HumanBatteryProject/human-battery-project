@@ -153,6 +153,22 @@ if [ -n "$SUPABASE_DB_URL" ]; then
   fi
 fi
 
+# The wearable acceptance tests, section 4 of the wearables brief, against what just went
+# live. Runs in sandbox mode on the internal account, restores every flag it touches, and
+# refuses if any real participant exists.
+if [ -n "$SUPABASE_DB_URL" ] && [ -f scripts/prove_wearables.mjs ]; then
+  echo "wearables:"
+  if out=$(node scripts/prove_wearables.mjs 2>&1); then
+    echo "$out" | tail -1 | sed 's/^/  /'
+  elif echo "$out" | grep -q "REFUSING"; then
+    echo "$out" | grep REFUSING | sed 's/^/  /'
+  else
+    echo "$out" | grep -E "FAIL" | head -8 | sed 's/^/  /'
+    echo "  THE DEPLOY IS LIVE AND A WEARABLE ACCEPTANCE LINE FAILED."
+    exit 1
+  fi
+fi
+
 # The runbook, rehearsed against what just went live. It fails if the runbook names a
 # script, screen, endpoint or switch state that is not real, which is the failure mode a
 # runbook actually has: it is read in the one situation where nobody has time to discover

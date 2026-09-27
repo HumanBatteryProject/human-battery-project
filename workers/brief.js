@@ -19,22 +19,38 @@
 
 export default {
   async scheduled(event, env, ctx) {
-    // Three schedules, routed by which cron fired. The hourly one is the
-    // morning brief; the other two are the jobs that had no caller at all.
-    const JOBS = {
-      '0 * * * *':   '/api/brief-run',       // hourly, each member's local morning
-      '0 13 * * 1':  '/api/trend',           // Monday, the trend pass
-      '0 12 * * 1':  '/api/weekly-review',  // Monday, before the trend pass
-      '0 15 * * *':  '/api/cycle-boundary',  // daily, day ninety
-      '0 16 * * *':  '/api/billing-run',     // daily, charges what is due
-      '0 11 * * *':  '/api/plan-run',        // daily, the plan before the brief
-    };
-    const path = JOBS[event.cron];
-    if (path && path !== '/api/brief-run') {
-      ctx.waitUntil(call(env, path));
-      return;
-    }
-    ctx.waitUntil(run(env));
+    // ONE TRIGGER DECIDES WHAT IS DUE, and it now actually does.
+    //
+    // wrangler.toml has a single cron, "0 * * * *", because Workers Free allows five per
+    // ACCOUNT and this account has others. The previous version looked the fired cron up in a
+    // table of six expressions, found '/api/brief-run', and called run(env). Which means the
+    // other five entries never fired: no plan-run, no billing-run, no cycle-boundary, no
+    // trend, no weekly-review. The comment above that table said the hourly firing decides
+    // what else is due. It did not. A table of schedules that cannot fire reads exactly like
+    // a schedule, which is why it survived.
+    //
+    // So the hour decides, from the one firing we actually get. UTC deliberately: these are
+    // account-level jobs, and every endpoint behind them works out each member's own local
+    // date for itself. That is why the trigger is hourly at all.
+    const now = new Date(event.scheduledTime || Date.now());
+    const hour = now.getUTCHours();
+    const isMonday = now.getUTCDay() === 1;
+
+    const due = [];
+    due.push('/api/brief-run');                        // every hour, for every timezone's morning
+    due.push('/api/wearable-sync');                    // every hour, the pull half of wearables
+    if (hour === 11) due.push('/api/plan-run');        // the plan before the brief
+    if (hour === 15) due.push('/api/cycle-boundary');  // day ninety
+    if (hour === 16) due.push('/api/billing-run');     // what is due today
+    if (isMonday && hour === 12) due.push('/api/weekly-review');
+    if (isMonday && hour === 13) due.push('/api/trend');   // after the review, deliberately
+
+    // Sequential, not parallel. They share a database and the later ones read what the
+    // earlier ones write: the plan is written before the brief that describes it.
+    ctx.waitUntil((async () => {
+      for (const path of due) await call(env, path);
+      console.log(`hour ${hour} UTC: ran ${due.join(', ')}`);
+    })());
   },
 
   // The same path by hand, for testing. Requires the same secret.
@@ -42,6 +58,18 @@ export default {
     const given = request.headers.get('x-hbp-secret') || '';
     if (!env.WEBHOOK_SECRET || given !== env.WEBHOOK_SECRET) {
       return new Response('no', { status: 403 });
+    }
+    // ?job=/api/wearable-sync runs one job, so a single one can be exercised by hand
+    // without waiting for its hour.
+    const job = new URL(request.url).searchParams.get('job');
+    if (job) {
+      if (!/^\/api\/[a-z-]+$/.test(job)) {
+        return new Response(JSON.stringify({ error: 'that is not a job path' }), { status: 400 });
+      }
+      await call(env, job);
+      return new Response(JSON.stringify({ ran: job }), {
+        headers: { 'content-type': 'application/json' },
+      });
     }
     const r = await run(env);
     return new Response(JSON.stringify(r), {

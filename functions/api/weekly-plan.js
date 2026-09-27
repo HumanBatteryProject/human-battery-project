@@ -21,6 +21,7 @@ import {
   weeklyPlanOffer, outstandingCents, accessThroughAfterWeeklyPayment,
 } from './_billing.js';
 import { money } from './_payments.js';
+import { requireSubject } from './_subject.js';
 
 const ACTIONS = ['offer', 'accept', 'decline', 'paid', 'failed', 'restore'];
 
@@ -66,7 +67,11 @@ export async function onRequestPost({ request, env }) {
 
   const sb = db(env);
   // A member may only ever act on themselves.
-  const clientId = who.kind === 'member' ? who.id : String(body.client_id || '').trim();
+  // One rule, in _subject.js. This inline form refused the owner's own request,
+  // because their account is an admin and so took the staff branch.
+  const subj = requireSubject(who, body.client_id);
+  if (!subj.ok) return json({ error: subj.error }, subj.status);
+  const clientId = subj.clientId;
   if (!clientId) return json({ error: 'client_id required' }, 400);
 
   const today = new Date().toISOString().slice(0, 10);

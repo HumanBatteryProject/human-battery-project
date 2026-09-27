@@ -17,6 +17,7 @@ import { quote, quoteBalances } from './_discounts.js';
 import { PLANS, isValidPlan, PROGRAM_TOTAL_CENTS } from './_payments.js';
 import { settings, KEYS } from './_settings.js';
 import { stripeState } from './enroll.js';
+import { requireSubject } from './_subject.js';
 
 const TARGETS = ['program', 'continuation_monthly', 'continuation_annual'];
 
@@ -146,7 +147,11 @@ export async function onRequestPost({ request, env }) {
       return json({ error: 'plan must be one of: ' + Object.keys(PLANS).join(', ') }, 400);
     }
     // A member may only ever quote for themselves.
-    const clientId = who.kind === 'member' ? who.id : String(body.client_id || '').trim();
+    // One rule, in _subject.js. This inline form refused the owner's own request,
+    // because their account is an admin and so took the staff branch.
+    const subj = requireSubject(who, body.client_id);
+    if (!subj.ok) return json({ error: subj.error }, subj.status);
+    const clientId = subj.clientId;
     const code = body.code ? String(body.code).trim() : null;
 
     const listCents = await listPriceFor(env, target);

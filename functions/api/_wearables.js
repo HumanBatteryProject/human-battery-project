@@ -104,20 +104,27 @@ export const FLAGGED_OFF = Object.values(PROVIDERS).filter((p) => p.v1 === 'flag
 // ---------------------------------------------------------------------
 // The section 2 schema, with the bounds that make a unit error impossible to miss
 // ---------------------------------------------------------------------
+// `int` mirrors the column type in wearable_daily, and it is here because it is a property of
+// the field rather than of any one caller.
+//
+// Found by the database refusing a write: 23,796 seconds of sleep converts to 396.6 minutes and
+// sleep_duration_min is an integer column, so PostgREST answered 22P02, invalid input syntax for
+// type integer. Loudly, which is the good version of this mistake. Rounding happens once, in
+// normalizeDay, and the unrounded provider value is kept in `raw` so nothing is lost.
 export const FIELDS = {
-  sleep_duration_min:    { unit: 'minutes', low: 60,   high: 1000 },
+  sleep_duration_min:    { unit: 'minutes', low: 60,   high: 1000,   int: true },
   sleep_efficiency_pct:  { unit: 'percent', low: 1,    high: 100 },
   bedtime_start:         { unit: 'timestamp' },
   bedtime_end:           { unit: 'timestamp' },
-  resting_hr_bpm:        { unit: 'bpm',     low: 25,   high: 120 },
+  resting_hr_bpm:        { unit: 'bpm',     low: 25,   high: 120,    int: true },
   hrv_rmssd_ms:          { unit: 'ms',      low: 1,    high: 300 },
   respiratory_rate_bpm:  { unit: 'breaths per minute', low: 5, high: 40 },
   skin_temp_deviation_c: { unit: 'degrees Celsius', low: -5, high: 5 },
-  steps:                 { unit: 'count',   low: 0,    high: 100000 },
-  time_in_daylight_min:  { unit: 'minutes', low: 0,    high: 1440 },
+  steps:                 { unit: 'count',   low: 0,    high: 100000, int: true },
+  time_in_daylight_min:  { unit: 'minutes', low: 0,    high: 1440,   int: true },
   weight_kg:             { unit: 'kilograms', low: 20, high: 400 },
-  systolic_mmhg:         { unit: 'mmHg',    low: 60,   high: 260 },
-  diastolic_mmhg:        { unit: 'mmHg',    low: 30,   high: 200 },
+  systolic_mmhg:         { unit: 'mmHg',    low: 60,   high: 260,    int: true },
+  diastolic_mmhg:        { unit: 'mmHg',    low: 30,   high: 200,    int: true },
 };
 
 // Which provider can supply which field, from the brief's own table. A provider
@@ -186,6 +193,28 @@ export const MAPPING = {
     weight_kg:             { from: 'measures.weight', in: 'kilograms' },
     systolic_mmhg:         { from: 'measures.systolic', in: 'mmHg' },
     diastolic_mmhg:        { from: 'measures.diastolic', in: 'mmHg' },
+  },
+  garmin: {
+    // Garmin Health API dailies and sleeps. UNVERIFIED like the rest, and held on absence.
+    sleep_duration_min:    { from: 'sleepTimeInSeconds', in: 'seconds', to: SECONDS_TO_MIN },
+    sleep_efficiency_pct:  { from: 'sleepEfficiencyPercentage', in: 'percent' },
+    bedtime_start:         { from: 'sleepStartTimeInSeconds' },
+    bedtime_end:           { from: 'sleepEndTimeInSeconds' },
+    resting_hr_bpm:        { from: 'restingHeartRateInBeatsPerMinute', in: 'bpm' },
+    hrv_rmssd_ms:          { from: 'hrvSummary.lastNightAvg', in: 'ms' },
+    respiratory_rate_bpm:  { from: 'averageRespirationValue', in: 'breaths per minute' },
+    steps:                 { from: 'steps', in: 'count' },
+  },
+  google_health: {
+    // Google Health API. UNVERIFIED, and the old Fitbit Web API is deliberately not here:
+    // it shuts down September 2026 and the brief forbids building against it.
+    sleep_duration_min:    { from: 'sleep.totalSleepMinutes', in: 'minutes' },
+    sleep_efficiency_pct:  { from: 'sleep.efficiencyPercent', in: 'percent' },
+    bedtime_start:         { from: 'sleep.startTime' },
+    bedtime_end:           { from: 'sleep.endTime' },
+    resting_hr_bpm:        { from: 'heart.restingHeartRateBpm', in: 'bpm' },
+    hrv_rmssd_ms:          { from: 'heart.hrvRmssdMillis', in: 'ms' },
+    steps:                 { from: 'activity.steps', in: 'count' },
   },
   apple_health_upload: {
     // From the export XML record types, which ARE documented and stable.
@@ -269,7 +298,9 @@ export function normalizeDay(provider, day, payload) {
                 `The provider sent ${rawValue} from ${rule.from}, which usually means the unit is not ${rule.in}` });
       continue;
     }
-    row[field] = converted;
+    // Rounded for an integer column, and to two decimals otherwise, so a float never reaches a
+    // column that cannot hold one. The provider's own value is already in row.raw.
+    row[field] = spec.int ? Math.round(converted) : Math.round(converted * 100) / 100;
   }
 
   // A row with nothing in it is not a reading.

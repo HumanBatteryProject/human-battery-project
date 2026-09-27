@@ -27,6 +27,7 @@ import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './
 import { canClaim, wordingFor, SCORE_DISCLAIMER, SCORE_TRIGGER } from './_evidence.js';
 import { classify, prescriberReply, URGENT_REPLY } from './_medical.js';
 import { rateLimit } from './_ratelimit.js';
+import { wearableContext, WEARABLE_RULES } from './_wearable_voice.js';
 
 const AGENT = 'coach';
 
@@ -49,7 +50,7 @@ const DECLINE =
   'your prescriber if it is medical, or the weekly call, where it can go to ' +
   'the trend review.';
 
-function systemPrompt(tier, passages, scoreAsked) {
+function systemPrompt(tier, passages, scoreAsked, deviceContext) {
   const numbered = passages.map((p, i) =>
     '[' + (i + 1) + '] tier=' + p.evidence_tier +
     (p.chapter ? ' chapter=' + p.chapter : '') +
@@ -70,6 +71,13 @@ function systemPrompt(tier, passages, scoreAsked) {
       ? 'THE SCORE IS BEING DISCUSSED. This sentence is appended to your reply ' +
         'verbatim by the caller. Do not paraphrase it and do not repeat it: ' +
         SCORE_DISCLAIMER
+      : '',
+    // Device readings, with the rules that govern how they may be spoken about. Placed
+    // BEFORE the passages so the constraint is read before the evidence, and omitted
+    // entirely when there is nothing rather than sending an empty section a model might
+    // feel obliged to fill.
+    deviceContext && deviceContext.length
+      ? WEARABLE_RULES + '\n\nDEVICE READINGS:\n' + JSON.stringify(deviceContext, null, 1)
       : '',
     'PASSAGES:\n\n' + numbered,
   ].filter(Boolean).join('\n\n');
@@ -125,6 +133,14 @@ export async function onRequestPost({ request, env }) {
   };
 
   // ---- 1. classify, before any retrieval ----
+  // Device readings the coach may refer to. Held rows are excluded by wearableContext, so a
+  // reading we could not trust is never quoted back to the member as though it were one.
+  const wearableRows = await sb.select('wearable_daily', {
+    where: { client_id: clientId, is_held: false },
+    columns: '*', order: 'day.desc', limit: 4,
+  });
+  const deviceContext = wearableContext(wearableRows);
+
   const verdict = classify(question);
   if (verdict.route === 'urgent') {
     await log('urgent', { reply: URGENT_REPLY });
@@ -165,7 +181,7 @@ export async function onRequestPost({ request, env }) {
   let text;
   try {
     const r = await ask(env, {
-      system: systemPrompt(tier, usable, scoreAsked),
+      system: systemPrompt(tier, usable, scoreAsked, deviceContext),
       messages: [{ role: 'user', content: question }],
       maxTokens: 700,
     });

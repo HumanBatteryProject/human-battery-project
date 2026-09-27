@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Devices | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
+<style>
+.dev{border-top:1px solid var(--rule-line);padding:.85rem 0}
+.dev:first-of-type{border-top:0}
+.dev-top{display:flex;justify-content:space-between;gap:.5rem;align-items:baseline;flex-wrap:wrap}
+.dev-state{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.dev-connected{border-color:var(--status-good);color:var(--status-good)}
+.dev-error{border-color:var(--status-critical);color:var(--status-critical)}
+.dev-soon{border-color:var(--steel);color:var(--steel)}
+.dev-off{border-color:var(--rule-line);color:var(--steel)}
+.dev-acts{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 0}
+.dev-acts .btn{min-height:44px}
+.reading{display:flex;justify-content:space-between;gap:.6rem;padding:.35rem 0;
+  border-bottom:1px solid var(--rule-line);font-size:var(--fs-sm)}
+.reading:last-child{border-bottom:0}
+.reading .v{font-variant-numeric:tabular-nums}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">DEVICES</span>
+</div></header>
+
+<main class="wrap">
+  <h1 class="vh">Your devices</h1>
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+
+  <div id="body" style="display:none">
+    <section class="card" id="off-card" style="display:none">
+      <h2>Devices are not switched on yet</h2>
+      <p class="quiet" id="off-why"></p>
+    </section>
+
+    <section class="card" id="consent-card" style="display:none">
+      <h2>Before you connect anything</h2>
+      <p class="quiet">A ring or a watch sends health data, so connecting one needs your
+      agreement to how we handle it. You can withdraw it at any time, and withdrawing it
+      disconnects your devices.</p>
+      <div id="consent-body" class="quiet"></div>
+      <label class="row"><input type="checkbox" id="consent-agree">
+        <span>I have read this and I agree.</span></label>
+      <button class="btn btn-sm" id="consent-save" disabled>Agree</button>
+    </section>
+
+    <section class="card">
+      <h2>Your devices</h2>
+      <p class="quiet">Nothing shows as connected until a sync has actually brought
+      something back. Every number a device measures is labelled MEASURED, and we say which
+      device measured it.</p>
+      <div id="devices"></div>
+    </section>
+
+    <section class="card" id="latest-card" style="display:none">
+      <h2>What your devices measured</h2>
+      <div id="latest"></div>
+      <p class="tiny" id="latest-note"></p>
+    </section>
+
+    <section class="card" id="held-card" style="display:none">
+      <h2>Readings we did not trust</h2>
+      <p class="quiet">These arrived but we could not stand behind them, so they are not in
+      your record or your score. Held is better than wrong.</p>
+      <div id="held"></div>
+    </section>
+  </div>
+</main>
+
+<nav class="nav"><ul>
+  <li><a href="/portal/"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></li>
+  <li><a href="/portal/checkin.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Today</a></li>
+  <li><a href="/portal/log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 3v3M16 3v3M8 12h8M8 16h5"/></svg>Log</a></li>
+  <li><a href="/portal/program.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 13h7M9 17h5"/></svg>Program</a></li>
+  <li><a href="/portal/labs.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M7 20V9M12 20V4M17 20v-7"/></svg>Results</a></li>
+  <li><a href="/portal/account.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>You</a></li>
+</ul></nav>
+
+<script type="module">
+import { sb, requireAuth, el, toast, esc } from './app.js?v=063a85cf';
+
+// Declared before anything runs, because a const is hoisted without being initialised and
+// calling a function above its declarations throws.
+const LABELS = {
+  sleep_duration_min:    ['Time asleep', (v) => Math.floor(v / 60) + 'h ' + Math.round(v % 60) + 'm'],
+  sleep_efficiency_pct:  ['Sleep efficiency', (v) => v + '%'],
+  resting_hr_bpm:        ['Resting heart rate', (v) => v + ' bpm'],
+  hrv_rmssd_ms:          ['HRV', (v) => v + ' ms'],
+  respiratory_rate_bpm:  ['Breathing rate', (v) => v + ' a minute'],
+  skin_temp_deviation_c: ['Skin temperature change', (v) => (v > 0 ? '+' : '') + v + ' C'],
+  steps:                 ['Steps', (v) => Number(v).toLocaleString('en-US')],
+  time_in_daylight_min:  ['Time in daylight', (v) => Math.round(v) + ' min'],
+  weight_kg:             ['Weight', (v) => v + ' kg'],
+  systolic_mmhg:         ['Blood pressure, upper', (v) => v + ' mmHg'],
+  diastolic_mmhg:        ['Blood pressure, lower', (v) => v + ' mmHg'],
+};
+// How the brief and the coach are told to speak about each source, and the page says the
+// same. A ring is not a watch and neither is a lab.
+const DEVICE_WORD = {
+  oura: 'your ring', whoop: 'your strap', polar: 'your watch',
+  withings: 'your scale', garmin: 'your watch', google_health: 'your phone',
+  apple_health_upload: 'your phone',
+};
+const say = (d) => d ? new Date(d + 'T12:00:00Z').toLocaleDateString('en-US',
+  { month: 'short', day: 'numeric' }) : '';
+const ago = (t) => {
+  if (!t) return 'never';
+  const mins = Math.round((Date.now() - new Date(t).getTime()) / 60000);
+  if (mins < 60) return mins + ' minutes ago';
+  if (mins < 60 * 36) return Math.round(mins / 60) + ' hours ago';
+  return Math.round(mins / 1440) + ' days ago';
+};
+
+await requireAuth();
+
+async function token() {
+  const { data } = await sb.auth.getSession();
+  return data.session ? data.session.access_token : null;
+}
+async function api(path, body, method) {
+  const t = await token();
+  const res = await fetch(path, {
+    method: method || 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + t },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const out = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, out };
+}
+
+function deviceRow(p, conn, flagOn) {
+  // THE STATE IS THE TRUTH, never an assumption. Connected means a sync brought something
+  // back, which the database will not let a row claim otherwise.
+  let state = 'not connected', cls = 'dev-off', detail = '';
+  if (!flagOn) {
+    state = p.v1 === 'flagged-off' ? 'coming soon' : 'off';
+    cls = 'dev-soon';
+    detail = p.note || '';
+  } else if (conn && conn.status === 'connected') {
+    state = 'connected'; cls = 'dev-connected';
+    detail = 'Last brought something back ' + ago(conn.last_sync_at) + '.';
+  } else if (conn && conn.status === 'error') {
+    state = 'needs attention'; cls = 'dev-error';
+    detail = conn.last_error ? esc(conn.last_error) : 'Something went wrong. Try connecting again.';
+  } else if (conn && conn.status === 'pending') {
+    state = 'not finished'; cls = 'dev-off';
+    detail = 'You started connecting this and did not finish.';
+  } else if (conn && conn.status === 'revoked') {
+    state = 'disconnected'; cls = 'dev-off';
+    detail = 'You disconnected this.';
+  }
+
+  const acts = [];
+  if (flagOn) {
+    if (conn && conn.status === 'connected') {
+      acts.push('<button class="btn btn-sm" data-sync="' + p.key + '">Check for new readings</button>');
+      acts.push('<button class="btn btn-sm" data-disconnect="' + p.key + '">Disconnect</button>');
+    } else if (p.key === 'apple_health_upload') {
+      acts.push('<label class="btn btn-sm" for="apple-file">Upload your Health export</label>');
+    } else {
+      acts.push('<button class="btn btn-sm btn-solid" data-connect="' + p.key + '">Connect ' + esc(p.label) + '</button>');
+    }
+  }
+
+  return '<div class="dev">' +
+    '<div class="dev-top"><b>' + esc(p.label) + '</b>' +
+      '<span class="dev-state ' + cls + '">' + esc(state) + '</span></div>' +
+    (detail ? '<p class="quiet" style="margin:.25rem 0 0">' + detail + '</p>' : '') +
+    (conn && conn.scopes && conn.scopes.length
+      ? '<p class="tiny" style="margin:.2rem 0 0">You granted: ' + esc(conn.scopes.join(', ')) + '</p>' : '') +
+    '<div class="dev-acts">' + acts.join(' ') + '</div>' +
+  '</div>';
+}
+
+async function load() {
+  const { out } = await api('/api/wearable-state', null, 'GET');
+  if (!out || !out.providers) { toast('Could not load your devices.', 'err'); el('#loading').style.display = 'none'; return; }
+
+  if (!out.master_on) {
+    el('#off-card').style.display = '';
+    el('#off-why').textContent = 'Device connections are switched off for everybody at the moment.';
+  }
+
+  if (!out.consent.granted) {
+    el('#consent-card').style.display = '';
+    el('#consent-body').textContent = out.consent.body || '';
+    el('#consent-agree').addEventListener('change', (e) => { el('#consent-save').disabled = !e.target.checked; });
+    el('#consent-save').addEventListener('click', async () => {
+      const r = await api('/api/wearable-consent', {});
+      if (r.ok) { toast('Thank you. You can connect a device now.', 'ok'); load(); }
+      else toast(r.out.error || 'That did not work.', 'err');
+    });
+  }
+
+  el('#devices').innerHTML = out.providers
+    .map((p) => deviceRow(p, p.connection, p.flag_on)).join('') +
+    '<input type="file" id="apple-file" accept=".xml,.zip" style="position:absolute;width:1px;height:1px;opacity:0">';
+
+  // THE READINGS, EACH LABELLED MEASURED, and each saying which device measured it.
+  if (out.latest && out.latest.length) {
+    el('#latest-card').style.display = '';
+    el('#latest').innerHTML = out.latest.map((r) => {
+      const rows = Object.entries(LABELS)
+        .filter(([k]) => r[k] !== null && r[k] !== undefined)
+        .map(([k, [label, fmt]]) =>
+          '<div class="reading"><span>' + esc(label) +
+            ' <span class="basis">MEASURED</span></span>' +
+            '<span class="v">' + esc(fmt(Number(r[k]))) + '</span></div>').join('');
+      const vendor = r.vendor_score_name
+        ? '<div class="reading"><span>' + esc(r.vendor_score_name) +
+          ' <span class="basis">' + esc(r.provider_label) + '</span></span>' +
+          '<span class="v">' + esc(String(r.vendor_score_value)) + '</span></div>'
+        : '';
+      return '<p class="tiny" style="margin:.6rem 0 .2rem">' +
+        esc(DEVICE_WORD[r.provider] || 'your device') + ' measured this on ' + esc(say(r.day)) +
+        (r.sandbox ? ' &middot; <b>sandbox data, not real</b>' : '') + '</p>' + rows + vendor;
+    }).join('');
+    el('#latest-note').textContent =
+      'A device reading is not a blood test. These are measured by a device on your body, and they ' +
+      'are labelled that way everywhere they appear. A vendor score carries the vendor’s name and ' +
+      'never enters your Human Battery Score.';
+  }
+
+  if (out.held && out.held.length) {
+    el('#held-card').style.display = '';
+    el('#held').innerHTML = out.held.map((h) =>
+      '<p class="tiny" style="margin:.4rem 0">' + esc(say(h.day)) + ', ' +
+      esc(DEVICE_WORD[h.provider] || h.provider) + ': ' + esc(h.held_reason || 'held') + '</p>').join('');
+  }
+
+  el('#loading').style.display = 'none';
+  el('#body').style.display = 'block';
+}
+
+document.addEventListener('click', async (e) => {
+  const c = e.target.closest('[data-connect]');
+  if (c) {
+    c.disabled = true;
+    const r = await api('/api/wearable-connect', { provider: c.dataset.connect });
+    c.disabled = false;
+    if (r.out && r.out.url) { location.href = r.out.url; return; }
+    toast(r.out.error || 'That is not available yet.', 'err');
+    return;
+  }
+  const s = e.target.closest('[data-sync]');
+  if (s) {
+    s.disabled = true;
+    const r = await api('/api/wearable-sync', {});
+    s.disabled = false;
+    toast(r.ok ? (r.out.written ? r.out.written + ' reading(s) brought back' : 'Nothing new yet')
+               : (r.out.error || 'That did not work'), r.ok ? 'ok' : 'err');
+    if (r.ok) load();
+    return;
+  }
+  const d = e.target.closest('[data-disconnect]');
+  if (d) {
+    const keep = confirm('Disconnect this device?\n\nPress OK to keep the readings it has already ' +
+      'taken, or Cancel to stop and choose again. You will be asked about deleting them next.');
+    if (!keep) return;
+    const alsoDelete = confirm('Also DELETE every reading this device has ever sent?\n\n' +
+      'OK deletes them. Cancel keeps them in your record.');
+    const r = await api('/api/wearable-disconnect',
+      { provider: d.dataset.disconnect, readings: alsoDelete ? 'delete' : 'keep' });
+    toast(r.ok ? r.out.statement : (r.out.error || 'That did not work'), r.ok ? 'ok' : 'err');
+    if (r.ok) load();
+  }
+});
+
+document.addEventListener('change', async (e) => {
+  if (e.target.id !== 'apple-file') return;
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  toast('Reading your file. These are large, so this can take a few minutes.', 'ok');
+  const t = await token();
+  const res = await fetch('/api/wearable-upload' + (/\.zip$/i.test(file.name) ? '?zip=1' : ''), {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + t,
+               'Content-Type': /\.zip$/i.test(file.name) ? 'application/zip' : 'text/xml' },
+    body: file,
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok) { toast(out.what_to_do || out.error || 'We could not read that file.', 'err'); return; }
+  toast(out.days_with_readings + ' day(s) read, ' + out.written + ' stored. The file was not kept.', 'ok');
+  load();
+});
+
+load();
+</script>
+</body></html>
