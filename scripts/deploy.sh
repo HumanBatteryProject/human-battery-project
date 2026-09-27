@@ -71,5 +71,25 @@ for c in check_rls check_columns check_canon check_price_drift; do
   else printf '  %-22s FAILED\n' "$c"; echo "$out" | sed 's/^/      /'; exit 1; fi
 done
 
+# Cross-user isolation, run against the live database on every deploy. Two
+# ordinary participants are created, each reaches for the other's records across
+# every table carrying a client_id, and both are deleted afterwards. It belongs in
+# the deploy rather than the commit hook because it needs real sessions, and it
+# belongs on EVERY deploy because "one user cannot access another user's records"
+# is the acceptance line that a single new policy can quietly break.
+#
+# Without --show-it-fails it never disables row level security, so it is safe to
+# run against production.
+if [ -n "$SUPABASE_DB_URL" ]; then
+  ANON=$(grep -o "sb_publishable_[A-Za-z0-9_-]*" public/portal/config.js | head -1)
+  if out=$(SUPABASE_ANON_KEY="$ANON" node scripts/prove_isolation.mjs 2>&1); then
+    printf '  %-22s ok      %s\n' "cross-user isolation" "$(echo "$out" | tail -1)"
+  else
+    printf '  %-22s FAILED\n' "cross-user isolation"
+    echo "$out" | sed 's/^/      /'
+    exit 1
+  fi
+fi
+
 echo "deploying:"
 npx wrangler pages deploy public --project-name=human-battery-project --branch=main 2>&1 | tail -2

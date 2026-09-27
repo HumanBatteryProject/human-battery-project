@@ -134,6 +134,65 @@ for role, a in acl:
                   f'Cannot be changed from the postgres role on a managed instance. '
                   f'Migrations run as postgres, so nothing this repository creates is affected.')
 
+# ---------------------------------------------------------------------
+# 6. NEITHER anon NOR authenticated HOLDS TRUNCATE, TRIGGER OR REFERENCES.
+#
+# Row level security restricts which ROWS a person may touch. TRUNCATE does not
+# operate on rows, it empties the table, so no policy in this database applies to
+# it. Every signed-in user held TRUNCATE on all 77 tables until 077, and acting as
+# the authenticated role a single TRUNCATE ... CASCADE emptied client_consents,
+# entitlements, weekly_plans and payments. Proved in a rolled-back transaction.
+#
+# It was not reachable, because nothing exposes raw SQL to that role. It was a
+# capability waiting for one SQL-executing endpoint. This check is here so the next
+# migration that adds a table cannot quietly hand it back.
+# ---------------------------------------------------------------------
+dangerous = q("""select grantee, privilege_type, table_name
+                   from information_schema.role_table_grants
+                  where table_schema='public'
+                    and grantee in ('anon','authenticated')
+                    and privilege_type in ('TRUNCATE','TRIGGER','REFERENCES')
+                  order by grantee, privilege_type, table_name;""")
+if SEED == 6:
+    dangerous = [('authenticated', 'TRUNCATE', 'seeded_table')]
+if dangerous:
+    by_priv = {}
+    for grantee, priv, tbl in dangerous:
+        by_priv.setdefault(f'{grantee} {priv}', []).append(tbl)
+    for k, tbls in by_priv.items():
+        problems.append(f'{k} on {len(tbls)} object(s), which row level security '
+                        f'does not filter: {", ".join(tbls[:4])}'
+                        + (' ...' if len(tbls) > 4 else ''))
+
+# ---------------------------------------------------------------------
+# 7. NOBODY CAN UPDATE profiles.role THROUGH A PLAIN UPDATE.
+#
+# profiles_self_update was "using (id = auth.uid()) with check (id = auth.uid())",
+# which says a person may update their own row and says nothing about WHICH
+# COLUMNS. role is a column on that row, so one PATCH through the public API turned
+# an ordinary client into an admin, and can_view_client returns true for an admin,
+# so every other participant's records became readable in the same instant.
+#
+# A policy cannot express "unless they changed this column", so the boundary is a
+# column privilege. Members and admins share the 'authenticated' role, so this
+# check covers both and role changes go through set_client_role, which audits them.
+# ---------------------------------------------------------------------
+role_upd = q("""select grantee
+                  from information_schema.column_privileges
+                 where table_schema='public' and table_name='profiles'
+                   and column_name='role' and privilege_type='UPDATE'
+                   and grantee in ('anon','authenticated');""")
+if SEED == 7:
+    role_upd = [('authenticated',)]
+if role_upd:
+    who = ', '.join(r[0] for r in role_upd)
+    problems.append(f'{who} can UPDATE profiles.role directly, which is a self-service '
+                    f'promotion to admin and therefore to every participant record')
+
+if not q("""select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+             where n.nspname='public' and p.proname='set_client_role';""") and SEED != 7:
+    problems.append('set_client_role is missing, so there is no audited way to change a role')
+
 if problems:
     print('  RLS CHECK FAILED:', file=sys.stderr)
     for p in problems:
@@ -141,4 +200,5 @@ if problems:
     sys.exit(1)
 
 print(f'  rls ok: {len(rows)} tables all protected, {len(views)} views all security_invoker, '
-      f'anon holds nothing, {len(defs)} definer functions all guarded')
+      f'anon holds nothing, {len(defs)} definer functions all guarded, '
+      f'no TRUNCATE/TRIGGER/REFERENCES for anon or authenticated, profiles.role not self-editable')
