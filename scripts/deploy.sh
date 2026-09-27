@@ -128,6 +128,46 @@ if [ -n "$SUPABASE_DB_URL" ]; then
   fi
 fi
 
+# THE SWITCHES ARE WHERE THEY SHOULD BE, asserted last, whatever happened above.
+#
+# prove_failure_modes.mjs turns AI generation off and back on. It restores in a finally
+# block, it writes its intent to a file first, and it handles the signals. All of that and
+# the kill switch was STILL found off twice, both times because I piped this script to
+# `head`, which closed the pipe, which killed the pipeline mid-run.
+#
+# A kill switch left off is the quietest possible outage: every component reports that it
+# is obeying instructions. So the last thing a deploy does is check, and say so loudly,
+# because the failure mode is not knowing rather than not recovering.
+if [ -n "$SUPABASE_DB_URL" ]; then
+  AI_STATE=$(psql "$SUPABASE_DB_URL" -At -c "select enabled::text from feature_flags where key='AI_GENERATION_ENABLED'" 2>/dev/null)
+  if [ "$AI_STATE" = "true" ]; then
+    echo "  switches: AI generation is on"
+  else
+    echo "  ***************************************************************"
+    echo "  AI GENERATION IS OFF and this deploy did not mean to leave it"
+    echo "  that way. No brief will be written for anybody until it is on."
+    echo "  Turn it back on at /portal/admin/ops, or:"
+    echo "    psql \"\$SUPABASE_DB_URL\" -c \"update feature_flags set enabled=true where key='AI_GENERATION_ENABLED'\""
+    echo "  ***************************************************************"
+    exit 1
+  fi
+fi
+
+# The runbook, rehearsed against what just went live. It fails if the runbook names a
+# script, screen, endpoint or switch state that is not real, which is the failure mode a
+# runbook actually has: it is read in the one situation where nobody has time to discover
+# it is wrong.
+if [ -n "$SUPABASE_DB_URL" ] && [ -f scripts/rehearse_ops.sh ]; then
+  echo "runbook:"
+  if out=$(./scripts/rehearse_ops.sh 2>&1); then
+    echo "$out" | tail -1 | sed 's/^/  /'
+  else
+    echo "$out" | grep -E "FAIL|REHEARSAL FAILED" | sed 's/^/  /'
+    echo "  THE DEPLOY IS LIVE AND THE RUNBOOK IS WRONG. Fix the runbook or the system."
+    exit 1
+  fi
+fi
+
 # Accessibility at phone width, AFTER the deploy, because it measures the live pages
 # at a true 390px viewport rather than reading the source. It cannot un-deploy what
 # just went out, and it is not meant to: it reports, loudly, and a failure is a thing
