@@ -108,7 +108,25 @@ than hoped.
 | `AI_GENERATION_ENABLED` | on | The kill switch. Off means plans without narratives. |
 | `BATTERY_SCORE_ENABLED` | off | The composite formula is not confirmed. |
 | `WEARABLES_ENABLED` | off | No provider credential exists yet. |
-| `WEARABLE_OURA` and the rest | off | Each needs a client ID and a real device sync. |
+| `WEARABLE_OURA` | off | Needs `OURA_CLIENT_ID` and `OURA_CLIENT_SECRET`. |
+| `WEARABLE_WHOOP` | off | Needs `WHOOP_CLIENT_ID` and `WHOOP_CLIENT_SECRET`. API v2 only. |
+| `WEARABLE_POLAR` | off | Needs `POLAR_CLIENT_ID` and `POLAR_CLIENT_SECRET`. |
+| `WEARABLE_WITHINGS` | off | Needs `WITHINGS_CLIENT_ID` and `WITHINGS_CLIENT_SECRET`. |
+| `WEARABLE_GARMIN` | off | Needs the Connect Developer Program application approved. |
+| `WEARABLE_GOOGLE` | off | Needs the restricted scope security review. |
+| `WEARABLE_APPLE_UPLOAD` | off | Needs nothing but your word: no credential is involved. |
+
+Turning one on is one line, and `check_no_fake_state.py` refuses the deploy if a provider is
+on without its credential, because that offers a member a connection that cannot complete:
+
+    psql "$SUPABASE_DB_URL" -c "update feature_flags set enabled=true where key='WEARABLE_OURA'"
+    psql "$SUPABASE_DB_URL" -c "update feature_flags set enabled=true where key='WEARABLES_ENABLED'"
+
+### A member wants to connect a ring or a watch
+
+They do it themselves at `/portal/devices`. Connecting needs their agreement to the health data
+policy first, and withdrawing that agreement disconnects every device. Disconnecting asks
+whether to keep or delete the readings already taken, and never guesses.
 
 ---
 
