@@ -15,6 +15,7 @@ import {
   MODEL_PER_CLIENT,
 } from './_agent.js';
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
+import { GenerationPaused } from './_flags.js';
 
 const AGENT = 'morning-brief';
 
@@ -200,7 +201,14 @@ export async function onRequestPost({ request, env }) {
     m.profiles = pr || {};
   }
 
-  const out = { written: 0, skipped_existing: 0, failed: 0, no_data: 0, members: [] };
+  // `paused` is counted separately from `failed`, and the distinction is the whole
+  // point of having a kill switch. With AI_GENERATION_ENABLED off there is no brief,
+  // because a brief IS the model's words, unlike a plan, which the protocol rules
+  // produce on their own. But that is the owner's instruction being obeyed, not
+  // something going wrong, and a job that reports failed: 1 sends whoever is watching
+  // to look for a fault that does not exist. plan-run already made this distinction;
+  // brief-run had one catch that called everything a failure.
+  const out = { written: 0, skipped_existing: 0, failed: 0, paused: 0, no_data: 0, members: [] };
   for (const m of (members || [])) {
     const tz = (m.profiles && m.profiles.timezone) || DEFAULT_TZ;
     const today = localDate(tz);
@@ -237,8 +245,14 @@ export async function onRequestPost({ request, env }) {
       }
       out.members.push({ client_id: m.client_id, tz, date: today, dimension: b.dimension, had_data: b.had_data });
     } catch (e) {
-      out.failed++;
-      out.members.push({ client_id: m.client_id, tz, date: today, error: String(e).slice(0, 200) });
+      if (e instanceof GenerationPaused || e.paused) {
+        out.paused++;
+        out.members.push({ client_id: m.client_id, tz, date: today,
+                           paused: 'AI generation is switched off, so no brief was written. This is not a failure.' });
+      } else {
+        out.failed++;
+        out.members.push({ client_id: m.client_id, tz, date: today, error: String(e).slice(0, 200) });
+      }
     }
   }
   return json(out);

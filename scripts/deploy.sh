@@ -94,6 +94,24 @@ fi
 echo "deploying:"
 npx wrangler pages deploy public --project-name=human-battery-project --branch=main 2>&1 | tail -2
 
+# Failure modes, end to end against what just went live. It switches AI generation
+# off and back on, so it refuses to run once any real participant exists: see the
+# guard in the script. That guard expires when the pilot starts, and this becomes a
+# staging exercise at that point.
+if [ -n "$SUPABASE_DB_URL" ]; then
+  echo "failure modes:"
+  if out=$(node scripts/prove_failure_modes.mjs 2>&1); then
+    echo "$out" | tail -1 | sed 's/^/  /'
+  elif echo "$out" | grep -q "REFUSING"; then
+    echo "$out" | grep REFUSING | sed 's/^/  /'
+    echo "  skipped, which is correct once real people are in the system"
+  else
+    echo "$out" | sed 's/^/  /'
+    echo "  THE DEPLOY IS LIVE AND A FAILURE MODE DID NOT DEGRADE SAFELY."
+    exit 1
+  fi
+fi
+
 # Accessibility at phone width, AFTER the deploy, because it measures the live pages
 # at a true 390px viewport rather than reading the source. It cannot un-deploy what
 # just went out, and it is not meant to: it reports, loudly, and a failure is a thing
