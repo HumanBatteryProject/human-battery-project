@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=19">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
 <style>
 .doc{display:flex;gap:1rem;align-items:center;padding:1.1rem 0;border-bottom:1px solid var(--rule)}
 .doc:last-child{border-bottom:0}
@@ -32,6 +32,7 @@
 </div></header>
 
 <main class="wrap">
+  <h1 class="vh">Your program</h1>
 
   <!-- A3: a change the trend agent applied is shown here with a decline
        button. The member is told in the morning brief and can act here. An
@@ -85,7 +86,7 @@
 </ul></nav>
 
 <script type="module">
-import { sb, requireAuth, activeMembership, el, toast } from './app.js?v=3c1c951d';
+import { sb, requireAuth, activeMembership, el, toast } from './app.js?v=063a85cf';
 await requireAuth();
 
 const TIER_COPY = {
@@ -150,7 +151,14 @@ if (error || !docs || !docs.length) {
 </script>
 
 <script type="module">
-import { sb } from '/portal/config.js';
+// config.js exports SUPABASE_URL and SUPABASE_ANON_KEY and has never exported
+// `sb`. This import threw "does not provide an export named 'sb'", which is a
+// hard module error, so EVERY line below it has never run in production: the
+// list of changes applied to a member's protocol, and the Decline button next to
+// each one. Bounded autonomy applies changes on its own and the member's way to
+// refuse one was dead code. Found by loading the page at 390px and reading the
+// console rather than the source.
+import { sb } from './app.js?v=063a85cf';
 const PARAM_WORDS = {
   morning_light_min: 'minutes outside in the morning',
   eating_window_hours: 'hours in your eating window',

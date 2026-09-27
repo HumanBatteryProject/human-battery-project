@@ -62,7 +62,7 @@ done
 # hook. check_rls is the one that stops the anon hole coming back: instance fixes
 # without a mechanism check is how it survived in the first place.
 set -a; [ -f ./.dev.vars ] && . ./.dev.vars; set +a
-for c in check_rls check_columns check_canon check_price_drift check_export; do
+for c in check_rls check_columns check_canon check_price_drift check_export check_no_fake_state; do
   # `if out=$(...)` rather than an assignment followed by a test. With set -e a
   # bare assignment from a failing command kills the script at that line, so the
   # FAILED branch never printed and the deploy died with no message at all. The
@@ -93,3 +93,20 @@ fi
 
 echo "deploying:"
 npx wrangler pages deploy public --project-name=human-battery-project --branch=main 2>&1 | tail -2
+
+# Accessibility at phone width, AFTER the deploy, because it measures the live pages
+# at a true 390px viewport rather than reading the source. It cannot un-deploy what
+# just went out, and it is not meant to: it reports, loudly, and a failure is a thing
+# to fix forward. Run it alone with:
+#   node scripts/a11y.mjs
+if [ -n "$SUPABASE_DB_URL" ]; then
+  echo "accessibility at 390px:"
+  sleep 6
+  if out=$(node scripts/a11y.mjs 2>&1); then
+    echo "$out" | tail -1 | sed 's/^/  /'
+  else
+    echo "$out" | sed 's/^/  /'
+    echo "  THE DEPLOY IS LIVE AND THE ACCESSIBILITY CHECK FAILED. Fix forward."
+    exit 1
+  fi
+fi

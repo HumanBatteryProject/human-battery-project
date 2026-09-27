@@ -53,6 +53,15 @@ export async function requireAuth({ skipConsentGate = false } = {}) {
       return null;
     }
   }
+  // The test-account banner goes here rather than in each page, for the same reason
+  // the consent gate does: five of the ten portal pages call activeMembership, so a
+  // per-page call would have marked five screens and left five unmarked, and the
+  // next page added would be the one that forgot. requireAuth is what every
+  // authenticated page already calls.
+  //
+  // Awaited but never allowed to block: if this throws, the page still renders.
+  try { await markTestAccount(await activeMembership()); } catch (e) { /* never blocks the page */ }
+
   return session;
 }
 
@@ -71,12 +80,47 @@ export async function signOut() {
 // ---------------------------------------------------------------------
 // Program dates
 // ---------------------------------------------------------------------
+/**
+ * Say so, on every screen, when the account being viewed is a test account.
+ *
+ * portal.css has carried .test-banner and .test-data since it was written and NO
+ * PAGE HAS EVER USED EITHER. Styles for a feature with no writer, which is the same
+ * shape as completion_invitations and webhook_events: it reads as done because the
+ * pieces exist.
+ *
+ * Master prompt F2 ends "Never show demonstration data as live participant data."
+ * The internal account is demonstration data. The admin member list marks it with a
+ * pill; the participant portal rendered it exactly like a real person's, so every
+ * screenshot and every walkthrough of "what a member sees" was actually a view of
+ * test data with nothing saying so.
+ *
+ * It fails SILENT rather than loud: if the check itself breaks, no banner appears,
+ * because a banner wrongly claiming real data is a test is worse than none.
+ */
+export async function markTestAccount(membership) {
+  try {
+    if (!membership || membership.is_internal !== true) return false;
+    if (document.querySelector('.test-banner[data-internal]')) return true;
+    const main = document.querySelector('main') || document.body;
+    const el = document.createElement('div');
+    el.className = 'test-banner';
+    el.setAttribute('data-internal', 'true');
+    el.setAttribute('role', 'status');
+    el.textContent = 'This is an internal test account. Everything on this screen is test data, '
+                   + 'not a real participant\u2019s record.';
+    main.insertBefore(el, main.firstChild);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export async function activeMembership() {
   const { data } = await sb
     .from('memberships')
     // No cohort. Every participant is an N of 1: the membership is the person, the
     // start date and the cycle number, and nothing groups them with anyone else.
-    .select('id, day_zero, status, tier, cycle, omega3_kit_posted_at, omega3_baseline_waived_at, omega3_collected_on')
+    .select('id, day_zero, status, tier, cycle, is_internal, omega3_kit_posted_at, omega3_baseline_waived_at, omega3_collected_on')
     .in('status', ['active', 'enrolled'])
     .order('created_at', { ascending: false })
     .limit(1);

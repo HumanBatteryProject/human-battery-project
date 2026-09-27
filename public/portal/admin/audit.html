@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=19">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
 <style>
 .tw{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
@@ -51,7 +51,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
   </div>
 </main>
 <script type="module">
-import { sb, requireAuth, el, esc } from '../app.js?v=3c1c951d';
+import { sb, requireAuth, el, esc } from '../app.js?v=063a85cf';
 const session = await requireAuth();
 if (session) {
   const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();

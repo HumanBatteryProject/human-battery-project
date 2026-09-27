@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/portal/portal.css?v=19">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
 <style>
 .gate{border:1px solid var(--dawn-amber);border-radius:4px;padding:1rem;margin-bottom:1rem;
   background:rgba(232,162,74,.07)}
@@ -86,7 +86,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast, esc } from '../app.js?v=3c1c951d';
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=063a85cf';
 const session = await requireAuth();
 if (session) {
   const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();

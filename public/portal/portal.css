@@ -158,6 +158,18 @@ body{margin:0;background:var(--carbon);color:var(--ice);font-family:var(--body);
      padding-bottom:env(safe-area-inset-bottom)}
 a{color:var(--teal);text-decoration:none}
 :focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+/* Present to a screen reader, absent to the eye.
+   Every portal screen began at an H2, because the visible title of the page is the
+   wordmark in the header and the cards each carry their own H2. A page with no H1
+   gives a screen reader nothing to announce as "what page am I on", and jumping
+   straight to H2 breaks navigation by heading, which is how these screens get
+   scanned by somebody who cannot see them.
+   Clipped rather than display:none, the same technique .navtoggle-cb uses in
+   styles.css, because display:none removes it from the accessibility tree too and
+   then it announces nothing at all. */
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 img,svg{max-width:100%;height:auto}
 
 .wrap{width:min(100% - 2rem,44rem);margin-inline:auto}
