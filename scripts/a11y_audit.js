@@ -77,6 +77,12 @@
       if (label) {
         const lr = label.getBoundingClientRect();
         if (lr.height >= MIN_FAIL - 0.5 && lr.width >= MIN_FAIL - 0.5) continue;
+        // The label IS the target and it is too small, so report the label's size.
+        // Reporting the input's 13x13 blamed the wrong element and pointed at CSS
+        // nobody would think to change.
+        tooSmall.push(`label around ${el.type} ${Math.round(lr.width)}x${Math.round(lr.height)}` +
+                      (label.className ? ` (.${String(label.className).split(' ')[0]})` : ''));
+        continue;
       } else if (r.width < 4 && r.height < 4) {
         // Hidden, and nothing found that acts as its control. That is worth knowing
         // on its own: it may be operable only by keyboard, or not at all.

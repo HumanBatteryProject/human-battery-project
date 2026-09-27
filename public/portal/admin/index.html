@@ -29,6 +29,7 @@
   <span class="who">OWNER</span>
 </div></header>
 <main class="wrap">
+  <h1 class="vh">Admin console</h1>
   <div id="loading" class="card center"><span class="spinner"></span></div>
   <div id="denied" class="card" style="display:none">
     <h2>Not for you</h2>
@@ -54,13 +55,18 @@ if (session) {
   if (!me || me.role !== 'admin') { el('#loading').style.display='none'; el('#denied').style.display='block'; }
   else {
     const [{ count: members }, { count: pendingRules }, { count: approvedRules },
-           { count: heldResults }, { count: openSupport }, { data: flags }] = await Promise.all([
+           { count: heldResults }, { count: openSupport }, { data: flags },
+           { count: openApplications }] = await Promise.all([
       sb.from('profiles').select('id', { count: 'exact', head: true }),
       sb.from('canonical_rules').select('id', { count: 'exact', head: true }).eq('review_status', 'pending'),
       sb.from('canonical_rules').select('id', { count: 'exact', head: true }).eq('review_status', 'approved'),
       sb.from('lab_results_held').select('id', { count: 'exact', head: true }).is('resolved_at', null),
       sb.from('support_requests').select('id', { count: 'exact', head: true }).eq('status', 'open'),
       sb.from('feature_flags').select('key, enabled'),
+      // Applications waiting on the owner. This belongs on the console because an
+      // application nobody sees is an applicant nobody answers: one sat at 'new' for
+      // seventeen days because there was no screen that listed it.
+      sb.from('applications').select('id', { count: 'exact', head: true }).in('status', ['new', 'reviewing']),
     ]);
     const ai = (flags || []).find((f) => f.key === 'AI_GENERATION_ENABLED');
 
@@ -75,6 +81,8 @@ if (session) {
     const tile = (href, name, detail) =>
       '<a class="tile" href="' + href + '"><b>' + esc(name) + '</b><p>' + detail + '</p></a>';
     el('#tiles').innerHTML = [
+      tile('/portal/admin/applications.html', 'Applications',
+        '<span class="n">' + esc(openApplications) + '</span> waiting on you. Accepting somebody is what lets them pay: until then checkout refuses their email.'),
       tile('/portal/admin/canon.html', 'Canon',
         '<span class="n">' + esc(pendingRules) + '</span> waiting, ' + esc(approvedRules) + ' approved. Approve, retire, and the pillar mapping.'),
       tile('/portal/admin/members.html', 'Members',

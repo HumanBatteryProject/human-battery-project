@@ -33,6 +33,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
   <span class="who">OWNER</span>
 </div></header>
 <main class="wrap">
+  <h1 class="vh">Audit log</h1>
   <div id="loading" class="card center"><span class="spinner"></span></div>
   <div id="denied" class="card" style="display:none">
     <h2>Not for you</h2>
@@ -42,7 +43,9 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
     <section class="card">
       <h2>Audit log</h2>
       <div class="filters">
+        <label for="f-member" class="vh">Filter by member email</label>
         <input id="f-member" type="search" placeholder="Filter by member email">
+        <label for="f-action" class="vh">Filter by action</label>
         <select id="f-action"><option value="">Every action</option></select>
       </div>
       <div class="tw"><table id="rows"><tbody></tbody></table></div>

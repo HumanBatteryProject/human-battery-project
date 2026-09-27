@@ -43,6 +43,18 @@ const PAGES = [
   // Public pages a member also reads, at the same width.
   '/',
   '/apply',
+  // THE ADMIN SCREENS TOO. They were not in this list, and that is how a screen that
+  // threw on load and rendered nothing reached production: the audit checks the console
+  // as well as the layout, and it was only looking at member pages. The owner uses these
+  // on a phone as much as anybody.
+  '/portal/admin/',
+  '/portal/admin/applications',
+  '/portal/admin/members',
+  '/portal/admin/canon',
+  '/portal/admin/ops',
+  '/portal/admin/queues',
+  '/portal/admin/results',
+  '/portal/admin/audit',
 ];
 
 const sql = (s) => execFileSync(PSQL, [DB, '-At', '-c', s], { encoding: 'utf8' }).trim();

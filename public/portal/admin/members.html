@@ -43,6 +43,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
 </div></header>
 
 <main class="wrap">
+  <h1 class="vh">Members</h1>
   <div id="loading" class="card center"><span class="spinner"></span></div>
   <div id="denied" class="card" style="display:none">
     <h2>Not for you</h2>
@@ -52,6 +53,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
   <div id="body" style="display:none">
     <section class="card">
       <h2 id="count">Members</h2>
+      <label for="q" class="vh">Search members by name or email</label>
       <input class="search" id="q" type="search" placeholder="Search by name or email" autocomplete="off">
       <div id="list"></div>
     </section>

@@ -29,7 +29,11 @@
 .pill-pending{border-color:var(--copper-light);color:var(--copper-light)}
 .pill-approved{border-color:var(--status-good);color:var(--status-good)}
 .pill-retired{border-color:var(--ink-muted);color:var(--ink-muted)}
-.rule-pick{display:flex;gap:.5rem;align-items:center;margin-top:.5rem}
+/* min-height, because the LABEL is what a thumb hits, not the 13px checkbox
+   inside it. At its natural single-line height it was about 20px, under the 24px
+   WCAG AA minimum, and the audit blamed the checkbox until it learned to report the
+   label instead. */
+.rule-pick{display:flex;gap:.5rem;align-items:center;margin-top:.5rem;min-height:44px}
 .rule-pick input{width:auto;margin:0}
 .bar{position:sticky;bottom:0;background:var(--surface-field);border-top:1px solid var(--rule-line);
   padding:.8rem 0;margin-top:.5rem}
@@ -48,6 +52,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
 </div></header>
 
 <main class="wrap">
+  <h1 class="vh">Canonical rules</h1>
   <div id="loading" class="card center"><span class="spinner"></span></div>
   <div id="denied" class="card" style="display:none">
     <h2>Not for you</h2>

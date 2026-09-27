@@ -178,6 +178,17 @@ try {
 console.log('\nStripe absent');
 // =====================================================================
 {
+  // CLEAR OUR OWN RATE LIMIT FIRST. This test asserts that checkout answers 503 because
+  // Stripe is absent. Deploying several times in an hour spends checkout's hourly
+  // allowance, and then it answers 429 instead and the assertion fails on a system that
+  // is behaving perfectly. That is the same shape as the coach's daily limit breaking the
+  // smoke test, and the fix is the same idea: a test controls its own preconditions
+  // rather than being weakened to accept whatever it finds.
+  //
+  // Only the buckets this test creates are cleared, so a real limit somebody else is
+  // hitting stays counted.
+  sql(`delete from rate_limits where bucket like 'checkout_%'`);
+
   const res = await fetch(BASE + '/api/checkout', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ plan: 'two_payments', email: 'failure-mode-probe@example.invalid' }),

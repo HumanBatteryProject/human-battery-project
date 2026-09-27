@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Applications | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Newsreader:opsz,wght@6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
+<style>
+.arow{border-top:1px solid var(--rule-line);padding:.8rem 0}
+.arow:first-of-type{border-top:0}
+.atop{display:flex;justify-content:space-between;gap:.5rem;align-items:baseline;flex-wrap:wrap}
+.ameta{font-size:var(--fs-xs);color:var(--ink-muted);margin:.25rem 0 0;line-height:var(--lh-small)}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.pill-new{border-color:var(--dawn-amber);color:var(--dawn-amber)}
+.pill-accepted{border-color:var(--status-good);color:var(--status-good)}
+.pill-declined,.pill-withdrawn{border-color:var(--status-critical);color:var(--status-critical)}
+.pill-enrolled{border-color:var(--chart-2);color:var(--chart-2)}
+.acts{display:flex;gap:.4rem;flex-wrap:wrap;margin:.65rem 0 0}
+.acts .btn{min-height:44px}
+.placement{font-size:var(--fs-xs);margin:.4rem 0 0}
+.placement dt{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--steel);margin-top:.35rem}
+.placement dd{margin:0}
+</style>
+</head><body>
+
+<header class="bar"><div class="wrap">
+  <img src="/assets/wordmark.png" alt="The Human Battery Project">
+  <span class="who">APPLICATIONS</span>
+</div></header>
+
+<main class="wrap">
+  <h1 class="vh">Applications</h1>
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none"><p>Admins only.</p></div>
+
+  <div id="body" style="display:none">
+    <section class="card">
+      <h2>Waiting on you</h2>
+      <p class="quiet">Accepting somebody is what lets them pay. Until an application is
+      accepted, checkout refuses that email, so nothing else in the enrolment path can
+      start. Every change here is recorded with what it was before and why.</p>
+      <div id="open"></div>
+    </section>
+
+    <section class="card">
+      <h2>Everything else</h2>
+      <div id="closed"></div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=063a85cf';
+
+// DECLARED BEFORE ANYTHING RUNS. The first version called load() from the admin check
+// above the const declarations, and `const` is hoisted without being initialised, so it
+// threw "Cannot access 'OPEN' before initialization" and the screen rendered nothing at
+// all. Found by loading the page in a browser and reading the console, the same way the
+// broken import on the program page was found. Reading the source would not have shown
+// it, because the source looks fine in either order.
+const OPEN = ['new', 'reviewing'];
+const say = (d) => d ? new Date(d).toLocaleDateString('en-US',
+  { year: 'numeric', month: 'short', day: 'numeric' }) : 'not recorded';
+
+const session = await requireAuth();
+const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+if (!me || me.role !== 'admin') {
+  el('#loading').style.display = 'none';
+  el('#denied').style.display = 'block';
+} else {
+  await load();
+}
+
+
+// The placement answers, in the applicant's words. Shown because "accept this person"
+// is a judgement and the answers are what it is made on.
+function placement(p) {
+  if (!p || typeof p !== 'object') return '<p class="quiet placement">No placement answers recorded.</p>';
+  const rows = Object.entries(p).map(([k, v]) =>
+    '<dt>' + esc(k.replace(/_/g, ' ')) + '</dt><dd>' + esc(String(v)) + '</dd>').join('');
+  return rows ? '<dl class="placement">' + rows + '</dl>' : '';
+}
+
+function row(a) {
+  const where = [a.state, a.region, a.timezone].filter(Boolean).join(', ') || 'location not derived';
+  return '<div class="arow" data-id="' + esc(a.id) + '">' +
+    '<div class="atop"><b>' + esc(a.name || '(no name given)') + '</b>' +
+      '<span class="pill pill-' + esc(a.status) + '">' + esc(a.status) + '</span></div>' +
+    '<p class="ameta">' + esc(a.email) + '<br>' +
+      esc(where) +
+      (a.postal_code ? ' &middot; ' + esc(a.postal_code) : '') +
+      (a.tz_confidence === 'ask' ? ' &middot; <b>confirm the timezone with them</b>' : '') +
+      '<br>applied ' + say(a.submitted_at) +
+      (a.preferred_start_date ? ' &middot; wants to start ' + say(a.preferred_start_date) : ' &middot; no start date chosen') +
+      (a.suggested_tier ? ' &middot; suggested tier ' + esc(a.suggested_tier) : ' &middot; no suggested tier') +
+      (a.source ? ' &middot; from ' + esc(a.source) : '') +
+    '</p>' +
+    placement(a.placement) +
+    (OPEN.includes(a.status)
+      ? '<div class="acts">' +
+          '<button class="btn btn-sm btn-solid" data-act="accepted">Accept</button>' +
+          '<button class="btn btn-sm" data-act="reviewing">Mark reviewing</button>' +
+          '<button class="btn btn-sm" data-act="waitlisted">Waitlist</button>' +
+          '<button class="btn btn-sm" data-act="declined">Decline</button>' +
+        '</div>'
+      : (a.status === 'accepted'
+          ? '<p class="quiet placement">Accepted. They can pay now. Their status becomes enrolled when the payment arrives, which the webhook sets, not this screen.</p>'
+          : '')) +
+    '</div>';
+}
+
+async function load() {
+  const { data, error } = await sb.from('applications')
+    .select('id, name, email, state, status, source, submitted_at, placement, suggested_tier, ' +
+            'postal_code, timezone, region, tz_confidence, preferred_start_date')
+    .order('submitted_at', { ascending: false });
+  if (error) { toast('Could not load applications.', 'err'); el('#loading').style.display = 'none'; return; }
+
+  const open = (data || []).filter((a) => OPEN.includes(a.status));
+  const closed = (data || []).filter((a) => !OPEN.includes(a.status));
+
+  el('#open').innerHTML = open.length ? open.map(row).join('')
+    : '<p class="quiet">Nothing waiting. Every application has been answered.</p>';
+  el('#closed').innerHTML = closed.length ? closed.map(row).join('')
+    : '<p class="quiet">None yet.</p>';
+
+  el('#loading').style.display = 'none';
+  el('#body').style.display = 'block';
+}
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const id = b.closest('.arow').dataset.id;
+  const status = b.dataset.act;
+
+  // A reason is asked for every time, because the audit row is only worth having if it
+  // says why. Declining somebody especially.
+  const reason = window.prompt('Why? This is recorded against the application.', '');
+  if (reason === null) return;
+
+  b.disabled = true;
+  const { data, error } = await sb.rpc('applications_set_status',
+    { p_application: id, p_status: status, p_reason: reason });
+  b.disabled = false;
+  if (error) { toast(error.message, 'err'); return; }
+  toast((data && data.email ? data.email + ': ' : '') + (data ? data.was + ' to ' + data.now : 'done'), 'ok');
+  load();
+});
+</script>
+</body></html>
