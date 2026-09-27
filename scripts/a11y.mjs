@@ -30,6 +30,16 @@ if (!URL_ || !SERVICE || !DB) {
 
 const AUDIT = readFileSync(new URL('./a11y_audit.js', import.meta.url), 'utf8');
 
+// Controls that only exist once something is switched on. The audit loads a page
+// and measures what is visible, so a control behind a toggle is never measured:
+// the heat and cold minutes and time inputs on the log page are hidden until the
+// practice is ticked, which means they shipped unmeasured. This reveals them
+// before the audit runs, so they are covered every time rather than once by hand.
+const REVEAL = {
+  '/portal/log':
+    "document.querySelectorAll('.hc-detail').forEach(function(d){ d.hidden = false; });",
+};
+
 const PAGES = [
   '/portal/',          // the dashboard
   '/portal/checkin',
@@ -93,7 +103,7 @@ for (const page of PAGES) {
       'scripts/cdp.mjs', '--url', BASE + page,
       '--width', WIDTH, '--height', '844',
       '--localstorage', storage,
-      '--eval', AUDIT,
+      '--eval', (REVEAL[page] ? REVEAL[page] + '\n' : '') + AUDIT,
     ], { encoding: 'utf8', timeout: 90000, maxBuffer: 20 * 1024 * 1024 });
     // cdp.mjs PRETTY-PRINTS its JSON across many lines and may print a page-errors
     // section first, so "lines that start with {" collected exactly one character.
@@ -124,6 +134,24 @@ for (const page of PAGES) {
   }
 
   const problems = result.problems || [];
+
+  // THE PAGE IT LANDED ON MUST BE THE PAGE IT ASKED FOR.
+  //
+  // Six of these pages sit behind a consent gate the internal member had not
+  // cleared, because an earlier consent-withdrawal proof withdrew health_data and
+  // never restored it. All six redirected to the consent screen, the audit
+  // measured THAT screen, and reported a pass. The run said "accessibility ok
+  // across 19 pages" while six of the nineteen were the same page. The only clue
+  // was that they all reported an identical 4 controls and 10 text runs.
+  //
+  // An audit that cannot tell it was redirected cannot report coverage.
+  const want = page.replace(/\/+$/, '');
+  const got = String(result.url || '').replace(/\/+$/, '');
+  if (want && got && want !== got) {
+    problems.push({ kind: 'redirected, so this page was never audited',
+                    detail: `asked for ${page}, measured ${result.url}` });
+  }
+
   if (!problems.length) {
     console.log(`  pass  ${page.padEnd(20)} ${result.counts.interactive || 0} controls, ` +
                 `${result.counts.textNodesChecked || 0} text runs, ` +
