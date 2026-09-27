@@ -34,7 +34,15 @@
 </main>
 
 <script type="module">
-import { sb } from '/portal/config.js';
+// config.js exports SUPABASE_URL and SUPABASE_ANON_KEY and has never exported `sb`. This
+// import threw "does not provide an export named 'sb'", which is a hard module error, so THE
+// WHOLE CONFIRM PAGE NEVER RAN. That is the page that exchanges a magic link for a session, so
+// email sign-in could not have worked no matter what the Supabase configuration said.
+//
+// Same defect as program.html, found the same way: by loading the page in a browser and
+// reading the console. The identical line in two places is the argument for app.js being the
+// one place the client is created.
+import { sb } from './app.js?v=063a85cf';
 
 // WHY THIS PAGE EXISTS.
 //

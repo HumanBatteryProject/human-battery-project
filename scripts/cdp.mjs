@@ -23,6 +23,16 @@
 import { spawn } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+// Unique per run, and removed when the run ends.
+const PROFILE_DIR = mkdtempSync(join(tmpdir(), 'cdp-profile-'));
+const cleanProfile = () => { try { rmSync(PROFILE_DIR, { recursive: true, force: true }); } catch {} };
+process.on('exit', cleanProfile);
+process.on('SIGINT', () => { cleanProfile(); process.exit(130); });
+
 const args = process.argv.slice(2);
 const arg = (name, dflt = null) => {
   const i = args.indexOf('--' + name);
@@ -45,7 +55,12 @@ const chrome = spawn(CHROME, [
   `--remote-debugging-port=${PORT}`,
   '--no-first-run', '--no-default-browser-check',
   '--disable-gpu', '--hide-scrollbars',
-  '--user-data-dir=/tmp/cdp-profile-' + PORT,
+  // A FRESH PROFILE EVERY RUN. This was '/tmp/cdp-profile-' + PORT, a fixed path, so
+  // localStorage survived between runs and one probe's session leaked into the next. It
+  // reported a signed-in session belonging to a user that probe had never signed in as, which
+  // would have been read as proof that a sign-in worked. A harness that remembers is a harness
+  // that lies about state.
+  '--user-data-dir=' + PROFILE_DIR,
   'about:blank',
 ], { stdio: ['ignore', 'ignore', 'pipe'] });
 
