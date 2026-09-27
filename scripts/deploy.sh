@@ -91,6 +91,22 @@ if [ -n "$SUPABASE_DB_URL" ]; then
   fi
 fi
 
+# WHICH COMMIT IS LIVE. There was no way to ask the site that, which makes a rollback
+# unverifiable: you can deploy an older build and have no way to confirm the older
+# build is what is being served. It is also the first question anybody asks when
+# something looks wrong.
+#
+# Written immediately before the upload so it describes what is actually going out.
+cat > public/build.json <<JSON
+{
+  "commit": "$(git rev-parse --short HEAD)",
+  "committed_at": "$(git log -1 --format=%cI)",
+  "deployed_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "subject": $(git log -1 --format=%s | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+}
+JSON
+echo "  build stamp: $(git rev-parse --short HEAD)"
+
 echo "deploying:"
 npx wrangler pages deploy public --project-name=human-battery-project --branch=main 2>&1 | tail -2
 

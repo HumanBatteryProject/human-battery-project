@@ -14,3 +14,4 @@ program-docs/out/
 __pycache__/
 .corpus-hash
 .failure-mode-probe-state
+public/build.json
