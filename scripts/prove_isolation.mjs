@@ -240,6 +240,31 @@ console.log('\nWrites, which matter more than reads');
      `status ${w.status}, role went ${before} -> ${after}`);
 }
 
+console.log('\nThe wearable tables, including the one with no client_id');
+{
+  // wearable_connections and wearable_daily carry a client_id, so the sweep above
+  // already covered them. wearable_tokens does NOT: it hangs off a connection. So it
+  // would be missed by a check that enumerates tables by client_id, which is exactly
+  // the table where being missed matters most, because a token is a credential.
+  const anonOnly = async (path) => {
+    const res = await fetch(`${URL_}/rest/v1/${path}`, { headers: { apikey: ANON } });
+    return { status: res.status, text: (await res.text()).slice(0, 80) };
+  };
+  for (const table of ['wearable_connections', 'wearable_tokens', 'wearable_daily']) {
+    const r = await anonOnly(`${table}?select=*`);
+    // 401 or 403 or a PostgREST 42501 are all refusals. An empty array would mean the
+    // table is readable and merely happens to be empty, which is not the same thing.
+    ok(`the published key is refused outright on ${table}`,
+       r.status >= 400, `HTTP ${r.status} ${r.text}`);
+  }
+
+  // And a signed-in member must not reach ANY token, including their own: it is a key
+  // to their account somewhere else, not a record about them.
+  const own = await asMember(A_JWT, 'wearable_tokens?select=*');
+  ok('a signed-in member cannot read wearable_tokens at all, not even their own',
+     own.status >= 400, `HTTP ${own.status} ${JSON.stringify(own.body).slice(0, 80)}`);
+}
+
 console.log('\nThe export endpoint, which takes a client_id and must not honour it');
 {
   const BASE = process.env.HBP_BASE || 'https://thehumanbatteryproject.com';

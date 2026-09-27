@@ -79,6 +79,11 @@ run discount_fixtures   node tests/discount_fixtures.mjs
 # got worse.
 run continuation_fixtures node tests/continuation_fixtures.mjs
 run day90_fixtures      node tests/day90_fixtures.mjs
+
+# Wearables. The mapping is unverified against the vendor docs, so these fixtures are
+# aimed at whether a WRONG mapping can hurt anybody: a missing field must hold rather
+# than read as nothing, and a unit error must hold rather than store a wrong number.
+run wearable_fixtures   node tests/wearable_fixtures.mjs
 run onboarding_fixtures node tests/onboarding_fixtures.mjs
 run checkin_fixtures    node tests/checkin_fixtures.mjs
 run planner_fixtures    node tests/planner_fixtures.mjs
