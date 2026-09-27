@@ -25,7 +25,8 @@ import {
   json, db, ask, startRun, finishRun, hasServiceSecret, verifyStaff, MODEL_PER_CLIENT,
 } from './_agent.js';
 import { GenerationPaused, flagOn, FLAGS } from './_flags.js';
-import { observe, selectActions, reviewPlan, MAX_ACTIONS, BARRIER_COOLDOWN_DAYS } from './_plan.js';
+import { observe, attachPractices, selectActions, reviewPlan, MAX_ACTIONS,
+         BARRIER_COOLDOWN_DAYS } from './_plan.js';
 import { flagsFromText } from './_medical.js';
 import { IDENTITY, GUARDRAILS, stripDashes } from './_voice.js';
 

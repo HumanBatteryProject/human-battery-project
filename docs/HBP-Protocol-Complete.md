@@ -134,13 +134,14 @@ Five sets of three to six on the main lifts. Progressive overload every week.
 
 ## Heat and cold
 
-**Cold, every morning after light.** Five to eight minutes at 45°F or below. Then the day starts.
+**Heat, four to seven days a week.** Twenty minutes or more, in two to three rounds, at 85 to 100°C (185 to 212°F). End the session on cold. Rehydrate with mineralized water between rounds.
 
-**Sauna, every day.** Two rounds of twenty minutes at 185 to 200°F. Rehydrate with mineralized water between rounds.
+**Cold, four to five days a week.** A three to five minute plunge at 7 to 10°C (45 to 50°F). Five minutes is the ceiling and 7°C is the floor. When intensity rises between cycles the frequency can rise; the single session cannot.
 
-**Contrast, three times a week.** Sauna, cold, sauna, cold, sauna, cold. Twenty minutes hot, four minutes cold, three rounds.
+**Fixed rules, every tier.** Cold is never within six hours after strength training: cold before a lift is fine, cold after a lift blunts what the lift was for. The sauna finishes one to two hours before bed. No single cold exposure over five minutes, and no water colder than 7°C (45°F), at every tier and after any rise in intensity between cycles. No alcohol before or during the sauna, and mineral water after. Never plunge alone in open water, never put the head under, and never hold the breath.
 
-**The rule:** cold never within four hours after resistance training. Morning cold, morning lift after, is fine. Lift then cold is not.
+**Evidence.** Sauna frequency and duration: we are confident, on observational evidence, which shows that people who use a sauna more often do better and cannot show that the sauna is why. Cold exposure: early evidence.
+
 
 ## Sleep
 
@@ -217,13 +218,14 @@ Five sets of five to eight on the main movements. Add load when you clear eight 
 
 ## Heat and cold
 
-**Sauna:** Five to seven days a week. Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have the time. Rehydrate with mineralized water after every session.
+**Heat, four days a week.** Fifteen to twenty minutes at 80 to 90°C (176 to 194°F). Rehydrate with mineralized water after every session.
 
-**Cold:** Four days a week. Three to five minutes at 50°F or below. Cold plunge, chest freezer, or a cold lake.
+**Cold, three to four days a week.** A two to three minute plunge at 10 to 13°C (50 to 55°F). Cold plunge, chest freezer, or a cold lake, with the open water rule below.
 
-**The rule:** cold goes after zone 2, never after resistance training. If you lift in the morning, cold is in the evening or on a non-lifting day.
+**Fixed rules, every tier.** Cold is never within six hours after strength training: cold before a lift is fine, cold after a lift blunts what the lift was for. The sauna finishes one to two hours before bed. No single cold exposure over five minutes, and no water colder than 7°C (45°F), at every tier and after any rise in intensity between cycles. No alcohol before or during the sauna, and mineral water after. Never plunge alone in open water, never put the head under, and never hold the breath.
 
-**Contrast:** Sauna then cold, three rounds, on one designated day a week.
+**Evidence.** Sauna frequency and duration: we are confident, on observational evidence, which shows that people who use a sauna more often do better and cannot show that the sauna is why. Cold exposure: early evidence.
+
 
 ## Sleep
 
@@ -293,9 +295,14 @@ Three sets of eight to twelve. Progress the variation when you clear twelve on a
 
 ## Heat and cold
 
-**Sauna:** Three days a week if you have access. Gym sauna is fine. Fifteen to twenty minutes at whatever temperature they run.
+**Heat, three days a week.** Fifteen minutes at about 80°C (176°F). Gym sauna is fine.
 
-**Cold:** Every shower ends with sixty to ninety seconds cold. Full cold, not lukewarm. Breathe slowly through the nose. That is the entire cold protocol for Intermediate until day 60. After day 60, add one cold plunge a week if you have access.
+**Cold, one of two ways.** Sixty to ninety seconds at the end of every shower, daily. Or a one to two minute plunge at 12 to 15°C (54 to 59°F), two to three times a week. Pick one and hold it for the cycle rather than alternating. Full cold, not lukewarm, and breathe slowly through the nose.
+
+**Fixed rules, every tier.** Cold is never within six hours after strength training: cold before a lift is fine, cold after a lift blunts what the lift was for. The sauna finishes one to two hours before bed. No single cold exposure over five minutes, and no water colder than 7°C (45°F), at every tier and after any rise in intensity between cycles. No alcohol before or during the sauna, and mineral water after. Never plunge alone in open water, never put the head under, and never hold the breath.
+
+**Evidence.** Sauna frequency and duration: we are confident, on observational evidence, which shows that people who use a sauna more often do better and cannot show that the sauna is why. Cold exposure: early evidence.
+
 
 ## Sleep
 
@@ -365,9 +372,14 @@ Ten minutes. Progress each one when it feels easy.
 
 **Food, remove:** Gluten and seed oils, starting week 9. That is the only elimination in Tier 3.
 
-**Cold:** Last thirty seconds of every shower, cold. That is the entire cold protocol.
+**Cold, three to five days a week.** End the shower cold. Thirty seconds to start, building to sixty. That is the entire cold protocol at this tier: no plunge.
 
-**Sauna:** Only with physician clearance, and only if you have easy access. Fifteen minutes, twice a week.
+**Heat, twice a week.** Eight to ten minutes, up to 80°C (176°F). Only with physician clearance, and only if you have easy access.
+
+**Fixed rules, every tier.** Cold is never within six hours after strength training: cold before a lift is fine, cold after a lift blunts what the lift was for. The sauna finishes one to two hours before bed. No single cold exposure over five minutes, and no water colder than 7°C (45°F), at every tier and after any rise in intensity between cycles. No alcohol before or during the sauna, and mineral water after. Never plunge alone in open water, never put the head under, and never hold the breath.
+
+**Evidence.** Sauna frequency and duration: we are confident, on observational evidence, which shows that people who use a sauna more often do better and cannot show that the sauna is why. Cold exposure: early evidence.
+
 
 **Sunset:** Add five minutes outside at sunset.
 
@@ -412,7 +424,7 @@ Ten minutes. Progress each one when it feels easy.
 
 | Item | Pro & Advanced | Intermediate & Beginner |
 |---|---|---|
-| **Sauna** | A traditional sauna reaching 175 to 200°F. | Gym sauna. |
+| **Sauna** | A traditional sauna reaching 80 to 100°C (176 to 212°F). | Gym sauna. |
 | **Cold** | A purpose-built cold tub, or a chest freezer conversion with a GFCI and a timer. | Cold shower. |
 
 ## Testing
@@ -483,8 +495,9 @@ This section is for the coach. It runs before anyone starts, and it is a rule.
 
 ## Who skips what
 
-- **No sauna:** unstable heart disease, recent cardiac event, uncontrolled hypertension, pregnancy.
-- **No cold plunge:** cardiovascular disease, uncontrolled hypertension, Raynaud's, pregnancy, arrhythmia.
+- **No heat and no cold** without physician clearance: a heart attack in the last twelve months, unstable chest pain, severe aortic stenosis, an arrhythmia, blood pressure that is not controlled, very low blood pressure, pregnancy.
+- **No cold** specifically: Raynaud's.
+- **Reduced heat dose** rather than an exclusion: a man trying to conceive. Halve it.
 - **No eating window:** eating disorder history, pregnancy, type 1 diabetes, underweight.
 - **No HIIT:** uncontrolled hypertension, any Beginner before day 60.
 

@@ -91,7 +91,7 @@ th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-
 </main>
 
 <script type="module">
-import { sb, requireAuth, el, toast, esc } from '../app.js?v=063a85cf';
+import { sb, requireAuth, el, toast, esc } from '../app.js?v=f108d284';
 const session = await requireAuth();
 if (session) {
   const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();

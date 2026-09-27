@@ -26,6 +26,7 @@ matched to a passage by the claim text appearing in it. Where the book does not
 tier a claim, the passage gets `unsupported`, which is deliberate: the coach may
 quote it as context and may never present it as established.
 """
+import uuid
 import argparse
 import hashlib
 import json
@@ -39,6 +40,11 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # ---------------------------------------------------------------- constants
 # DECISION LEFT TO THE OWNER. Safe values set here and listed in the report.
+# A fixed namespace for passage ids. Changing this value renumbers every passage
+# in the corpus and orphans every citation, so it is a constant and never a
+# derived value.
+PASSAGE_NAMESPACE = uuid.UUID("5f3a9c1e-6d4b-4a27-9e83-0c1b7d2f8a45")
+
 EMBED_MODEL      = "voyage-3"     # one model, recorded on every row
 EMBED_VERSION    = "2024-09"      # pinned so a silent upgrade is visible
 EMBED_DIM        = 1024
@@ -356,6 +362,22 @@ def main():
     for u in units:
         u["content_sha"] = sha(u["passage"])
         u["word_count"] = len(u["passage"].split())
+        # THE PASSAGE ID IS DERIVED FROM ITS CONTENT, not generated per insert.
+        #
+        # The unit of replacement is a SOURCE, so a one line edit anywhere in a
+        # file deletes and reinserts every passage in it. With generated ids that
+        # gave every paragraph in the file a NEW id, including the paragraphs that
+        # had not changed, and every canonical rule citing one of them was left
+        # pointing at nothing. Five rules were in that state: three water rules
+        # and two movement rules, all seeded in migration 057, all broken by an
+        # unrelated edit to the heat and cold section of the same file.
+        #
+        # A dangling citation is the worst shape this can take, because the rule
+        # still renders, still carries an evidence tier, and the source behind the
+        # tier is gone. uuid5 over source and content hash means unchanged text
+        # keeps its id through any number of reloads, and text that genuinely
+        # changed gets a new id, which is a citation that SHOULD be re-examined.
+        u["id"] = str(uuid.uuid5(PASSAGE_NAMESPACE, u["source"] + ":" + u["content_sha"]))
         u["dimension"] = dimension_of(u["passage"])
         u["markers"] = markers_in(u["passage"], canon) if canon else []
         u["reference_ids"] = reference_ids(u["passage"])
@@ -495,12 +517,12 @@ def main():
             v = vecs.get(u["content_sha"])
             fh.write(
                 "insert into knowledge_passages "
-                "(source_id,ord,passage,evidence_tier,is_authors_model,part,chapter,section,"
+                "(id,source_id,ord,passage,evidence_tier,is_authors_model,part,chapter,section,"
                 " dimension,markers,reference_ids,content_sha,embed_model,embed_version,"
                 " word_count,embedding) values ("
-                "'{sid}',{ord},$p${p}$p$,'{tier}',{am},{part},{chap},{sec},{dim},"
+                "'{pid}','{sid}',{ord},$p${p}$p$,'{tier}',{am},{part},{chap},{sec},{dim},"
                 "'{{{mk}}}','{{{rf}}}','{sha}','{em}','{ev}',{wc},{vec});\n".format(
-                    sid=src_ids[u["source"]], ord=u["ord"], p=u["passage"],
+                    pid=u["id"], sid=src_ids[u["source"]], ord=u["ord"], p=u["passage"],
                     tier=u["evidence_tier"], am=str(u["is_authors_model"]).lower(),
                     part="$q$%s$q$" % u["part"] if u["part"] else "null",
                     chap="$q$%s$q$" % u["chapter"] if u["chapter"] else "null",

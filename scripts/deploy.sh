@@ -53,7 +53,7 @@ fi
 sh scripts/bump_js_version.sh
 
 echo "suites:"
-for c in check_prohibitions check_deliverables check_css check_claims check_palette; do
+for c in check_imports check_prohibitions check_deliverables check_css check_claims check_palette; do
   if python3 "scripts/$c.py" >/dev/null 2>&1; then printf '  %-22s ok\n' "$c"
   else printf '  %-22s FAILED\n' "$c"; exit 1; fi
 done
