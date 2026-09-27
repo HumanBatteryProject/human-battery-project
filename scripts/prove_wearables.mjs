@@ -387,11 +387,35 @@ try {
   const flagsNow = sql(`select string_agg(key||'='||enabled::text, ',' order by key)
                          from feature_flags where key like 'WEARABLE%'`);
   ok('flags restored', flagsNow === flagsWere, `${flagsNow} vs ${flagsWere}`);
+  // RESTORE IN BOTH DIRECTIONS.
+  //
+  // This used to re-withdraw when consentWas was '0' and do nothing otherwise,
+  // which is only half a restore: the proof withdraws health_data to test the
+  // gate, so when the consent HAD been granted it was left withdrawn. That is
+  // exactly what happened. The internal member lost health_data consent on a
+  // deploy and stayed locked out of every membership-gated page, which blinded
+  // the accessibility audit into measuring the consent screen and calling it six
+  // passing pages.
+  //
+  // An UPDATE of the single row, not an insert: client_consents is unique on
+  // (client_id, document_id) with no partial predicate, so there is one row per
+  // person per document forever and an insert is a 23505.
   if (consentWas === '0') {
-    sql(`update client_consents cc set withdrawn_at = now() from consent_documents cd
+    sql(`update client_consents cc set withdrawn_at = now(), granted = false
+           from consent_documents cd
           where cd.id = cc.document_id and cd.kind='health_data' and cc.client_id='${CLIENT}'
             and cc.withdrawn_at is null`);
+  } else {
+    sql(`update client_consents cc set withdrawn_at = null, granted = true
+           from consent_documents cd
+          where cd.id = cc.document_id and cd.kind='health_data' and cc.client_id='${CLIENT}'`);
   }
+  const consentNow = sql(`select count(*) from client_consents cc
+                            join consent_documents cd on cd.id = cc.document_id
+                           where cc.client_id='${CLIENT}' and cd.kind='health_data'
+                             and cc.granted and cc.withdrawn_at is null`);
+  ok('health data consent is back where it was', consentNow === consentWas,
+     `now ${consentNow}, was ${consentWas}`);
 }
 
 console.log(`\n${bad ? `WEARABLE ACCEPTANCE FAILED: ${bad}` : 'every wearable acceptance line passes'}`);
