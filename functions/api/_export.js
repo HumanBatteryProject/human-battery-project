@@ -25,6 +25,8 @@ export const DIRECT = [
   'functional_tests', 'intake_responses', 'lab_panels', 'lab_results_held',
   'measurements', 'memberships', 'morning_briefs', 'notifications', 'payments',
   'proposals', 'support_requests', 'weekly_plans', 'weekly_reviews',
+  // Wearables. Their connections and their daily readings are theirs.
+  'wearable_connections', 'wearable_daily',
 ];
 
 // Tables that hold a participant's records through a parent row rather than a
@@ -51,6 +53,18 @@ export const EXCLUDED = {
   marker_deltas:           'a view over lab_results, which is exported',
   score_progress:          'a view over battery_scores, which is exported',
   rate_limits:             'not participant data: an endpoint name and a hashed address',
+
+  // A TOKEN IS NOT A RECORD ABOUT SOMEBODY, IT IS A KEY TO THEIR ACCOUNT SOMEWHERE
+  // ELSE. Putting it in an export would hand a live credential to whoever ends up
+  // holding the file, which for an export is exactly the wrong place: the file gets
+  // emailed, saved to a downloads folder, and kept. The member's connection row IS
+  // exported, so they can see which devices are attached, when each last synced and
+  // what scopes they granted, which is the part that is genuinely about them.
+  //
+  // It is also encrypted with a key the database does not hold, so an export would
+  // have contained unreadable ciphertext and taught the member nothing while still
+  // being a credential.
+  wearable_tokens:         'a third-party credential rather than a record about the member. The connection it belongs to is exported, including its scopes and last sync',
 };
 
 export const EXPORT_NOTE =
