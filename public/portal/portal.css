@@ -476,3 +476,39 @@ input[type=file]::file-selector-button{font-family:var(--display);font-size:var(
 .today-why{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);margin:0}
 .withheld{font-size:var(--fs-xs);color:var(--ink-muted);line-height:var(--lh-small);
   border-left:2px solid var(--status-warn);padding-left:.6rem;margin:.5rem 0 0}
+
+/* ---------------------------------------------------------------------------
+   The daily checklist, grouped by pillar.
+
+   The owner's pillar ruling requires Heat and cold to appear on the checklist as
+   its own pillar. The list was flat and named no pillar, so a heading style was
+   needed. No colour is invented here: the heading uses copper-light, which is
+   the only copper that passes as text on the panel, and the warning uses
+   status-warn, which is what a range flag already uses.
+   --------------------------------------------------------------------------- */
+.pillar-head{
+  font-size:var(--fs-xs); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--copper-light); margin:1.35rem 0 .2rem;
+  padding-bottom:.35rem; border-bottom:1px solid var(--rule-2);
+}
+.pillar-head:first-child{margin-top:0}
+
+/* Minutes and the finishing time for a heat or cold session. A tick cannot
+   carry a dose, and the pillar's two timing rules need a time. */
+.hc-detail{
+  display:flex; flex-wrap:wrap; gap:.4rem .7rem; align-items:center;
+  padding:0 0 .8rem 0; border-bottom:1px solid var(--rule);
+}
+.hc-detail label{color:var(--steel)}
+.hc-detail input{
+  background:var(--surface-field); color:var(--ink);
+  border:1px solid var(--rule-2); border-radius:4px;   /* the radius .card and .chip already use */
+  padding:.5rem .55rem; font:inherit; font-size:var(--fs-sm);
+  /* 24px is the WCAG 2.2 AA target size. These are the smallest controls on
+     the page and they were the first thing the audit caught last time. */
+  min-height:44px; min-width:5.5rem;
+}
+.hc-detail input:focus-visible{outline:2px solid var(--dawn-amber); outline-offset:2px}
+.hc-warn{
+  flex:1 1 100%; color:var(--status-warn); font-size:var(--fs-xs); line-height:1.4;
+}

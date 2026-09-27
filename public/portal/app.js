@@ -220,11 +220,21 @@ export async function foods() {
   return cache.foods;
 }
 
+export async function pillars() {
+  if (cache.pillars) return cache.pillars;
+  const { data } = await sb
+    .from('pillars')
+    .select('key, label, sort_order')
+    .order('sort_order');
+  cache.pillars = data || [];
+  return cache.pillars;
+}
+
 export async function practices() {
   if (cache.practices) return cache.practices;
   const { data } = await sb
     .from('circadian_practices')
-    .select('id, slug, name, description, is_daily_five, sort_order, tier, rationale_established')
+    .select('id, slug, name, description, is_daily_five, sort_order, tier, rationale_established, pillar_key')
     .is('retired_at', null)
     .order('sort_order');
   cache.practices = data || [];

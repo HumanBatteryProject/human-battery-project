@@ -93,14 +93,41 @@ B7. Brand. Preserve the existing brand, approved wordmark, typography, and color
 PART C. SCIENTIFIC CANON AND SCORING
 ============================================================
 
-C1. Canonical lifestyle pillars:
+C1. Canonical lifestyle pillars. Superseded on 2026-09-27 by the owner's pillar ruling: there are now SEVEN, and Heat and cold is a pillar in its own right rather than protocol instruction with no rules. The list, in order:
 - Morning daylight
 - Hydration
 - Movement
 - Food timing
+- Heat and cold
 - Sleep
 - Nighttime darkness
-These six are the pillars. Every canonical rule belongs to one of them. The protocol's existing sections map onto these six; do not introduce a different pillar list.
+These seven are the pillars. Every canonical rule belongs to one of them. Do not introduce a different pillar list.
+
+C1a. The protocol's nine sections are DOCUMENT SECTIONS, not pillars. The mapping, which lives in the protocol_section_pillars table:
+- 01 The Clock splits in two. Morning and daytime sun, and grounding, go to Morning daylight; light at night goes to Nighttime darkness.
+- 02 Water to Hydration.
+- 03 Movement to Movement.
+- 04 Food to Food timing.
+- 05 Heat and Cold to Heat and cold.
+- 06 Sleep to Sleep.
+- 07 Environment, 08 The Ninety Days and 09 Every Day are support sections and hold no rules of their own. Any rule in Environment goes to the pillar it serves.
+
+C1b. Heat and cold, by tier.
+- Beginner: heat 2x per week, 8 to 10 minutes, up to 80C (176F). Cold: end the shower with 30 seconds building to 60 seconds, 3 to 5 days per week.
+- Intermediate: heat 3x per week, 15 minutes at about 80C. Cold: 60 to 90 seconds daily, or a 1 to 2 minute plunge at 12 to 15C, 2 to 3x per week.
+- Advanced: heat 4x per week, 15 to 20 minutes at 80 to 90C. Cold: a 2 to 3 minute plunge at 10 to 13C, 3 to 4x per week.
+- Pro: heat 4 to 7x per week, 20 or more minutes in 2 to 3 rounds at 85 to 100C, ending on cold. Cold: a 3 to 5 minute plunge at 7 to 10C, 4 to 5x per week.
+
+C1c. Fixed rules for Heat and cold. These do not vary by tier, by multiplier or by adaptation, and they are enforced in functions/api/_heatcold.js rather than only stated here.
+- Cold is never within 6 hours after strength training.
+- Sauna finishes 1 to 2 hours before bed.
+- Hard ceiling on cold at every tier, including the Pro 20 percent per cycle increase: no single plunge over 5 minutes, and no water colder than 7C (45F).
+- No alcohol before or during sauna. Mineral water after.
+- Never plunge alone in open water. Never put the head under or hold the breath.
+
+C1d. Safety exclusions for Heat and cold. In the medication screening table and in the contraindication links on both rules: recent heart attack, unstable chest pain, severe aortic stenosis, arrhythmia, uncontrolled blood pressure, very low blood pressure, pregnancy, and Raynaud's for cold. Men trying to conceive get a reduced heat dose rather than an exclusion.
+
+C1e. Evidence tier for the Heat and cold rules: sauna frequency and duration are strong, and the basis is observational. Cold exposure is emerging. Both are labelled that way wherever they are shown.
 
 C2. Mandatory scientific distinctions, enforced in the schema and in every surface:
 - MEASURED: directly observed data.

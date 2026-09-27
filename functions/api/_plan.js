@@ -79,7 +79,44 @@ export const FIELDS = [
   'bedtime', 'waketime', 'sleep_quality', 'energy', 'symptoms',
   'outdoor_daylight_min', 'movement_minutes', 'first_meal_at', 'last_meal_at',
   'water_ml', 'evening_light_low', 'last_screen_at', 'morning_light_min',
+  // The Heat and cold pillar. These five are not columns on daily_logs: they
+  // are derived from log_practices by attachPractices() below and attached to
+  // each log row, because heat, cold and strength training are logged as
+  // practices carrying their own minutes and times. The pillar cannot produce
+  // an action or check its own timing rules without them.
+  'sauna_minutes', 'cold_minutes', 'sauna_at', 'cold_at', 'strength_at',
 ];
+
+// Which practice slug feeds which derived field. One place, so the planner and
+// the checklist cannot disagree about what counts as a cold session.
+export const PRACTICE_FIELDS = {
+  'heat-exposure': { minutes: 'sauna_minutes', at: 'sauna_at' },
+  'cold-exposure': { minutes: 'cold_minutes', at: 'cold_at' },
+  'training': { minutes: null, at: 'strength_at' },
+};
+
+/**
+ * Fold log_practices rows onto their daily_logs rows.
+ *
+ * `practices` rows carry daily_log_id, a practice slug, completed, minutes and
+ * occurred_at. A practice that was offered and not completed contributes
+ * nothing: absence and a deliberate "no" both mean the field is not present for
+ * that day, and a zero here would read later as a measured zero.
+ */
+export function attachPractices(logs, practices) {
+  const byLog = new Map();
+  for (const p of practices || []) {
+    if (!p || !p.daily_log_id) continue;
+    if (p.completed !== true) continue;
+    const map = PRACTICE_FIELDS[p.slug];
+    if (!map) continue;
+    if (!byLog.has(p.daily_log_id)) byLog.set(p.daily_log_id, {});
+    const into = byLog.get(p.daily_log_id);
+    if (map.minutes && typeof p.minutes === 'number') into[map.minutes] = p.minutes;
+    if (map.at && p.occurred_at) into[map.at] = p.occurred_at;
+  }
+  return (logs || []).map((l) => ({ ...l, ...(byLog.get(l.id) || {}) }));
+}
 
 export function daysBetween(fromDate, toDate) {
   const a = new Date(String(fromDate) + 'T12:00:00Z');
@@ -160,6 +197,13 @@ export function pillarNeed(pillarKey, state) {
     case 'food_timing':
       if (state.counts.first_meal_at === 0 || state.counts.last_meal_at === 0) return 58;
       return 35;
+    case 'heat_and_cold':
+      // Ranked below the pillars whose absence is a larger signal and above a
+      // pillar already being done. Heat and cold is not daily at any tier, so
+      // "none logged" says less here than it does for daylight or sleep.
+      if (state.counts.sauna_minutes === 0 && state.counts.cold_minutes === 0) return 52;
+      if (state.counts.sauna_minutes === 0 || state.counts.cold_minutes === 0) return 40;
+      return 22;
     default:
       return 10;
   }
@@ -408,6 +452,16 @@ export function whyFor(entry, state) {
       return state.counts.first_meal_at === 0
         ? 'Your meal times are not logged yet, so the window cannot be measured.'
         : 'Your meal times are logged, so the window is the next thing to work on.';
+    case 'heat_and_cold': {
+      const heat = state.counts.sauna_minutes;
+      const cold = state.counts.cold_minutes;
+      if (heat === 0 && cold === 0) {
+        return 'You have logged no heat and no cold yet, and both are dosed by tier rather than done every day.';
+      }
+      if (cold === 0) return `You logged heat on ${heat} of the last ${state.days_logged} day(s) and no cold.`;
+      if (heat === 0) return `You logged cold on ${cold} of the last ${state.days_logged} day(s) and no heat.`;
+      return `You logged heat on ${heat} day(s) and cold on ${cold} day(s) of the last ${state.days_logged}.`;
+    }
     default:
       return 'Selected from your approved protocol.';
   }

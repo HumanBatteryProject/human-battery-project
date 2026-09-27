@@ -224,29 +224,78 @@ def food(tier):
 """,
     }[tier]
 
+# The Heat and cold pillar, rewritten to the owner's pillar ruling of
+# 2026-09-27. Heat and cold is a pillar in its own right now, not protocol
+# instruction that generates nothing.
+#
+# What was here before contradicted the ruling in six places and is not
+# preserved: Pro cold read "five to eight minutes at 45F or below" against a
+# ceiling of five minutes and a floor of 45F; Advanced read "three to five
+# minutes at 50F or below", also open ended downward; the wait after lifting was
+# four hours and is six; and nothing said a sauna has to finish before bed.
+#
+# FIXED is shared by every tier on purpose. A rule that does not vary by tier
+# and is printed once per tier is a rule that gets edited in three places and
+# left wrong in the fourth.
+FIXED = """
+<div class="rule"><b>Cold is never within six hours after strength training.</b>
+Cold before a lift is fine. Cold after a lift blunts what the lift was for. If you
+train in the morning, cold goes in the evening or on a day you did not lift.</div>
+<div class="rule"><b>The sauna finishes one to two hours before bed.</b> Later than
+that and the heat is still leaving your body when you are trying to fall asleep.</div>
+<div class="rule"><b>Two limits that never move.</b> No single cold exposure over
+five minutes, and no water colder than 7C (45F). These hold at every tier, and they
+hold when your intensity rises between cycles. Colder and longer is not the
+direction this goes.</div>
+<div class="rule"><b>No alcohol before or during the sauna.</b> Mineral water after.</div>
+<div class="rule"><b>Never plunge alone in open water. Never put your head under,
+and never hold your breath.</b> The gasp reflex is involuntary and it is what makes
+cold water drown people who can swim.</div>
+<h3>Who skips this</h3>
+<p>Ask your prescriber first, and treat the answer as the instruction, if any of
+these is true of you: a heart attack in the last twelve months, unstable chest pain,
+severe aortic stenosis, an arrhythmia, blood pressure that is not controlled, very
+low blood pressure, or pregnancy. <b>Cold specifically:</b> Raynaud's. <b>Heat
+specifically:</b> if you are a man trying to conceive, halve the dose rather than
+removing it.</p>
+<p class="small"><b>What we are standing on.</b> Sauna frequency and duration:
+<i>We are confident</i>, and the evidence is observational, which means it shows
+people who use a sauna more often do better and cannot prove the sauna is why.
+Cold exposure: <i>Early evidence</i>. The doses below are the protocol's, not a
+finding.</p>
+"""
+
 def heatcold(tier):
-    return {
-    "pro": """
-<h3>Cold, every morning after light</h3><p>Five to eight minutes at 45°F or below. Then the day starts.</p>
-<h3>Sauna, every day</h3><p>Two rounds of twenty minutes at 185 to 200°F. Rehydrate with unrefined mineral sea salt water between rounds.</p>
-<h3>Contrast, three times a week</h3><p>Twenty hot, four cold, three rounds.</p>
-<div class="rule">Cold never within four hours after resistance training. Morning cold then a lift is fine. Lift then cold is not.</div>
-""",
-    "advanced": """
-<h3>Sauna, five to seven days</h3><p>Traditional sauna at 175 to 195°F, twenty minutes. Two rounds if you have time. Rehydrate with mineral water and unrefined mineral sea salt.</p>
-<h3>Cold, four days</h3><p>Three to five minutes at 50°F or below.</p>
-<h3>Contrast, one designated day</h3><p>Sauna then cold, three rounds.</p>
-<div class="rule">Cold goes after zone 2, never after resistance training. If you lift in the morning, cold is in the evening or on a non-lifting day.</div>
+    dose = {
+    "beginner": """
+<h3>Heat, twice a week</h3><p>Eight to ten minutes, up to 80C (176F). Only with
+physician clearance if anything in the list below applies to you. Gym sauna is fine.</p>
+<h3>Cold, three to five days a week</h3><p>End your shower cold. Thirty seconds to
+start, building to sixty. Full cold, not cool. Breathe slowly through your nose.
+That is the whole cold protocol at this tier: no plunge.</p>
 """,
     "intermediate": """
-<h3>Sauna, three days if you have access</h3><p>Gym sauna is fine. Fifteen to twenty minutes.</p>
-<h3>Cold</h3><p>Every shower ends with sixty to ninety seconds cold. Full cold. Breathe slowly through your nose. That is the entire cold protocol until day 60. After day 60, add one cold plunge a week if you have access.</p>
+<h3>Heat, three times a week</h3><p>Fifteen minutes at about 80C (176F).</p>
+<h3>Cold, one of two ways</h3><p>Sixty to ninety seconds at the end of every shower,
+daily. Or a one to two minute plunge at 12 to 15C (54 to 59F), two to three times a
+week. Pick one and hold it for the cycle rather than alternating.</p>
 """,
-    "beginner": """
-<h3>Months one and two</h3><p>Nothing.</p>
-<h3>Month three</h3><p>The last thirty seconds of every shower, cold. That is the entire cold protocol. Sauna only with physician clearance, fifteen minutes twice a week if you have easy access.</p>
+    "advanced": """
+<h3>Heat, four times a week</h3><p>Fifteen to twenty minutes at 80 to 90C (176 to
+194F). Rehydrate with mineral water and unrefined mineral sea salt.</p>
+<h3>Cold, three to four times a week</h3><p>A two to three minute plunge at 10 to
+13C (50 to 55F).</p>
+""",
+    "pro": """
+<h3>Heat, four to seven times a week</h3><p>Twenty minutes or more, in two to three
+rounds, at 85 to 100C (185 to 212F). End the session on cold. Rehydrate with mineral
+water and unrefined mineral sea salt between rounds.</p>
+<h3>Cold, four to five times a week</h3><p>A three to five minute plunge at 7 to 10C
+(45 to 50F). Five minutes is the ceiling and 7C is the floor. When your intensity
+rises between cycles, the frequency can rise. The single session cannot.</p>
 """,
     }[tier]
+    return dose + FIXED
 
 def sleep(tier):
     base = """
@@ -297,14 +346,91 @@ def phases(tier):
                  ("Days 61 to 90","Load. Three resistance days. Longer walks. Gluten and seed oils out. Cold finish on the shower. Day 90 draw.")],
     }[tier]
 
+# The daily checklist, grouped by pillar.
+#
+# The owner's pillar ruling requires Heat and cold to appear on the daily
+# checklist as its own pillar. It was a flat list of thirteen lines that named no
+# pillar at all, and the beginner list had no heat or cold line in it, so the
+# pillar was invisible on the one page a participant reads every day.
+#
+# Order is the ruling's order. A pillar with no line at a tier is left out rather
+# than printed empty.
+CHECK_PILLARS = [
+    ("morning_daylight",   "Morning daylight"),
+    ("hydration",          "Hydration"),
+    ("movement",           "Movement"),
+    ("food_timing",        "Food timing"),
+    ("heat_and_cold",      "Heat and cold"),
+    ("sleep",              "Sleep"),
+    ("nighttime_darkness", "Nighttime darkness"),
+]
+
+CHECK_ITEMS = {
+ "pro": {
+  "morning_daylight":   ["Outside within 15 min of waking, 30+ min, barefoot", "Midday sun 20+ min", "Sunset outside"],
+  "hydration":          ["Morning glass: water, mineral salt, lemon", "Four liters of water"],
+  "movement":           ["Training block", "Walk after meal"],
+  "food_timing":        ["Meal inside 7am to 1pm"],
+  "heat_and_cold":      ["Sauna, two to three rounds, finished 1 to 2 h before bed",
+                         "Cold plunge 3 to 5 min, not within 6 h after lifting"],
+  "sleep":              ["Bed at fixed time"],
+  "nighttime_darkness": ["Red glasses from sunset, screens off", "Phone off, router off"],
+ },
+ "advanced": {
+  "morning_daylight":   ["Outside within 30 min of waking, 20+ min, barefoot", "Midday sun", "Sunset outside"],
+  "hydration":          ["Morning glass", "Three liters of water"],
+  "movement":           ["Training or zone 2", "Walk after each meal"],
+  "food_timing":        ["Both meals inside 7am to 3pm"],
+  "heat_and_cold":      ["Sauna 15 to 20 min, finished 1 to 2 h before bed",
+                         "Cold plunge 2 to 3 min, not within 6 h after lifting"],
+  "sleep":              ["Fixed bedtime"],
+  "nighttime_darkness": ["Amber glasses from sunset", "Phone out of room"],
+ },
+ "intermediate": {
+  "morning_daylight":   ["Outside within 30 min of waking, 10+ min", "Midday sun 10 min"],
+  "hydration":          ["Morning glass", "Three liters of water"],
+  "movement":           ["Training or zone 2 or rest day", "Walk after each meal"],
+  "food_timing":        ["Meals inside 8am to 5pm, no snacks"],
+  "heat_and_cold":      ["Cold finish on shower, 60 to 90 s",
+                         "Sauna if it is a sauna day, finished 1 to 2 h before bed"],
+  "sleep":              ["Wind-down at 9pm"],
+  "nighttime_darkness": ["Amber glasses two hours before bed", "Phone out of room"],
+ },
+ "beginner": {
+  "morning_daylight":   ["Outside within 30 min of waking, 15 min, barefoot",
+                         "Fifteen minutes of afternoon sun", "Fifteen minutes at sunset"],
+  "hydration":          ["Morning glass", "Three liters of water"],
+  "movement":           ["Walk after a meal"],
+  "food_timing":        ["Nothing three hours before bed"],
+  "heat_and_cold":      ["Cold finish on shower, 30 to 60 s"],
+  "sleep":              ["Same wake time"],
+  "nighttime_darkness": ["Glasses on when the sun goes down", "Screens filtered",
+                         "Phone out of the bedroom"],
+ },
+}
+
+
 def checklist(tier):
-    items = {
-    "pro":["Outside within 15 min of waking, 30+ min, barefoot","Morning glass: water, mineral salt, lemon","Cold plunge 5 to 8 min","Training block","Meal inside 7am to 1pm","Walk after meal","Midday sun 20+ min","Sunset outside","Sauna, two rounds","Red glasses from sunset, screens off","Four liters of water","Phone off, router off, bed at fixed time","Logged"],
-    "advanced":["Outside within 30 min of waking, 20+ min, barefoot","Morning glass","Training or zone 2","Both meals inside 7am to 3pm","Walk after each meal","Midday sun","Sunset outside","Sauna or cold","Amber glasses from sunset","Three liters of water","Phone out of room, fixed bedtime","Logged"],
-    "intermediate":["Outside within 30 min of waking, 10+ min","Morning glass","Meals inside 8am to 5pm, no snacks","Walk after each meal","Midday sun 10 min","Training or zone 2 or rest day","Cold finish on shower","Amber glasses two hours before bed","Three liters of water","Wind-down at 9pm, phone out of room","Logged"],
-    "beginner":["Outside within 30 min of waking, 15 min, barefoot","Morning glass","Fifteen minutes of afternoon sun","Fifteen minutes at sunset","Glasses on when the sun goes down","Screens filtered","Three liters of water","Nothing three hours before bed","Phone out of the bedroom","Same wake time","Logged"],
-    }[tier]
+    """Every line for a tier, flat. Kept for callers that want one list."""
+    by = CHECK_ITEMS[tier]
+    items = [i for key, _ in CHECK_PILLARS for i in by.get(key, [])] + ["Logged"]
     return "".join(f'<li><span class="box"></span>{i}</li>' for i in items)
+
+
+def checklist_by_pillar(tier):
+    """The same lines, under their pillar heading, in the ruling's order."""
+    by = CHECK_ITEMS[tier]
+    out = ""
+    for key, label in CHECK_PILLARS:
+        lines = by.get(key) or []
+        if not lines:
+            continue
+        out += f"<h3>{label}</h3><ul class=\"check\">"
+        out += "".join(f'<li><span class="box"></span>{i}</li>' for i in lines)
+        out += "</ul>"
+    out += '<ul class="check"><li><span class="box"></span>Logged</li></ul>'
+    return out
+
 
 # =====================================================================
 # RENDER
@@ -417,7 +543,7 @@ def render_tier(key):
   <div class="kicker" style="margin-top:10mm">09 &nbsp;/&nbsp; EVERY DAY</div>
   <h1>Daily checklist</h1>
   <p class="small">This is what goes in the log. Under a minute.</p>
-  <ul class="check">{checklist(key)}</ul>
+  {checklist_by_pillar(key)}
   <div class="rule" style="margin-top:10mm">The Human Battery Project is an educational wellness program, not medical treatment. It does not diagnose or treat any condition and does not replace your physician. Any laboratory result outside the reference range is referred to a physician. If you take prescription medication, review any change to your eating window, and any sauna or cold exposure, with your prescriber before starting. Stop and seek medical care for chest pain, fainting, or any new symptom that concerns you.</div>
 </div>
 

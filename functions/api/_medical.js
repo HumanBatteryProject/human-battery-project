@@ -38,6 +38,44 @@ export const SCREENING_ROWS = [
   { key: 'bipolar_diagnosis', on: 'Bipolar diagnosis',
     flag: 'Morning light exposure and the fixed wake time, both of which shift circadian phase and can destabilize mood. Physician clearance.',
     match: /\bbipolar|manic|mania\b/i },
+
+  // The Heat and cold pillar's safety exclusions, added with the owner's pillar
+  // ruling. These are conditions rather than drugs, which this table already
+  // carries: bipolar_diagnosis and heart_failure_or_fluid_restriction are the
+  // precedent. Sauna and cold both move blood pressure and heart rate acutely,
+  // so a cardiac exclusion here is an exclusion from the intervention, not a
+  // caution about it.
+  { key: 'recent_heart_attack', on: 'A heart attack in the last twelve months',
+    flag: 'Sauna and cold, both of which load the heart acutely. No heat and no cold without physician clearance.',
+    match: /\bheart attack|myocardial infarct|\bmi\b|had a stent|bypass surgery|cardiac event\b/i },
+  { key: 'unstable_angina', on: 'Unstable chest pain',
+    flag: 'Sauna and cold. No heat and no cold without physician clearance.',
+    match: /\bunstable angina|angina|chest pain\b/i },
+  { key: 'severe_aortic_stenosis', on: 'Severe aortic stenosis',
+    flag: 'Sauna and cold, which change loading conditions across a narrowed valve. No heat and no cold without physician clearance.',
+    match: /\baortic stenosis|narrowed aortic|valve stenosis\b/i },
+  { key: 'arrhythmia', on: 'An arrhythmia',
+    flag: 'Sauna and cold, both of which can trigger rhythm changes. Cold water immersion in particular. Physician clearance.',
+    match: /\barrhythmia|atrial fibrillation|\bafib\b|\ba-fib\b|irregular heart|palpitations|svt\b/i },
+  // The match deliberately catches plain "hypertension" as well as "uncontrolled",
+  // because nothing else in this table catches an untreated diagnosis, and
+  // over-flagging routes to a prescriber while under-flagging does not. The
+  // wording therefore has to be true of a controlled case too.
+  { key: 'uncontrolled_blood_pressure', on: 'High blood pressure, or blood pressure that is not controlled',
+    flag: 'Sauna and cold, both of which move blood pressure acutely. Physician clearance.',
+    match: /\buncontrolled (?:blood pressure|hypertension)|high blood pressure|hypertensive|hypertension\b/i },
+  { key: 'very_low_blood_pressure', on: 'Very low blood pressure',
+    flag: 'Sauna, which drops blood pressure further and is a fainting risk on standing. Physician clearance.',
+    match: /\blow blood pressure|hypotension|hypotensive|faint(?:ing|s)? on standing|orthostatic\b/i },
+  { key: 'pregnancy', on: 'Pregnancy',
+    flag: 'Sauna and cold plunging, and the fasting window. Physician clearance.',
+    match: /\bpregnan|expecting a baby|trying to get pregnant|\bivf\b|breastfeeding|nursing\b/i },
+  { key: 'raynauds', on: "Raynaud's",
+    flag: 'Cold exposure, which is the trigger. Cold is excluded; heat is not.',
+    match: /\braynaud|fingers turn white|toes turn white|cold sensitiv/i },
+  { key: 'trying_to_conceive_male', on: 'A man trying to conceive',
+    flag: 'The heat dose, which raises testicular temperature. Reduced rather than removed.',
+    match: /\btrying to conceive|sperm count|fertility treatment|male fertility|conceiving\b/i },
 ];
 
 // Every screening key, as a Set, so a canonical rule's contraindication list can

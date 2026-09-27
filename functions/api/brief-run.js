@@ -17,6 +17,7 @@ import {
 import { IDENTITY, MODEL_SUMMARY, GUARDRAILS, TIER_VOICE, stripDashes } from './_voice.js';
 import { GenerationPaused } from './_flags.js';
 import { wearableContext, WEARABLE_RULES } from './_wearable_voice.js';
+import { HEATCOLD_RULES, mentionsHeatOrCold } from './_heatcold.js';
 
 const AGENT = 'morning-brief';
 
@@ -92,6 +93,12 @@ const PARAM_WORDS = {
   cold_min: 'minutes in the cold',
   water_l: 'liters of water',
   sodium_g: 'grams of salt',
+  // Added with the Heat and cold pillar. Without a word here, changeSentence
+  // prints the raw column name at a member: "moved up from 80 to 85 sauna_temp_c".
+  sauna_temp_c: 'degrees Celsius in the sauna',
+  cold_temp_c: 'degrees Celsius in the water',
+  sauna_per_week: 'sauna sessions a week',
+  cold_per_week: 'cold sessions a week',
 };
 
 export function changeSentence(p) {
@@ -106,9 +113,22 @@ export async function buildBrief(sb, env, member, today) {
   const yesterday = shiftDate(today, -1);
   const log = await sb.one('daily_logs', {
     where: { client_id: member.client_id, log_date: yesterday },
-    columns: 'log_date,morning_light_min,waketime,bedtime,first_meal_at,last_meal_at,water_ml,daily_five_score,adherence_pct' });
+    columns: 'id,log_date,morning_light_min,waketime,bedtime,first_meal_at,last_meal_at,water_ml,daily_five_score,adherence_pct' });
 
   const dim = weakestDimension(log);
+
+  // The Heat and cold pillar's inputs. They are practices rather than daily_logs
+  // columns, so without this the brief could speak about six pillars and stay
+  // silent about the seventh.
+  let heatCold = [];
+  if (log && log.id) {
+    const rows = await sb.select('log_practices', {
+      where: { daily_log_id: log.id, completed: true },
+      columns: 'minutes,occurred_at,circadian_practices(slug,name,pillar_key)',
+    });
+    heatCold = (rows || []).filter((r) =>
+      r.circadian_practices && r.circadian_practices.pillar_key === 'heat_and_cold');
+  }
 
   // one passage, for the weakest dimension
   const hits = await sb.rpc('search_passages', {
@@ -136,6 +156,15 @@ export async function buildBrief(sb, env, member, today) {
       [log.morning_light_min != null ? log.morning_light_min + ' minutes of morning light' : null,
        log.water_ml != null ? (log.water_ml / 1000).toFixed(1) + ' liters of water' : null,
        log.daily_five_score != null ? log.daily_five_score + ' of the daily five' : null,
+       // Heat and cold, named as its own pillar. Absent stays absent: a day with
+       // no sauna and no cold says nothing here rather than reporting a zero,
+       // because neither is daily at any tier.
+       heatCold.length
+         ? 'for heat and cold, ' + heatCold.map((r) =>
+             r.circadian_practices.name.toLowerCase() +
+             (typeof r.minutes === 'number' ? ' for ' + r.minutes + ' minutes' : '')
+           ).join(' and ')
+         : null,
       ].filter(Boolean).join(', ') + '.',
   ] : ['Nothing was logged yesterday.'];
 
@@ -158,6 +187,11 @@ export async function buildBrief(sb, env, member, today) {
     deviceContext && deviceContext.length
       ? WEARABLE_RULES + '\n\nDEVICE READINGS:\n' + JSON.stringify(deviceContext, null, 1)
       : '',
+    // The Heat and cold ceilings, whenever the brief is going to touch the
+    // pillar. The brief must not restate a dose out of a passage written before
+    // the owner's pillar ruling.
+    heatCold.length || mentionsHeatOrCold('', passage ? [passage] : [])
+      ? HEATCOLD_RULES : '',
   ].filter(Boolean).join('\n\n');
 
   const runId = await startRun(env, AGENT, { clientId: member.client_id, model: MODEL_PER_CLIENT });

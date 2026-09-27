@@ -98,7 +98,20 @@ export async function onRequestPost({ request, env }) {
       const logs = await sb.select('daily_logs', {
         where: { client_id: m.client_id }, columns: '*', order: 'log_date.desc', limit: 30,
       });
-      const state = observe(logs || [], today);
+      // Heat, cold and strength training are logged as practices, not as
+      // daily_logs columns, so the Heat and cold pillar's inputs and its two
+      // timing rules have to be folded on before the Observer runs.
+      const logIds = (logs || []).map((l) => l.id).filter(Boolean);
+      const practices = logIds.length
+        ? await sb.select('log_practices', {
+            where: { daily_log_id: logIds },
+            columns: 'daily_log_id,completed,minutes,occurred_at,circadian_practices(slug)',
+          })
+        : [];
+      const practiceRows = (practices || []).map((r) => ({
+        ...r, slug: r.circadian_practices && r.circadian_practices.slug,
+      }));
+      const state = observe(attachPractices(logs || [], practiceRows), today);
 
       // The participant's screening flags, from their intake answers. Read from
       // the value columns, because intake_responses has no single answer column.

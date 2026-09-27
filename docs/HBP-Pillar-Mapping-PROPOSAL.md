@@ -1,5 +1,26 @@
 # Pillar mapping proposal, for approval before canonical_rules is built
 
+> **RESOLVED on 2026-09-27 by the owner's pillar ruling. Read this box before the
+> document below it.**
+>
+> Open question 3 in this proposal was "Heat and cold has no pillar, and this one
+> has teeth", and it offered three ways out. The owner took the first:
+> **add a seventh pillar, Heat and cold.** It is a pillar in its own right.
+>
+> Open question 2, whether to split 01 The Clock, was also answered yes: morning
+> and daytime sun and grounding go to Morning daylight, light at night goes to
+> Nighttime darkness.
+>
+> Two figures quoted in the body below are now wrong and are corrected here
+> rather than left to be read as current: the hard caps are no longer
+> `sauna_min` 25 and `cold_min` 10. The ruling's ceiling is **5 minutes** for a
+> single plunge and **7 C** for water temperature, at every tier and after the
+> Pro 20 percent per cycle increase.
+>
+> The live mapping is in the `protocol_section_pillars` table and in section C1a
+> of `HBP-V1-Master.md`. This document is kept as the record of how the question
+> was put, not as a description of the system.
+
 Ruling 3 of 25 September: the six pillars of master prompt C1 govern. Each of the
 protocol's nine sections maps onto one of them. This is the proposal. Nothing is
 built until it is approved.

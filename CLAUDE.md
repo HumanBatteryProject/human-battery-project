@@ -95,10 +95,10 @@ and do not quietly ignore it. Amend it, date it, and say so in the report.
 
 **8e. The programme contains no supplement recommendations.** Removed from
 every deliverable on 2026-09-24, sections and all, not reworded and not
-generalised into compounds. The six pillars are morning sunlight, mineral-rich
-water, movement, food timing, sleep and darkness at night; there is no
-supplement pillar and nothing in Chapter 21, the six pillars or the five scored
-dimensions ever depended on one. A supplement guide may be built later as its
+generalised into compounds. The seven pillars are morning daylight, hydration,
+movement, food timing, heat and cold, sleep and nighttime darkness; there is no
+supplement pillar and nothing in Chapter 21, the seven pillars or the five
+scored dimensions ever depended on one. A supplement guide may be built later as its
 own piece of work, against evidence tiers. Until then, a supplement appearing in
 a deliverable is a regression, not an addition.
 
@@ -249,7 +249,9 @@ Every agent that produces text a client will read:
 - Missing markers are excluded from the score, never imputed.
 - The Omega-3 Index is required at day 0 and day 90 for every tier.
 - Day 90 panels can serve as the next cycle's day 0 if within 30 days.
-- Intensity scaling has hard caps: sauna 25 minutes, cold 10 minutes and never below 38°F, one extended fast per week.
+- Intensity scaling has hard caps: sauna 30 minutes per round, one extended fast per week, and the Heat and cold pillar's two ceilings below.
+- **The Heat and cold hard ceilings.** No single cold plunge over 5 minutes, and no water colder than 7°C (45°F). These bind at every tier and after the Pro 20 percent per cycle increase, which is the case the ruling names. They live in three places on purpose: `protocol_parameters` bounds, `HARD_CAPS`/`HARD_FLOORS` in `functions/api/_intensity.js`, and `functions/api/_heatcold.js`. The multiplier never scales a temperature at all: multiplying a cold water temperature makes it warmer, so intensity ran backwards on the one parameter with a safety floor.
+- Cold is never within 6 hours after strength training. Sauna finishes 1 to 2 hours before bed. No alcohol before or during sauna, mineral water after. Enforced in `functions/api/_heatcold.js`, not only stated in the deliverables.
 - Prices, the return price, the first wave date, the Zoom link and schedule, and the coach's daily limit live in `program_settings`, never in code.
 
 ---

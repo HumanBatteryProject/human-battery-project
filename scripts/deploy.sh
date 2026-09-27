@@ -71,6 +71,16 @@ for c in check_rls check_columns check_canon check_price_drift check_export chec
   else printf '  %-22s FAILED\n' "$c"; echo "$out" | sed 's/^/      /'; exit 1; fi
 done
 
+# Every fixture file. They existed and nothing ran them, so constants_pinned.mjs
+# sat failing on two pinned constants with the suite still described as passing.
+if out=$(sh scripts/fixtures.sh 2>&1); then
+  printf '  %-22s ok      %s\n' "fixtures" "$(echo "$out" | tail -1 | sed 's/^ *//')"
+else
+  printf '  %-22s FAILED\n' "fixtures"
+  echo "$out" | sed 's/^/      /'
+  exit 1
+fi
+
 # Cross-user isolation, run against the live database on every deploy. Two
 # ordinary participants are created, each reaches for the other's records across
 # every table carrying a client_id, and both are deleted afterwards. It belongs in

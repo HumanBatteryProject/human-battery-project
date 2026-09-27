@@ -27,7 +27,9 @@ def render_tier(key):
         "sleep": B.sleep(key) + B.q_line(B.SECTION_Q["sleep"]),
         "env":   '<p class="small">Dr. Pittman takes no commission on anything listed here. These are what he uses.</p>' + B.ENVIRONMENT,
         "days":  ph,
-        "check": f'<ul class="check">{B.checklist(key)}</ul>',
+        # Grouped by pillar, because the ruling requires Heat and cold to
+        # appear on the daily checklist as its own pillar.
+        "check": B.checklist_by_pillar(key),
     }
     pages = ""
     for n, (k, kick, color, title, desc, svg) in enumerate(SECTIONS, start=1):

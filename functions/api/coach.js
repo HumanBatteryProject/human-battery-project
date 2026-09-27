@@ -28,6 +28,7 @@ import { canClaim, wordingFor, SCORE_DISCLAIMER, SCORE_TRIGGER } from './_eviden
 import { classify, prescriberReply, URGENT_REPLY } from './_medical.js';
 import { rateLimit } from './_ratelimit.js';
 import { wearableContext, WEARABLE_RULES } from './_wearable_voice.js';
+import { HEATCOLD_RULES, mentionsHeatOrCold } from './_heatcold.js';
 
 const AGENT = 'coach';
 
@@ -50,7 +51,7 @@ const DECLINE =
   'your prescriber if it is medical, or the weekly call, where it can go to ' +
   'the trend review.';
 
-function systemPrompt(tier, passages, scoreAsked, deviceContext) {
+function systemPrompt(tier, passages, scoreAsked, deviceContext, question) {
   const numbered = passages.map((p, i) =>
     '[' + (i + 1) + '] tier=' + p.evidence_tier +
     (p.chapter ? ' chapter=' + p.chapter : '') +
@@ -79,6 +80,11 @@ function systemPrompt(tier, passages, scoreAsked, deviceContext) {
     deviceContext && deviceContext.length
       ? WEARABLE_RULES + '\n\nDEVICE READINGS:\n' + JSON.stringify(deviceContext, null, 1)
       : '',
+    // The Heat and cold ceilings, when the question or the retrieved passages are
+    // about heat or cold. Read as a constraint ON the passages: a passage written
+    // before the owner's pillar ruling can still state a dose above the ceiling,
+    // and a coach that answers only from passages would repeat it faithfully.
+    mentionsHeatOrCold(question, passages) ? HEATCOLD_RULES : '',
     'PASSAGES:\n\n' + numbered,
   ].filter(Boolean).join('\n\n');
 }
@@ -181,7 +187,7 @@ export async function onRequestPost({ request, env }) {
   let text;
   try {
     const r = await ask(env, {
-      system: systemPrompt(tier, usable, scoreAsked, deviceContext),
+      system: systemPrompt(tier, usable, scoreAsked, deviceContext, question),
       messages: [{ role: 'user', content: question }],
       maxTokens: 700,
     });

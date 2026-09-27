@@ -1,4 +1,4 @@
-"""What the owner has to decide, and the fourteen rules, as one document.
+"""What the owner has to decide, and the canon, as one document.
 
 Built from the LIVE database, not from notes. Every rule, count, price and flag
 below is read at build time, so this document cannot claim the canon says
@@ -133,6 +133,35 @@ def rule_card(r):
             f'<span class="tier">{e(TIER_WORD.get(tier, tier))}</span></div>'
             f'<p class="act">{e(action)}</p><dl>{dl}</dl></div>')
 
+# Counts in the prose used to be the words "fourteen" and "six", typed in six
+# places while one line read len(rules) from the database. The pillar ruling made
+# both wrong at once: sixteen rules across seven pillars. A document whose job is
+# to report the live system must not carry a number a person has to remember to
+# update, so the words are generated.
+WORDS = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', 6: 'Six', 7: 'Seven',
+         8: 'Eight', 9: 'Nine', 10: 'Ten', 11: 'Eleven', 12: 'Twelve',
+         13: 'Thirteen', 14: 'Fourteen', 15: 'Fifteen', 16: 'Sixteen',
+         17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen', 20: 'Twenty'}
+
+def word(n, cap=False):
+    w = WORDS.get(int(n), str(int(n)))
+    return w if cap else w.lower()
+
+N_RULES = len(rules)
+PILLAR_LABELS = [r[0] for r in q("select label from pillars order by sort_order")]
+N_PILLARS = len(PILLAR_LABELS)
+# Sections that deliberately carry no pillar, counted rather than named, because
+# the ruling moved Environment into this group and the prose said "two".
+# int(), because the query returns section_no as a string and the format
+# below wants a number.
+SUPPORT_SECTIONS = sorted({int(s[0]) for s in pillars if not s[2]})
+
+def and_list(items):
+    items = list(items)
+    if len(items) < 2:
+        return items[0] if items else ''
+    return ', '.join(items[:-1]) + ' and ' + items[-1]
+
 by_pillar = {}
 for r in rules:
     by_pillar.setdefault(r[2], []).append(r)
@@ -164,7 +193,7 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
   <div><div class="s">THE HUMAN BATTERY PROJECT</div>
   <h1>What needs your decision</h1>
   <div class="d">Everything waiting on you before a stranger can apply and receive
-  a plan, and the fourteen rules that would build it. Read from the live system on
+  a plan, and the {word(N_RULES)} rules that would build it. Read from the live system on
   the date below, not from notes.</div></div>
   <div class="meta">BUILT {e(TODAY)}<br>{len(rules)} RULES, {approved_n} APPROVED<br>NOT LEGAL ADVICE</div>
 </div>
@@ -172,16 +201,16 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 <div class="page">
   <p class="kicker">START HERE</p>
   <h1>The one that blocks everything</h1>
-  <p class="lead">Fourteen rules are written, checked and waiting. Until you approve
+  <p class="lead">{word(N_RULES, cap=True)} rules are written, checked and waiting. Until you approve
   at least one, a real participant who signs up gets no daily plan at all. That is
   enforced in the database, not just in the interface.</p>
 
   <div class="box warn">
     <h3>1. Approve the canon</h3>
-    <p>Fourteen rules, set out from page 3. Tick the ones you are willing to stand
+    <p>{word(N_RULES, cap=True)} rules, set out from page 3. Tick the ones you are willing to stand
     behind, then approve them at <b>/portal/admin/canon</b>. Each approval is recorded
     against your name with the time and your reason.</p>
-    <p class="tiny">You do not have to approve all fourteen. Approving three is a
+    <p class="tiny">You do not have to approve all {word(N_RULES)}. Approving three is a
     working program with three actions; the rest can follow. Nothing here is
     irreversible: a rule can be retired later and past plans stay readable.</p>
   </div>
@@ -229,13 +258,16 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
   approve a formula over those five, or the score stays off and the dimensions
   launch without it. The second is a complete product.</p></div>
 
-  <div class="box warn"><h3>Heat and cold have no pillar</h3>
-  <p>Your six pillars are morning daylight, hydration, movement, food timing, sleep
-  and nighttime darkness. Sauna and cold belong to none of them, and both are in the
-  screening table with hard caps.</p>
-  <p>They currently generate no daily actions. They stay in the protocol documents
-  as instruction. Say so if you want that changed, because the alternative is a
-  seventh pillar or folding them under movement.</p></div>
+  <div class="box"><h3>Heat and cold: answered</h3>
+  <p>You ruled on this. Heat and cold is now a pillar in its own right, the seventh,
+  and your pillars are {and_list(PILLAR_LABELS).lower()}.</p>
+  <p>Two rules were written for it, a sauna session and a cold exposure, and they wait
+  for your approval with the other {word(N_RULES - 2)}. Sauna frequency and duration are
+  labelled strong on an observational basis; cold exposure is labelled emerging.</p>
+  <p class="tiny">Two numbers changed to make the ruling true rather than stated. The
+  ceiling on a single cold plunge is five minutes and the coldest permitted water is
+  7C, at every tier and after the Pro twenty percent per cycle increase. The system
+  previously allowed ten minutes and, in one place, water down to 3C.</p></div>
 
   <div class="box"><h3>The laboratory panels</h3>
   <p>Three are defined. The specification said the middle one would hold fourteen
@@ -275,15 +307,17 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 
 <div class="page">
   <p class="kicker">THE CANON</p>
-  <h1>Fourteen rules, and what each one is allowed to do</h1>
-  <p class="lead">Every rule belongs to one of your six pillars, carries the evidence
+  <h1>{word(N_RULES, cap=True)} rules, and what each one is allowed to do</h1>
+  <p class="lead">Every rule belongs to one of your {word(N_PILLARS)} pillars, carries the evidence
   tier the book gives it, and names the conditions under which it is withheld. Only
   an approved rule can ever appear in a plan.</p>
 
   <h2>How the protocol maps onto your pillars</h2>
   <table><tr><th>Protocol section</th><th>Pillar</th><th>Note</th></tr>{pillar_rows}</table>
-  <p class="tiny">Two sections map to no pillar on purpose. Section 08 is the phase
-  structure and section 09 is the daily check-in; neither is a thing to be told to do.</p>
+  <p class="tiny">{word(len(SUPPORT_SECTIONS), cap=True)} sections map to no pillar on purpose: {and_list("section %02d" % n for n in SUPPORT_SECTIONS)}.
+    They are support sections: Environment holds tools rather than rules, section 08 is the phase
+  structure and section 09 is the daily check-in. None of the three is a thing to be told
+    to do, and any rule in Environment belongs to the pillar it serves.</p>
 </div>
 
 <div class="page">

@@ -23,7 +23,8 @@ import { WEEKLY_RECOVERY_WEEKS, ACCESS_DAYS_PER_WEEKLY_PAYMENT } from '../functi
 import { PROGRAM_TOTAL_CENTS } from '../functions/api/_payments.js';
 import { AUTONOMY_MODE, CONFIDENCE_FLOOR, CONFIDENCE_WINDOW_DAYS,
          TRIGGERING_TIERS, CITABLE_TIERS } from '../functions/api/_autonomy.js';
-import { RETURN_MULTIPLIER, MULTIPLIER_MAX, HARD_CAPS } from '../functions/api/_intensity.js';
+import { RETURN_MULTIPLIER, MULTIPLIER_MAX, HARD_CAPS, HARD_FLOORS } from '../functions/api/_intensity.js';
+import { HARD_CEILING_MINUTES, HARD_FLOOR_CELSIUS, COLD_AFTER_STRENGTH_HOURS } from '../functions/api/_heatcold.js';
 import { CLAIMABLE, TIER_WORDING, SCORE_DISCLAIMER } from '../functions/api/_evidence.js';
 
 let bad = 0;
@@ -53,8 +54,19 @@ eq('COVERAGE_FLOOR', COVERAGE_FLOOR, 0.6);
 eq('IMPROVED_MIN_POINTS', IMPROVED_MIN_POINTS, 5);
 eq('RETURN_MULTIPLIER', RETURN_MULTIPLIER, 1.2);
 eq('MULTIPLIER_MAX', MULTIPLIER_MAX, 1.5);
-eq('HARD_CAPS.sauna_min', HARD_CAPS.sauna_min, 25);
-eq('HARD_CAPS.cold_min', HARD_CAPS.cold_min, 10);
+// Changed by the owner's pillar ruling of 2026-09-27, which is the approval.
+// Cold was pinned at 10 minutes and the ruling's hard ceiling is 5, at every
+// tier and after the Pro 20 percent per cycle increase. Sauna was pinned at 25
+// and the ruling's pro dose is 20 or more minutes in 2 to 3 rounds, so 30 is the
+// per-round ceiling. This check is what caught both, which is what it is for.
+eq('HARD_CAPS.sauna_min', HARD_CAPS.sauna_min, 30);
+eq('HARD_CAPS.cold_min', HARD_CAPS.cold_min, 5);
+// The two bounds the ruling added. cold_temp_c has a FLOOR rather than a cap,
+// because for a temperature a smaller number is a larger dose.
+eq('HARD_FLOORS.cold_temp_c', HARD_FLOORS.cold_temp_c, 7);
+eq('HARD_CEILING_MINUTES', HARD_CEILING_MINUTES, 5);
+eq('HARD_FLOOR_CELSIUS', HARD_FLOOR_CELSIUS, 7);
+eq('COLD_AFTER_STRENGTH_HOURS', COLD_AFTER_STRENGTH_HOURS, 6);
 eq('HARD_CAPS.fasts/week', HARD_CAPS.extended_fasts_per_week, 1);
 
 // --- bounded autonomy ---

@@ -39,7 +39,12 @@ CODE_KEYS = set(re.findall(r"\{ key: '([a-z_]+)'", med_src))
 
 db_keys = {r['key'] for r in get('screening_keys?select=key')}
 pillars = {r['key'] for r in get('pillars?select=key')}
-rules = get('canonical_rules?select=rule_key,version,pillar_key,required_data,contraindications,review_status&retired_at=is.null')
+rules = get('canonical_rules?select=rule_key,version,pillar_key,required_data,contraindications,review_status,source_passages&retired_at=is.null')
+# Every passage id the corpus actually holds, so a rule cannot cite one that was
+# removed by a manuscript revision. A citation to a deleted passage renders as a
+# claim with no source behind it, which is the failure the tier badges exist to
+# make visible.
+passage_ids = {r['id'] for r in get('knowledge_passages?select=id')}
 
 problems = []
 if SEED and rules:
@@ -47,6 +52,12 @@ if SEED and rules:
     rules[0]['contraindications'] = ['levothyroxine']
     rules[1]['required_data'] = ['blood_pressure_at_home']
     rules[2]['pillar_key'] = 'cellular_voltage'
+    rules.append(dict(rules[0]))
+    rules[3]['source_passages'] = ['00000000-0000-0000-0000-000000000000']
+    # A pillar nothing points at. Without this the "decorative pillar" check
+    # below could never be shown to fire, and a check that cannot fail is not
+    # evidence that the thing it looks for is absent.
+    pillars = pillars | {'a_pillar_with_no_rules'}
 
 # The screening table is duplicated in code on purpose: _medical.js must work
 # when the database is unreachable. Duplication that nothing checks is drift.
@@ -64,6 +75,19 @@ for r in rules:
             problems.append(f'{rk}: requires "{f}", which the check-in never collects, so it stays insufficient forever')
     if r['pillar_key'] not in pillars:
         problems.append(f'{rk}: pillar "{r["pillar_key"]}" does not exist')
+    for pid in (r.get('source_passages') or []):
+        if pid not in passage_ids:
+            problems.append(f'{rk}: cites passage {pid}, which the corpus no longer holds, '
+                            'so the rule states a claim with nothing behind it')
+
+# 4. A pillar with no rule is decorative. The pillar mapping proposal raised this
+#    exact risk about splitting 01 The Clock: "if 01 is not split, this pillar has
+#    zero rules and one of the six is decorative". The owner's ruling added a
+#    seventh pillar, which is the moment this can silently be true again.
+have_rules = {r['pillar_key'] for r in rules}
+for pk in sorted(pillars - have_rules):
+    problems.append(f'pillar "{pk}" has no canonical rule, so it is a name on a '
+                    'screen with nothing behind it')
 
 if problems:
     print('  CANON CHECK FAILED:', file=sys.stderr)
@@ -73,4 +97,5 @@ if problems:
 
 approved = sum(1 for r in rules if r['review_status'] == 'approved')
 print(f'  canon ok: {len(rules)} rule(s) across {len(pillars)} pillars, '
-      f'{approved} approved, every contraindication and data field real')
+      f'{approved} approved, every pillar has at least one rule, and every '
+      f'contraindication, data field and cited passage is real')

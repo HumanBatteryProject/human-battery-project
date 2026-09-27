@@ -140,7 +140,7 @@
 </ul></nav>
 
 <script type="module">
-import { sb, requireAuth, activeMembership, getOrCreateLog, foods, practices,
+import { sb, requireAuth, activeMembership, getOrCreateLog, foods, practices, pillars,
          BEHAVIOR_DOMAINS, MODALITIES, localDateStr, yesterdayStr, fmtDate,
          el, toast, autosave } from './app.js?v=063a85cf';
 
@@ -187,10 +187,32 @@ async function load(forDate) {
   const pc = el('#practices');
   pc.innerHTML = '';
   const { data: donePractices } = await sb.from('log_practices')
-    .select('practice_id, completed').eq('daily_log_id', log.id);
+    .select('practice_id, completed, minutes, occurred_at').eq('daily_log_id', log.id);
   picked.practices = new Set((donePractices||[]).filter(r=>r.completed).map(r=>r.practice_id));
 
-  ps.forEach(p => {
+  // Grouped by pillar, in the pillar order the database holds, because the
+  // owner's pillar ruling requires Heat and cold to appear on the daily
+  // checklist as its own pillar. It used to be a flat list that named no pillar.
+  const pillarList = await pillars();
+  const minutesSeen = new Map();
+  (donePractices || []).forEach(r => minutesSeen.set(r.practice_id, r));
+
+  const groups = pillarList
+    .map(pl => ({ pl, items: ps.filter(p => p.pillar_key === pl.key) }))
+    .filter(g => g.items.length);
+  // A practice with no pillar would otherwise vanish from the page. The
+  // migration forbids one, and this is the check that would show it if the
+  // column were ever added to without being filled.
+  const orphans = ps.filter(p => !pillarList.some(pl => pl.key === p.pillar_key));
+  if (orphans.length) groups.push({ pl: { key: null, label: 'Not yet assigned to a pillar' }, items: orphans });
+
+  groups.forEach(({ pl, items }) => {
+    const h = document.createElement('h3');
+    h.className = 'pillar-head';
+    h.textContent = pl.label;
+    pc.appendChild(h);
+
+    items.forEach(p => {
     const row = document.createElement('div');
     row.className = 'row';
     row.innerHTML = `<label>${p.name}${p.is_daily_five ? ' <span class="tiny" style="color:var(--teal)">&middot; one of five</span>' : ''}
@@ -198,17 +220,65 @@ async function load(forDate) {
     const t = document.createElement('button');
     t.className = 'tog' + (picked.practices.has(p.id) ? ' on' : '');
     t.innerHTML = '<i></i>';
+
+    // Heat and cold needs minutes and a time, not just a tick. The pillar's
+    // rules are a dose and two timing rules, and none of them can be checked
+    // from a boolean: the planner would say "no heat and no cold logged" forever
+    // while the member ticked the box every day.
+    let detail = null;
+    if (p.pillar_key === 'heat_and_cold') {
+      const seen = minutesSeen.get(p.id) || {};
+      detail = document.createElement('div');
+      detail.className = 'hc-detail tiny';
+      detail.hidden = !picked.practices.has(p.id);
+      const mid = 'hcm-' + p.id, tid = 'hct-' + p.id;
+      detail.innerHTML = `
+        <label for="${mid}">Minutes</label>
+        <input id="${mid}" type="number" min="0" max="600" step="1" inputmode="numeric"
+               value="${seen.minutes != null ? seen.minutes : ''}">
+        <label for="${tid}">Finished at</label>
+        <input id="${tid}" type="time"
+               value="${seen.occurred_at ? new Date(seen.occurred_at).toTimeString().slice(0,5) : ''}">
+        <div class="hc-warn" hidden></div>`;
+      const save = async () => {
+        const mEl = detail.querySelector('#' + mid), tEl = detail.querySelector('#' + tid);
+        const mins = mEl.value === '' ? null : Number(mEl.value);
+        let at = null;
+        if (tEl.value) at = new Date(log.log_date + 'T' + tEl.value + ':00').toISOString();
+        // The program ceiling is five minutes for cold. A member who actually did
+        // more than that is told so and the number is still stored as reported:
+        // this is a record of what happened, not a prescription, and silently
+        // capping it would put a wrong number in their own log.
+        const w = detail.querySelector('.hc-warn');
+        if (p.slug === 'cold-exposure' && mins != null && mins > 5) {
+          w.textContent = 'Above the program ceiling of 5 minutes. Recorded as you entered it. Do not go longer than five minutes in a single cold exposure.';
+          w.hidden = false;
+        } else { w.hidden = true; w.textContent = ''; }
+        await sb.from('log_practices').upsert(
+          { daily_log_id: log.id, practice_id: p.id, completed: true,
+            minutes: mins, occurred_at: at },
+          { onConflict: 'daily_log_id,practice_id' });
+      };
+      detail.querySelectorAll('input').forEach(i => i.addEventListener('change', save));
+    }
+
     t.addEventListener('click', async () => {
       const on = !t.classList.contains('on');
       t.classList.toggle('on', on);
+      t.setAttribute('aria-pressed', String(on));
       on ? picked.practices.add(p.id) : picked.practices.delete(p.id);
+      if (detail) detail.hidden = !on;
       await sb.from('log_practices').upsert(
         { daily_log_id: log.id, practice_id: p.id, completed: on },
         { onConflict: 'daily_log_id,practice_id' });
       recalcFive();
     });
+    t.setAttribute('aria-pressed', String(picked.practices.has(p.id)));
+    t.setAttribute('aria-label', (picked.practices.has(p.id) ? 'Done: ' : 'Not done: ') + p.name);
     row.appendChild(t);
     pc.appendChild(row);
+    if (detail) pc.appendChild(detail);
+    });
   });
 
   // ---- foods, grouped by tier
