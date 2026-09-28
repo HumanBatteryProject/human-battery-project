@@ -1,4 +1,5 @@
 from weasyprint import HTML
+import design as D
 import build as B
 
 def svg_mito(c="#2A78D6"):
@@ -95,7 +96,7 @@ CSS2 = B.CSS + """
 .divider svg{width:150mm;height:auto;margin:0 auto}
 .divider .n{font-family:'Michroma';font-size:60pt;color:#1A1714;line-height:1}
 .band{height:3mm;border-radius:2mm;margin:0 0 6mm}
-.mk{display:flex;gap:3.5mm;padding:2.1mm 0;border-bottom:.35pt solid #DCE4E5;page-break-inside:avoid}
+.mk{display:flex;gap:3.5mm;padding:2.1mm 0;border-bottom:.35pt solid #E4DED2;page-break-inside:avoid}
 .mk .dot{width:8mm;height:8mm;border-radius:50%;flex:none;margin-top:.5mm;display:flex;align-items:center;justify-content:center;font-family:'Michroma';font-size:6.4pt;color:#fff}
 .mk .body{flex:1}
 .mk b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
@@ -104,7 +105,7 @@ CSS2 = B.CSS + """
 .lab{border:.4pt solid #E4DED2;border-left:2.5mm solid #7A4A2E;border-radius:1.5mm;padding:4mm 4mm 4mm 5mm;margin:3mm 0;page-break-inside:avoid}
 .lab h3{margin-top:0;color:#1A1714}
 .lab.rec{background:rgba(122,74,46,.06)}
-.rulecard{display:flex;gap:4mm;padding:3mm 0;border-bottom:.35pt solid #DCE4E5}
+.rulecard{display:flex;gap:4mm;padding:3mm 0;border-bottom:.35pt solid #E4DED2}
 .rulecard .num{font-family:'Michroma';font-size:14pt;color:#2A78D6;width:12mm;flex:none;line-height:1}
 .rulecard b{font-family:'Michroma';font-size:7pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
 .rulecard p{margin:0;font-size:9.4pt}
@@ -140,8 +141,9 @@ def tests_doc():
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS2}</style></head><body>
 
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">YOUR TESTS, EXPLAINED</div>
   <div class="s">WHAT WE MEASURE AND WHY</div>

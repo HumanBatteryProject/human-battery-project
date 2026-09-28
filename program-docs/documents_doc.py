@@ -12,10 +12,12 @@ document rather than a quiet substitution.
 import html, os, re, subprocess, sys
 from datetime import date
 from weasyprint import HTML
+import design as D
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FONTS = os.path.join(ROOT, "public", "fonts")
-INK, MUTED, RULE, COPPER, AMBER = "#1A1714", "#6E655C", "#E4DED2", "#7A4A2E", "#B0741F"
+# The repo root, so public/fonts and public/assets both resolve.
+FONTS = ROOT
+INK, MUTED, RULE, COPPER, AMBER = "#1A1714", "#6E655C", "#E4DED2", "#7A4A2E", "#8A5A0F"
 NAVY, PAPER, RED = "#0E1424", "#FBF9F5", "#A32E22"
 
 def q(sql):
@@ -129,13 +131,12 @@ def body_html(text, title=""):
     return "".join(out)
 
 CSS = f"""
-@font-face{{font-family:'Michroma';src:url('michroma.woff2') format('woff2')}}
-@font-face{{font-family:'Newsreader';src:url('newsreader.woff2') format('woff2');font-weight:200 800}}
+{D.font_faces()}{D.mark_css()}{D.footer_css("bottom-left")}
 @page{{size:letter;margin:0;
-  @bottom-center{{content:counter(page);font-family:'Newsreader';font-size:8pt;color:{MUTED};margin-bottom:11mm}}}}
-@page cover{{size:letter;margin:0;@bottom-center{{content:none}}}}
+  @bottom-center{{content:counter(page);font-family:'Spectral';font-size:8pt;color:{MUTED};margin-bottom:11mm}}}}
+@page cover{{size:letter;margin:0;@bottom-center{{content:none}};@bottom-left{{content:none}}}}
 *{{box-sizing:border-box}}
-body{{margin:0;font-family:'Newsreader';color:{INK};background:{PAPER};font-size:10pt;line-height:1.58}}
+body{{margin:0;font-family:'Spectral';color:{INK};background:{PAPER};font-size:10pt;line-height:1.58}}
 .page{{width:215.9mm;min-height:279.4mm;padding:20mm 22mm 22mm;page-break-after:always}}
 .page:last-child{{page-break-after:auto}}
 .cover{{page:cover;background:{NAVY};color:#F6F1E7;display:flex;flex-direction:column;
@@ -210,7 +211,7 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>{CSS}</style></head><body>
 
 <div class="page cover">
-  <div><div class="s">THE HUMAN BATTERY PROJECT</div>
+  {D.footer_mark()}<div>{D.mark(D.WORDMARK_DARK, 74)}<div class="s">THE HUMAN BATTERY PROJECT</div>
   <h1>Every word a member<br>has to agree to</h1>
   <div class="d">The five consent documents in full, the medication screening
   table, and the sentences the software says when something is wrong. Read from

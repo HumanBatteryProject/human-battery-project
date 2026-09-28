@@ -34,13 +34,14 @@ FIELD, INK_ON_FIELD = "#0E1424", "#F6F1E7"
 # which is the single implementation. The measured fractions and the ruling behind
 # them are in brand/DAWN-NOTES.md.
 from design import (WORDMARK_DARK, WORDMARK_INK, TM_FOR, cap_mm, mark, mark_css,
-                    PROGRAM_NAME_TM)
+                    font_faces, PROGRAM_NAME_TM)
 
 COVER_W = 90.0     # mm, the mark on the dark title page
 FOOTER_W = 26.0    # mm, the mark in the footer of every inside page
 
 
 CSS = f"""
+{font_faces()}
 @page {{ size: A4; margin: 16mm 14mm 14mm;
   /* The footer mark on every inside page. A margin box lives in the page margin,
      so adding it cannot reflow the body and cannot change the pagination. */

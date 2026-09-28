@@ -12,7 +12,7 @@ EXTRA_CSS = """
 .divider svg{width:150mm;height:auto;margin:0 auto}
 .divider .n{font-family:'Michroma';font-size:60pt;color:#1A1714;line-height:1}
 .band{height:3mm;border-radius:2mm;margin:0 0 6mm}
-.card{display:flex;gap:3.5mm;padding:2.4mm 0;border-bottom:.35pt solid #DCE4E5;page-break-inside:avoid}
+.card{display:flex;gap:3.5mm;padding:2.4mm 0;border-bottom:.35pt solid #E4DED2;page-break-inside:avoid}
 .card .dot{width:8mm;height:8mm;border-radius:50%;flex:none;margin-top:.5mm;display:flex;align-items:center;justify-content:center;font-family:'Michroma';font-size:6.2pt;color:#fff}
 .card .body{flex:1}
 .card b{font-family:'Michroma';font-size:6.9pt;letter-spacing:.05em;color:#1A1714;display:block;margin-bottom:1mm}
@@ -261,9 +261,25 @@ TM_FOR = {
 }
 
 
+# space-6, the page margin and the wordmark clear space, from section 5.
+SPACE_6_PX = 64
+PX_TO_MM = 25.4 / 96.0        # CSS px, which is what a px rule in a style guide means
+
+
 def cap_mm(width_mm):
-    """Cap height of HUMAN when the mark is rendered this wide. Clear space."""
+    """Cap height of HUMAN when the mark is rendered this wide."""
     return MARK_CAP_FRAC * width_mm / MARK_ASPECT
+
+
+def clear_space_mm(width_mm):
+    """Clear space on all four sides.
+
+    Section 2 of the v3 brand style: space-6 (64px) OR the cap height of HUMAN,
+    whichever is LARGER. Version 2 of this rule was the cap height alone, and for
+    a small mark the cap height is the smaller of the two, so taking the maximum
+    is what stops a footer mark being crowded.
+    """
+    return max(SPACE_6_PX * PX_TO_MM, cap_mm(width_mm))
 
 
 def tm_mm(width_mm):
@@ -299,10 +315,118 @@ def mark(src, width_mm, tm_color=None):
 
 
 def clear_space_style(width_mm):
-    """Padding that guarantees one cap height of clear space on all four sides."""
-    return "padding:%.2fmm" % cap_mm(width_mm)
+    """Padding that satisfies section 2's clear space rule on all four sides."""
+    return "padding:%.2fmm" % clear_space_mm(width_mm)
 
 
 # The first time the programme name appears as text in a document, it carries the
 # symbol too. This is the string to use, so no document has to remember.
 PROGRAM_NAME_TM = "The Human Battery Project<span class='tmtext'>&#8482;</span>"
+
+
+# ---------------------------------------------------------------------------
+# THE BRAND STYLESHEET
+#
+# Sections 3, 4 and 5 of docs/brand/HBP-Brand-Style-v3-Dawn.md, in one place so a
+# document cannot carry its own idea of the palette or the type.
+#
+# WHY THE FONTS ARE HERE. Every generator declared Spectral and Archivo and
+# neither was installed, so every PDF in this repository was rendering in Georgia
+# and Helvetica while claiming the brand faces. The files are now in public/fonts
+# and are faced here. Both are SIL Open Font License, as the brand guide records.
+# ---------------------------------------------------------------------------
+
+# Section 3, the ivory ground. Documents are ivory; the field is for covers.
+T = {
+    "surface-page": "#FBF9F5", "surface-raised": "#F4EFE4", "surface-field": "#0E1424",
+    "surface-night": "#000000", "ink": "#1A1714", "ink-muted": "#6E655C", "rule": "#E4DED2",
+    "copper": "#B4794F", "copper-light": "#D9A87A", "copper-deep": "#7A4A2E",
+    "copper-ink": "#5E3823", "copper-mid": "#9C603C", "specular": "#FEFBF6",
+    "dawn-deep": "#2E4A6B", "dawn-ember": "#C25A3A", "dawn-amber": "#E8A24A",
+    "chart-1": "#BC6630", "chart-2": "#2A78D6", "chart-3": "#1BAF7A",
+    "status-good": "#1F6B4A", "status-warn": "#8A5A0F", "status-critical": "#A32E22",
+}
+# The same names on the field, for anything that sits on indigo.
+FIELD = {
+    "surface-page": "#0E1424", "surface-raised": "#1C2742", "ink": "#F6F1E7",
+    "ink-muted": "#A8A096", "rule": "#2A3550", "chart-1": "#D2732F",
+    "chart-2": "#3987E5", "chart-3": "#199E70", "status-good": "#3FA97D",
+    "status-warn": "#D9A441", "status-critical": "#E0705E",
+}
+
+FONT_DISPLAY = "Michroma, 'Eurostile', sans-serif"
+FONT_BODY = "Archivo, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+FONT_READING = "Spectral, Georgia, 'Times New Roman', serif"
+
+
+def font_faces():
+    """The three brand faces, from public/fonts. Needs base_url at the repo root."""
+    return (
+        "@font-face{font-family:'Michroma';src:url('public/fonts/michroma.woff2') format('woff2')}"
+        "@font-face{font-family:'Spectral';font-weight:400;font-style:normal;"
+        "src:url('public/fonts/spectral-400.ttf') format('truetype')}"
+        "@font-face{font-family:'Spectral';font-weight:400;font-style:italic;"
+        "src:url('public/fonts/spectral-400-italic.ttf') format('truetype')}"
+        "@font-face{font-family:'Spectral';font-weight:600;font-style:normal;"
+        "src:url('public/fonts/spectral-600.ttf') format('truetype')}"
+        "@font-face{font-family:'Spectral';font-weight:700;font-style:normal;"
+        "src:url('public/fonts/spectral-700.ttf') format('truetype')}"
+        "@font-face{font-family:'Archivo';font-weight:600;font-style:normal;"
+        "src:url('public/fonts/archivo-600.ttf') format('truetype')}"
+        "@font-face{font-family:'Archivo';font-weight:700;font-style:normal;"
+        "src:url('public/fonts/archivo-700.ttf') format('truetype')}"
+    )
+
+
+def brand_css():
+    """Faces, tokens as CSS variables, and the rules that place the mark."""
+    ivory = "".join("--%s:%s;" % (k, v) for k, v in T.items())
+    return (font_faces()
+            + ":root{" + ivory
+            + "--font-display:%s;--font-body:%s;--font-reading:%s;" % (FONT_DISPLAY, FONT_BODY, FONT_READING)
+            + "--space-1:4px;--space-2:8px;--space-3:16px;--space-4:24px;--space-5:40px;--space-6:64px;"
+            + "--radius-none:0px;--radius-sm:4px;--radius-md:10px;}"
+            + mark_css())
+
+
+def cover_mark(width_mm=90.0):
+    """The mark as it appears on a dark title page, with its clear space."""
+    return ("<div style='text-align:center;%s'>%s</div>"
+            % (clear_space_style(width_mm), mark(WORDMARK_DARK, width_mm)))
+
+
+# THE ONE PLACE THE CLEAR SPACE RULE IS NOT MET, AND WHY.
+#
+# Section 2 of the v3 brand style sets clear space at space-6 (64px) OR the cap
+# height of HUMAN, whichever is larger. For a 26mm footer mark the cap height is
+# 1.59mm and space-6 is 16.93mm, so the rule asks for 16.93mm on all four sides.
+# The page bottom margin is 14mm. A footer mark cannot satisfy it without either
+# dropping the footer mark or growing every page margin, and growing the margin
+# reflows and repaginates every document in the set.
+#
+# The footer mark was asked for directly, so it stays, with the largest clear
+# space the margin allows. This is a deviation and it is recorded rather than
+# quietly taken. It needs a ruling: grant footer placements an exception, or drop
+# footer marks and let the cover mark carry the identity.
+FOOTER_CLEAR_MM = 2.5
+
+
+def footer_mark(width_mm=26.0):
+    """The running element for the footer of every ivory page."""
+    return ("<div id='footmark' style='padding:%.2fmm 0'>%s</div>"
+            % (FOOTER_CLEAR_MM, mark(WORDMARK_INK, width_mm)))
+
+
+def footer_css(box="bottom-center"):
+    """Puts footer_mark() in a page margin box on every page but the cover.
+
+    A margin box lives in the page margin, so this cannot reflow the body and
+    cannot change the pagination of a document it is added to.
+
+    The box is a parameter because the tier family already uses bottom-center for
+    the page number. Putting the mark there would have silently replaced it, and
+    a document that loses its page numbers to a logo is a worse document.
+    """
+    return ("@page{@%s{content:element(footmark);vertical-align:bottom}}"
+            "@page cover{@%s{content:none}}"
+            "#footmark{position:running(footmark)}" % (box, box))

@@ -71,8 +71,9 @@ h3{{color:#2A78D6;margin-bottom:2mm}}
 .gate{{border-left:2pt solid #7A4A2E;padding-left:4mm;margin-top:6mm}}
 </style></head><body>
 
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">Your First Steps</div>
   <div class="s">BEFORE DAY ONE</div>

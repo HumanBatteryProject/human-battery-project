@@ -8,12 +8,14 @@ reason: a decision list with no date is a decision list nobody can trust.
 import html, os, subprocess, sys
 from datetime import date
 from weasyprint import HTML
+import design as D
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FONTS = os.path.join(ROOT, "public", "fonts")
+# The repo root, so public/fonts and public/assets both resolve.
+FONTS = ROOT
 
-INK, MUTED, RULE, COPPER, AMBER = "#1A1714", "#6E655C", "#E4DED2", "#7A4A2E", "#B0741F"
-NAVY, PAPER, GREEN, RED = "#0E1424", "#FBF9F5", "#1B7A57", "#A32E22"
+INK, MUTED, RULE, COPPER, AMBER = "#1A1714", "#6E655C", "#E4DED2", "#7A4A2E", "#8A5A0F"
+NAVY, PAPER, GREEN, RED = "#0E1424", "#FBF9F5", "#1F6B4A", "#A32E22"
 
 def q(sql):
     """Read from the database. Fails loudly: a document built from a failed
@@ -56,16 +58,15 @@ approved_n = sum(1 for r in rules if r[11] == "approved")
 TODAY = date.today().isoformat()
 
 CSS = f"""
-@font-face{{font-family:'Michroma';src:url('michroma.woff2') format('woff2')}}
-@font-face{{font-family:'Newsreader';src:url('newsreader.woff2') format('woff2');font-weight:200 800}}
+{D.font_faces()}{D.mark_css()}{D.footer_css("bottom-left")}
 @page{{size:letter;margin:0;
-  @bottom-center{{content:counter(page);font-family:'Newsreader';font-size:8pt;color:{MUTED};margin-bottom:11mm}}}}
+  @bottom-center{{content:counter(page);font-family:'Spectral';font-size:8pt;color:{MUTED};margin-bottom:11mm}}}}
 /* The cover is a full bleed dark page. It gets its own named page so the footer
    margin box does not reserve a strip of paper at the bottom, which left a white
    band under the navy. */
-@page cover{{size:letter;margin:0;@bottom-center{{content:none}}}}
+@page cover{{size:letter;margin:0;@bottom-center{{content:none}};@bottom-left{{content:none}}}}
 *{{box-sizing:border-box}}
-body{{margin:0;font-family:'Newsreader';color:{INK};background:{PAPER};font-size:9.4pt;line-height:1.5}}
+body{{margin:0;font-family:'Spectral';color:{INK};background:{PAPER};font-size:9.4pt;line-height:1.5}}
 .page{{width:215.9mm;min-height:279.4mm;padding:20mm 19mm 22mm;page-break-after:always}}
 .page:last-child{{page-break-after:auto}}
 .cover{{page:cover;background:{NAVY};color:#F6F1E7;display:flex;flex-direction:column;
@@ -190,7 +191,7 @@ DOC = f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>{CSS}</style></head><body>
 
 <div class="page cover">
-  <div><div class="s">THE HUMAN BATTERY PROJECT</div>
+  {D.footer_mark()}<div>{D.mark(D.WORDMARK_DARK, 74)}<div class="s">THE HUMAN BATTERY PROJECT</div>
   <h1>What needs your decision</h1>
   <div class="d">Everything waiting on you before a stranger can apply and receive
   a plan, and the {word(N_RULES)} rules that would build it. Read from the live system on

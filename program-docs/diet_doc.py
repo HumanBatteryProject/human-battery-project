@@ -53,8 +53,9 @@ def diet_doc():
 
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{B.CSS}{D.EXTRA_CSS}</style></head><body>
 
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">DIETARY GUIDELINES</div>
   <div class="s">ALL TIERS</div>

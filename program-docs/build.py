@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
+import design as D
 
 # Fonts live in the repo, not in whatever sandbox this was first written in.
 # Resolved from this file so the builders run from any checkout.
-BASE_URL = (Path(__file__).resolve().parent.parent / 'public' / 'fonts').as_uri() + '/'
+# The repo root, so both public/fonts and public/assets resolve. It used to point
+# at public/fonts, which is why no document could reference the wordmark.
+BASE_URL = (Path(__file__).resolve().parent.parent).as_uri() + '/'
 from weasyprint import HTML
 
 # Build output. Override with HBP_OUT if you want it elsewhere.
@@ -436,20 +439,25 @@ def checklist_by_pillar(tier):
 # RENDER
 # =====================================================================
 
-CSS = """
-@font-face{font-family:'Michroma';src:url('michroma.woff2') format('woff2')}
-@font-face{font-family:'Newsreader';src:url('newsreader.woff2') format('woff2');font-weight:200 800}
-@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Newsreader';font-size:8pt;color:#6E655C;margin-bottom:12mm}}
+# CSS is a plain string, not an f-string, so these are concatenated rather than
+# interpolated. Written as {D.font_faces()} they were literal text in the
+# stylesheet, which the CSS parser drops in silence: the faces never loaded and
+# every document in this family rendered in Georgia and Verdana.
+CSS = (D.font_faces() + D.mark_css() + D.footer_css("bottom-left")
+       # The cover is a named page, so it takes neither the page number nor
+       # the footer mark. It carried a number before it had a name.
+       + "@page cover{@bottom-center{content:none}}" + """
+@page{size:letter;margin:0;@bottom-center{content:counter(page);font-family:'Spectral';font-size:8pt;color:#6E655C;margin-bottom:12mm}}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Newsreader',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#1A1714}
+body{margin:0;font-family:'Spectral',Georgia,serif;font-size:10.2pt;line-height:1.55;color:#1A1714}
 .page{page-break-after:always;padding:16mm 17mm 18mm}
 .page:last-child{page-break-after:auto}
-.cover{background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.cover img{width:82mm;margin-bottom:12mm}
+.cover{page:cover;background:#0E1424;color:#F6F1E7;height:279.4mm;width:215.9mm;padding:0 22mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.cover .mk{width:82mm;margin-bottom:12mm}
 .cover .t{font-family:'Michroma';font-size:19pt;letter-spacing:.06em;margin-bottom:4mm;color:#fff}
 .cover .s{font-family:'Michroma';font-size:8pt;letter-spacing:.24em;color:#7A4A2E}
 .cover .rule{width:30mm;height:.5pt;background:#7A4A2E;margin:8mm auto}
-.cover .tag{font-family:'Newsreader';font-size:11pt;color:#A8A096;font-style:italic;margin-top:10mm}
+.cover .tag{font-family:'Spectral';font-size:11pt;color:#A8A096;font-style:italic;margin-top:10mm}
 h1{font-family:'Michroma';font-size:13pt;font-weight:400;margin:0 0 3mm;line-height:1.3;color:#1A1714}
 h2{font-family:'Michroma';font-size:8.6pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4mm;padding-bottom:1.8mm;border-bottom:.4pt solid #E4DED2;color:#1A1714}
 h3{font-family:'Michroma';font-size:7.4pt;font-weight:400;letter-spacing:.05em;margin:4.5mm 0 1.4mm;color:#2A78D6}
@@ -460,17 +468,17 @@ p{margin:0 0 2.6mm}
 .why{font-size:9.6pt;color:#6E655C;margin-bottom:3.5mm}
 .rule{border-left:2px solid #7A4A2E;padding:2mm 0 2mm 4mm;margin:4mm 0;font-size:9.6pt;color:#6E655C}
 table{width:100%;border-collapse:collapse;margin-top:2mm}
-th,td{text-align:left;vertical-align:top;padding:2.2mm 2.4mm;border-bottom:.35pt solid #DCE4E5;font-size:9.2pt}
+th,td{text-align:left;vertical-align:top;padding:2.2mm 2.4mm;border-bottom:.35pt solid #E4DED2;font-size:9.2pt}
 th{font-family:'Michroma';font-size:6.4pt;letter-spacing:.06em;color:#6E655C;width:26mm;padding-top:2.8mm}
-.phase{display:flex;gap:5mm;padding:3mm 0;border-bottom:.35pt solid #DCE4E5}
+.phase{display:flex;gap:5mm;padding:3mm 0;border-bottom:.35pt solid #E4DED2}
 .phase .d{font-family:'Michroma';font-size:6.8pt;letter-spacing:.06em;color:#2A78D6;width:26mm;flex:none;padding-top:.6mm}
 .phase p{margin:0;font-size:9.6pt}
 ul.check{list-style:none;padding:0;margin:3mm 0 0;columns:2;column-gap:8mm}
 ul.check li{font-size:9.4pt;padding:1.6mm 0;break-inside:avoid;display:flex;gap:2.4mm;align-items:flex-start}
 .box{width:3.4mm;height:3.4mm;border:.5pt solid #6E655C;border-radius:.6mm;flex:none;margin-top:1mm}
-.small{font-size:8.6pt;color:#4E6B72;line-height:1.5}
+.small{font-size:8.6pt;color:#6E655C;line-height:1.5}
 .tier-pill{display:inline-block;font-family:'Michroma';font-size:7pt;letter-spacing:.12em;padding:1.6mm 3mm;border:.5pt solid #7A4A2E;color:#7A4A2E;border-radius:1mm;margin-bottom:5mm}
-"""
+""")
 
 TIERS = {
  "pro":("PRO","You are already doing all of it. This is the full stack, sequenced and measured."),
@@ -484,8 +492,9 @@ def render_tier(key):
     ph = "".join(f'<div class="phase"><div class="d">{d}</div><p>{t}</p></div>' for d,t in phases(key))
     html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body>
 
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">{name}</div>
   <div class="s">NINETY-DAY PROTOCOL</div>
@@ -562,7 +571,7 @@ if __name__ == '__main__':
 # =====================================================================
 
 DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
-.food{{display:flex;gap:4mm;padding:2.4mm 0;border-bottom:.35pt solid #DCE4E5}}
+.food{{display:flex;gap:4mm;padding:2.4mm 0;border-bottom:.35pt solid #E4DED2}}
 .food b{{font-family:'Michroma';font-size:6.6pt;letter-spacing:.05em;color:#2A78D6;width:34mm;flex:none;padding-top:.8mm}}
 .food p{{margin:0;font-size:9.4pt}}
 .tierrow{{display:flex;gap:3mm;margin-top:3mm}}
@@ -572,8 +581,9 @@ DIET_HTML = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>{CSS}
 .no{{color:#A32E22}}
 </style></head><body>
 
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">DIETARY GUIDELINES</div>
   <div class="s">ALL TIERS</div>

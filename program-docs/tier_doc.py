@@ -40,8 +40,9 @@ def render_tier(key):
 h3{{color:#2A78D6}}
 .rule{{border-left:2px solid #7A4A2E}}
 </style></head><body>
+{D.footer_mark()}
 <div class="page cover">
-  <img src="lockup-dark.png">
+  {D.mark(D.WORDMARK_DARK, 82)}
   <div class="rule"></div>
   <div class="t">{name}</div>
   <div class="s">NINETY-DAY PROTOCOL</div>
