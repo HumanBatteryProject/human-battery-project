@@ -71,21 +71,71 @@ def esc(s):
     return H.escape(s)
 
 
+# The sections, in order, and what each one is called. A meal value in
+# kitchen_data.json that has no entry here is a FAILURE, not a recipe to skip:
+# the old code filtered with `x["meal"] == meal` against a hardcoded pair, so
+# thirty lunch recipes added to the data would have been dropped from the page in
+# silence while the cover went on claiming forty meals.
+SECTIONS = [
+    ("breakfast", "The First Meal",
+     "Nothing before light. Once you have been outside, this is where the day starts."),
+    ("lunch", "The Middle Meal",
+     "Inside the window, built the same way as the others: protein first, fat over "
+     "everything. At the tighter windows this is the last meal of the day."),
+    ("dinner", "The Last Meal",
+     "Finished at least three hours before bed. Build it around the protein, "
+     "put fat over everything."),
+]
+
+WORDS = {0: 'No', 20: 'Twenty', 30: 'Thirty', 34: 'Thirty-four', 40: 'Forty',
+         50: 'Fifty', 60: 'Sixty', 64: 'Sixty-four', 90: 'Ninety', 94: 'Ninety-four'}
+
+
+def count_word(n):
+    """The count in words, or the digits when the word is not known.
+
+    The cover used to read "Forty meals ... Twenty for the first meal, twenty for
+    the last", typed. Three numbers a person had to remember to change, on the one
+    page that states what the document contains.
+    """
+    return WORDS.get(n, str(n))
+
+
+def sentence(parts):
+    """The per-section counts as one sentence, capitalised, with an Oxford-free and."""
+    if not parts:
+        return "No recipes yet."
+    joined = (parts[0] if len(parts) == 1
+              else " and ".join(parts) if len(parts) == 2
+              else ", ".join(parts[:-1]) + " and " + parts[-1])
+    return joined[0].upper() + joined[1:] + "."
+
+
 def build():
     recs = json.loads((HERE / "kitchen_data.json").read_text(encoding="utf-8"))
+
+    known = {k for k, _, _ in SECTIONS}
+    stray = sorted({r["meal"] for r in recs} - known)
+    if stray:
+        raise SystemExit(
+            f"kitchen_data.json has recipe(s) for meal(s) with no section: "
+            f"{', '.join(stray)}. Add a section to SECTIONS or the recipes will "
+            f"not appear in the document.")
+
+    per = {k: [r for r in recs if r["meal"] == k] for k, _, _ in SECTIONS}
+    parts = [f"{count_word(len(per[k])).lower()} for {t.lower()}"
+             for k, t, _ in SECTIONS if per[k]]
     out = [f"<meta charset='utf-8'><style>{CSS}</style>",
            "<div class='title'><div class='markgap'></div>",
            "<h1>The Battery Kitchen</h1>",
-           "<p>Forty meals built only from the approved list in your Dietary "
-           "Guidelines. Twenty for the first meal, twenty for the last.</p></div>"]
-    for meal, title, note in [
-        ("breakfast", "The First Meal",
-         "Nothing before light. Once you have been outside, this is where the day starts."),
-        ("dinner", "The Last Meal",
-         "Finished at least three hours before bed. Build it around the protein, "
-         "put fat over everything.")]:
+           f"<p>{count_word(len(recs))} meals built only from the approved list in "
+           f"your Dietary Guidelines. "
+           + sentence(parts) + "</p></div>"]
+    for meal, title, note in SECTIONS:
+        if not per[meal]:
+            continue          # no recipes yet, so no empty section on the page
         out.append(f"<h2>{title}</h2><p class='stand'>{esc(note)}</p>")
-        for r in [x for x in recs if x["meal"] == meal]:
+        for r in per[meal]:
             tiers = ("All tiers" if r["tiers_raw"].strip() == "A"
                      else ", ".join(t.capitalize() for t in
                                     json.loads(r["tiers_raw"])) + " only")

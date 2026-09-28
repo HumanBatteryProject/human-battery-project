@@ -981,5 +981,1547 @@
    "Peel and chunk the squash and add it for the last 40 minutes only.",
    "Skim the fat, keep it for cooking, and check the salt at the end rather than the start."
   ]
+ },
+ {
+  "icon": "fish",
+  "name": "Sardines Grilled Over Bitter Greens",
+  "tiers_raw": "A",
+  "time": "12 min",
+  "tech": "Grill",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Francis Mallmann, parrilla. Fire and salt, nothing else.",
+  "why": "Whole small fish over live fire, skin blistered, eaten with the greens underneath catching the fat.",
+  "ing": [
+   "4 to 6 fresh sardines, gutted",
+   "2 large handfuls bitter leafy greens",
+   "1 tbsp extra virgin olive oil",
+   "Half a lemon",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Get the grill hot enough that you cannot hold a hand over it for two seconds. Hot iron is what stops the skin sticking.",
+   "Salt the sardines on both sides and leave them 10 minutes. The salt pulls moisture to the surface so the skin dries and crisps.",
+   "Lay them on the grill. Leave them 4 minutes without touching them, then turn once and give them 3 more.",
+   "Pile the greens on the plate, put the fish on top while it is still hot, and pour the oil over both. The hot fish wilts the greens.",
+   "Lemon and salt at the table. To feed two, double the fish and the greens."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Mackerel Grilled Skin Side Down",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Grill",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Francis Mallmann, chapa. Skin against hot iron until it crisps.",
+  "why": "Mackerel is oily enough to cook almost entirely on its skin side, which is where all the texture is.",
+  "ing": [
+   "1 mackerel fillet, about 5 oz",
+   "1 tsp extra virgin olive oil",
+   "Unrefined mineral sea salt",
+   "Half a lemon",
+   "Forkful of sauerkraut"
+  ],
+  "steps": [
+   "Pat the skin completely dry with a towel. Wet skin steams instead of crisping.",
+   "Salt the skin and rub the oil over it. Heat a heavy pan or flat grill to 220C, 425F.",
+   "Lay it skin down and press it flat for the first 10 seconds so the whole skin touches the metal.",
+   "Cook 5 to 6 minutes skin down without moving it. The flesh turns from clear to pale as it cooks up from the bottom.",
+   "Turn it for 30 seconds only, then plate skin up. Lemon and the sauerkraut cold on the side."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Salmon Collar in the Coals",
+  "tiers_raw": "A",
+  "time": "14 min",
+  "tech": "Embers",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Rasmus Munk, Plastic Fantastic. The collar is the best part and gets thrown away.",
+  "why": "The collar is the piece behind the head, and it is the fattest part of the fish. Ask the counter for them and they are usually free.",
+  "ing": [
+   "2 salmon collars",
+   "1 tsp extra virgin olive oil",
+   "Unrefined mineral sea salt",
+   "Half a lemon",
+   "1 handful leafy greens"
+  ],
+  "steps": [
+   "Let a fire burn down until the coals glow and no flame is left. Flame burns the fat before the collar cooks.",
+   "Salt the collars well and oil them lightly so they do not stick.",
+   "Lay them straight on the coals, skin side down, for 6 minutes.",
+   "Turn and give them 5 minutes more. The fat renders out and the skin blackens in places, which is what you want.",
+   "Eat them with your hands over the greens, with lemon. There is more meat in there than it looks."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Whole Mackerel in a Salt Crust",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "Salt crust",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Francis Mallmann, salt-crusted fish. A salt shell steams the fish in its own juice.",
+  "why": "The salt sets into a hard shell, so the fish cooks in its own moisture and comes out seasoned all through but not salty.",
+  "ing": [
+   "1 whole mackerel, about 12 oz, gutted",
+   "2 lb coarse unrefined mineral sea salt",
+   "1 egg white",
+   "2 sprigs thyme",
+   "Half a lemon, sliced",
+   "1 tbsp extra virgin olive oil"
+  ],
+  "steps": [
+   "Heat the oven to 200C, 400F. Mix the salt with the egg white and a splash of water until it holds together like wet sand.",
+   "Put the thyme and lemon slices inside the fish.",
+   "Spread a finger-thick bed of salt on a tray, lay the fish on it, then pack the rest of the salt over the top so no fish shows.",
+   "Bake 22 minutes. Let it sit 5 minutes before you crack it, because it keeps cooking inside the shell.",
+   "Crack the crust with the back of a spoon and lift it off in pieces. Brush the loose salt away, peel the skin back, and lift the fillets off. Oil over the top.",
+   "One fish feeds one as a full plate, or two alongside vegetables."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Salmon Dry-Aged Three Days, Brown Butter",
+  "tiers_raw": "A",
+  "time": "10 min, plus 3 days",
+  "tech": "Dry age",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Ana Ros, Trout The Queen. Dry-age a fish, then finish it in browned butter.",
+  "why": "Three days uncovered in the cold dries the surface and concentrates the flavor. Browned butter is the only sauce it needs.",
+  "ing": [
+   "5 oz wild salmon fillet, skin on",
+   "1 tsp unrefined mineral sea salt",
+   "2 tbsp grass-fed butter",
+   "1 handful leafy greens",
+   "Half a lemon"
+  ],
+  "steps": [
+   "Salt the fillet all over and set it on a rack over a plate, uncovered, in the coldest part of the fridge.",
+   "Leave it 3 days. The surface goes matte and slightly tacky. That dry surface is what browns properly.",
+   "Heat a dry pan to medium. Lay the fish skin down for 4 minutes, then turn it for 1 minute.",
+   "Lift the fish out. Put the butter in the same pan and swirl it until it smells like nuts and turns light brown, about 90 seconds. Take it off the heat the moment it colors, because it goes from brown to burnt fast.",
+   "Pour the butter over the fish and the greens. Lemon at the table."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "tin",
+  "name": "Anchovies Cured in Salt and Vinegar",
+  "tiers_raw": "A",
+  "time": "15 min, plus a day",
+  "tech": "Cure",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Jiro Ono, kohada. The same cure that made a cheap fish famous.",
+  "why": "Salt firms the flesh and vinegar sets it. This is how a small oily fish becomes something you serve on purpose.",
+  "ing": [
+   "8 fresh anchovies, filleted",
+   "2 tbsp unrefined mineral sea salt",
+   "4 tbsp apple cider vinegar",
+   "2 tbsp extra virgin olive oil",
+   "1 clove garlic, sliced thin",
+   "Parsley"
+  ],
+  "steps": [
+   "Lay the fillets flat in one layer and cover them with the salt. Leave 45 minutes. The salt draws water out and firms them.",
+   "Rinse the salt off under cold water and pat dry.",
+   "Put them in a shallow dish and pour the vinegar over so they are just covered. Refrigerate 12 to 24 hours. They turn from pink to white, which is the sign they are done.",
+   "Lift them out, drain, and cover with the oil, garlic and parsley.",
+   "They keep 4 days in the oil in the fridge, so make a double batch and eat them across the week."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "tin",
+  "name": "Sardine Rillettes in Butter",
+  "tiers_raw": "A",
+  "time": "10 min, plus 2 hours",
+  "tech": "Confit",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Joan Roca, Pig Trotter Carpaccio. Rich fish set in fat, sliced cold.",
+  "why": "Mashed sardines set firm in butter, so you can cut them. Rich enough that a small piece is a meal with greens.",
+  "ing": [
+   "2 tins sardines in olive oil",
+   "3 tbsp grass-fed butter, soft",
+   "1 tsp apple cider vinegar",
+   "Half a lemon, the zest",
+   "1 tbsp chives, chopped",
+   "Black pepper",
+   "Unrefined mineral sea salt"
+  ],
+  "steps": [
+   "Drain the sardines but keep the oil. Mash them with a fork, bones and all, because the bones soften to nothing and are the best part of the tin.",
+   "Work the soft butter into the fish until it is one paste. The butter is what sets it firm later.",
+   "Add the vinegar, zest, chives, a little pepper and salt. Taste it now, because cold food needs more salt than warm food.",
+   "Press it into a small dish, smooth the top, and pour a thin layer of the kept oil over to seal it.",
+   "Refrigerate 2 hours until firm. Cut in slices. Keeps 5 days sealed, and this quantity feeds two or three."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Mackerel Cured in Cider Vinegar",
+  "tiers_raw": "A",
+  "time": "20 min, plus 4 hours",
+  "tech": "Cure",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Jiro Ono, kohada. Vinegar firms the flesh and keeps it.",
+  "why": "A cure instead of a cooking method. The fish comes out firm, sharp and ready to eat cold for days.",
+  "ing": [
+   "1 mackerel, filleted",
+   "2 tbsp unrefined mineral sea salt",
+   "6 tbsp apple cider vinegar",
+   "1 tsp black pepper",
+   "1 tbsp extra virgin olive oil",
+   "Dill"
+  ],
+  "steps": [
+   "Bury the fillets in the salt, skin up, for 30 minutes. This is the step that firms them.",
+   "Rinse well and dry. Any salt left behind makes the finished fish too strong.",
+   "Lay them in a dish and pour the vinegar over to cover. Refrigerate 4 hours.",
+   "Lift out, pat dry, and slice across the fillet at an angle into thin pieces.",
+   "Oil, pepper and dill over the top. Keeps 3 days. Half a fish is one lunch."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "shell",
+  "name": "Oysters Warmed in Their Own Liquor",
+  "tiers_raw": "A",
+  "time": "8 min",
+  "tech": "Steam",
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "lineage": "Joan Roca, Amontillado-steamed oyster. Gentle heat over their own liquid, no alcohol.",
+  "why": "Barely warmed rather than cooked, in the seawater they came in. No wine, and none needed.",
+  "ing": [
+   "6 oysters",
+   "1 tbsp grass-fed butter",
+   "1 shallot, sliced very thin",
+   "1 tsp apple cider vinegar",
+   "Black pepper",
+   "Chives"
+  ],
+  "steps": [
+   "Open the oysters over a bowl so you catch every drop of the liquor. That liquid is the whole sauce.",
+   "Loosen each oyster from its shell but leave it sitting in the shell.",
+   "Put the liquor, butter, shallot and vinegar in a small pan and warm it to just below a simmer, about 80C, 175F. Do not boil it, because boiling makes an oyster rubbery.",
+   "Spoon the warm liquid over the oysters in their shells and let them sit 60 seconds. They firm at the edges and stay soft in the middle.",
+   "Pepper and chives. Six is one lunch with greens beside it."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Beef Tongue, Pressed and Sliced Thin",
+  "tiers_raw": "A",
+  "time": "3.5 hours, mostly waiting",
+  "tech": "Press",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Joan Roca, Pig Trotter Carpaccio. A collagen cut cooked, pressed, chilled, shaved.",
+  "why": "A cut most people never buy, cooked until soft, pressed flat and sliced cold. It eats like something expensive.",
+  "ing": [
+   "1 beef tongue, about 2 lb",
+   "1 onion, halved",
+   "2 bay leaves",
+   "1 tbsp unrefined mineral sea salt",
+   "2 tbsp extra virgin olive oil",
+   "1 tbsp apple cider vinegar",
+   "Parsley"
+  ],
+  "steps": [
+   "Cover the tongue with cold water in a pot with the onion, bay and salt. Bring it to a bare simmer.",
+   "Cook 3 hours at a bare simmer. A hard boil makes it tough. It is ready when a knife goes into the thick end with no resistance.",
+   "Lift it out and peel the skin off while it is still hot. It comes away in sheets now and will not come off at all once cold.",
+   "Wrap it tight in parchment, put it on a plate with something heavy on top, and refrigerate overnight. Pressing is what lets you slice it thin.",
+   "Slice as thin as you can. Oil, vinegar and parsley over the top. One tongue is six or seven lunches, so this is a cook-once cut."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Oxtail Cooked Long in Broth",
+  "tiers_raw": "A",
+  "time": "4 hours, mostly waiting",
+  "tech": "Braise",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dabiz Munoz, Spanish Bull. An offcut as the centerpiece, not the filler.",
+  "why": "Oxtail is mostly bone and connective tissue, and four hours turns all of that into something rich enough to coat a spoon.",
+  "ing": [
+   "1.5 lb oxtail, cut in pieces",
+   "1 tbsp tallow",
+   "1 onion, chopped",
+   "2 carrots, chopped",
+   "2 cups bone broth",
+   "2 bay leaves",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the oxtail and brown it hard in the tallow on every side, about 10 minutes. The brown crust is where most of the flavor comes from.",
+   "Take the meat out. Cook the onion and carrot in the same fat for 5 minutes, scraping the bottom.",
+   "Put the meat back, pour the broth over, add the bay. The liquid should come halfway up, not cover it.",
+   "Lid on, oven at 150C, 300F, for 3.5 hours. It is done when the meat pulls off the bone with no effort.",
+   "Lift the meat out and boil the liquid down by half to thicken it. There is no flour in this, so reduction is the only thickener.",
+   "This makes two or three lunches and is better on the second day."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Beef Cheek in Its Own Juice",
+  "tiers_raw": "A",
+  "time": "4 hours, mostly waiting",
+  "tech": "Low heat",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Joan Roca, low-temperature cooking. Long low heat turns collagen to silk.",
+  "why": "Cheek is pure working muscle and full of collagen. Held low and long, the collagen melts and the meat goes silky.",
+  "ing": [
+   "1 beef cheek, about 1 lb",
+   "1 tbsp tallow",
+   "1 onion, sliced",
+   "2 cloves garlic",
+   "1 cup bone broth",
+   "2 sprigs thyme",
+   "Unrefined mineral sea salt"
+  ],
+  "steps": [
+   "Salt the cheek and brown it in the tallow, 4 minutes a side.",
+   "Add the onion, garlic, broth and thyme. The liquid should come a third of the way up the meat.",
+   "Lid on, oven at 140C, 285F, for 3.5 hours. Low is the point. Above about 160C, 320F, the muscle tightens before the collagen has time to melt.",
+   "Check it with a spoon, not a knife. It is ready when a spoon breaks it apart.",
+   "Serve it in its own liquid with greens. One cheek is two lunches."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Marrow Roasted and Scooped Over Greens",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Roast",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dabiz Munoz, Spanish Bull with marrow. Marrow is a fat and a sauce at once.",
+  "why": "Marrow bones are cheap and mostly fat, and roasted marrow spread over bitter greens is a full plate.",
+  "ing": [
+   "2 marrow bones, split lengthwise",
+   "2 large handfuls leafy greens",
+   "1 tsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "Parsley"
+  ],
+  "steps": [
+   "Heat the oven to 220C, 425F. Ask the counter to split the bones lengthwise, because you cannot do it at home.",
+   "Salt the cut face and roast them 15 to 18 minutes. They are ready when the marrow is soft and bubbling at the edges but has not run out of the bone.",
+   "Dress the greens with the vinegar and a little salt while the bones roast. The sharpness is there to cut the fat.",
+   "Scoop the marrow out with a small spoon and spread it over the greens. It melts into them.",
+   "Parsley and pepper over the top. Two bones is one lunch."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Lamb Neck, Four Hours",
+  "tiers_raw": "A",
+  "time": "4 hours, mostly waiting",
+  "tech": "Braise",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Joan Roca, low-temperature cooking. The cheapest cut wants the longest time.",
+  "why": "Neck is the cut nobody asks for and it makes the best braise on the animal, because it is all collagen and bone.",
+  "ing": [
+   "2 lamb neck slices, about 1.5 lb",
+   "1 tbsp tallow",
+   "1 onion, sliced",
+   "3 cloves garlic",
+   "1.5 cups bone broth",
+   "2 sprigs rosemary",
+   "Unrefined mineral sea salt"
+  ],
+  "steps": [
+   "Salt the neck slices an hour ahead if you can. Salt needs time to reach the middle of a thick cut.",
+   "Brown them hard in the tallow, 5 minutes a side.",
+   "Add the onion, garlic, broth and rosemary. Lid on, oven at 150C, 300F.",
+   "Give it 3.5 hours. The meat should fall off the bone when you lift a piece.",
+   "Take the lid off for the last 20 minutes so the liquid thickens and the top colors.",
+   "Two slices is two lunches. The liquid sets to jelly in the fridge, which is the collagen, and it melts again when warmed."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Liver Grilled Fast Over Fire",
+  "tiers_raw": "A",
+  "time": "8 min",
+  "tech": "Grill",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dabiz Munoz, bold spice on great protein. High heat and seconds, not minutes.",
+  "why": "Liver turns dry and grainy the moment it is overdone. Very hot and very fast is the whole technique.",
+  "ing": [
+   "5 oz beef liver, sliced 1/2 inch thick",
+   "1 tsp tallow",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "1 tsp apple cider vinegar",
+   "1 handful leafy greens"
+  ],
+  "steps": [
+   "Pat the liver completely dry and salt it. Dry surface, hot fire.",
+   "Get the grill or pan as hot as it goes, about 250C, 480F.",
+   "Rub the tallow on the liver, not the pan, so it does not smoke before the liver lands.",
+   "90 seconds a side and no more. The middle should still be pink. Cut into it to check, because liver goes from right to wrong in about 30 seconds.",
+   "Rest it 2 minutes, then slice it against the grain. Vinegar and greens on the side."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "bird",
+  "name": "Chicken Thigh Dry-Brined and Air-Dried",
+  "tiers_raw": "A",
+  "time": "25 min, plus a day",
+  "tech": "Dry brine",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Thomas Keller, roast chicken. Salt early, dry the skin, then high heat.",
+  "why": "The salt goes in a day early and the skin dries uncovered overnight. That is the whole difference between crisp skin and soft skin.",
+  "ing": [
+   "2 pastured chicken thighs, bone in, skin on",
+   "1 tsp unrefined mineral sea salt",
+   "Black pepper",
+   "2 sprigs thyme",
+   "1 tsp extra virgin olive oil"
+  ],
+  "steps": [
+   "Salt the thighs all over, including under the skin, and set them on a rack in the fridge uncovered.",
+   "Leave them 12 to 24 hours. The salt seasons the meat all the way through and the air dries the skin out. Covered skin stays wet and will not crisp.",
+   "Heat the oven to 220C, 425F. Do not rinse or pat the thighs, because that puts the moisture back.",
+   "Oil them lightly, put the thyme underneath, and roast skin up 22 to 25 minutes until the skin is dark and tight.",
+   "Rest 5 minutes. Two thighs is one lunch, and the technique scales to a whole tray."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "bird",
+  "name": "Chicken Thigh Poached in Butter",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "Butter poach",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Thomas Keller, butter-poached lobster. Poaching in fat keeps lean meat soft.",
+  "why": "Held in warm butter instead of water, the meat cannot dry out, because fat carries heat more gently than water does.",
+  "ing": [
+   "2 boneless pastured chicken thighs",
+   "6 tbsp grass-fed butter",
+   "2 cloves garlic",
+   "2 sprigs thyme",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the thighs and leave them 15 minutes.",
+   "Melt the butter in a small pan with the garlic and thyme. Bring it to 75C, 165F, and hold it there. A thermometer matters here, because above 85C, 185F, the butter separates and the point is lost.",
+   "Slide the thighs in so the butter covers them. Add more butter or use a smaller pan if it does not.",
+   "Hold at that temperature 25 minutes. The meat goes opaque and stays soft.",
+   "Lift them out, salt again, and pepper. Keep the butter in the fridge and use it again for the same job."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "fish",
+  "name": "Butter-Poached Salmon",
+  "tiers_raw": "A",
+  "time": "18 min",
+  "tech": "Butter poach",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Thomas Keller, butter-poached lobster. Fat as the poaching liquid, held low.",
+  "why": "Salmon held in warm butter never gets the chalky white line that a hot pan gives it.",
+  "ing": [
+   "5 oz wild salmon fillet, skinned",
+   "6 tbsp grass-fed butter",
+   "1 strip lemon peel",
+   "1 sprig dill",
+   "Unrefined mineral sea salt"
+  ],
+  "steps": [
+   "Salt the salmon and leave it 10 minutes.",
+   "Melt the butter with the lemon peel and dill in a small pan and bring it to 60C, 140F.",
+   "Slide the fish in. It should be covered. Hold the temperature for 12 minutes.",
+   "It is done when it flakes under light pressure but is still deep pink in the middle. There is no browning and there is not meant to be.",
+   "Lift it out and spoon a little of the butter over. One fillet is one lunch."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "broth",
+  "name": "Bone Broth Reduced to a Sauce",
+  "tiers_raw": "A",
+  "time": "45 min",
+  "tech": "Reduce",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Yannick Alleno, extraction sauces. A sauce from bones, never from flour.",
+  "why": "Four cups of broth boiled down to half a cup coats a spoon on its own. The thickener is the collagen already in it.",
+  "ing": [
+   "4 cups bone broth",
+   "1 shallot, sliced",
+   "2 sprigs thyme",
+   "1 tsp apple cider vinegar",
+   "1 tbsp grass-fed butter",
+   "Unrefined mineral sea salt"
+  ],
+  "steps": [
+   "Put the broth, shallot and thyme in a wide pan. Wide matters, because a wide pan reduces faster than a tall one.",
+   "Boil hard until it is down to about half a cup, 35 to 40 minutes. Skim any foam off the top as it rises.",
+   "Strain it and put it back on low heat.",
+   "Add the vinegar, then whisk the cold butter in off the heat. Off the heat is the point, because boiling now would split it.",
+   "Salt to taste. This is enough sauce for two plates of meat or vegetables, and it sets to jelly in the fridge."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "greens",
+  "name": "Cold-Drawn Herb Sauce Over Beef",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Extraction",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Yannick Alleno, cold extraction. Draw flavor cold so nothing is cooked away.",
+  "why": "Herbs lose their top notes the moment they are heated. Drawn cold in oil and vinegar they keep all of it.",
+  "ing": [
+   "1 packed cup parsley",
+   "2 tbsp chives",
+   "1 clove garlic",
+   "6 tbsp extra virgin olive oil",
+   "1 tbsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "6 oz grass-fed beef steak"
+  ],
+  "steps": [
+   "Chop the herbs and garlic fine, put them in a jar with the oil, vinegar and salt, and leave it 20 minutes at room temperature. No heat at any point.",
+   "Salt the steak and cook it how you like it in a hot dry pan.",
+   "Rest the steak 5 minutes on the board. Resting lets the juices settle back instead of running out.",
+   "Slice it against the grain and spoon the cold sauce over the warm meat. The heat of the meat releases the herb smell at the table.",
+   "The sauce keeps 3 days and this makes enough for three plates."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "broth",
+  "name": "Vegetable Broth Drawn Cold, Then Warmed",
+  "tiers_raw": "A",
+  "time": "15 min, plus 8 hours",
+  "tech": "Extraction",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Yannick Alleno, La Balade Vegetale. Many vegetables, one clear liquid.",
+  "why": "Vegetables steeped cold overnight give a clear, bright broth. Boiled, they give a dull one.",
+  "ing": [
+   "1 leek, sliced",
+   "2 carrots, sliced",
+   "2 celery stalks, sliced",
+   "4 mushrooms, sliced",
+   "1 clove garlic",
+   "4 cups mineral water",
+   "Unrefined mineral sea salt",
+   "1 tbsp extra virgin olive oil"
+  ],
+  "steps": [
+   "Put all the vegetables and the water in a jar and refrigerate 8 hours or overnight. Nothing is cooked at this stage.",
+   "Strain it and throw the vegetables away. They have given up what they had.",
+   "Warm the liquid to 70C, 160F. Do not boil it, because boiling is what turns it dull and flat.",
+   "Salt it and pour the oil over the top of the bowl.",
+   "This makes four cups. Drink it as it is, or use it as the liquid in another dish."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Beef Carpaccio, Shaved Cold",
+  "tiers_raw": "A",
+  "time": "15 min, plus 1 hour",
+  "tech": "Raw",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Andoni Luis Aduriz, Veg Carpaccio. Thin and cold changes how a thing tastes.",
+  "why": "The same beef eaten raw and paper thin tastes nothing like it does cooked. Freezing it briefly is what lets you cut it that thin.",
+  "ing": [
+   "5 oz grass-fed beef fillet, one piece",
+   "2 tbsp extra virgin olive oil",
+   "Half a lemon",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "1 handful leafy greens",
+   "Parsley"
+  ],
+  "steps": [
+   "Wrap the beef tight and freeze it 45 to 60 minutes. You want it firm to the squeeze, not frozen through.",
+   "Unwrap it and slice it as thin as you can with your sharpest knife. Firm meat is the only way to get slices this thin.",
+   "Lay the slices flat on a cold plate in one layer, barely touching.",
+   "Oil, lemon, salt and pepper over the top, then leave it 5 minutes. The lemon firms the surface slightly and the salt draws the flavor out.",
+   "Greens and parsley on top. Use beef you trust and eat it the day you buy it."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Warm Beef, Cold Kraut, One Plate",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Contrast",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Andoni Luis Aduriz, Edible Stones. Temperature contrast as the whole idea.",
+  "why": "Hot meat and cold ferment in the same mouthful. The contrast is the dish, not a garnish.",
+  "ing": [
+   "6 oz grass-fed beef steak",
+   "1 tsp tallow",
+   "4 tbsp sauerkraut, cold from the jar",
+   "1 tbsp grass-fed butter",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Take the kraut out of the fridge only when you plate, so it stays properly cold.",
+   "Salt the steak and cook it in the tallow in a hot pan, 3 minutes a side for medium rare.",
+   "Rest it 5 minutes, then add the butter to the resting juices and spoon them back over.",
+   "Slice the steak and put it on the plate still hot. Put the cold kraut straight beside it, not on it, so the two do not meet until you eat them.",
+   "Pepper over the meat only. One steak is one lunch."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Cauliflower Carved Like a Roast",
+  "tiers_raw": "A",
+  "time": "1 hour",
+  "tech": "Roast",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Rene Redzepi, Celeriac Shawarma. Roast a vegetable for hours and carve it.",
+  "why": "A whole head roasted long enough goes sweet and dense all through, and you carve it in slices like meat.",
+  "ing": [
+   "1 small cauliflower, whole, leaves left on",
+   "2 tbsp grass-fed butter, melted",
+   "1 tsp unrefined mineral sea salt",
+   "1 tsp turmeric",
+   "Black pepper",
+   "1 tbsp extra virgin olive oil"
+  ],
+  "steps": [
+   "Heat the oven to 200C, 400F. Leave the leaves on, because they char and become the best part.",
+   "Cut the stem flat so it sits upright. Do not cut the head into florets. Whole is what makes the inside steam while the outside roasts.",
+   "Brush the butter all over, then the salt, turmeric and pepper.",
+   "Roast 50 minutes. Test it with a knife into the middle of the stem, which should go in with no resistance.",
+   "Let it sit 5 minutes, then carve it down through the head in thick slices. Oil over the cut faces. One small head is two lunches."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Cabbage in Layers, Roasted Long",
+  "tiers_raw": "A",
+  "time": "1.25 hours",
+  "tech": "Roast",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Rene Redzepi, Celeriac Shawarma. Layers hold moisture, so they take long heat.",
+  "why": "Cut in thick wedges and roasted slowly, cabbage goes sweet in the middle and black at the edges.",
+  "ing": [
+   "Half a green cabbage, in 2 thick wedges",
+   "2 tbsp tallow, melted",
+   "Unrefined mineral sea salt",
+   "1 tsp apple cider vinegar",
+   "1 tbsp grass-fed butter",
+   "Black pepper"
+  ],
+  "steps": [
+   "Heat the oven to 190C, 375F. Cut through the core so each wedge holds together.",
+   "Brush the tallow into the cut faces and between the outer layers, and salt heavily.",
+   "Roast cut side down 40 minutes, then turn and give it 25 more. The layers steam inside while the faces color.",
+   "Vinegar over it in the last 5 minutes, which lifts the sweetness.",
+   "Butter and pepper at the table. Two wedges is one lunch, or a side for two."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Beets Salt-Baked with Anchovy",
+  "tiers_raw": "A",
+  "time": "1.5 hours",
+  "tech": "Salt crust",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Mauro Colagreco, salt-crusted beetroot with caviar. A plain root plus one intense topping.",
+  "why": "A salt crust cooks a beet in its own moisture so it tastes more like itself. One salty fish on top is all it needs.",
+  "ing": [
+   "2 medium beets, unpeeled",
+   "2 lb coarse unrefined mineral sea salt",
+   "1 egg white",
+   "4 anchovy fillets",
+   "1 tbsp extra virgin olive oil",
+   "1 tsp apple cider vinegar",
+   "Dill"
+  ],
+  "steps": [
+   "Heat the oven to 200C, 400F. Mix the salt with the egg white and a little water until it holds shape.",
+   "Bury the beets completely in the salt on a tray. No beet should show, or that part dries out instead of steaming.",
+   "Bake 1 hour 15 minutes. Crack the crust and test with a skewer, which should slide in easily.",
+   "Break the crust off and rub the skins away with a towel while warm. They come off easily now.",
+   "Slice thick, lay the anchovies over, then the oil, vinegar and dill. Two beets is one lunch."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Radish and Beet, Raw and Salted",
+  "tiers_raw": "A",
+  "time": "15 min",
+  "tech": "Raw",
+  "seasons": [
+   "spring",
+   "summer"
+  ],
+  "lineage": "Mauro Colagreco, garden-first cooking. Vegetables treated like the main event.",
+  "why": "Raw roots sliced thin and salted for ten minutes go from hard to crisp and sweet, with nothing cooked at all.",
+  "ing": [
+   "6 radishes",
+   "1 small beet, peeled",
+   "1 tsp unrefined mineral sea salt",
+   "2 tbsp extra virgin olive oil",
+   "1 tbsp apple cider vinegar",
+   "Black pepper",
+   "Mint"
+  ],
+  "steps": [
+   "Slice the radishes and beet as thin as you can. Thin is what makes raw root pleasant to eat.",
+   "Toss them with the salt and leave 10 minutes. The salt pulls water out and the slices firm up and lose their raw edge.",
+   "Pour off the water that has collected, which would otherwise dilute the dressing.",
+   "Dress with the oil and vinegar and toss again.",
+   "Pepper and torn mint over the top. Serve cold. This is one plate, and it does not keep."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Artichoke Braised in Olive Oil",
+  "tiers_raw": "A",
+  "time": "45 min",
+  "tech": "Braise",
+  "seasons": [
+   "spring"
+  ],
+  "lineage": "Alain Ducasse, seasonal vegetable cookpot. Produce at the center, cooked slowly in fat.",
+  "why": "Artichokes cooked slowly in oil rather than water keep everything they have, and the oil afterward is worth as much as the vegetable.",
+  "ing": [
+   "4 small artichokes",
+   "1 cup extra virgin olive oil",
+   "3 cloves garlic",
+   "1 bay leaf",
+   "Half a lemon",
+   "Unrefined mineral sea salt",
+   "Parsley"
+  ],
+  "steps": [
+   "Trim the tough outer leaves and the tips off the artichokes and halve them. Rub the cut faces with the lemon so they do not brown.",
+   "Put them in a small pan with the oil, garlic and bay. The oil should nearly cover them, so use a pan just big enough.",
+   "Cook on the lowest heat 35 to 40 minutes. It should never bubble hard. A bare shimmer is right, because hard bubbling fries them instead of braising them.",
+   "Test the base with a knife. It should be soft all the way through.",
+   "Salt and parsley. Keep the cooking oil in a jar and use it on everything for the next week."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Green Beans and Zucchini in Butter",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Braise",
+  "seasons": [
+   "summer"
+  ],
+  "lineage": "Alain Ducasse, petits pois a la francaise. Braise the vegetables in fat, not water.",
+  "why": "Cooked down slowly in butter with a little broth, summer vegetables go soft and sweet instead of squeaky.",
+  "ing": [
+   "1 cup green beans, topped",
+   "1 zucchini, in thick half moons",
+   "3 tbsp grass-fed butter",
+   "2 handfuls leafy greens, shredded",
+   "4 tbsp bone broth",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Melt the butter in a pan on medium low and add the beans and zucchini with a good pinch of salt.",
+   "Turn them in the butter 5 minutes without letting them brown. You are softening them, not searing them.",
+   "Add the broth and the shredded greens, put a lid on, and leave it 12 minutes on low. The greens collapse and thicken what is in the pan.",
+   "Take the lid off and cook 2 minutes more so what is left is buttery and not watery.",
+   "Pepper at the table. This is one lunch on its own or a side for two."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "veg",
+  "name": "Brussels Sprouts Crisped in Tallow",
+  "tiers_raw": "A",
+  "time": "25 min",
+  "tech": "Char",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Massimo Bottura, The Crunchy Part of the Lasagna. Cook for the crisp edge and nothing else.",
+  "why": "The loose outer leaves burn crisp and the halves go soft. The whole point is to get as many crisp edges as possible.",
+  "ing": [
+   "2 cups brussels sprouts, halved",
+   "2 tbsp tallow",
+   "Unrefined mineral sea salt",
+   "1 tbsp apple cider vinegar",
+   "Black pepper"
+  ],
+  "steps": [
+   "Heat the oven to 220C, 425F and put the tallow in a metal tray to melt in the oven.",
+   "Halve the sprouts and keep every loose leaf that falls off. Those leaves are the crisp part.",
+   "Toss everything in the hot fat and lay the halves cut side down in one layer. Crowding steams them instead of crisping them.",
+   "Roast 20 minutes without stirring. The cut faces go dark brown and the loose leaves go almost black.",
+   "Vinegar over them straight out of the oven, then salt and pepper. Two cups is one lunch or a side for two."
+  ],
+  "meal": "lunch"
+ },
+ {
+  "icon": "beef",
+  "name": "Liver, Butter, Thyme, Fast",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Sear",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dan Barber, Everything from the Pig. Use the whole animal, including the organs.",
+  "why": "Sliced thin and cooked in foaming butter for two minutes a side, liver is a weekday breakfast rather than a project.",
+  "ing": [
+   "5 oz beef liver, sliced 1/4 inch thick",
+   "2 tbsp grass-fed butter",
+   "2 sprigs thyme",
+   "1 tsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "1 handful leafy greens"
+  ],
+  "steps": [
+   "Slice the liver thin and pat it completely dry. Wet liver steams and goes grey.",
+   "Salt it. Heat the butter in a pan until it foams and the foam starts to subside.",
+   "Lay the slices in one layer with the thyme. Do not crowd them, because crowded liver boils in its own liquid.",
+   "2 minutes a side. Cut one open. It should still be pink in the middle.",
+   "Vinegar into the hot pan, swirl it once, and pour the pan over the liver and the greens."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "egg",
+  "name": "Eggs Scrambled Over Broth",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Deconstruct",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Ferran Adria, deconstructed Spanish omelette. Take a familiar dish apart and rebuild it.",
+  "why": "The eggs are cooked in a bowl set over hot broth instead of in a pan, so they stay loose and never go rubbery.",
+  "ing": [
+   "3 pastured eggs",
+   "1 cup bone broth",
+   "1 tbsp grass-fed butter",
+   "Unrefined mineral sea salt",
+   "Chives",
+   "Black pepper"
+  ],
+  "steps": [
+   "Bring the broth to a bare simmer in a small pan.",
+   "Beat the eggs in a metal bowl with the salt and sit the bowl on top of the pan. The bowl must not touch the broth, because indirect heat is what keeps the eggs soft.",
+   "Stir slowly and constantly with a spatula. It takes 5 to 6 minutes, which is slower than a pan and that is the point.",
+   "When it thickens to loose curds, take the bowl off and stir the butter in. It stops the cooking and holds it creamy.",
+   "Pour a little of the hot broth into a cup and drink it beside the eggs. Chives and pepper on top."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "egg",
+  "name": "The Morning Plate, Taken Apart",
+  "tiers_raw": "A",
+  "time": "8 min",
+  "tech": "Deconstruct",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Ferran Adria, deconstructed Spanish omelette. Same parts, new form, nothing added.",
+  "why": "Every part of the usual plate, kept separate and at its own temperature, so you taste each one instead of a mixture.",
+  "ing": [
+   "2 pastured eggs",
+   "Half an avocado",
+   "1 handful leafy greens",
+   "2 tbsp sauerkraut",
+   "1 tbsp extra virgin olive oil",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Boil the eggs 6 minutes exactly for a set white and a soft yolk, then put them straight into cold water so they stop cooking.",
+   "Slice the avocado and lay it in a line on the plate. Salt it on its own.",
+   "Dress the greens with the oil and a little salt, and put them in their own line beside it.",
+   "Kraut in a third line, cold from the jar.",
+   "Peel and halve the eggs and lay them at the end. Do not mix anything. Take a bit of each in turn and notice they taste different apart than together."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "veg",
+  "name": "Mushrooms Dry-Roasted, Cool Yolk Over",
+  "tiers_raw": "A",
+  "time": "25 min",
+  "tech": "Contrast",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Andoni Luis Aduriz, Broken Egg, Cool Yolk. Hot and cold on one plate on purpose.",
+  "why": "The mushrooms come out of the oven hot and dry, and a cold raw yolk broken over them becomes the sauce.",
+  "ing": [
+   "3 cups mushrooms, torn not sliced",
+   "1 tbsp tallow",
+   "2 pastured egg yolks, cold",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "Parsley"
+  ],
+  "steps": [
+   "Heat the oven to 220C, 425F. Tear the mushrooms rather than slicing them, because torn edges catch more heat.",
+   "Put them on a dry tray with no fat and no salt and roast 15 minutes. They give up a lot of water first, and salt now would keep it in.",
+   "When the tray is dry, add the tallow and salt and roast 8 minutes more until the edges are brown.",
+   "Keep the yolks in the fridge until the moment you plate, so they are properly cold.",
+   "Tip the hot mushrooms into a bowl, break the cold yolks over them, and stir once. Pepper and parsley."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "veg",
+  "name": "Leeks in the Embers, Yolk Sauce",
+  "tiers_raw": "A",
+  "time": "35 min",
+  "tech": "Embers",
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "lineage": "Grant Achatz, aroma as an ingredient. Ash and smoke as seasoning.",
+  "why": "Whole leeks go straight into the coals until the outside is black. The inside steams sweet and tastes of smoke.",
+  "ing": [
+   "3 whole leeks, roots trimmed, tops left on",
+   "2 pastured egg yolks",
+   "3 tbsp extra virgin olive oil",
+   "1 tsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Let a fire burn down to glowing coals. Put the leeks straight on them, unwrapped and unoiled.",
+   "Turn them every 5 minutes for about 25 minutes. The outside goes completely black, which is meant to happen and is not the part you eat.",
+   "While they cook, whisk the yolks with the vinegar and a pinch of salt, then add the oil a drop at a time, whisking, until it thickens. Adding oil slowly is what stops it splitting.",
+   "Take the leeks off and let them sit 5 minutes. Peel the burnt outer layers away and the soft pale inside slides out.",
+   "Salt the leeks, pepper them, and spoon the yolk sauce over. Three leeks is one breakfast."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "egg",
+  "name": "Eggs Under Smoked Rosemary",
+  "tiers_raw": "A",
+  "time": "12 min",
+  "tech": "Smoke",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Grant Achatz, tableside aroma. Aroma arrives before the food does.",
+  "why": "A sprig of rosemary lit and put under a bowl fills the eggs with smoke without cooking them any further.",
+  "ing": [
+   "3 pastured eggs",
+   "1 tbsp grass-fed butter",
+   "2 sprigs rosemary",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cook the eggs softly in the butter in a pan on low heat, taking them off while they still look slightly underdone. They keep cooking on the plate.",
+   "Put them on a plate and set a large bowl upside down nearby.",
+   "Light the end of one rosemary sprig at the stove, blow the flame out, and let it smoke. Put it on the plate beside the eggs.",
+   "Cover both with the bowl and leave it 2 minutes. The smoke has nowhere to go and settles into the eggs.",
+   "Lift the bowl at the table so the smoke comes out as you sit down. Take the rosemary off, then salt and pepper."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "broth",
+  "name": "White Rice, Broth, Egg",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "25 min",
+  "tech": "Broth",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Virgilio Martinez, Lofty Andes. Build the plate from one place and one season.",
+  "why": "Rice cooked in bone broth instead of water takes all of it in. Intermediate and Beginner only, because this tier has starch.",
+  "ing": [
+   "1/2 cup white rice",
+   "1.25 cups bone broth",
+   "1 pastured egg",
+   "1 tbsp grass-fed butter",
+   "Unrefined mineral sea salt",
+   "Chives"
+  ],
+  "steps": [
+   "Rinse the rice until the water runs clear, which stops it going sticky.",
+   "Put it in a pan with the broth and a pinch of salt. Bring it to a boil, then turn it to the lowest heat and put the lid on.",
+   "15 minutes, lid on the whole time. Do not lift it, because the steam is doing the cooking.",
+   "Take it off the heat and leave it 5 minutes, still covered. Then stir the butter through.",
+   "Make a well in the middle, break the egg into it, and cover again for 3 minutes. The heat of the rice sets the white and leaves the yolk soft.",
+   "Chives on top. This is one breakfast and it doubles cleanly."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "tin",
+  "name": "Cured Sardine, Egg Yolk, Chive",
+  "tiers_raw": "A",
+  "time": "15 min, plus 2 hours",
+  "tech": "Cure",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Jiro Ono, kohada cured in salt and vinegar. Salt and vinegar curing makes a small oily fish the center of the plate.",
+  "why": "A two hour cure turns a tinned or fresh sardine firm and bright, and a raw yolk over it is the whole sauce.",
+  "ing": [
+   "4 fresh sardine fillets",
+   "1 tbsp unrefined mineral sea salt",
+   "3 tbsp apple cider vinegar",
+   "1 pastured egg yolk",
+   "1 tbsp chives",
+   "1 tbsp extra virgin olive oil",
+   "Black pepper"
+  ],
+  "steps": [
+   "Lay the fillets flat, cover them with the salt, and leave 30 minutes. This firms them.",
+   "Rinse and dry, then cover with the vinegar and refrigerate 90 minutes. They turn from translucent to white.",
+   "Lift them out and pat dry. Lay them on a cold plate.",
+   "Break the yolk over the middle and add the oil. Break the yolk at the table, not before, so it is still whole when it arrives.",
+   "Chives and pepper. Four fillets is one breakfast."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "fish",
+  "name": "Raw Salmon Pounded Thin",
+  "tiers_raw": "A",
+  "time": "12 min",
+  "tech": "Raw",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Eric Ripert, Thinly Pounded Yellowfin Tuna. Pound a raw fillet thin so it eats like a luxury.",
+  "why": "Pounded between two sheets until it is almost transparent, raw salmon changes texture completely and needs only oil and salt.",
+  "ing": [
+   "4 oz wild salmon fillet, skinned",
+   "2 tbsp extra virgin olive oil",
+   "Half a lemon",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "Chives"
+  ],
+  "steps": [
+   "Slice the salmon into thin pieces and lay them between two sheets of parchment.",
+   "Pound them gently and evenly with the flat of a heavy pan until they are almost see through. Gently is the word, because hard pounding tears it.",
+   "Peel the top sheet off and turn the salmon straight onto a cold plate.",
+   "Oil over the whole surface, then salt, then a little lemon. Salt it just before eating, because salt on raw fish starts to cure it within minutes.",
+   "Pepper and chives. Use fish you trust and eat it the day you buy it."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "veg",
+  "name": "Beets in a Salt Crust, Cold, with Egg",
+  "tiers_raw": "A",
+  "time": "1.5 hours, mostly waiting",
+  "tech": "Salt crust",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Mauro Colagreco, salt-crusted beetroot. A salt crust cooks a root in its own moisture.",
+  "why": "Bake the beets the night before and this is a five minute breakfast in the morning.",
+  "ing": [
+   "2 medium beets, unpeeled",
+   "2 lb coarse unrefined mineral sea salt",
+   "1 egg white",
+   "2 pastured eggs",
+   "2 tbsp extra virgin olive oil",
+   "1 tsp apple cider vinegar",
+   "Dill"
+  ],
+  "steps": [
+   "Heat the oven to 200C, 400F. Mix the salt with the egg white and a little water until it holds shape.",
+   "Bury the beets completely and bake 1 hour 15 minutes, then cool them in the crust and refrigerate overnight.",
+   "In the morning, crack the crust, rub the skins off, and slice the beets thick.",
+   "Boil the eggs 7 minutes, then cool them in cold water and peel them.",
+   "Beets on the plate, eggs halved on top, oil and vinegar over, dill last. Everything cold except nothing, which is the point of doing it the night before."
+  ],
+  "meal": "breakfast"
+ },
+ {
+  "icon": "beef",
+  "name": "Beef Wrapped in Duxelles, Seared",
+  "tiers_raw": "A",
+  "time": "45 min",
+  "tech": "Sear",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Gordon Ramsay, Beef Wellington. The dish works without the pastry.",
+  "why": "Everything that makes a Wellington taste like a Wellington is the mushroom layer, not the pastry. So this is the mushroom layer and the beef.",
+  "ing": [
+   "6 oz grass-fed beef fillet, one piece",
+   "3 cups mushrooms, chopped very fine",
+   "1 shallot, chopped fine",
+   "2 cloves garlic",
+   "2 tbsp grass-fed butter",
+   "2 sprigs thyme",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Chop the mushrooms as fine as you can, almost to a paste. Cook them in the butter with the shallot, garlic and thyme on medium heat.",
+   "Keep cooking, 20 to 25 minutes, until all the water has gone and it is a dark thick paste. This is duxelles, and it is not ready until the pan is dry.",
+   "Salt the beef hard and sear it in a very hot dry pan, 1 minute on every side including the ends.",
+   "Take it off the heat and press the duxelles all over the outside in a thick even layer while the meat is still hot, so it sticks.",
+   "Oven at 200C, 400F, for 8 minutes for medium rare. Rest it 8 minutes before cutting, or the juices run out and take the coating with them.",
+   "Cut in thick slices. One piece is one dinner."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "beef",
+  "name": "Lamb Wrapped in Mushroom and Herbs",
+  "tiers_raw": "A",
+  "time": "40 min",
+  "tech": "Sear",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Gordon Ramsay, Beef Wellington. A mushroom layer seasons and protects the meat.",
+  "why": "The same idea on lamb, with rosemary in the coating, so the outside is dark and herbal and the inside stays pink.",
+  "ing": [
+   "8 oz lamb loin, one piece",
+   "3 cups mushrooms, chopped fine",
+   "2 sprigs rosemary, chopped",
+   "2 cloves garlic",
+   "2 tbsp tallow",
+   "1 tbsp grass-fed butter",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cook the mushrooms, garlic and rosemary in the butter until the pan is completely dry, about 20 minutes.",
+   "Salt the lamb and sear it in the tallow, 90 seconds a side, until the outside is brown all over.",
+   "Press the mushroom mixture over the whole surface while the lamb is hot.",
+   "Oven at 200C, 400F, for 7 minutes. Lamb loin is lean, so a minute too long is the difference between pink and grey.",
+   "Rest 8 minutes, then slice thick. One piece feeds one, or two as part of a bigger plate."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "shell",
+  "name": "Oysters Seared Hard in Butter",
+  "tiers_raw": "A",
+  "time": "10 min",
+  "tech": "Sear",
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "lineage": "Gordon Ramsay, pan-seared scallops. A dry pan, high heat, one turn.",
+  "why": "Oysters out of the shell and seared hard for forty seconds a side go firm and brown outside and stay soft inside.",
+  "ing": [
+   "8 oysters, shucked and drained",
+   "2 tbsp grass-fed butter",
+   "Half a lemon",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "Parsley"
+  ],
+  "steps": [
+   "Drain the oysters well and pat them dry on a towel. Wet oysters will not brown, they will steam.",
+   "Get a heavy pan very hot, about 230C, 450F, then add the butter and wait for the foam to subside.",
+   "Lay the oysters in with space between them and do not move them for 40 seconds.",
+   "Turn each one once and give it 30 seconds more. They firm up and take a brown edge.",
+   "Off the heat, lemon into the pan, then pour the pan butter over. Salt, pepper and parsley. Eight is one dinner with greens."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "beef",
+  "name": "Wild Game Roasted Rare",
+  "tiers_raw": "A",
+  "time": "40 min",
+  "tech": "Roast",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dan Barber, whole farm cooking. Cook what the land near you actually gives.",
+  "why": "Game is leaner than beef, so it wants a hot oven, a short time and a long rest. Whatever is local where you are is the right animal.",
+  "ing": [
+   "8 oz venison or other wild game loin",
+   "1 tbsp tallow",
+   "2 sprigs thyme",
+   "2 cloves garlic",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "1 tbsp grass-fed butter"
+  ],
+  "steps": [
+   "Salt the loin and leave it out of the fridge 30 minutes. Cold meat into a hot oven cooks unevenly.",
+   "Sear it in the tallow in a hot pan, 90 seconds a side.",
+   "Add the thyme, garlic and butter to the pan and spoon the foaming butter over the meat for 30 seconds.",
+   "Oven at 220C, 425F, for 6 to 8 minutes. Game has almost no fat to protect it, so pull it at rare and let the rest finish it.",
+   "Rest 10 minutes, which is longer than the cooking. Slice thin against the grain."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "beef",
+  "name": "Everything From the Animal, One Board",
+  "tiers_raw": "A",
+  "time": "1 hour",
+  "tech": "Board",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dan Barber, Everything from the Pig. One animal, several cuts, one plate.",
+  "why": "Liver, marrow and a piece of steak from the same animal on one board, so you see how different the same animal tastes.",
+  "ing": [
+   "3 oz beef liver",
+   "1 marrow bone, split",
+   "4 oz grass-fed beef steak",
+   "1 tbsp tallow",
+   "1 tbsp grass-fed butter",
+   "1 tsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "Parsley",
+   "2 handfuls leafy greens"
+  ],
+  "steps": [
+   "Oven to 220C, 425F. Roast the marrow bone 16 minutes, until soft and bubbling but not run out.",
+   "While it roasts, salt the steak and the liver and dry both well.",
+   "Cook the steak in the tallow, 3 minutes a side, and rest it.",
+   "Same pan, higher heat, liver in for 90 seconds a side only. Liver goes grainy in seconds, so it is always last and always fast.",
+   "Vinegar in the pan, swirl, and pour over the greens. Lay all three on a board with the marrow still in the bone and a spoon beside it.",
+   "Salt and parsley at the table. This board feeds two."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "greens",
+  "name": "The Whole Farm Plate",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "One pot",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Dan Barber, Vegetables on a Fence. Greens, an egg and broth from one place.",
+  "why": "Whatever greens are good near you, a good egg and broth. The plate changes with the month and the method does not.",
+  "ing": [
+   "4 large handfuls mixed leafy greens",
+   "2 cups bone broth",
+   "2 pastured eggs",
+   "1 leek, sliced",
+   "2 tbsp grass-fed butter",
+   "1 clove garlic",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cook the leek and garlic in the butter on low 8 minutes until soft and not colored.",
+   "Add the broth and bring it to a bare simmer.",
+   "Add the greens a handful at a time, letting each one wilt before the next. All at once and they cool the pan and stew.",
+   "Make two wells and break the eggs in. Lid on, 4 minutes, until the whites are set and the yolks are not.",
+   "Salt and pepper. Eat it out of the bowl with the broth. This is one dinner, or two smaller ones."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "fish",
+  "name": "Mackerel Roasted at an Exact Heat",
+  "tiers_raw": "A",
+  "time": "20 min",
+  "tech": "Low heat",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Heston Blumenthal, precise temperatures. Write the temperature down and hold it.",
+  "why": "Oily fish held at a low exact temperature stays translucent and silky instead of flaking apart. The number is the recipe.",
+  "ing": [
+   "1 mackerel fillet, about 6 oz",
+   "1 tbsp extra virgin olive oil",
+   "Unrefined mineral sea salt",
+   "1 strip lemon peel",
+   "1 sprig thyme",
+   "Black pepper"
+  ],
+  "steps": [
+   "Salt the fillet and leave it 15 minutes, then pat the surface dry.",
+   "Heat the oven to 110C, 230F. This is much lower than fish is usually roasted and it is the whole method.",
+   "Put the fish in an oiled dish with the lemon peel and thyme, skin up.",
+   "Roast 14 to 16 minutes. Take it out when the thickest part reads 45C, 113F, on a thermometer. Without a thermometer, it is ready when the flesh has just turned from glassy to opaque and still resists a fork.",
+   "Oil and pepper over the top. It will look underdone next to fish you have roasted hot, and it is not."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "veg",
+  "name": "Triple-Cooked Sweet Potato",
+  "tiers_raw": "[\"intermediate\",\"beginner\"]",
+  "time": "1 hour, plus chilling",
+  "tech": "Multi stage",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Heston Blumenthal, Triple-Cooked Chips. Three stages build a texture one cannot.",
+  "why": "Simmer, chill, roast, chill, roast again. Each stage does a different job and the result is crisp outside and fluffy in. Intermediate and Beginner only.",
+  "ing": [
+   "1 large sweet potato, in thick batons",
+   "3 tbsp tallow",
+   "Unrefined mineral sea salt",
+   "Black pepper",
+   "1 sprig rosemary"
+  ],
+  "steps": [
+   "Simmer the batons in salted water 8 minutes, until the edges just start to break. This cooks the inside, which roasting alone cannot do without burning the outside.",
+   "Drain them and leave them on a rack 30 minutes to dry and cool. The surface must go completely dry, because steam is what stops a crust forming.",
+   "Roast in the tallow at 180C, 350F, for 15 minutes. Take them out and cool them again, 20 minutes.",
+   "Roast a second time at 220C, 425F, for 12 minutes with the rosemary. The second roast is the one that makes the shell.",
+   "Salt straight out of the oven. This serves two, and the first two stages can be done a day ahead."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "broth",
+  "name": "Burnt Onion and Bone Broth",
+  "tiers_raw": "A",
+  "time": "1 hour",
+  "tech": "Broth",
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "lineage": "Ferran Adria, deconstruction. A familiar soup rebuilt from two things.",
+  "why": "Onion soup without the bread, the cheese or the wine. Two ingredients, and the depth comes from taking the onions further than feels right.",
+  "ing": [
+   "3 onions, sliced thin",
+   "2 tbsp grass-fed butter",
+   "4 cups bone broth",
+   "1 tsp apple cider vinegar",
+   "Unrefined mineral sea salt",
+   "2 sprigs thyme",
+   "Black pepper"
+  ],
+  "steps": [
+   "Cook the onions in the butter on medium low with a pinch of salt, stirring every few minutes.",
+   "Keep going 35 to 40 minutes. They go clear, then gold, then deep brown. Brown is where the flavor is, and most people stop ten minutes early.",
+   "Let a few catch and blacken on the bottom of the pan, then scrape them back in. That bitterness is what replaces the wine.",
+   "Add the broth, the thyme and the vinegar and simmer 15 minutes.",
+   "Salt and pepper. No bread and no cheese, and it does not need either. This makes two bowls."
+  ],
+  "meal": "dinner"
+ },
+ {
+  "icon": "fish",
+  "name": "Whole Fish Between Two Fires",
+  "tiers_raw": "A",
+  "time": "30 min",
+  "tech": "Infiernillo",
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "lineage": "Francis Mallmann, al infiernillo. Heat above and below cooks a whole fish evenly.",
+  "why": "Fire underneath and fire above, so a whole fish cooks from both sides at once and never has to be turned.",
+  "ing": [
+   "1 whole mackerel, about 1.5 lb, gutted and scaled",
+   "2 tbsp extra virgin olive oil",
+   "1 lemon, sliced",
+   "3 sprigs thyme",
+   "Unrefined mineral sea salt",
+   "Black pepper"
+  ],
+  "steps": [
+   "Build two fires and let both burn to coals. Set a grate over the first and put a metal tray of coals above it, or use a lidded grill with coals top and bottom.",
+   "Salt the mackerel inside and out and fill the cavity with the lemon and thyme.",
+   "Oil the fish and lay it on the grate. Close the heat above it.",
+   "22 to 25 minutes without turning it. Turning a whole fish is when it breaks, and heat from both sides means you never have to.",
+   "It is done when the flesh at the thickest part lifts cleanly off the bone. Oil and pepper over it, and serve it whole at the table. One fish feeds two."
+  ],
+  "meal": "dinner"
  }
 ]

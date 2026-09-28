@@ -1,0 +1,2129 @@
+[
+ {
+  "meal": "breakfast",
+  "name": "Sardines, Lemon, Oil",
+  "chef": "Eric Ripert",
+  "dish": "Almost Raw menu section",
+  "lesson": "Raw oily fish as the plate itself",
+  "technique": "No Cooking",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Sardines on Charred Greens",
+  "chef": "Francis Mallmann",
+  "dish": "Parrilla",
+  "lesson": "Char as a seasoning",
+  "technique": "Char",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "The Slow Fold",
+  "chef": "Rasmus Munk",
+  "dish": "The (Perfect) Omelette at 52C",
+  "lesson": "An exact low temperature",
+  "technique": "Heat Control",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Eggs Confit in Olive Oil",
+  "chef": "Joan Roca",
+  "dish": "Low-temperature cooking",
+  "lesson": "Fat plus low heat holds texture",
+  "technique": "Confit",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Charred Leek and Egg",
+  "chef": "Grant Achatz",
+  "dish": "Aroma as an ingredient",
+  "lesson": "Ash and smoke as seasoning",
+  "technique": "Char, Root To Stem",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fire"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Liver and Onions, Morning",
+  "chef": "Rasmus Munk",
+  "dish": "Offal as luxury",
+  "lesson": "Organ meat at the centre",
+  "technique": "Fast, Hot, Rested",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Cold Salmon, Mustard, Herbs",
+  "chef": "Eric Ripert",
+  "dish": "Barely Touched",
+  "lesson": "Cold fish, sharp dressing",
+  "technique": "Cook Once, Eat Twice",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Broth with a Dropped Egg",
+  "chef": "Yannick Alleno",
+  "dish": "Extraction sauces",
+  "lesson": "Broth carries the dish",
+  "technique": "Stock As A Base",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Mackerel, Mustard, Radish",
+  "chef": "Jiro Ono",
+  "dish": "Edomae toppings",
+  "lesson": "The fish works without the rice",
+  "technique": "Fast Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Broccoli Stem Hash",
+  "chef": "Massimo Bottura",
+  "dish": "Zero waste",
+  "lesson": "The part usually thrown out",
+  "technique": "Root To Stem",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Eggs Baked in Mushrooms",
+  "chef": "Rene Redzepi",
+  "dish": "Moss and Cep",
+  "lesson": "The forest as the larder",
+  "technique": "Slow Heat",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Avocado, Sardine, Salt",
+  "chef": "Eric Ripert",
+  "dish": "Almost Raw",
+  "lesson": "Three things, no cooking",
+  "technique": "No Cooking",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Kimchi and Eggs",
+  "chef": "Rene Redzepi",
+  "dish": "Ferments as seasoning",
+  "lesson": "A ferment seasons the plate",
+  "technique": "Fat And Ferment",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Charred Cabbage, Anchovy Butter",
+  "chef": "Massimo Bottura",
+  "dish": "The Crunchy Part of the Lasagna",
+  "lesson": "Cook for the crisp edge",
+  "technique": "Char, Compound Butter",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Steak and Eggs, Second Day",
+  "chef": "Massimo Bottura",
+  "dish": "Zero waste",
+  "lesson": "Yesterday's protein, today's plate",
+  "technique": "Gentle Reheat",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Brined Zucchini and Egg",
+  "chef": "Thomas Keller",
+  "dish": "Brining",
+  "lesson": "Salt early, then cook",
+  "technique": "Brine",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Oysters to Start the Day",
+  "chef": "Eric Ripert",
+  "dish": "Almost Raw",
+  "lesson": "Shellfish raw and first",
+  "technique": "Raw",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Asparagus, Egg, Brown Butter",
+  "chef": "Ana Ros",
+  "dish": "Trout The Queen, brown butter",
+  "lesson": "Browned butter as the sauce",
+  "technique": "Brown Butter",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Sweet Potato and Egg Hash",
+  "chef": "Virgilio Martinez",
+  "dish": "Lofty Andes",
+  "lesson": "A tuber as the base",
+  "technique": "Par-Cook, Then Sear",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "starch"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Berries Beside Eggs",
+  "chef": "Mauro Colagreco",
+  "dish": "Garden-first cooking",
+  "lesson": "Fruit beside, never as the meal",
+  "technique": "Seasonal",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fruit"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Salmon Collar, Garlic Butter",
+  "chef": "Rasmus Munk",
+  "dish": "Plastic Fantastic, cod jaw",
+  "lesson": "The collar is the best part",
+  "technique": "The Offcut",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "organ"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Whole Roast Mackerel",
+  "chef": "Eric Ripert",
+  "dish": "Lightly Cooked",
+  "lesson": "A whole fish, barely dressed",
+  "technique": "Whole Fish",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Reverse-Sear Ribeye",
+  "chef": "Heston Blumenthal",
+  "dish": "Triple-Cooked Chips",
+  "lesson": "Stages, each at its own temperature",
+  "technique": "Reverse Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Lamb Shoulder, Six Hours",
+  "chef": "Joan Roca",
+  "dish": "Low-temperature cooking",
+  "lesson": "Long low heat on a tough cut",
+  "technique": "Low And Slow",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Charred Cabbage Wedge",
+  "chef": "Francis Mallmann",
+  "dish": "Chapa",
+  "lesson": "Hard char on a vegetable",
+  "technique": "Char",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fire"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Whole Cauliflower, Nothing Wasted",
+  "chef": "Rene Redzepi",
+  "dish": "Celeriac Shawarma",
+  "lesson": "A vegetable cooked like a roast",
+  "technique": "Root To Stem",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Short Rib in Its Own Broth",
+  "chef": "Joan Roca",
+  "dish": "Collagen cuts made elegant",
+  "lesson": "The cut makes its own sauce",
+  "technique": "Braise And Stock",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Confit Chicken Thigh",
+  "chef": "Thomas Keller",
+  "dish": "Butter-poached lobster",
+  "lesson": "Cooked slowly in fat",
+  "technique": "Confit",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Liver, Onions, Vinegar",
+  "chef": "Dabiz Munoz",
+  "dish": "Spanish Bull",
+  "lesson": "Organ meat with something sharp",
+  "technique": "Fast Sear, Acid Finish",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Bison Burger, No Bun",
+  "chef": "Gordon Ramsay",
+  "dish": "Beef Wellington",
+  "lesson": "The dish survives losing the flour",
+  "technique": "Hands Off The Meat",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Oysters and Cucumber",
+  "chef": "Mauro Colagreco",
+  "dish": "Oyster, shallot cream, pear",
+  "lesson": "Shellfish with one cool note",
+  "technique": "Raw",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Mushrooms Confit in Butter",
+  "chef": "Alain Ducasse",
+  "dish": "Seasonal vegetable cookpot",
+  "lesson": "Produce cooked in fat, centre stage",
+  "technique": "Confit",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "The Whole Leek",
+  "chef": "Alain Ducasse",
+  "dish": "Produce at the centre",
+  "lesson": "One vegetable is the dish",
+  "technique": "Char, Confit, Crisp",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Beef and Bone Marrow",
+  "chef": "Dabiz Munoz",
+  "dish": "Spanish Bull with marrow",
+  "lesson": "Marrow as fat and sauce",
+  "technique": "Roast, Render",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Brined Zucchini, Griddled",
+  "chef": "Thomas Keller",
+  "dish": "Brining",
+  "lesson": "Brine, dry, then high heat",
+  "technique": "Brine",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Dry-Brined Lamb Chops",
+  "chef": "Thomas Keller",
+  "dish": "Roast chicken",
+  "lesson": "Dry brine for the crust",
+  "technique": "Dry Brine",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Asparagus, Brown Butter, Egg",
+  "chef": "Ana Ros",
+  "dish": "Brown butter",
+  "lesson": "Butter browned is a different fat",
+  "technique": "Brown Butter",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Broth with Beef and Greens",
+  "chef": "Yannick Alleno",
+  "dish": "Soupe improbable",
+  "lesson": "A clear broth holds the plate",
+  "technique": "Stock As A Base",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Salmon and Rice Bowl",
+  "chef": "Virgilio Martinez",
+  "dish": "Tubers in Huatia",
+  "lesson": "Grain carries the place",
+  "technique": "Crisp Skin",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "starch"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "dinner",
+  "name": "Slow Beef with Squash",
+  "chef": "Alain Ducasse",
+  "dish": "Seasonal vegetable cookpot",
+  "lesson": "Meat and one seasonal vegetable",
+  "technique": "Braise",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "starch"
+  ],
+  "basis": "technique_match",
+  "status": "shipped"
+ },
+ {
+  "meal": "lunch",
+  "name": "Sardines Grilled Over Bitter Greens",
+  "chef": "Francis Mallmann",
+  "dish": "Parrilla",
+  "lesson": "Fire and salt, nothing else",
+  "technique": "Grill",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Mackerel Grilled Skin Side Down",
+  "chef": "Francis Mallmann",
+  "dish": "Chapa",
+  "lesson": "Skin against hot iron until it crisps",
+  "technique": "Grill",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Salmon Collar in the Coals",
+  "chef": "Rasmus Munk",
+  "dish": "Plastic Fantastic, cod jaw",
+  "lesson": "The collar is the best part and gets thrown away",
+  "technique": "Embers",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire",
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Whole Mackerel in a Salt Crust",
+  "chef": "Francis Mallmann",
+  "dish": "Salt-crusted fish al infiernillo",
+  "lesson": "A salt shell steams the fish in its own juice",
+  "technique": "Salt crust",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Salmon Dry-Aged Three Days, Brown Butter",
+  "chef": "Ana Ros",
+  "dish": "Trout The Queen",
+  "lesson": "Dry-age a fish, then finish it in browned butter",
+  "technique": "Dry age",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Anchovies Cured in Salt and Vinegar",
+  "chef": "Jiro Ono",
+  "dish": "Kohada",
+  "lesson": "The same cure that made a cheap fish famous",
+  "technique": "Cure",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Sardine Rillettes in Butter",
+  "chef": "Joan Roca",
+  "dish": "Pig Trotter Carpaccio",
+  "lesson": "Rich fish set in fat, sliced cold",
+  "technique": "Confit",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Mackerel Cured in Cider Vinegar",
+  "chef": "Jiro Ono",
+  "dish": "Kohada",
+  "lesson": "Vinegar firms the flesh and keeps it",
+  "technique": "Cure",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Oysters Warmed in Their Own Liquor",
+  "chef": "Joan Roca",
+  "dish": "Amontillado-steamed oyster",
+  "lesson": "Gentle heat over their own liquid, no alcohol",
+  "technique": "Steam",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Beef Tongue, Pressed and Sliced Thin",
+  "chef": "Joan Roca",
+  "dish": "Pig Trotter Carpaccio",
+  "lesson": "A collagen cut cooked, pressed, chilled, shaved",
+  "technique": "Press",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Oxtail Cooked Long in Broth",
+  "chef": "Dabiz Munoz",
+  "dish": "Spanish Bull",
+  "lesson": "An offcut as the centrepiece, not the filler",
+  "technique": "Braise",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Beef Cheek in Its Own Juice",
+  "chef": "Joan Roca",
+  "dish": "Low-temperature cooking",
+  "lesson": "Long low heat turns collagen to silk",
+  "technique": "Low heat",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Marrow Roasted and Scooped Over Greens",
+  "chef": "Dabiz Munoz",
+  "dish": "Spanish Bull with marrow",
+  "lesson": "Marrow is a fat and a sauce at once",
+  "technique": "Roast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Lamb Neck, Four Hours",
+  "chef": "Joan Roca",
+  "dish": "Low-temperature cooking",
+  "lesson": "The cheapest cut wants the longest time",
+  "technique": "Braise",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Liver Grilled Fast Over Fire",
+  "chef": "Dabiz Munoz",
+  "dish": "Bold spice on great protein",
+  "lesson": "High heat and seconds, not minutes",
+  "technique": "Grill",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ",
+   "fire"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Chicken Thigh Dry-Brined and Air-Dried",
+  "chef": "Thomas Keller",
+  "dish": "Roast chicken",
+  "lesson": "Salt early, dry the skin, then high heat",
+  "technique": "Dry brine",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Chicken Thigh Poached in Butter",
+  "chef": "Thomas Keller",
+  "dish": "Butter-poached lobster",
+  "lesson": "Poaching in fat keeps lean meat soft",
+  "technique": "Butter poach",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Butter-Poached Salmon",
+  "chef": "Thomas Keller",
+  "dish": "Butter-poached lobster",
+  "lesson": "Fat as the poaching liquid, held low",
+  "technique": "Butter poach",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Bone Broth Reduced to a Sauce",
+  "chef": "Yannick Alleno",
+  "dish": "Extraction sauces",
+  "lesson": "A sauce from bones, never from flour",
+  "technique": "Reduce",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Cold-Drawn Herb Sauce Over Beef",
+  "chef": "Yannick Alleno",
+  "dish": "Cold extraction",
+  "lesson": "Draw flavour cold so nothing is cooked away",
+  "technique": "Extraction",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Vegetable Broth Drawn Cold, Then Warmed",
+  "chef": "Yannick Alleno",
+  "dish": "La Balade Vegetale",
+  "lesson": "Many vegetables, one clear liquid",
+  "technique": "Extraction",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Beef Carpaccio, Shaved Cold",
+  "chef": "Andoni Luis Aduriz",
+  "dish": "Veg Carpaccio",
+  "lesson": "Thin and cold changes how a thing tastes",
+  "technique": "Raw",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Warm Beef, Cold Kraut, One Plate",
+  "chef": "Andoni Luis Aduriz",
+  "dish": "Edible Stones",
+  "lesson": "Temperature contrast as the whole idea",
+  "technique": "Contrast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Cauliflower Carved Like a Roast",
+  "chef": "Rene Redzepi",
+  "dish": "Celeriac Shawarma",
+  "lesson": "Roast a vegetable for hours and carve it",
+  "technique": "Roast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Cabbage in Layers, Roasted Long",
+  "chef": "Rene Redzepi",
+  "dish": "Celeriac Shawarma",
+  "lesson": "Layers hold moisture, so they take long heat",
+  "technique": "Roast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Beets Salt-Baked with Anchovy",
+  "chef": "Mauro Colagreco",
+  "dish": "Salt-crusted beetroot with caviar",
+  "lesson": "A plain root plus one intense topping",
+  "technique": "Salt crust",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Radish and Beet, Raw and Salted",
+  "chef": "Mauro Colagreco",
+  "dish": "Garden-first cooking",
+  "lesson": "Vegetables treated like the main event",
+  "technique": "Raw",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Artichoke Braised in Olive Oil",
+  "chef": "Alain Ducasse",
+  "dish": "Seasonal vegetable cookpot",
+  "lesson": "Produce at the centre, cooked slowly in fat",
+  "technique": "Braise",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Green Beans and Zucchini in Butter",
+  "chef": "Alain Ducasse",
+  "dish": "Petits pois a la francaise",
+  "lesson": "Braise the vegetables in fat, not water",
+  "technique": "Braise",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "summer"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "lunch",
+  "name": "Brussels Sprouts Crisped in Tallow",
+  "chef": "Massimo Bottura",
+  "dish": "The Crunchy Part of the Lasagna",
+  "lesson": "Cook for the crisp edge and nothing else",
+  "technique": "Char",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Liver, Butter, Thyme, Fast",
+  "chef": "Dan Barber",
+  "dish": "Everything from the Pig",
+  "lesson": "Use the whole animal, including the organs",
+  "technique": "Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Eggs Scrambled Over Broth",
+  "chef": "Ferran Adria",
+  "dish": "Deconstructed Spanish omelette",
+  "lesson": "Take a familiar dish apart and rebuild it",
+  "technique": "Deconstruct",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "The Morning Plate, Taken Apart",
+  "chef": "Ferran Adria",
+  "dish": "Deconstructed Spanish omelette",
+  "lesson": "Same parts, new form, nothing added",
+  "technique": "Deconstruct",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Mushrooms Dry-Roasted, Cool Yolk Over",
+  "chef": "Andoni Luis Aduriz",
+  "dish": "Broken Egg, Cool Yolk",
+  "lesson": "Hot and cold on one plate on purpose",
+  "technique": "Contrast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Leeks in the Embers, Yolk Sauce",
+  "chef": "Grant Achatz",
+  "dish": "Aroma as an ingredient",
+  "lesson": "Smoke and ash are seasonings",
+  "technique": "Embers",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "tags": [
+   "fire"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Eggs Under Smoked Rosemary",
+  "chef": "Grant Achatz",
+  "dish": "Tableside aroma",
+  "lesson": "Aroma arrives before the food does",
+  "technique": "Smoke",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "White Rice, Broth, Egg",
+  "chef": "Virgilio Martinez",
+  "dish": "Lofty Andes",
+  "lesson": "Build the plate from one place and one season",
+  "technique": "Broth",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "starch"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Cured Sardine, Egg Yolk, Chive",
+  "chef": "Jiro Ono",
+  "dish": "Kohada cured in salt and vinegar",
+  "lesson": "Salt and vinegar curing makes a small oily fish the centre of the plate",
+  "technique": "Cure",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Raw Salmon Pounded Thin",
+  "chef": "Eric Ripert",
+  "dish": "Thinly Pounded Yellowfin Tuna",
+  "lesson": "Pound a raw fillet thin so it eats like a luxury",
+  "technique": "Raw",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "breakfast",
+  "name": "Beets in a Salt Crust, Cold, with Egg",
+  "chef": "Mauro Colagreco",
+  "dish": "Salt-crusted beetroot",
+  "lesson": "A salt crust cooks a root in its own moisture",
+  "technique": "Salt crust",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Beef Wrapped in Duxelles, Seared",
+  "chef": "Gordon Ramsay",
+  "dish": "Beef Wellington",
+  "lesson": "The dish works without the pastry",
+  "technique": "Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Lamb Wrapped in Mushroom and Herbs",
+  "chef": "Gordon Ramsay",
+  "dish": "Beef Wellington",
+  "lesson": "A mushroom layer seasons and protects the meat",
+  "technique": "Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Oysters Seared Hard in Butter",
+  "chef": "Gordon Ramsay",
+  "dish": "Pan-seared scallops",
+  "lesson": "A dry pan, high heat, one turn",
+  "technique": "Sear",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter",
+   "spring"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Wild Game Roasted Rare",
+  "chef": "Dan Barber",
+  "dish": "Whole farm cooking",
+  "lesson": "Cook what the land near you actually gives",
+  "technique": "Roast",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Everything From the Animal, One Board",
+  "chef": "Dan Barber",
+  "dish": "Everything from the Pig",
+  "lesson": "One animal, several cuts, one plate",
+  "technique": "Board",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "organ"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "The Whole Farm Plate",
+  "chef": "Dan Barber",
+  "dish": "Vegetables on a Fence",
+  "lesson": "Greens, an egg and broth from one place",
+  "technique": "One pot",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Mackerel Roasted at an Exact Heat",
+  "chef": "Heston Blumenthal",
+  "dish": "Precise temperatures",
+  "lesson": "Write the temperature down and hold it",
+  "technique": "Low heat",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Triple-Cooked Sweet Potato",
+  "chef": "Heston Blumenthal",
+  "dish": "Triple-Cooked Chips",
+  "lesson": "Three stages build a texture one cannot",
+  "technique": "Multi stage",
+  "tiers": [
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "starch"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Burnt Onion and Bone Broth",
+  "chef": "Ferran Adria",
+  "dish": "Deconstruction",
+  "lesson": "A familiar soup rebuilt from two things",
+  "technique": "Broth",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "fall",
+   "winter"
+  ],
+  "tags": [],
+  "basis": "inspired",
+  "status": "draft"
+ },
+ {
+  "meal": "dinner",
+  "name": "Whole Fish Between Two Fires",
+  "chef": "Francis Mallmann",
+  "dish": "Al infiernillo",
+  "lesson": "Heat above and below cooks a whole fish evenly",
+  "technique": "Infiernillo",
+  "tiers": [
+   "pro",
+   "advanced",
+   "intermediate",
+   "beginner"
+  ],
+  "seasons": [
+   "spring",
+   "summer",
+   "fall",
+   "winter"
+  ],
+  "tags": [
+   "fish",
+   "fire"
+  ],
+  "basis": "inspired",
+  "status": "draft"
+ }
+]
