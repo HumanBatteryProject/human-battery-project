@@ -30,16 +30,45 @@ INK, MUTED, RULE = "#1A1714", "#6E655C", "#E4DED2"
 COPPER_DEEP, COPPER_MID = "#7A4A2E", "#9C603C"
 FIELD, INK_ON_FIELD = "#0E1424", "#F6F1E7"
 
+# The mark, the trademark beside it and the clear space all come from design.py,
+# which is the single implementation. The measured fractions and the ruling behind
+# them are in brand/DAWN-NOTES.md.
+from design import (WORDMARK_DARK, WORDMARK_INK, TM_FOR, cap_mm, mark, mark_css,
+                    PROGRAM_NAME_TM)
+
+COVER_W = 90.0     # mm, the mark on the dark title page
+FOOTER_W = 26.0    # mm, the mark in the footer of every inside page
+
+
 CSS = f"""
-@page {{ size: A4; margin: 16mm 14mm 14mm; }}
+@page {{ size: A4; margin: 16mm 14mm 14mm;
+  /* The footer mark on every inside page. A margin box lives in the page margin,
+     so adding it cannot reflow the body and cannot change the pagination. */
+  @bottom-center {{ content: element(footmark); vertical-align: bottom; }} }}
+
+/* The title page carries the mark large on the field, so it takes no footer. */
+@page cover {{ @bottom-center {{ content: none; }} }}
+.title {{ page: cover; }}
+
+#footmark {{ position: running(footmark); }}
+
+/* The mark, the trademark beside it, and the text symbol. One implementation,
+   in design.py, so these numbers cannot drift between documents. */
+{mark_css()}
+
+/* Clear space on all sides equal to the cap height of HUMAN. The asset already
+   carries transparent padding of 1.38 cap above and 1.64 below, but only 0.87
+   left and 0.61 right, so padding is applied to all four sides of the image box
+   to guarantee the minimum everywhere. Clear space is a floor, not a target. */
+.covermark {{ text-align: center; padding: {cap_mm(COVER_W):.2f}mm; margin: 0 0 6mm; }}
+
+
 body {{ font-family: Spectral, Georgia, serif; font-size: 10pt; line-height: 1.45;
         color: {INK}; background: {PAGE}; }}
 
-/* The title page is the field. The mark goes here once the PNG lands; the
-   gap is deliberate and sized to the clear-space rule, 64px at 96dpi. */
+/* The title page is the field, and the mark now sits on it. */
 .title {{ background: {FIELD}; color: {INK_ON_FIELD}; height: 265mm;
           padding: 24mm 20mm; page-break-after: always; }}
-.markgap {{ height: 17mm; margin-bottom: 8mm; }}
 .title h1 {{ font-family: Archivo, Helvetica, sans-serif; font-size: 30pt;
              line-height: 1.15; margin: 0 0 6mm; }}
 .title p {{ color: #A8A096; font-size: 12pt; max-width: 120mm; }}
@@ -126,7 +155,9 @@ def build():
     parts = [f"{count_word(len(per[k])).lower()} for {t.lower()}"
              for k, t, _ in SECTIONS if per[k]]
     out = [f"<meta charset='utf-8'><style>{CSS}</style>",
-           "<div class='title'><div class='markgap'></div>",
+           f"<div id='footmark'>{mark(WORDMARK_INK, FOOTER_W)}</div>",
+           "<div class='title'>",
+           f"<div class='covermark'>{mark(WORDMARK_DARK, COVER_W)}</div>",
            "<h1>The Battery Kitchen</h1>",
            f"<p>{count_word(len(recs))} meals built only from the approved list in "
            f"your Dietary Guidelines. "
@@ -154,11 +185,12 @@ def build():
         "forbidden forever. It is out for ninety days, which is long enough to "
         "find out what your body does without it. Ingredients are named by "
         "specification and not by brand, and we take no commission on anything "
-        "named here. The Human Battery Project. Educational wellness program, "
+        f"named here. {PROGRAM_NAME_TM}. "
+        "Educational wellness program, "
         "not medical treatment. If you take prescription medication, review any "
         "dietary change with your prescriber.</p>")
     path = f"{OUT}/HBP-Battery-Kitchen.pdf"
-    HTML(string="".join(out)).write_pdf(path)
+    HTML(string="".join(out), base_url=str(HERE.parent)).write_pdf(path)
     print(path)
 
 

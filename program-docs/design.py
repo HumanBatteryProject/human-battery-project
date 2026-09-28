@@ -222,3 +222,87 @@ def seasons(c=COPPER, c2=BLUE, c3=GREEN):
 <text x="290" y="205" text-anchor="middle" font-family="Michroma" font-size="7" fill="{c2}" letter-spacing="1.5">WINTER: FAT</text>
 <text x="200" y="30" text-anchor="middle" font-family="Michroma" font-size="8" fill="{c3}" letter-spacing="2">THE SUN MAKES THE FOOD</text>
 </svg>"""
+
+
+# ---------------------------------------------------------------------------
+# THE MARK, AND THE TRADEMARK BESIDE IT
+#
+# Ruled 27 September 2026: every appearance of the mark carries a trademark
+# symbol, and the logo files are never edited to do it. See brand/DAWN-NOTES.md,
+# "The trademark, and where it sits", for the ruling and for the conflicts it
+# creates with the printed brand guide.
+#
+# These fractions were MEASURED off the alpha channel of wordmark.png. All three
+# assets share the same 2172x724 canvas, so one set serves all of them.
+#   cap height of HUMAN       133px  = 0.1837 of image height
+#   right edge of HUMAN BATTERY x 2090 = 0.9622 of image width
+#   top of HUMAN BATTERY      y 262  = 0.3619 of image height
+# ---------------------------------------------------------------------------
+
+WORDMARK_DARK = "public/assets/wordmark.png"          # metallic, DARK grounds only
+WORDMARK_INK = "public/assets/wordmark-flat-ink.png"  # flat copper-ink, ivory pages
+WORDMARK_COPPER = "public/assets/wordmark-flat-copper.png"
+
+MARK_ASPECT = 3.000
+MARK_CAP_FRAC = 0.1837
+MARK_TM_LEFT = 0.9622
+MARK_TM_TOP = 0.3619
+
+COPPER_INK = "#5E3823"
+COPPER_LIGHT = "#D9A87A"
+COPPER_BRAND = "#B4794F"
+
+# The trademark colour that goes with each asset. A mark placed without reading
+# this table is how the metallic lockup ends up on an ivory page.
+TM_FOR = {
+    WORDMARK_DARK: COPPER_LIGHT,
+    WORDMARK_INK: COPPER_INK,
+    WORDMARK_COPPER: COPPER_BRAND,
+}
+
+
+def cap_mm(width_mm):
+    """Cap height of HUMAN when the mark is rendered this wide. Clear space."""
+    return MARK_CAP_FRAC * width_mm / MARK_ASPECT
+
+
+def tm_mm(width_mm):
+    """Trademark type size: 0.55 of the cap height, floored at 1.4mm.
+
+    Strict proportion at footer size gives about 0.74mm, roughly 2pt, which does
+    not reliably print or show on screen. The floor is deliberate.
+    """
+    return max(1.4, 0.55 * cap_mm(width_mm))
+
+
+def mark_css():
+    """The rules that place the symbol. Include once per document."""
+    return (".mk{position:relative;display:inline-block;line-height:0}"
+            ".mk img{width:100%%;display:block}"
+            ".mk .tm{position:absolute;left:%.4f%%;top:%.4f%%;line-height:1;"
+            "white-space:nowrap}"
+            ".tmtext{font-size:0.62em;vertical-align:super;line-height:0}"
+            % (MARK_TM_LEFT * 100, MARK_TM_TOP * 100))
+
+
+def mark(src, width_mm, tm_color=None):
+    """The mark with its trademark beside it, as one inline block.
+
+    The symbol is a separate element positioned against the measured end of
+    HUMAN BATTERY. Nothing is drawn into the logo file.
+    """
+    color = tm_color or TM_FOR.get(src, COPPER_INK)
+    return ("<span class='mk' style='width:%gmm'>"
+            "<img src='%s' alt='The Human Battery Project'>"
+            "<span class='tm' style='font-size:%.2fmm;color:%s'>&#8482;</span>"
+            "</span>" % (width_mm, src, tm_mm(width_mm), color))
+
+
+def clear_space_style(width_mm):
+    """Padding that guarantees one cap height of clear space on all four sides."""
+    return "padding:%.2fmm" % cap_mm(width_mm)
+
+
+# The first time the programme name appears as text in a document, it carries the
+# symbol too. This is the string to use, so no document has to remember.
+PROGRAM_NAME_TM = "The Human Battery Project<span class='tmtext'>&#8482;</span>"

@@ -85,3 +85,62 @@ The new bytes went to a NEW path, the v3 row kept its path and gained
 `retired_at`, and the v3 bytes were fetched back afterwards and still matched.
 The bump changed the row, not the bytes, and destroyed nothing. That is the
 shape rule 3b asks for, and it had only ever been walked while fixing damage.
+
+## The trademark, and where it sits
+
+Ruled 27 September 2026. **Every appearance of the mark carries a trademark
+symbol beside it, and the first time "The Human Battery Project" appears as text
+in any document it carries one too.**
+
+The symbol is a SEPARATE element placed next to the mark. The logo files are
+never edited, never recoloured, never outlined and never given a glow, so the ™
+is positioned against the artwork rather than drawn into it.
+
+**Where it goes.** Upper right of the wordmark, against the end of HUMAN BATTERY,
+which is the widest of the three lines. These fractions were measured off the
+alpha channel of `public/assets/wordmark.png` and hold for all three assets,
+because all three share the same 2172x724 canvas:
+
+| Measurement | Value | As a fraction |
+|---|---|---|
+| image aspect | 2172 x 724 | exactly 3.000 |
+| THE | y 184 to 239 | |
+| HUMAN BATTERY | y 262 to 394, x 116 to 2090 | |
+| PROJECT | y 398 to 505 | |
+| cap height of HUMAN | 133 px | 0.1837 of height |
+| right edge of HUMAN BATTERY | x 2090 | 0.9622 of width |
+| top of HUMAN BATTERY | y 262 | 0.3619 of height |
+
+**Which asset, and which colour.** The metallic lockup is for dark grounds only.
+
+| Ground | Asset | Trademark colour |
+|---|---|---|
+| Dark, Carbon Black or Deep Navy | `wordmark.png` | copper-light `#D9A87A` |
+| Ivory document pages | `wordmark-flat-ink.png` | copper-ink `#5E3823` |
+| Light, where full copper is wanted | `wordmark-flat-copper.png` | copper-brand `#B4794F` |
+
+**Size.** The symbol is proportional to the cap height of HUMAN, at 0.55 of it,
+with a floor of 1.4mm. The floor matters: at a 26mm footer mark strict proportion
+gives 0.74mm, about 2pt, which does not reliably print or show on screen. The
+floor is the one place the mark's own proportions are not followed and it is
+deliberate.
+
+**Clear space.** This ruling sets clear space at the cap height of HUMAN on all
+four sides. **That is not what the printed brand guide says.** The guide's usage
+page reads "Clear space on all sides equals the diameter of the top sphere." The
+two rules are different and the ruling governs. The guide is now out of date on
+this point and should be reissued.
+
+The assets already carry transparent padding of 1.38 cap above and 1.64 below,
+but only 0.87 left and 0.61 right, so padding is applied to all four sides of the
+image box rather than to the short sides only. Clear space is a floor, not a target.
+
+**One rule cannot currently be met.** The guide also says "Below 64 px, switch to
+the reduction, never scale the full mark down." There is no reduction asset in
+this repository. A 26mm footer mark is about 87 px tall at print resolution, which
+clears the rule, but about 33 px on a screen at 96dpi, which does not. Until a
+reduction mark exists, small placements of the full wordmark break that rule.
+
+**Implementation.** `program-docs/design.py` has `mark()`, `cap_mm()` and
+`tm_mm()`. Use them rather than positioning a symbol by hand, so a future document
+cannot drift from these numbers.
