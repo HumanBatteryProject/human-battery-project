@@ -138,11 +138,16 @@ def build():
     <li>Never recolour it, add a glow, outline it, stretch it, set it in another
         face, or separate PROJECT from the wordmark.</li>
   </ul>
-  <h3>Flat fallback</h3>
-  <p>The gradient cannot survive one-colour print, embroidery, a favicon, an email
-  signature, or anything under about 120px wide. Use flat copper on the field, and
-  flat copper-ink on ivory. A flat mark is correct. A muddy gradient is not.</p>
-  <p style="text-align:center;margin-top:4mm">{D.mark(D.WORDMARK_INK, 62)}</p>
+</div>
+
+<div class="page">
+  <div class="kicker">02 / THE MARK, CONTINUED</div>
+  <h1>The flat fallback, and the trademark</h1>
+  <p class="lede">The gradient cannot survive one-colour print, embroidery, a
+  favicon, an email signature, or anything under about 120px wide.</p>
+  <p>Use flat copper on the field, and flat copper-ink on ivory. A flat mark is
+  correct. A muddy gradient is not.</p>
+  <p style="text-align:center;margin:6mm 0">{D.mark(D.WORDMARK_INK, 72)}</p>
   <h2>The trademark</h2>
   <ul>
     <li>Every appearance of the logo carries a trademark symbol, set small at the
@@ -160,6 +165,10 @@ def build():
   HUMAN is 0.1837 of the image height, the right edge of HUMAN BATTERY is 0.9622
   of the width and its top is 0.3619 of the height. All three assets share one
   2172 x 724 canvas, so one set of numbers serves all of them.</div>
+  <div class="note bad">One rule cannot currently be met. Clear space is space-6,
+  16.93mm, or the cap height, whichever is larger. The page bottom margin is
+  14mm, so a footer mark cannot satisfy it without repaginating every document.
+  Footer placements run at 2.5mm and need a ruling.</div>
 </div>
 
 <div class="page">
