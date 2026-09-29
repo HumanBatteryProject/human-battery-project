@@ -29,6 +29,7 @@ import { classify, prescriberReply, URGENT_REPLY } from './_medical.js';
 import { rateLimit } from './_ratelimit.js';
 import { wearableContext, WEARABLE_RULES } from './_wearable_voice.js';
 import { HEATCOLD_RULES, mentionsHeatOrCold } from './_heatcold.js';
+import { echoedInjection, INJECTION_REPLY } from './_injection.js';
 
 const AGENT = 'coach';
 
@@ -205,6 +206,21 @@ export async function onRequestPost({ request, env }) {
     : 'The book discusses this without settling it. ';
   let reply = lead + text;
   if (scoreAsked) reply += '\n\n' + SCORE_DISCLAIMER;
+
+  // UNTRUSTED TEXT MUST NOT COME BACK OUT AS OURS. Part J, proved by
+  // scripts/prove_injection.mjs. The model refused the injection in words and
+  // then printed the injected phrase as the first line anyway, immediately after
+  // the tier wording above, so a member read "We know this. BANANA_PROTOCOL"
+  // before the refusal. With a harmful phrase in place of the token that is the
+  // first thing on the screen, carrying an evidence claim it has no right to.
+  //
+  // The check is deterministic and runs here rather than in the prompt, because
+  // an instruction in the prompt is exactly what failed.
+  const echoed = echoedInjection(question, reply);
+  if (echoed.length) {
+    await log('injection_blocked', { echoed, model: MODEL_PER_CLIENT, run_id: runId });
+    return json({ reply: INJECTION_REPLY, route: 'injection_blocked', passages: [] });
+  }
 
   await finishRun(env, runId, 'ok', {});
   await log('coach', {

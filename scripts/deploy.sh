@@ -73,6 +73,14 @@ done
 
 # Every fixture file. They existed and nothing ran them, so constants_pinned.mjs
 # sat failing on two pinned constants with the suite still described as passing.
+# Untrusted content must not come back out as ours. Part J, and the one
+# acceptance line that had no fixture until the Day 14 review wrote one.
+if out=$(node scripts/prove_injection.mjs 2>&1); then
+  printf '  %-22s ok      %s\n' "injection" "$(echo "$out" | tail -1 | sed 's/^ *//')"
+else
+  printf '  %-22s FAILED\n' "injection"; echo "$out" | grep -i FAIL | head -5 | sed 's/^/      /'; exit 1
+fi
+
 if out=$(sh scripts/fixtures.sh 2>&1); then
   printf '  %-22s ok      %s\n' "fixtures" "$(echo "$out" | tail -1 | sed 's/^ *//')"
 else
