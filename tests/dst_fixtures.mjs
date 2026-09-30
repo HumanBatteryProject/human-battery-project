@@ -121,9 +121,9 @@ console.log('\nAn installment due date is not moved by a transition');
 const s = installmentSchedule('two_payments', '2026-09-28');
 eq('Day 1 is the start date', s[0].due_on, '2026-09-28');
 eq('Day 45 lands on 2026-11-11, across the transition', s[1].due_on, '2026-11-11');
-const s3 = installmentSchedule('three_payments', '2026-10-15');
-eq('Day 31 from 15 October', s3[1].due_on, '2026-11-14');
-eq('Day 61 from 15 October', s3[2].due_on, '2026-12-14');
+// The three-payment plan was removed with the 2026-09-29 repricing, so the Day 31
+// and Day 61 cases went with it. Day 45 still crosses the November transition,
+// which is the case this file exists for.
 // Southern hemisphere, transition in the other direction.
 const sa = installmentSchedule('two_payments', '2026-09-20');
 eq('Day 45 from 20 September, Auckland springing forward in between', sa[1].due_on, '2026-11-03');

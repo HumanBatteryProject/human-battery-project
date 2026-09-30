@@ -14,18 +14,26 @@
 export const CURRENCY = 'usd';
 
 // Single source of truth. Must match cohorts.price_cents in the database.
-export const PROGRAM_TOTAL_CENTS = 100000; // $1,000. Lives here rather than in program_settings only because Stripe needs it at request time.
+export const PROGRAM_TOTAL_CENTS = 24999; // $249.99. Lives here rather than in program_settings only because Stripe needs it at request time.
 
-// The three options, confirmed 26 September. All three are the SAME $1,000; only
-// the timing differs. Day 1 is the participant's start date, so Day N is
-// day_zero + (N - 1) days.
+// TAX IS NOT IN THE TOTAL. The program is $249.99 plus whatever sales tax the
+// participant's own state charges, so the number above is the pre-tax price and
+// every surface that shows it has to say "plus tax". Tax is calculated by Stripe
+// at checkout from the address the participant enters, never by us: a rate table
+// in this repository would be stale the first time a state changed one.
+// See functions/api/_tax.js.
+
+// The two options. Both are the SAME $249.99 before tax; only the timing differs.
+// Day 1 is the participant's start date, so Day N is day_zero + (N - 1) days.
 //
 // WHY THE DAY NUMBERS ARE HERE AND NOT AN INTERVAL. The old version billed every
 // 30 days, which is not what was asked for: two payments fall on Day 1 and Day
-// 45, which is 44 days apart, and three fall on Day 1, 31 and 61, which is 30.
-// One of those is not a uniform interval, so a Stripe interval_count cannot
-// express both and would have quietly produced the wrong date for one option.
-// Explicit day numbers cannot be wrong by a fortnight.
+// 45, which is 44 days apart. Explicit day numbers cannot be wrong by a
+// fortnight.
+//
+// THREE PAYMENTS WAS REMOVED on 2026-09-29 with the price change. The new pricing
+// names two options and only two. No participant was on the third: the only
+// payment row in the database belongs to the internal member.
 export const PLANS = {
   paid_in_full: {
     label: 'Pay in full',
@@ -37,11 +45,6 @@ export const PLANS = {
     installments: 2,
     days: [1, 45],
   },
-  three_payments: {
-    label: 'Three payments',
-    installments: 3,
-    days: [1, 31, 61],
-  },
 };
 
 // Splitting a total that does not divide. Each installment is the total divided
@@ -50,11 +53,14 @@ export const PLANS = {
 //
 // WHY ROUNDED AND NOT FLOORED. Both answers were ruled explicitly, and only
 // rounding gives both:
-//   $1,000 over 3  ->  333.33, 333.33, 333.34   (floor also gives this)
-//   $800 over 3    ->  266.67, 266.67, 266.66   (floor gives 266.66, 266.66, 266.68)
-// The second is the 20 percent discount case. Flooring would have produced a
-// schedule a cent different from the one that was ruled, in the direction that
-// charges the last installment more.
+//   $249.99 over 2  ->  125.00, 124.99   (floor gives 124.99, 125.00)
+//   $199.99 over 2  ->  100.00,  99.99   (the 20 percent discount case)
+// Flooring would move the odd cent from the last installment to the first, which
+// is a schedule a cent different from the one that was ruled.
+//
+// NOTE ON THE HEADLINE. Two payments of $124.99 would total $249.98, a cent under
+// the $249.99 price. The total is what was ruled, so the first installment
+// carries the odd cent and the schedule is $125.00 then $124.99.
 //
 // totalCents is a parameter so a discounted total splits by the same rule. Two
 // different splitters, one for list price and one for discounted, is how the

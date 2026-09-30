@@ -29,56 +29,62 @@ const ok = (name, cond, detail) => {
 const eq = (name, got, want) => ok(name, got === want, `got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`);
 
 console.log('\nThe price, confirmed 26 September');
-eq('the program price is $1,000.00', PROGRAM_TOTAL_CENTS, 100000);
-eq('and formats as $1,000.00', money(PROGRAM_TOTAL_CENTS), '$1,000.00');
-eq('there are exactly three options', Object.keys(PLANS).length, 3);
+eq('the program price is $249.99', PROGRAM_TOTAL_CENTS, 24999);
+eq('and formats as $249.99', money(PROGRAM_TOTAL_CENTS), '$249.99');
+// Two options since the 2026-09-29 repricing. The third went with it.
+eq('there are exactly two options', Object.keys(PLANS).length, 2);
 
-console.log('\nEvery option totals exactly $1,000.00');
+console.log('\nEvery option totals exactly $249.99, before tax');
 for (const key of Object.keys(PLANS)) {
   const amounts = installmentAmounts(key);
   const sum = amounts.reduce((a, b) => a + b, 0);
-  eq(`${key} sums to 100000 cents`, sum, 100000);
+  eq(`${key} sums to 24999 cents`, sum, 24999);
   ok(`${key} has no zero or negative installment`, amounts.every((a) => a > 0), JSON.stringify(amounts));
 }
 
 console.log('\nThe amounts are the ruled amounts');
-ok('pay in full is one payment of $1,000.00',
-   JSON.stringify(installmentAmounts('paid_in_full')) === JSON.stringify([100000]));
-ok('two payments are $500.00 and $500.00',
-   JSON.stringify(installmentAmounts('two_payments')) === JSON.stringify([50000, 50000]));
-ok('three payments are $333.33, $333.33 and $333.34',
-   JSON.stringify(installmentAmounts('three_payments')) === JSON.stringify([33333, 33333, 33334]),
-   JSON.stringify(installmentAmounts('three_payments')));
+ok('pay in full is one payment of $249.99',
+   JSON.stringify(installmentAmounts('paid_in_full')) === JSON.stringify([24999]));
+// $249.99 does not divide in two. The ruled price is the TOTAL, so the odd cent
+// sits on the first payment. Two payments of $124.99 would total $249.98, a cent
+// under the price that was set.
+ok('two payments are $125.00 and $124.99',
+   JSON.stringify(installmentAmounts('two_payments')) === JSON.stringify([12500, 12499]),
+   JSON.stringify(installmentAmounts('two_payments')));
+ok('and they sum to exactly $249.99',
+   installmentAmounts('two_payments').reduce((a, b) => a + b, 0) === 24999);
 
 console.log('\nThe days are the ruled days, counted from the start date');
 eq('pay in full falls on Day 1', JSON.stringify(PLANS.paid_in_full.days), '[1]');
 eq('two payments fall on Day 1 and Day 45', JSON.stringify(PLANS.two_payments.days), '[1,45]');
-eq('three payments fall on Day 1, Day 31 and Day 61', JSON.stringify(PLANS.three_payments.days), '[1,31,61]');
 
 console.log('\nDay 1 IS the start date, not the day after');
 const s1 = installmentSchedule('paid_in_full', '2026-10-15');
 eq('the first charge is due on the start date itself', s1[0].due_on, '2026-10-15');
 const s2 = installmentSchedule('two_payments', '2026-10-15');
 eq('Day 45 from 15 October is 28 November', s2[1].due_on, '2026-11-28');
-const s3 = installmentSchedule('three_payments', '2026-10-15');
-eq('Day 31 from 15 October is 14 November', s3[1].due_on, '2026-11-14');
-eq('Day 61 from 15 October is 14 December', s3[2].due_on, '2026-12-14');
+// Day 45 is the only later installment now that the three-payment plan is gone.
+const s3 = installmentSchedule('two_payments', '2026-10-15');
+eq('Day 45 from 15 October is 28 November', s3[1].due_on, '2026-11-28');
 
 // A month boundary and a leap year, because date arithmetic is where this breaks.
 eq('Day 45 from 31 January 2028 is 15 March, across a leap February',
    installmentSchedule('two_payments', '2028-01-31')[1].due_on, '2028-03-15');
-eq('Day 61 from 1 December crosses the year end',
-   installmentSchedule('three_payments', '2026-12-01')[2].due_on, '2027-01-30');
+eq('Day 45 from 1 December crosses the year end',
+   installmentSchedule('two_payments', '2026-12-01')[1].due_on, '2027-01-14');
 
 console.log('\nThe schedule is shown in full, with real money strings');
-const sum = planSummary('three_payments', '2026-10-15');
-eq('the summary states the total', sum.total, '$1,000.00');
-eq('and lists three rows', sum.schedule.length, 3);
+const sum = planSummary('two_payments', '2026-10-15');
+eq('the summary states the total', sum.total, '$249.99');
+eq('and lists two rows', sum.schedule.length, 2);
 ok('every row carries a day, an amount and a due date',
    sum.schedule.every((r) => r.program_day && r.amount && r.due_on));
-eq('the last row is the one that absorbs the remainder', sum.schedule[2].amount, '$333.34');
+// The FIRST row carries the odd cent now, because $249.99 over two rounds to
+// $125.00 and the last installment takes what is left.
+eq('the last row is the one that absorbs the remainder', sum.schedule[1].amount, '$124.99');
 ok('a summary with no start date still shows the amounts',
-   planSummary('two_payments', null).schedule.every((r) => r.amount === '$500.00'));
+   JSON.stringify(planSummary('two_payments', null).schedule.map((r) => r.amount))
+     === JSON.stringify(['$125.00', '$124.99']));
 
 console.log('\nA bad plan or a bad date is refused, not guessed');
 for (const [name, fn] of [
@@ -191,7 +197,9 @@ for (const p of ['/portal/', '/portal/index.html', '/portal/log', '/portal/labs'
 console.log('\nThe page a buyer reads matches the code that charges them');
 const page = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8')
   .replace(/\s+/g, ' ');
-ok('the page states the total as $1,000', /\$1,000/.test(page));
+ok('the page states the total as $249.99', /\$249\.99/.test(page));
+// The price is pre-tax and every surface that shows it has to say so.
+ok('and says the tax is added on top', /plus sales tax in your state/i.test(page));
 ok('the page names no day 30 or day 60, which the old copy did',
    !/on Day 30|on Day 60|at day 30|at day 60/i.test(page));
 ok('the page says a failed payment is offered as weekly payments',
@@ -199,7 +207,7 @@ ok('the page says a failed payment is offered as weekly payments',
 ok('and that nothing is deleted', /nothing you have recorded is ever deleted/.test(page));
 // Derived from the code, so a change to PLANS fails this line rather than leaving
 // the site quietly wrong.
-for (const [key, label] of [['paid_in_full', 'Pay in full'], ['two_payments', 'Two payments'], ['three_payments', 'Three payments']]) {
+for (const [key, label] of [['paid_in_full', 'Pay in full'], ['two_payments', 'Two payments']]) {
   const amounts = installmentAmounts(key);
   const days = PLANS[key].days;
   // Two accepted forms of the same amount: "$500.00" and "$500". Readable copy

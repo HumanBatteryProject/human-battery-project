@@ -33,6 +33,7 @@ import {
   CONTINUATION_PLANS, isContinuationKind, continuationDates, purchaseDecision,
 } from './_continuation.js';
 import { stripeState } from './enroll.js';
+import { taxState } from './_tax.js';
 import { rateLimit, tooMany, callerIp, hashed } from './_ratelimit.js';
 
 const API_VERSION = '2026-07-29.dahlia';
@@ -166,10 +167,23 @@ async function programCheckout({ env, request, planKey, email, code, dryRun, str
     apiVersion: API_VERSION, httpClient: Stripe.createFetchHttpClient(),
   });
 
+  // TAX BEFORE THE SESSION, NOT AFTER. Ruled 2026-09-29: the program is $249.99
+  // plus local tax in the participant's state. If tax cannot be calculated this
+  // refuses, rather than creating a session that charges the bare price, because
+  // an untaxed checkout looks exactly like a working one.
+  const tax = taxState(env);
+  if (!tax.ready) {
+    return json({ error: 'checkout is not ready', detail: tax.note, missing: tax.missing }, 503);
+  }
+
   const session = await client.checkout.sessions.create({
     mode: 'payment',
     customer_email: email,
     client_reference_id: application.id,
+    // Stripe calculates tax from the address collected here. Our price is the
+    // pre-tax amount and Stripe adds the line.
+    automatic_tax: { enabled: true },
+    billing_address_collection: 'required',
     success_url: `${origin}/enrolled?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/#apply`,
     metadata,
@@ -183,6 +197,9 @@ async function programCheckout({ env, request, planKey, email, code, dryRun, str
             ? 'The Human Battery Project: 90 day program'
             : `The Human Battery Project: 90 day program, payment 1 of ${q.installments.length}`,
           description: 'Includes bloodwork at day 0 and day 90.',
+          // Whether a 90 day coaching program is taxable, and at what rate, is
+          // decided by this code, and that is an accountant's decision.
+          tax_code: env.STRIPE_TAX_CODE,
         },
       },
     }],

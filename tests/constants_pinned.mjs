@@ -73,7 +73,10 @@ eq('HARD_CAPS.fasts/week', HARD_CAPS.extended_fasts_per_week, 1);
 eq('AUTONOMY_MODE', AUTONOMY_MODE, 'review_all');   // Brief 08 section 8 decision 1
 eq('WEEKLY_RECOVERY_WEEKS', WEEKLY_RECOVERY_WEEKS, 4);   // confirmed 26 Sep 2026
 eq('ACCESS_DAYS_PER_WEEKLY_PAYMENT', ACCESS_DAYS_PER_WEEKLY_PAYMENT, 7);
-eq('PROGRAM_TOTAL_CENTS', PROGRAM_TOTAL_CENTS, 100000);  // $1,000, confirmed
+// Repriced 2026-09-29 by the owner: $249.99 for 90 days, plus sales tax in the
+// participant's own state. This check is what caught the change, which is what
+// it is for.
+eq('PROGRAM_TOTAL_CENTS', PROGRAM_TOTAL_CENTS, 24999);  // $1,000, confirmed
 eq('CONFIDENCE_FLOOR', CONFIDENCE_FLOOR, 0.7);
 eq('CONFIDENCE_WINDOW_DAYS', CONFIDENCE_WINDOW_DAYS, 14);
 

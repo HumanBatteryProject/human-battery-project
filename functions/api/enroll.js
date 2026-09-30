@@ -1,7 +1,8 @@
 // Cloudflare Pages Function. POST /api/enroll
 //
 // Turns a chosen payment option into ONE entitlement and the right number of
-// scheduled charges. Ruled 26 September: three options, all for the same $1,000,
+// scheduled charges. Repriced 29 September: two options, both for the same
+// $249.99 before tax,
 // and the program entitlement begins on Day 1 for every option.
 //
 // WHY THE DATABASE IS AUTHORITATIVE AND STRIPE IS NOT. The schedule is written
