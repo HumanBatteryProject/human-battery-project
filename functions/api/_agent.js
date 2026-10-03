@@ -197,11 +197,16 @@ export async function verifyStaff(request, env) {
 // Email
 // ---------------------------------------------------------------------
 
-export async function sendEmail(env, { to, subject, text, attachments }) {
+export async function sendEmail(env, { to, subject, text, html, replyTo, attachments }) {
   if (!env.RESEND_API_KEY || !env.FROM_EMAIL) {
     throw new Error('RESEND_API_KEY or FROM_EMAIL is not set');
   }
   const body = { from: env.FROM_EMAIL, to, subject, text };
+  // A plain text part is never optional. Some clients prefer it, some people
+  // read in it, and an HTML-only message is the one that arrives blank.
+  if (html) body.html = html;
+  // Replies go to a mailbox a person reads, not to the sending address.
+  if (replyTo) body.reply_to = replyTo;
   if (attachments && attachments.length) body.attachments = attachments;
 
   const res = await fetch('https://api.resend.com/emails', {

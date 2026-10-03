@@ -11,3 +11,13 @@
 # section that now lives on /science lands on the right place rather than
 # on the simple page's missing anchor.
 /science.html  /science  301
+
+# APPLYING IS ON HOLD, ruled 2026-10-02. Any direct link to the application or
+# the payment pages lands on the waitlist, not on a form that creates a member
+# and not on a checkout. These are 302 and not 301: applying is coming back.
+/enrolled      /#apply   302
+/enrolled.html /#apply   302
+/apply         /#apply   302
+/apply.html    /#apply   302
+/checkout      /#apply   302
+/join          /#apply   302

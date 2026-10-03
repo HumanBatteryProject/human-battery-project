@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>You are on the list | The Human Battery Project</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/mark-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/mark-192.png">
+<link rel="stylesheet" href="/styles.css">
+<style>
+/* Dawn, from docs/brand/HBP-Brand-Style-v3-Dawn.md. Ivory page, copper-deep
+   headings, Archivo for headings and Spectral for reading, the mark on the
+   indigo field with the trademark beside it as a separate element. */
+.joined-wrap{max-width:38rem;margin:0 auto;padding:clamp(2rem,6vw,4rem) 1.25rem 5rem}
+.joined-mark{background:var(--surface-field,#0E1424);border-radius:4px;
+  padding:1.6rem 1rem;text-align:center;margin-bottom:2rem}
+.joined-mark .mk{position:relative;display:inline-block;width:min(16rem,70%);line-height:0}
+.joined-mark .mk img{width:100%;display:block}
+.joined-mark .mk .tm{position:absolute;left:96.22%;top:36.19%;font-size:.55rem;
+  line-height:1;color:#D9A87A}
+.joined-wrap h1{font-family:Archivo,Helvetica,Arial,sans-serif;font-weight:700;
+  font-size:clamp(1.6rem,5vw,2.1rem);line-height:1.2;color:#1A1714;margin:0 0 .6rem}
+.joined-wrap .lede{font-family:Spectral,Georgia,serif;font-size:1.05rem;line-height:1.6;
+  color:#6E655C;margin:0 0 1.6rem}
+.joined-wrap h2{font-family:Archivo,Helvetica,Arial,sans-serif;font-weight:700;
+  font-size:1.05rem;color:#7A4A2E;margin:1.8rem 0 .5rem;padding-top:.7rem;
+  border-top:2px solid #9C603C}
+.joined-wrap p,.joined-wrap li{font-family:Spectral,Georgia,serif;font-size:1rem;
+  line-height:1.6;color:#1A1714}
+.joined-dates{background:#F4EFE4;border-left:3px solid #7A4A2E;border-radius:4px;
+  padding:1rem 1.1rem;margin:1.2rem 0}
+.joined-dates strong{font-family:Archivo,Helvetica,Arial,sans-serif}
+.joined-back{display:inline-block;margin-top:1.8rem;background:#7A4A2E;color:#FBF9F5;
+  font-family:Archivo,Helvetica,Arial,sans-serif;font-weight:700;text-decoration:none;
+  padding:.8rem 1.3rem;border-radius:4px}
+.joined-back:focus-visible{outline:3px solid #E8A24A;outline-offset:2px}
+.joined-fine{font-size:.85rem;color:#6E655C;margin-top:2.2rem}
+</style>
+</head>
+<body>
+<main class="joined-wrap">
+  <div class="joined-mark">
+    <span class="mk">
+      <img src="/assets/wordmark.png" alt="The Human Battery Project">
+      <span class="tm">&#8482;</span>
+    </span>
+  </div>
+
+  <h1>You are on the list</h1>
+  <p class="lede" id="lede">Thank you. We have your answers and we will email you to confirm.</p>
+
+  <div class="joined-dates">
+    <p style="margin:0"><strong>The next groups start November 1 and November 15.</strong></p>
+    <p style="margin:.5rem 0 0">We will email you when the program opens for a new group, with
+    everything you need to join. You do not need to do anything right now.</p>
+  </div>
+
+  <h2>What we sent you</h2>
+  <p>A short email that says what the program is, how it works and what happens next.
+  If it is not there in a few minutes, check your spam folder.</p>
+
+  <h2>If you have a question</h2>
+  <p>Reply to that email. Dr. Pittman reads them.</p>
+
+  <a class="joined-back" href="/">Back to the site</a>
+
+  <p class="joined-fine">The Human Battery Project. An educational wellness program, not
+  medical treatment. It does not diagnose or treat any condition and does not replace
+  your physician.</p>
+</main>
+<script>
+  // Somebody who was already on the list gets told so rather than being told
+  // again that they have just joined.
+  if (new URLSearchParams(location.search).get('again') === '1') {
+    document.getElementById('lede').textContent =
+      'You were already on the list. We have sent the email again.';
+  }
+</script>
+</body>
+</html>

@@ -34,6 +34,7 @@ import {
 } from './_continuation.js';
 import { stripeState } from './enroll.js';
 import { taxState } from './_tax.js';
+import { closedToPublic } from './_applications_closed.js';
 import { rateLimit, tooMany, callerIp, hashed } from './_ratelimit.js';
 
 const API_VERSION = '2026-07-29.dahlia';
@@ -55,6 +56,11 @@ export async function onRequestPost({ request, env }) {
   // the one that matters here, because this endpoint answers differently depending
   // on whether an application was accepted, and that makes it an oracle worth
   // sweeping.
+  // APPLYING IS ON HOLD. Nothing from the public site may reach a payment.
+  // This endpoint has no privileged caller, so it closes outright.
+  const shut = closedToPublic(false);
+  if (shut) return shut;
+
   const ipLimit = await rateLimit(env, 'checkout_ip', callerIp(request));
   if (!ipLimit.allowed) return tooMany(ipLimit, 'checkout attempts');
   const emailLimit = await rateLimit(env, 'checkout_email', await hashed(email));

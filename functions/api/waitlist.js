@@ -1,10 +1,25 @@
 // Cloudflare Pages Function. POST /api/waitlist
+//
+// APPLYING IS ON HOLD, ruled 2026-10-02. People still answer the placement
+// questions, and what happens next is a WAITLIST ENTRY and one email. No
+// application row, no portal account, no sign-in link, no tier email, no First
+// Steps PDF, no payment, and the onboarding agent does not run.
+//
+// The entry goes to its own table, not to applications. An application is a
+// request that something downstream acts on; a waitlist entry is a name and an
+// answer sheet that nothing acts on until a human opens a group.
 // Env vars (Cloudflare dashboard > Settings > Environment variables):
 //   SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY, NOTIFY_EMAIL, FROM_EMAIL
 
 import { derive, OUTSIDE_US, STATE_NAMES } from './_geo.js';
 import { emailTag, placeTag, scrub } from './_redact.js';
 import { rateLimit, tooMany, callerIp } from './_ratelimit.js';
+import { SUBJECT as WAITLIST_SUBJECT, waitlistText, waitlistHtml,
+         WAITLIST_REPLY_TO } from './_email_waitlist.js';
+
+// The groups somebody on the list is waiting for. Stated once, read by the
+// endpoint and by the confirmation page.
+export const NEXT_GROUPS = ['November 1', 'November 15'];
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -50,7 +65,11 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Bad request' }, 400);
   }
 
-  const name = String(body.name || '').trim().slice(0, 120);
+  // First and last separately, ruled 2026-10-02. The old applications table held
+  // one `name` field, which cannot be used to address somebody by first name.
+  const firstName = String(body.first_name || '').trim().slice(0, 80);
+  const lastName = String(body.last_name || '').trim().slice(0, 80);
+  const name = [firstName, lastName].filter(Boolean).join(' ').slice(0, 160);
   const email = String(body.email || '').trim().toLowerCase().slice(0, 200);
   const state = String(body.state || '').trim().slice(0, 60);
   const source = String(body.source || '').trim().slice(0, 300);
@@ -60,9 +79,8 @@ export async function onRequestPost({ request, env }) {
   // it is kept as a separate signal and never used as the answer.
   const country = String(body.country || '').trim().slice(0, 60);
   const edgeCountry = request.headers.get('CF-IPCountry') || null;
-  const preferredStart = String(body.preferred_start_date || '').trim();
 
-  if (!name || !EMAIL_RE.test(email) || !state || !postal || body.consent_contact !== true) {
+  if (!firstName || !lastName || !EMAIL_RE.test(email) || !state || !postal || body.consent_contact !== true) {
     return json({ error: 'Check the form and try again' }, 400);
   }
 
@@ -81,22 +99,8 @@ export async function onRequestPost({ request, env }) {
   // 15th here: the lead time exists so the baseline draw happens before day 1, and
   // a second implementation of that rule would eventually accept a date that does
   // not leave time for it.
-  if (preferredStart) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(preferredStart)) {
-      return json({ error: 'That start date is not a date' }, 400);
-    }
-    const chk = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/is_offered_start_date`, {
-      method: 'POST',
-      headers: { apikey: env.SUPABASE_SERVICE_KEY,
-                 Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`,
-                 'Content-Type': 'application/json' },
-      body: JSON.stringify({ d: preferredStart }),
-    });
-    const offered = chk.ok ? await chk.json() : null;
-    if (offered !== true) {
-      return json({ error: 'That is not one of the available start dates. Programs start on the 1st and the 15th, with enough time before day 1 for your baseline blood draw.' }, 400);
-    }
-  }
+  // The preferred start date went with applying. The groups are fixed at
+  // November 1 and November 15, and a person on the list does not pick one.
 
   const geo = derive(postal, state === OUTSIDE_US ? country : 'US');
   if (!geo.ok) {
@@ -116,27 +120,23 @@ export async function onRequestPost({ request, env }) {
   }
 
   const row = {
-    name,
+    first_name: firstName,
+    last_name: lastName,
     email,
     state,
     postal_code: postal,
     timezone: geo.timezone,
-    latitude: geo.latitude,
-    hemisphere: geo.hemisphere,
-    region: geo.region,
-    tz_confidence: tzConfidence,
-    preferred_start_date: preferredStart || null,
     source: source || null,
-    placement,
+    placement: placement || {},
     placement_version: placement ? 'placement-v1' : null,
     consent_contact: true,
     consent_version: 'contact-v1',
-    submitted_at: new Date().toISOString(),
+    joined_at: new Date().toISOString(),
     ip: request.headers.get('CF-Connecting-IP') || null,
     country: (state === OUTSIDE_US ? country : 'US') || edgeCountry,
   };
 
-  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/applications`, {
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/waitlist`, {
     method: 'POST',
     headers: {
       apikey: env.SUPABASE_SERVICE_KEY,
@@ -153,29 +153,11 @@ export async function onRequestPost({ request, env }) {
   // both wrong and the worst possible moment to show an error, because they are
   // usually resubmitting precisely because they are unsure the first one worked.
   let duplicate = false;
-  let startDateKept = null;
   if (!res.ok) {
     const detail = await res.text();
     if (res.status === 409 || detail.includes('23505')) {
       duplicate = true;
       console.log(`[waitlist] duplicate application from ${await emailTag(email)}, the original is kept`);
-      // Keeping the first application is right. Letting somebody believe their
-      // NEW start date took effect is not. A person who resubmits is usually
-      // unsure the first one worked, but a person who resubmits with a different
-      // date is trying to change it, and they have to be told it did not.
-      if (preferredStart) {
-        try {
-          const cur = await fetch(
-            `${env.SUPABASE_URL}/rest/v1/applications?email=eq.${encodeURIComponent(email)}&select=preferred_start_date`,
-            { headers: { apikey: env.SUPABASE_SERVICE_KEY,
-                         Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}` } });
-          const rows = cur.ok ? await cur.json() : [];
-          const stored = rows && rows[0] ? rows[0].preferred_start_date : null;
-          if (stored && stored !== preferredStart) startDateKept = stored;
-        } catch (e) {
-          console.warn('[waitlist] could not compare start dates:', String(e).slice(0, 120));
-        }
-      }
     } else {
       // detail is PostgREST's error body, which ECHOES THE FAILING ROW: name, email,
         // state and postal code together. An insert failure is exactly when somebody
@@ -194,7 +176,7 @@ export async function onRequestPost({ request, env }) {
   } else if (!env.FROM_EMAIL) {
     emailProblems.push('FROM_EMAIL is not set');
   } else {
-    const send = async (label, to, subject, text) => {
+    const send = async (label, to, subject, text, html, replyTo) => {
       let res;
       try {
         res = await fetch('https://api.resend.com/emails', {
@@ -203,7 +185,11 @@ export async function onRequestPost({ request, env }) {
             Authorization: `Bearer ${env.RESEND_API_KEY}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ from: env.FROM_EMAIL, to, subject, text }),
+            body: JSON.stringify({
+              from: env.FROM_EMAIL, to, subject, text,
+              ...(html ? { html } : {}),
+              ...(replyTo ? { reply_to: replyTo } : {}),
+            }),
         });
       } catch (e) {
         const why = `${label} email to ${to} threw: ${(e && e.message) || e}`;
@@ -224,10 +210,12 @@ export async function onRequestPost({ request, env }) {
 
     await Promise.all([
       send(
-        'applicant',
+          'waitlist',
         email,
-        'Your application to The Human Battery Project',
-        `${name},\n\nWe have your application.\n\nYou can start on the 1st or the 15th of any month. Next we will send you the protocol for your tier, the blood panel, what the lab will cost, and the start dates you can choose from. Nothing is committed until you pay.\n\nReply to this email with any questions.\n\nThe Human Battery Project`
+          WAITLIST_SUBJECT,
+          waitlistText(firstName),
+          waitlistHtml(firstName),
+          WAITLIST_REPLY_TO,
       ),
       env.NOTIFY_EMAIL
         ? send(
@@ -238,7 +226,7 @@ export async function onRequestPost({ request, env }) {
             // person applied to a health program. The name is in the body, which
             // requires opening the mail.
             'New application received',
-            `Name: ${name}\nEmail: ${email}\nState: ${state}\nWants to start: ${preferredStart || 'no date chosen'}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nSubmitted: ${row.submitted_at}`
+            `Name: ${name}\nEmail: ${email}\nState: ${state}\nLocation: ${postal} ${row.country}, ${row.timezone || 'timezone not derived'}, lat ${row.latitude === null ? 'unknown' : row.latitude}, ${row.hemisphere}${tzConfidence === 'ask' ? ' >> CONFIRM THE TIMEZONE WITH THEM BEFORE THE FIRST BRIEF' : ''}\nSource: ${source || 'none given'}\nPlacement: ${placement ? JSON.stringify(placement) : 'not answered'}\nJoined: ${row.joined_at}`
           )
         : (emailProblems.push('NOTIFY_EMAIL is not set, so no notification was sent'), undefined),
     ]);
@@ -251,13 +239,9 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  return json({
-    ok: true, duplicate,
-    start_date_kept: startDateKept,
-    message: startDateKept
-      ? `We already have your application, and it is still set to start on ${startDateKept}. We have not changed it to the date you just picked. Reply to the email we sent and we will move you.`
-      : null,
-  });
+  // The confirmation page reads this, so the page and the email cannot
+  // disagree about which groups are next.
+  return json({ ok: true, duplicate, next_groups: NEXT_GROUPS });
 }
 
 export const onRequest = () => json({ error: 'Method not allowed' }, 405);

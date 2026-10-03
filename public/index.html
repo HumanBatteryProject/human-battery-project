@@ -86,7 +86,7 @@
         </details>
         </div>
       </div>
-    <a class="btn btn-solid" href="#apply">Apply</a>
+    <a class="btn btn-solid" href="#apply">Join the waitlist</a>
     </nav>
   </div>
 </header>
@@ -133,7 +133,7 @@
     </ol>
 
     <p class="enroll-line">Open enrollment. New starts on the 1st and 15th of every month.</p>
-    <p class="micro">Apply anytime. Applying does not charge you.</p>
+    <p class="micro">Join the list anytime. It does not charge you.</p>
 
     <ol class="flow">
       <li class="flow-step">
@@ -1148,7 +1148,7 @@
     <p class="lede">You can start any month. New people start on the 1st and the 15th.</p>
 
     <ol class="track">
-      <li>Apply</li>
+      <li>Join the waitlist</li>
       <li>Get set up</li>
       <li>Day 0 tests</li>
       <li>Start on the 1st or 15th</li>
@@ -1161,11 +1161,11 @@
 
 <section id="apply">
   <div class="wrap">
-    <h2>Start on the 1st or the 15th</h2>
-    <p>You start on the 1st or the 15th of any month. You pick which one.</p>
-    <p>Filling this out does not sign you up for anything. We send you the whole plan, the list of tests, what the lab will cost, and the dates. Then you decide.</p>
+    <h2>Join the waitlist</h2>
+    <p>Applying is closed for now. Answer the questions below and we will put you on the list.</p>
+    <p>The next groups start November 1 and November 15. We will email you when the program opens for a new group, with everything you need to join.</p>
 
-      <p class="apply-reassure">Applying does not charge you.</p>
+      <p class="apply-reassure">Joining the list does not charge you.</p>
       <p class="apply-what">What happens next</p>
       <ol class="next-steps">
         <li>Send the form.</li>
@@ -1238,7 +1238,7 @@
       <span class="field-err" id="agree-err">Please check the box</span>
 
       <div>
-        <button class="btn btn-solid" type="submit" id="submit-btn">Send it</button>
+        <button class="btn btn-solid" type="submit" id="submit-btn">Join the waitlist</button>
       </div>
 
       <div class="msg" id="form-msg" role="status" aria-live="polite"></div>
@@ -1250,7 +1250,7 @@
 
 </main>
 <div class="stickycta" aria-hidden="false">
-  <a class="btn btn-solid" href="#apply">Apply to start</a>
+  <a class="btn btn-solid" href="#apply">Join the waitlist</a>
 </div>
 
 
@@ -1423,7 +1423,8 @@ form.addEventListener('submit', function(e){
   msg.className = 'msg';
   msg.textContent = '';
 
-  var name = document.getElementById('name').value.trim();
+  var firstName = document.getElementById('first_name').value.trim();
+  var lastName = document.getElementById('last_name').value.trim();
   var email = document.getElementById('email').value.trim();
   var state = document.getElementById('state').value;
   var postal = document.getElementById('postal_code').value.trim();
@@ -1432,7 +1433,8 @@ form.addEventListener('submit', function(e){
   var agree = document.getElementById('agree').checked;
   var ok = true;
 
-  if (!name) { bad('f-name', true); ok = false; }
+  if (!firstName) { bad('f-first-name', true); ok = false; }
+  if (!lastName) { bad('f-last-name', true); ok = false; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { bad('f-email', true); ok = false; }
   if (!state) { bad('f-state', true); ok = false; }
   if (!postal) { bad('f-postal', true); ok = false; }
@@ -1455,9 +1457,8 @@ form.addEventListener('submit', function(e){
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      name: name, email: email, state: state,
+      first_name: firstName, last_name: lastName, email: email, state: state,
       postal_code: postal,
-      preferred_start_date: startDate || null,
       country: state === OUTSIDE ? country : 'US',
       source: document.getElementById('source').value.trim(),
       consent_contact: true,
@@ -1471,17 +1472,17 @@ form.addEventListener('submit', function(e){
     sel.value = '';
     syncLocation();
     msg.className = 'msg ok';
-    msg.textContent = (res.d && res.d.message)
-      ? res.d.message
-      : (res.d && res.d.duplicate
-          ? 'We already have you. We sent the email again.'
-          : 'Got it. Check your email for the plan and the dates.');
+    msg.textContent = res.d && res.d.duplicate
+      ? 'You are already on the list. We sent the email again.'
+      : 'You are on the list. Check your email.';
+    // The confirmation page says what happens next and when the groups start.
+    window.location.href = '/joined' + (res.d && res.d.duplicate ? '?again=1' : '');
     btn.textContent = 'Sent';
   }).catch(function(err){
     msg.className = 'msg err';
     msg.textContent = err.message + '. Email admin@thehumanbatteryproject.com and we will add you by hand.';
     btn.disabled = false;
-    btn.textContent = 'Send it';
+    btn.textContent = 'Join the waitlist';
   });
 });
 </script>
