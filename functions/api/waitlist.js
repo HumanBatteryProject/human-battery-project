@@ -89,18 +89,6 @@ export async function onRequestPost({ request, env }) {
     console.warn(`[waitlist] placement from ${await emailTag(email)} was rejected, storing the application without one`);
   }
 
-  // Timezone, latitude and hemisphere from the postal code. This is the only
-  // place the derivation runs for an application, and its confidence is stored
-  // with the result: 'ask' means the ZIP could not settle the timezone and the
-  // member has to confirm it before a brief is scheduled, because a wrong
-  // timezone sends the brief on the wrong day.
-  // The chosen start date must be one the program actually offers. Checked by
-  // is_offered_start_date() in the database rather than by re-deriving the 1st and
-  // 15th here: the lead time exists so the baseline draw happens before day 1, and
-  // a second implementation of that rule would eventually accept a date that does
-  // not leave time for it.
-  // The preferred start date went with applying. The groups are fixed at
-  // November 1 and November 15, and a person on the list does not pick one.
 
   const geo = derive(postal, state === OUTSIDE_US ? country : 'US');
   if (!geo.ok) {

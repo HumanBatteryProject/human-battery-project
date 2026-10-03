@@ -58,25 +58,30 @@ ok('it is defined in terms of program_start_dates, so the lead time is not reimp
 ok('and says why a 1st that is too soon is not an offer',
    /is not an offer even if it is a 1st or a 15th/.test(m67f));
 const wl = read('../functions/api/waitlist.js');
-ok('the form handler validates against the database rather than re-deriving',
-   /is_offered_start_date/.test(wl));
-ok('a malformed date is refused before the round trip',
-   /That start date is not a date/.test(wl));
+// APPLYING IS ON HOLD, ruled 2026-10-02. The start date went with it: the groups
+// are fixed at November 1 and November 15 and nobody picks one, so the date
+// validation, the offered-dates fetch and the resubmission comparison are all
+// gone. What has to hold now is that none of it came back by accident, and that
+// the endpoint still refuses to do the things applying used to do.
+ok('the endpoint no longer asks for a preferred start date',
+   !/preferred_start_date/.test(wl));
+ok('and no longer validates one against the database',
+   !/is_offered_start_date/.test(wl));
+ok('it writes to the waitlist table, not to applications',
+   /rest\/v1\/waitlist/.test(wl) && !/rest\/v1\/applications/.test(wl));
+ok('it collects first and last name separately',
+   /first_name/.test(wl) && /last_name/.test(wl));
+ok('it sends the waitlist email and nothing about a tier or a plan',
+   /waitlistText/.test(wl) && !/First Steps/.test(wl));
 const idx = flat('../public/index.html');
-ok('the form fetches the dates rather than computing them',
-   /fetch\('\/api\/start-dates/.test(idx));
-ok('and fails loudly rather than showing an empty dropdown',
-   /could not load the start dates/i.test(idx));
+ok('the form sends both names',
+   /first_name: firstName/.test(idx) && /last_name: lastName/.test(idx));
+ok('and lands on the confirmation page', /\/joined/.test(idx));
+ok('the button says what it does', /Join the waitlist<\/button>/.test(idx));
 
-console.log('\nA resubmission cannot silently keep the old start date');
-ok('the handler compares the stored date with the submitted one',
-   /start_date_kept/.test(wl));
-ok('it keeps the first application, which is the right precedence',
-   /the original is kept/.test(wl));
-ok('but says so when the date differs',
-   /We have not changed it to the date you just picked/.test(flat('../functions/api/waitlist.js')));
-ok('and the form shows the message rather than its own text',
-   /res\.d\.message/.test(idx));
+console.log('\nNo member and no payment can be made from the public site');
+ok('checkout is closed to the public', /closedToPublic/.test(read('../functions/api/checkout.js')));
+ok('and the switch is off', /APPLICATIONS_OPEN = false/.test(read('../functions/api/_applications_closed.js')));
 
 console.log('\nCollection context defaults to unknown, never to fasted');
 ok('fasting_status exists on the panel', /fasting_status fasting_state not null default 'unknown'/.test(m67));

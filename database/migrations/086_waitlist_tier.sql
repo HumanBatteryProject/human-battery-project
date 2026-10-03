@@ -22,3 +22,11 @@ create trigger waitlist_tier before insert or update of placement on waitlist
 update waitlist set placement = placement;
 
 commit;
+
+-- Supabase grants execute to anon by default on a new function, so a trigger
+-- function added in the migration above arrives reachable from the browser.
+-- check_rls looks for exactly this and caught it. Same hole as
+-- resolve_rule_citations in 084.
+begin;
+revoke all on function waitlist_suggest_tier() from public, anon, authenticated;
+commit;
