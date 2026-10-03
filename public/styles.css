@@ -295,8 +295,15 @@ strong{font-weight:600;color:#fff}
      narrower at any width than it was there. */
   padding-inline:16px;
   margin-block:clamp(2.6rem,8vw,4rem) clamp(2.2rem,7vw,3.5rem);
-  line-height:0
+  line-height:0;
+ /* SIZE, from the reference. The mark was running the full width of the
+    viewport, which reads as a banner rather than a mark. The reference puts
+    it at about a quarter of the width on a laptop, so the cap is 380px and
+    it scales down on a phone to a width that still reads. Centred, with the
+    field around it doing the work. */
+ text-align:center
 }
+.landing-mark img,.landing-mark .mk{width:clamp(220px,26vw,380px);margin-inline:auto}
 /* The column exists to hold body copy at a readable measure. The home hero has
    no body copy in it any more, only the wordmark, so on this page it gets out
    of the way. /science still uses the 640px column. */
@@ -1154,12 +1161,20 @@ section[id]{scroll-margin-top:5.5rem}
 
 /* The page underneath does not appear until the loader has gone. */
 body.loading{overflow:hidden}
-body.loading .page-reveal{opacity:0}
-.page-reveal{opacity:1;transition:opacity .5s ease}
+/* THE LOADER MUST CLEAR WITHOUT JAVASCRIPT.
+   The first version hid the page with body.loading and relied on the script to
+   take that class off. With scripting disabled, or if the script never ran, the
+   overlay stayed and the whole home page was a dark rectangle. A marketing page
+   may not depend on a script to become visible.
+   So the content is never hidden by a class: the overlay simply covers it, and
+   a CSS animation clears the overlay at 4.5 seconds whether or not any script
+   runs. The script still finishes the turn and clears it sooner. */
+.page-reveal{opacity:1}
+#loader{animation:loader-failsafe 1ms linear 4.5s forwards}
+@keyframes loader-failsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
 
 /* A visitor who asked for less motion gets no rotation at all, only the fade. */
 @media (prefers-reduced-motion:reduce){
   .loader-spin{animation:none;transform:none}
   #loader{transition:opacity .3s ease}
-  .page-reveal{transition:none}
 }
