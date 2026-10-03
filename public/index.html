@@ -25,7 +25,7 @@
 /* ---------- illustrations ---------- */
 .fig{margin:2.4rem 0;padding:1.2rem 1.2rem 1rem;border:1px solid var(--rule,rgba(168,160,150,.16));border-radius:3px;background:var(--navy,#1C2742)}
 .fig .ill{display:block;width:100%;height:auto}
-.fig .ill text{font-family:var(--body,'Newsreader',Georgia,serif)}
+.fig .ill text{font-family:var(--body,'Spectral',Georgia,serif)}
 .fig figcaption{margin-top:.9rem;font-size:var(--fs-sm,1rem);line-height:1.55;color:var(--steel,#A8A096);max-width:var(--measure,64ch)}
 .ill .nf{fill:none}
 .ill .st-sil{stroke:var(--silver,#A8A096)}.ill .st-blu{stroke:var(--blue,#3987E5)}.ill .st-tea{stroke:var(--teal,#D9A87A)}
@@ -51,9 +51,29 @@
 </head>
 <body class="plain home heromark">
 
+<!-- THE LOADING SCREEN. The mark turns about its vertical axis like a coin and
+     stops face-on. Two copies back to back, the back one pre-rotated 180deg with
+     its backface hidden, so the mark reads correctly from both sides and is
+     never seen mirrored. Capped at four seconds. -->
+<div id="loader">
+  <div class="loader-mark">
+    <div class="loader-spin" id="loader-spin">
+      <span class="loader-face mk">
+        <img src="/assets/wordmark.png" width="2172" height="724" alt="The Human Battery Project">
+        <span class="tm">&#8482;</span>
+      </span>
+      <span class="loader-face back mk" aria-hidden="true">
+        <img src="/assets/wordmark.png" width="2172" height="724" alt="">
+        <span class="tm">&#8482;</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="page-reveal">
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/assets/wordmark.png" width="2172" height="724" alt="The Human Battery Project"></a>
+    <a class="brand" href="/"><span class="mk"><img src="/assets/wordmark.png" width="2172" height="724" alt="The Human Battery Project"><span class="tm">&#8482;</span></span></a>
     <nav class="mainnav" aria-label="Sections">
       <div class="navwrap">
         <input type="checkbox" id="navtoggle" class="navtoggle-cb">
@@ -104,8 +124,8 @@
          The gradient wordmark is correct HERE and only here, because this is
          the one place it renders far above the 120px floor. -->
     <h1 class="landing-mark">
-      <img src="/assets/wordmark.png" width="2172" height="724"
-           alt="The Human Battery Project">
+      <span class="mk"><img src="/assets/wordmark.png" width="2172" height="724"
+           alt="The Human Battery Project"><span class="tm">&#8482;</span></span>
     </h1>
 
 
@@ -1507,5 +1527,50 @@ form.addEventListener('submit', function(e){
   });
 })();
 </script>
+
+<script>
+/* The loader finishes the turn it is on, so the mark always lands face-on, then
+   holds half a second before the page comes in. animationiteration fires at the
+   end of a cycle, which is the only way to stop on a whole turn without guessing
+   how far through it we are. */
+(function(){
+  var loader = document.getElementById('loader');
+  var spin = document.getElementById('loader-spin');
+  if (!loader) return;
+  document.body.classList.add('loading');
+
+  var ready = false, finished = false;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function reveal(){
+    if (finished) return;
+    finished = true;
+    loader.classList.add('done');
+    document.body.classList.remove('loading');
+    setTimeout(function(){ loader.setAttribute('hidden', ''); }, 500);
+  }
+
+  function land(){
+    if (spin) spin.classList.add('settled');   /* stop on a whole turn, face-on */
+    setTimeout(reveal, 500);                   /* hold, then bring the page in */
+  }
+
+  function finish(){
+    if (ready) return;
+    ready = true;
+    if (reduced || !spin) { land(); return; }
+    spin.addEventListener('animationiteration', land, { once: true });
+    /* If the animation is not running, do not wait for an event that will never
+       fire. One turn is three seconds. */
+    setTimeout(function(){ if (!finished) land(); }, 3200);
+  }
+
+  if (document.readyState === 'complete') finish();
+  else window.addEventListener('load', finish);
+
+  setTimeout(finish, 4000);   /* the cap, from first paint */
+})();
+</script>
+</div>
 </body>
 </html>

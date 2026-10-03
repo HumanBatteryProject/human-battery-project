@@ -1,5 +1,13 @@
 @font-face{font-family:'Michroma';src:url('/fonts/michroma.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Newsreader';src:url('/fonts/newsreader.woff2') format('woff2-variations');font-weight:200 800;font-display:swap}
+/* Spectral is the reading face, per section 4 of the brand style. Newsreader
+   is retired and its file is gone, so the @font-face that named it pointed at
+   nothing and the site silently fell back to Georgia. */
+@font-face{font-family:'Spectral';src:url('/fonts/spectral-400.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Spectral';src:url('/fonts/spectral-400-italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Spectral';src:url('/fonts/spectral-600.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Spectral';src:url('/fonts/spectral-700.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url('/fonts/archivo-600.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url('/fonts/archivo-700.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
 
 :root{
   /* ------------------------------------------------------------------
@@ -104,7 +112,7 @@
   --rule:rgba(168,160,150,.16);
   --rule-2:rgba(168,160,150,.30);
   --display:'Michroma',ui-sans-serif,system-ui,sans-serif;
-  --body:'Newsreader',Georgia,'Times New Roman',serif;
+  --body:'Spectral',Georgia,'Times New Roman',serif;
   --measure:64ch;
 }
 
@@ -128,7 +136,7 @@ body{
 
   /* THE DISPLAY FACE GETS ITS OWN THREE SIZES, and only three.
      Michroma is a wide geometric face: set at the same pixel size as
-     Newsreader it reads distinctly larger, so it is stepped down rather than
+     Spectral it reads distinctly larger, so it is stepped down rather than
      matched. Before this there were four different sizes doing the job of
      "small Michroma label" (--fs-2xs, --fs-xs, --fs-sm and a hard 12px) and
      seven different letter-spacings across the same handful of components. */
@@ -1097,3 +1105,61 @@ section[id]{scroll-margin-top:5.5rem}
   body{padding-bottom:4.6rem}
 }
 @media(prefers-reduced-motion:reduce){.stickycta{backdrop-filter:none}}
+
+/* =====================================================================
+   THE LOADER, and the trademark beside the mark
+   Ruled 2026-10-03.
+   ===================================================================== */
+
+/* The mark carries a trademark everywhere it appears. A SEPARATE element,
+   positioned against the measured end of HUMAN BATTERY. The fractions come from
+   the alpha channel of the asset and are the same ones design.py uses for the
+   PDFs: the right edge of HUMAN BATTERY is 0.9622 of the width and its top is
+   0.3619 of the height. The logo file is never edited to add it. */
+.mk{position:relative;display:inline-block;line-height:0}
+.mk>img{width:100%;display:block}
+.mk>.tm{position:absolute;left:96.22%;top:36.19%;line-height:1;white-space:nowrap;
+  font-family:var(--font-body,Archivo,Helvetica,Arial,sans-serif);
+  font-size:max(7px,.055em);color:var(--copper-light,#D9A87A)}
+/* On ivory the symbol takes the ink copper, which is the only copper that passes
+   as small text on that ground. */
+.mk.on-ivory>.tm{color:var(--copper-ink,#5E3823)}
+
+/* THE MARK TAKES NO EFFECTS. No filter, no shadow, no blend, no mask, anywhere.
+   It is shown as the file is. scripts/check_logo.py fails the commit if one
+   comes back. */
+.mk>img,.landing-mark img,.brand img,.loader-mark img{
+  filter:none;box-shadow:none;mix-blend-mode:normal;-webkit-mask-image:none;mask-image:none
+}
+
+/* ---- the loading screen ----
+   The mark turns about its vertical axis like a coin while the page loads, and
+   stops face-on. TWO COPIES BACK TO BACK, the back one pre-rotated 180deg with
+   backface-visibility hidden, so the mark reads correctly from both sides and
+   is never seen mirrored. One copy alone would show the reverse as a mirror
+   image for half of every turn. */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--surface-field,#0E1424);
+  display:flex;align-items:center;justify-content:center;padding:0 16px;
+  transition:opacity .45s ease}
+#loader[hidden]{display:none}
+#loader.done{opacity:0}
+.loader-mark{width:min(620px,86vw);perspective:1400px}
+.loader-spin{position:relative;transform-style:preserve-3d;
+  animation:mk-turn 3s linear infinite}
+.loader-spin.settled{animation:none;transform:rotateY(0deg)}
+.loader-face{position:relative;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.loader-face.back{position:absolute;inset:0;transform:rotateY(180deg)}
+.loader-face img{width:100%;display:block}
+@keyframes mk-turn{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
+
+/* The page underneath does not appear until the loader has gone. */
+body.loading{overflow:hidden}
+body.loading .page-reveal{opacity:0}
+.page-reveal{opacity:1;transition:opacity .5s ease}
+
+/* A visitor who asked for less motion gets no rotation at all, only the fade. */
+@media (prefers-reduced-motion:reduce){
+  .loader-spin{animation:none;transform:none}
+  #loader{transition:opacity .3s ease}
+  .page-reveal{transition:none}
+}

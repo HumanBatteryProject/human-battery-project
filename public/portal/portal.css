@@ -102,7 +102,7 @@
   --rule:rgba(168,160,150,.16);
   --rule-2:rgba(168,160,150,.30);
   --display:'Michroma',ui-sans-serif,system-ui,sans-serif;
-  --body:'Newsreader',Georgia,serif;
+  --body:'Spectral',Georgia,serif;
 
   /* THE SAME DISPLAY-FACE STEPS AS THE MARKETING SITE, so Michroma has one
      size and one tracking for the job of "micro label" here too. It had SEVEN
@@ -125,7 +125,7 @@
   --fs-stat:calc(var(--fs-base)*1.5);  /* the paired stats beside it         */
 
   /* Display face. Deliberately smaller per step than the body face, because
-     Michroma reads large: at equal size it overpowers the Newsreader it sits
+     Michroma reads large: at equal size it overpowers the Spectral it sits
      next to. Same relationship as the marketing site. */
   --fs-h1:calc(var(--fs-base)*1.25);
   --fs-h2:calc(var(--fs-base)*.78);    /* uppercase section headers */
