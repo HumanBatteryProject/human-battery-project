@@ -194,9 +194,20 @@ console.log('\nStripe absent');
     body: JSON.stringify({ plan: 'two_payments', email: 'failure-mode-probe@example.invalid' }),
   });
   const body = await res.json().catch(() => ({}));
-  ok('checkout refuses with 503 rather than a broken page', res.status === 503, `HTTP ${res.status}`);
-  ok('and says which variable is missing',
-     /STRIPE_SECRET_KEY/.test(body.why || ''), (body.why || '').slice(0, 90));
+  // APPLYING IS ON HOLD, ruled 2026-10-02, so checkout now refuses BEFORE it
+  // looks at Stripe. That precedence is right: the reason a stranger cannot pay
+  // is that applications are closed, not that a key is missing, and telling them
+  // about a missing key would be both confusing and a configuration leak.
+  //
+  // The Stripe-absent path is still covered: stripeState() is exercised directly
+  // below, and billing-run, which is not behind the closure, still reports it.
+  ok('checkout refuses rather than showing a broken page',
+     res.status === 403 || res.status === 503, `HTTP ${res.status}`);
+  ok('and it refuses because applications are closed, which is the real reason',
+     res.status === 403 && /Applications are closed/.test(body.error || ''),
+     JSON.stringify(body).slice(0, 110));
+  ok('and it points at the waitlist',
+     /waitlist/.test(JSON.stringify(body)), JSON.stringify(body).slice(0, 90));
 
   const billing = await post('/api/billing-run', { dry_run: false });
   ok('the billing job answers 200 rather than failing', billing.status === 200, `HTTP ${billing.status}`);
