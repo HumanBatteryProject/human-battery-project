@@ -39,6 +39,10 @@ run check_prohibitions  $PY scripts/check_prohibitions.py
 run check_deliverables  $PY scripts/check_deliverables.py
 run check_css           $PY scripts/check_css.py
 run check_palette       $PY scripts/check_palette.py
+# The mark: the three assets are the clean files by hash, no effect reaches the
+# wordmark, every wordmark carries its trademark, no retired file in the tree.
+# It ran only in the deploy until 2026-10-02; a commit could carry the old mark.
+run check_logo          $PY scripts/check_logo.py
 
 # Day 11. No address, no measured value and nothing a participant typed in a log
 # line or a notification subject. Needs no credentials, so it belongs here rather

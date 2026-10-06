@@ -39,7 +39,7 @@ function markBlock() {
       <table role="presentation" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td style="vertical-align:top">
-            <img src="${SITE}/assets/wordmark.png" width="240" alt="The Human Battery Project"
+            <img src="${SITE}/assets/wordmark.png?v=2" width="240" alt="The Human Battery Project"
                  style="display:block;width:240px;max-width:62vw;height:auto;border:0">
           </td>
           <td style="vertical-align:top;padding-left:3px">

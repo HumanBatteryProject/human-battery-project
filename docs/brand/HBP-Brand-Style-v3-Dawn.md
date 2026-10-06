@@ -12,11 +12,13 @@ The field is deep indigo, the hour before sunrise, not pure black. The copper wo
 
 ## 2. The mark
 
-- Squared geometric capitals, wide tracking, a polished copper gradient with a specular highlight. "THE" sits above, "PROJECT" below between two lens-flare rules.
+- Squared geometric capitals, wide tracking, a polished copper gradient. "THE" sits above, "PROJECT" below between two lens-flare rules.
+- **The clean mark, ruled 2 October 2026.** The two specular flares that sat on the H of HUMAN and the second T of BATTERY are gone. On the indigo field their glow read as light blobs over the letters. The only light effects left are the two flares on the rules beside PROJECT. The three files in `public/assets/` are the clean ones and `scripts/check_logo.py` holds their hashes; the flared files are retired and must not come back under any name.
 - Use the supplied file only (`hbp-wordmark-copper-on-black.png`, 2172 x 724). Never recreate it in type.
 - Show it on the field: `surface-field` #0E1424, or `surface-night` #000000 on the book jacket only. Never on ivory, a photograph or copper.
 - Clear space: `space-6` (64px) or the cap height of HUMAN, whichever is larger, on all four sides.
-- Never recolour it, add a glow, outline it, stretch it, set it in another face, or separate "PROJECT" from the wordmark.
+- Never recolour it, add a glow, shine, shimmer or sheen, outline it, stretch it, set it in another face, or separate "PROJECT" from the wordmark. No CSS filter, shadow, blend mode or mask on the mark, anywhere.
+- Motion: on the home page the mark turns about its vertical axis while the page loads, like a coin, and settles face-on when the page is ready. That is the only motion it ever has. Once a page is loaded the mark is still.
 
 ### Flat fallback
 

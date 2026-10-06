@@ -144,3 +144,53 @@ reduction mark exists, small placements of the full wordmark break that rule.
 **Implementation.** `program-docs/design.py` has `mark()`, `cap_mm()` and
 `tm_mm()`. Use them rather than positioning a symbol by hand, so a future document
 cannot drift from these numbers.
+
+## The clean mark, 2026-10-02
+
+The wordmark file carried two lens flares inside the letters, one on the H of
+HUMAN and one on the second T of BATTERY, with a soft glow around each. On black
+they read as highlights. The transparent conversion that shipped kept that glow
+at alpha 84 to 133 and recoloured it copper, so on the indigo field it rendered
+as two light blobs over the letters, and the owner asked for them to go.
+
+The three assets in `public/assets/` were rebuilt from the master. The two flares
+were removed and the letters under them refilled from the same rows' own copper,
+so the vertical gradient is unchanged. The two flares on the rules beside PROJECT
+stay: they are the design, not a defect. Same 2172x724 canvas, same ink
+geometry, so every placement fraction in this file and in `design.py` still
+holds. The ink itself starts at y 278, not 262: the earlier measurement took the
+glow for ink, which is why the ™ sits a few pixels above the letter tops rather
+than flush with them. Left as is, since it reads as a superscript and every PDF
+already carries it there.
+
+Alpha is now luminance over black, 25 to 75 as the edge ramp and fully opaque
+above, instead of the earlier conversion that kept everything down to 12. The
+flat files share that alpha with one colour each.
+
+`scripts/check_logo.py` runs in the commit gate and in the deploy: the three
+assets by sha256, no retired copy anywhere in the tree under any name, no filter,
+shadow, blend mode or mask on any rule that reaches the mark, and the trademark
+beside every wordmark image in `public/`. The `<img>` srcs carry `?v=2`:
+`/assets/*` is cached for seven days, so a replaced file under the same name
+would have left every returning visitor on the old mark for a week. A rebuilt
+mark means a new `?v=` and a new pin, both on purpose.
+
+**The web pages carry the ™ now too.** Until this date only the PDFs and the
+email did. Every `<img>` of the wordmark in `public/` sits in
+`<span class="mk">…<span class="tm">™</span></span>`, with the same 96.22% and
+36.19% fractions `design.py` uses.
+
+**The load-time turn.** On the home page only, the mark turns about its vertical
+axis on the field while the page loads, one turn every three seconds, and lands
+face-on: the loader waits for the turn it is on to finish (animationiteration)
+rather than stopping mid-turn, holds half a second, and brings the page in.
+Capped at four seconds. Two copies back to back, the back one pre-rotated with
+its backface hidden, so the mark is never seen mirrored. Reduced motion: the fade
+and no turn. After load the mark is still, and that stillness is a rule, not a
+default.
+
+**The PDFs.** Every document embeds the mark as an image from `public/assets/`,
+so a rebuild picks up the clean files with no change to the generators. But
+`publish_docs.py` detects change on the TEXT of a PDF, which an image cannot
+move, so the clean mark reaches members only through `--publish --force`, which
+bumps each document one version.

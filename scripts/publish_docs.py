@@ -1,8 +1,18 @@
 #!/usr/bin/env python3
 """Publish the built PDFs to Supabase Storage and register the new version.
 
-    python3 scripts/publish_docs.py            report what would change
-    python3 scripts/publish_docs.py --publish  upload and register
+    python3 scripts/publish_docs.py                    report what would change
+    python3 scripts/publish_docs.py --publish          upload and register
+    python3 scripts/publish_docs.py --publish --force  also the documents whose
+                                                       TEXT is unchanged
+
+WHEN --force IS THE RIGHT CALL. Change is detected on the text of the PDF, so a
+change to an image is invisible here: the mark on the cover and on every inside
+page is a PNG, and rebuilding with a corrected mark leaves the text identical.
+2026-10-02, the mark lost its two lens flares; without --force every document
+reported "unchanged" and members kept downloading the old mark. --force bumps
+every built document by one version, and says so, so use it only when the thing
+that changed is not words.
 
 WHY THIS EXISTS. program-docs/README.md said uploading was "a drag of this tree"
 into the Supabase dashboard, and bumping the version was a manual edit of a row.
@@ -37,6 +47,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'program-docs', 'out')
 BUCKET = 'program-docs'
 PUBLISH = '--publish' in sys.argv
+FORCE = '--force' in sys.argv   # publish even when the text matches, see the docstring
 
 URL = os.environ.get('SUPABASE_URL')
 KEY = os.environ.get('SUPABASE_SERVICE_KEY')
@@ -126,8 +137,10 @@ for slug, (folder, fname) in sorted(DOCS.items()):
         continue
     cur = download(row['storage_path'])
     if cur is not None and text_of(cur) == text_of(open(local, 'rb').read()):
-        same.append((slug, row['version']))
-        continue
+        if not FORCE:
+            same.append((slug, row['version']))
+            continue
+        print(f'  forced     {slug}: the text matches {row["version"]}, publishing anyway (--force)')
     n = int(re.sub(r'\D', '', row['version'] or 'v0') or 0) + 1
     changed.append((slug, folder, fname, local, local_sha, n, row))
 
