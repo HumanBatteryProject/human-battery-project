@@ -1151,15 +1151,26 @@ section[id]{scroll-margin-top:5.5rem}
 #loader[hidden]{display:none}
 #loader.done{opacity:0}
 .loader-mark{width:min(620px,86vw);perspective:1400px}
-.loader-spin{position:relative;transform-style:preserve-3d;
-  animation:mk-turn 3s linear infinite}
+.loader-spin{position:relative;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;
+  animation:loader-turn 3s linear infinite}
 .loader-spin.settled{animation:none;transform:rotateY(0deg)}
-.loader-face{position:relative;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+/* The front face carries an explicit rotateY(0). WebKit decides which side of a
+   backface-hidden element is showing from that element's OWN transform, and a
+   face with none can be culled along with its twin while the parent turns. */
+.loader-face{position:relative;display:block;transform:rotateY(0deg);
+  backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .loader-face.back{position:absolute;inset:0;transform:rotateY(180deg)}
 .loader-face img{width:100%;display:block}
-@keyframes mk-turn{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
+/* Its own name. mk-turn already belonged to the retired atom's struts above, and
+   two @keyframes with one name means the second silently replaces the first. */
+@keyframes loader-turn{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
 
-/* The page underneath does not appear until the loader has gone. */
+/* The page underneath is covered by the loader, which is opaque and fixed, and
+   it is NOT faded in on its own. Until 2026-10-02 .page-reveal went from opacity
+   0 to 1 as the loader left, and Safari showed a blank field: the wrapper is the
+   whole document, over a hundred thousand pixels tall, and WebKit will not give a
+   layer that size a backing store for the opacity transition, so nothing inside
+   it painted. Chrome coped. The loader's own fade is the only fade. */
 body.loading{overflow:hidden}
 /* THE LOADER MUST CLEAR WITHOUT JAVASCRIPT.
    The first version hid the page with body.loading and relied on the script to
