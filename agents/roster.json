@@ -186,6 +186,80 @@
         "approve or act on an item",
         "decide an item can wait"
       ]
+    },
+    {
+      "name": "watcher",
+      "title": "Watcher",
+      "group": 3,
+      "writes": false,
+      "model": "sonnet",
+      "schedule": "daily 07:00",
+      "meant_to_be_on": true,
+      "job": "Reads Pages and Worker errors, agent_runs failures, ai_calls cost, webhooks, email delivery and database health, and sends the 7 AM ops brief.",
+      "never": [
+        "change anything",
+        "restart, redeploy, retry or resume anything",
+        "put member data or a secret in the brief"
+      ]
+    },
+    {
+      "name": "sentinel",
+      "title": "Sentinel",
+      "group": 3,
+      "writes": true,
+      "model": "opus",
+      "schedule": "continuous",
+      "meant_to_be_on": true,
+      "job": "Watches the member-safety path and can pause an agent or hold a message.",
+      "never": [
+        "resume, release or send anything",
+        "touch a member's record",
+        "weaken a guardrail or decide one does not apply"
+      ]
+    },
+    {
+      "name": "gatekeeper",
+      "title": "Gatekeeper",
+      "group": 3,
+      "writes": false,
+      "model": "sonnet",
+      "schedule": "on every change",
+      "meant_to_be_on": true,
+      "job": "Runs every check on every change before it reaches members.",
+      "never": [
+        "merge or approve",
+        "change or skip a check",
+        "whitelist a phrase to turn a run green"
+      ]
+    },
+    {
+      "name": "steward",
+      "title": "Steward",
+      "group": 3,
+      "writes": false,
+      "model": "sonnet",
+      "schedule": "daily 06:40",
+      "meant_to_be_on": true,
+      "job": "IT: Cloudflare, Supabase usage and backups, the Resend domain, certificates, domains, key age and spend.",
+      "never": [
+        "change a setting, DNS, a key or anyone's access",
+        "upgrade, downgrade or cancel a plan"
+      ]
+    },
+    {
+      "name": "compliance-officer",
+      "title": "Compliance Officer",
+      "group": 3,
+      "writes": false,
+      "model": "opus",
+      "schedule": "daily 06:20",
+      "meant_to_be_on": true,
+      "job": "Checks claims, consents, retention and privacy against what the code actually does, plus the no-supplement and no-brand rules and the Score disclaimer.",
+      "never": [
+        "change code or any document",
+        "approve anything",
+        "give legal advice or declare something compliant"
+      ]
     }
   ]
 }

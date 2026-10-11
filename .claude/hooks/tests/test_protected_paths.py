@@ -124,6 +124,20 @@ CASES = [
      {"command": "echo x > functions/api/coach.js"}, REFUSE),
     ("the steward changes a setting file", "steward", "Edit",
      {"file_path": "wrangler.toml"}, REFUSE),
+    ("the gatekeeper edits the check it just ran", "gatekeeper", "Edit",
+     {"file_path": "scripts/check_claims.py"}, REFUSE),
+    ("the compliance officer edits a deliverable", "compliance-officer", "Edit",
+     {"file_path": "program-docs/tier_doc.py"}, REFUSE),
+    ("the watcher writes its own brief", "watcher", "Write",
+     {"file_path": "agents/reports/2026-10-11/watcher.md"}, ALLOW),
+    ("the gatekeeper runs the gate", "gatekeeper", "Bash",
+     {"command": "sh .githooks/pre-commit"}, ALLOW),
+    # The Sentinel is NOT read-only: holding a message is a write. What it may
+    # never do is release one, and that is not a path this hook can see.
+    ("the sentinel writes a hold", "sentinel", "Write",
+     {"file_path": "agents/reports/2026-10-11/sentinel.md"}, ALLOW),
+    ("the sentinel still cannot touch the canon", "sentinel", "Edit",
+     {"file_path": "docs/HBP-Canonical-Positions.md"}, REFUSE),
 
     # ---- the person's own session ---------------------------------------
     ("no agent_type edits the canon", None, "Edit",
