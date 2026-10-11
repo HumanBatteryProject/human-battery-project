@@ -1,0 +1,45 @@
+{
+  "$comment": [
+    "PROJECT hooks for the Human Battery Project agent organization.",
+    "Build order step 1.",
+    "",
+    "ONE hook, registered on every tool that can put bytes into a file, plus",
+    "Bash. Bash is on the list because Bash is the hole in the other layer: an",
+    "agent with no Edit can still run `sed -i`, a heredoc or `cp`.",
+    "",
+    "WHAT THE HOOK USES TO TELL AGENTS APART. `agent_type` on the payload,",
+    "supplied by the harness. It is not an environment variable and not",
+    "anything the agent writes, so an agent cannot set its own name. It is",
+    "ABSENT in the main conversation, which is the chain of command written",
+    "down: canon, legal text and the mark belong to the person directing this",
+    "work, and his session is not an agent.",
+    "",
+    "IT FAILS CLOSED. A payload the hook cannot parse is a write whose target",
+    "it cannot see. An unexpected exception is reported as a refusal and never",
+    "as an allowance. That is the opposite of the usual choice and it is",
+    "deliberate: the hook is registered only for writes.",
+    "",
+    "THE HOOK IS THE SECOND LAYER, NOT THE FIRST. The first is the `tools:`",
+    "line in each agent file. A read-only agent has no Edit and no Write at",
+    "all. Neither layer is weakened to make the other convenient.",
+    "",
+    "Proof:  python3 .claude/hooks/protected-paths.py --seed",
+    "        python3 .claude/hooks/tests/test_protected_paths.py",
+    "        49 cases, 31 refusals, 18 allowances and 3 fail-closed, from the",
+    "        run and not from a plan. Wired into .githooks/pre-commit.",
+    "Rules:  CLAUDE.md, docs/HBP-Canonical-Positions.md, agents/README.md"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/protected-paths.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

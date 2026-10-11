@@ -1,0 +1,191 @@
+{
+  "_comment": [
+    "The roster of every Human Battery Project agent.",
+    "",
+    "THIS FILE IS THE DECLARATION. It says what each agent is, which group it",
+    "belongs to, what it may never do, and whether it is meant to be on.",
+    "",
+    "IT IS NOT THE STATUS. program-docs/agents_doc.py reads the status from the",
+    "repository itself: whether .claude/agents/<name>.md exists, whether a",
+    "workflow runs it, and whether that workflow is enabled. That is on purpose,",
+    "so the summary document cannot claim an agent that was never built.",
+    "",
+    "Groups: 1 the CEO Agent, 2 the engineering team, 3 operations,",
+    "4 the assistants."
+  ],
+  "agents": [
+    {
+      "name": "ceo-agent",
+      "title": "CEO Agent",
+      "group": 1,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "daily 07:30",
+      "meant_to_be_on": true,
+      "job": "Summarises every agent, turns Micah's directions into issues, keeps the one list of what waits on him.",
+      "never": [
+        "approve anything",
+        "filter, soften or delay an approval request, a canon question or a legal draft",
+        "rewrite his words in DIRECTIONS.md"
+      ]
+    },
+    {
+      "name": "lead-engineer",
+      "title": "Lead Engineer",
+      "group": 2,
+      "writes": true,
+      "model": "opus",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Plans, assigns to the six engineers, runs the three reviewers and the gate, opens the pull request, reports to Micah.",
+      "never": [
+        "approve anything",
+        "change the canon",
+        "publish member-facing wording",
+        "merge or deploy"
+      ]
+    },
+    {
+      "name": "canon-engineer",
+      "title": "Canon engineer",
+      "group": 2,
+      "writes": true,
+      "model": "opus",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "The coach, the in-product agents, the corpus loader, evidence tiers, the Score method versions, the research agent.",
+      "never": [
+        "write the thesis or anything in docs/",
+        "change a published Score method",
+        "let a working-model claim reach marketing"
+      ]
+    },
+    {
+      "name": "portal-engineer",
+      "title": "Portal engineer",
+      "group": 2,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "The public site and the portal screens, approved wording only, reading level held, the mark rules obeyed.",
+      "never": [
+        "change a legal page",
+        "write unapproved member-facing wording",
+        "touch the mark files"
+      ]
+    },
+    {
+      "name": "data-engineer",
+      "title": "Data engineer",
+      "group": 2,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Migrations, row-level security, retention, account deletion, document versions in the bucket.",
+      "never": [
+        "edit a migration that has run",
+        "overwrite a published PDF path"
+      ]
+    },
+    {
+      "name": "payments-engineer",
+      "title": "Payments engineer",
+      "group": 2,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Stripe checkout and webhook, tax, discounts, continuation billing, ambassador payouts.",
+      "never": [
+        "touch live Stripe",
+        "edit checkout.js or stripe-webhook.js while payments are parked"
+      ]
+    },
+    {
+      "name": "quality-engineer",
+      "title": "Quality engineer",
+      "group": 2,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "The fixture suites, the commit gate, the deploy checks, the reading-level and claim-shape audits.",
+      "never": [
+        "weaken, skip or whitelist a check"
+      ]
+    },
+    {
+      "name": "security-engineer",
+      "title": "Security engineer",
+      "group": 2,
+      "writes": false,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Read-only review of secrets, JWT verification on every function, webhook secrets, RLS, key age.",
+      "never": [
+        "change code",
+        "hold a key"
+      ]
+    },
+    {
+      "name": "code-reviewer",
+      "title": "Code reviewer",
+      "group": 2,
+      "writes": false,
+      "model": "opus",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Adversarial read-only review of every change before it reaches Micah.",
+      "never": [
+        "change anything",
+        "approve"
+      ]
+    },
+    {
+      "name": "security-reviewer",
+      "title": "Security reviewer",
+      "group": 2,
+      "writes": false,
+      "model": "opus",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Read-only security review of every change before it reaches Micah.",
+      "never": [
+        "change anything",
+        "approve"
+      ]
+    },
+    {
+      "name": "canon-claims-reviewer",
+      "title": "Canon and claims reviewer",
+      "group": 2,
+      "writes": false,
+      "model": "opus",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Read-only review of every change against the canon, the tiers, the prohibitions and the claim shapes.",
+      "never": [
+        "change anything",
+        "approve",
+        "whitelist a phrase"
+      ]
+    },
+    {
+      "name": "task-keeper",
+      "title": "Task Keeper",
+      "group": 4,
+      "writes": true,
+      "model": "haiku",
+      "schedule": "daily 07:20",
+      "meant_to_be_on": true,
+      "job": "The one list of what waits on Micah, and the daily approval batch.",
+      "never": [
+        "approve or act on an item",
+        "decide an item can wait"
+      ]
+    }
+  ]
+}
