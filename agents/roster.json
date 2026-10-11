@@ -260,6 +260,111 @@
         "approve anything",
         "give legal advice or declare something compliant"
       ]
+    },
+    {
+      "name": "marketing-site",
+      "title": "Marketing Site",
+      "group": 4,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "daily 06:00",
+      "meant_to_be_on": true,
+      "job": "Keeps thehumanbatteryproject.com current and checks links, speed, accessibility and the grade-3 reading level.",
+      "never": [
+        "touch the portal, the legal pages or member data",
+        "publish without Micah's switch on",
+        "change approved wording or add a claim"
+      ]
+    },
+    {
+      "name": "content-producer",
+      "title": "Content Producer",
+      "group": 4,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "daily 05:40",
+      "meant_to_be_on": true,
+      "job": "Makes the daily brief video, the member lesson videos and the social captions from the canon, in the house voice and score.",
+      "never": [
+        "post or publish anything",
+        "put a claim on screen that is not in the canon with its tier",
+        "use a member's data, image, name, result or words"
+      ]
+    },
+    {
+      "name": "key-renewal-tracker",
+      "title": "Key and Renewal Tracker",
+      "group": 4,
+      "writes": true,
+      "model": "haiku",
+      "schedule": "daily 06:10",
+      "meant_to_be_on": true,
+      "job": "Tracks key, certificate, domain, Zoom and contract dates and prepares the rotation notes.",
+      "never": [
+        "hold, change or print a key",
+        "renew or cancel anything"
+      ]
+    },
+    {
+      "name": "vendor-admin-assistant",
+      "title": "Vendor and Admin Assistant",
+      "group": 4,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "session",
+      "meant_to_be_on": true,
+      "job": "Drafts vendor emails and forms for labs, incorporation, Stripe setup, Zoom and insurance, and logs what is waiting.",
+      "never": [
+        "send, sign or submit anything",
+        "put a secret, a bank detail, a tax id or member data in a draft"
+      ]
+    },
+    {
+      "name": "dependency-updater",
+      "title": "Dependency Updater",
+      "group": 4,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "weekly Monday 05:00",
+      "meant_to_be_on": true,
+      "job": "Keeps packages patched through reviewed updates, including the PDF toolchain.",
+      "never": [
+        "merge",
+        "introduce a framework or a build step",
+        "update without running the gate"
+      ]
+    },
+    {
+      "name": "status-update-writer",
+      "title": "Status and Update Writer",
+      "group": 4,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "weekly Friday 16:00",
+      "meant_to_be_on": true,
+      "job": "Drafts updates for advisors and partners, and the weekly call agenda built from member questions.",
+      "never": [
+        "send anything",
+        "promise a date, a number, a feature or an outcome",
+        "name, quote or identify a member"
+      ]
+    },
+    {
+      "name": "key-rotation-lowrisk",
+      "title": "Low-risk Key Rotation",
+      "group": 4,
+      "writes": false,
+      "model": "sonnet",
+      "schedule": "off",
+      "meant_to_be_on": false,
+      "switch": "set meant_to_be_on true for key-rotation-lowrisk in agents/roster.json",
+      "off_because": "no secrets manager has been chosen",
+      "job": "Rotates the low-risk keys (email, error tracking, analytics) through a secrets manager.",
+      "never": [
+        "touch Supabase, Anthropic, Stripe, Cloudflare or GitHub owner keys",
+        "revoke an old key before the new one is verified",
+        "run while meant_to_be_on is false"
+      ]
     }
   ]
 }
