@@ -138,6 +138,14 @@ CASES = [
      {"file_path": "agents/reports/2026-10-11/sentinel.md"}, ALLOW),
     ("the sentinel still cannot touch the canon", "sentinel", "Edit",
      {"file_path": "docs/HBP-Canonical-Positions.md"}, REFUSE),
+    # The off agents. Their switch is a roster line, which this hook cannot
+    # see, so what is proved here is only the path half of their limits.
+    ("the fixer reaches for payments", "fixer", "Edit",
+     {"file_path": "functions/api/checkout.js"}, REFUSE),
+    ("the finance agent reaches for the webhook", "finance-agent", "Edit",
+     {"file_path": "functions/api/stripe-webhook.js"}, REFUSE),
+    ("the support agent reaches for a legal page", "support-agent", "Edit",
+     {"file_path": "public/privacy.html"}, REFUSE),
 
     # ---- the person's own session ---------------------------------------
     ("no agent_type edits the canon", None, "Edit",

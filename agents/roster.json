@@ -365,6 +365,59 @@
         "revoke an old key before the new one is verified",
         "run while meant_to_be_on is false"
       ]
+    },
+    {
+      "name": "fixer",
+      "title": "Fixer",
+      "group": 3,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "off",
+      "meant_to_be_on": false,
+      "switch": "set meant_to_be_on true for fixer in agents/roster.json",
+      "off_because": "its check has not been designed",
+      "job": "Writes fixes for known problem types as pull requests.",
+      "never": [
+        "merge",
+        "touch payments, login, consent or any word a member reads",
+        "open a pull request without a test that failed before it",
+        "run while meant_to_be_on is false"
+      ]
+    },
+    {
+      "name": "support-agent",
+      "title": "Support Agent",
+      "group": 3,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "off",
+      "meant_to_be_on": false,
+      "switch": "set meant_to_be_on true for support-agent in agents/roster.json",
+      "off_because": "there are no members yet",
+      "job": "Drafts replies to members and the waitlist for a person to approve, and routes medical questions.",
+      "never": [
+        "send anything",
+        "answer a medical question",
+        "handle money, a refund or a dispute",
+        "run while meant_to_be_on is false"
+      ]
+    },
+    {
+      "name": "finance-agent",
+      "title": "Finance Agent",
+      "group": 3,
+      "writes": true,
+      "model": "sonnet",
+      "schedule": "off",
+      "meant_to_be_on": false,
+      "switch": "set meant_to_be_on true for finance-agent in agents/roster.json",
+      "off_because": "Stripe is in test mode and payments are parked",
+      "job": "Stripe reconciliation, sales tax by state, unit cost per member, revenue, continuation churn and ambassador payouts due.",
+      "never": [
+        "move money, refund or change a price",
+        "touch live Stripe settings or keys",
+        "run while meant_to_be_on is false"
+      ]
     }
   ]
 }
