@@ -14,7 +14,9 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **Four tiers** by how the person already lives: Pro, Advanced, Intermediate, Beginner. Placement uses the seven-row table in `docs/HBP-Protocol-Complete.md`. Each tier has its own protocol PDF. A client can move up. After 90 days, someone who improved is invited back at the next tier, or at Pro with 20 percent more intensity.
 
-**Six agents** run the platform: onboarding, analysis, morning brief, the coach, completion, and trend. All reason from a knowledge corpus with evidence tiers. See `docs/HBP-Platform-v2-Spec.md`.
+**Nine agents** run the platform: onboarding, analysis, morning brief, the coach, planner, weekly review, completion, trend, and research. All reason from a knowledge corpus with evidence tiers. See `docs/HBP-Platform-v2-Spec.md`.
+
+This line read "six" until 2026-10-19 while `agent_runs` carried nine. The planner and the weekly review had been built and the count was never updated, which is the ordinary way a count goes stale. **`agent_runs` is the list that cannot be wrong.**
 
 **The person directing this work is not a programmer.** Explain what you are about to do in plain language before doing it. When something breaks, say what broke and what you will try. No stack traces unless asked. Never ask him to paste a secret into the chat; ask him to put it in `.dev.vars` or Cloudflare.
 
@@ -52,7 +54,16 @@ People get bloodwork at day 0 and day 90, plus VO₂max, grip strength and a req
 
 **1. The Supabase secret key, the Anthropic key and the Voyage key never enter `public/`.** Everything under `public/` is served to the browser. The publishable key in `public/portal/config.js` is correct and safe. Row-level security protects the data.
 
-**2. Migrations are append-only.** Never edit a `.sql` file that has been run against production. Write a new numbered file at the next free number. 001 through 027 have run.
+**2. Migrations are append-only.** Never edit a `.sql` file that has been run against production. Write a new numbered file at the next free number. 001 through 088 have run.
+
+This said "001 through 027" until 2026-10-19, when 086 was the highest in the tree. **Do not trust this number either.** Derive the next free one across every branch on origin after a fetch, because a number is taken if ANY branch uses it:
+
+```sh
+git fetch origin
+git for-each-ref --format='%(refname)' refs/remotes/origin \
+  | while read b; do git ls-tree -r --name-only "$b" -- database/migrations; done \
+  | sort -u | tail -5
+```
 
 **3. Never change the Battery Score method mid-program.** `score_methods` rows are versioned. Publish a new version rather than editing one.
 
@@ -257,6 +268,78 @@ Every agent that produces text a client will read:
 - **The Heat and cold hard ceilings.** No single cold plunge over 5 minutes, and no water colder than 7°C (45°F). These bind at every tier and after the Pro 20 percent per cycle increase, which is the case the ruling names. They live in three places on purpose: `protocol_parameters` bounds, `HARD_CAPS`/`HARD_FLOORS` in `functions/api/_intensity.js`, and `functions/api/_heatcold.js`. The multiplier never scales a temperature at all: multiplying a cold water temperature makes it warmer, so intensity ran backwards on the one parameter with a safety floor.
 - Cold is never within 6 hours after strength training. Sauna finishes 1 to 2 hours before bed. No alcohol before or during sauna, mineral water after. Enforced in `functions/api/_heatcold.js`, not only stated in the deliverables.
 - Prices, the return price, the first wave date, the Zoom link and schedule, and the coach's daily limit live in `program_settings`, never in code.
+
+---
+
+## The agent organization
+
+Twenty seven agents in four groups, outside the product, plus the nine inside
+it. Every one answers to Micah Pittman, directly or through the CEO Agent. Full
+detail in `agents/README.md`; the roster is `agents/roster.json`; each agent is
+a file in `.claude/agents/<name>.md` carrying its job, its never-allowed list,
+its tools, its model, its cost cap and the exact shape of its report.
+
+**The chain of command.** Micah approves everything: anything new, any change
+to the canon, any member-facing wording, any legal document, any merge, any
+deploy. The CEO Agent carries his directions down and carries approval
+requests, canon questions and legal drafts up UNCHANGED. The Lead Engineer
+reports to him and runs the six engineers; engineers report only to the Lead.
+Ops and assistant agents report through the 7 AM ops brief and the CEO Agent's
+7:30 summary.
+
+**A never-allowed list in a file is a sentence an agent reads.** Two layers
+make the load-bearing half true instead. The `tools:` line, so a read-only
+agent has no Edit and no Write at all. And `.claude/hooks/protected-paths.py`,
+a PreToolUse hook, because the first layer has two holes: Bash can write
+without Edit, and an agent that legitimately holds Edit still has to be stopped
+at files that are not its own.
+
+**The protected paths.** No agent writes these:
+
+| Path | Who may write it |
+|---|---|
+| `docs/` | Nobody. The canon is Micah's |
+| `corpus/` | `canon-engineer` only |
+| `functions/api/checkout.js`, `stripe-webhook.js` | Nobody while payments are parked |
+| `public/privacy.html`, `terms.html`, `disclaimer.html`, `consumer-health-data.html` | Nobody |
+| `public/assets/wordmark*`, `mark-*` | Nobody |
+| a migration already on disk | Nobody. Write a new number |
+| `.dev.vars` | Nobody |
+
+A read-only agent may write nothing at all except its own report under
+`agents/reports/`.
+
+**What identifies an agent is `agent_type` on the hook payload**, supplied by
+the harness. It is not an environment variable and not anything the agent
+writes, so an agent cannot set its own name. **It is absent in the main
+conversation**, and that absence is the chain of command written down: an agent
+is a subagent and carries a name, and the person is not an agent. The hook
+constrains agents. It is not a guard against Micah and does not pretend to be
+one.
+
+The hook FAILS CLOSED: a payload it cannot parse is a write whose target it
+cannot see.
+
+```sh
+python3 .claude/hooks/protected-paths.py --seed       # every refusal, printed
+python3 .claude/hooks/tests/test_protected_paths.py   # in the gate
+```
+
+**The research agent is the ninth in-product agent.** `/api/research-run`,
+daily at 9 UTC. It reads the canon and never writes it. Everything it proposes
+lands in `canon_proposals` and nothing there applies itself: its own constant
+`RESEARCH_AUTONOMY_MODE` is held at `review_all`, deliberately separate from
+the trend agent's `AUTONOMY_MODE`, because a change driven by the literature
+moves the protocol for everyone at once and cannot be noticed by the member it
+is wrong for. Rule 10 covers it. What it writes to the corpus is
+`kind = citation_summary`: our own tiered summary of a paper, never the paper.
+
+**The claim-shape audit exists twice, on purpose.**
+`scripts/check_prohibitions.py` runs over the repository in the gate.
+`functions/api/_claimshape.js` runs at write time, because the research agent
+writes prose straight into the database where the Python audit will never see
+it and the coach would say it first. `scripts/check_claimshape_parity.py` fails
+the gate if the two sets of patterns drift apart in either direction.
 
 ---
 

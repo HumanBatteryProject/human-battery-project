@@ -176,7 +176,12 @@ Every passage carries its evidence tier. When the coach says something, it knows
 
 ---
 
-## Part 3: The six agents
+## Part 3: The nine agents
+
+Six were specified here originally. Three more were built and this section did
+not follow them, which is the ordinary way a specification goes stale: the code
+moves and the document that described it does not. `agent_runs` is the list
+that cannot be wrong, and it carries nine names.
 
 ### 1. The onboarding agent
 
@@ -241,6 +246,66 @@ It writes a **weekly findings report** for you: what is working, what is being s
 **Proposals do not go live on their own.** Each one lands in an admin queue. You read it, you approve it or reject it, and only an approved proposal regenerates the PDF and notifies the clients on that tier. The agent proposes, you decide. That gate is the single most important design decision in this whole document, because an agent silently rewriting the protocol that real people are following is a liability nobody should carry, and because your judgment on the protocol is the product.
 
 The trend agent also does prediction, but honestly: at 25 people it is describing, at 250 it is starting to see patterns, at 2,500 it can predict. It says which of those it is doing in every report.
+
+---
+
+### 7. The planner agent
+
+`functions/api/plan-run.js`, hourly at 11 UTC, before the brief that describes
+what it chose. Six components named in the code and run in order: observer,
+interpreter, planner, safety gate, explainer, reviewer. The planner itself is
+deterministic. The explainer is the only model call and it may be skipped
+entirely, because a model failure must not cost a participant their plan.
+
+### 8. The weekly review agent
+
+`functions/api/weekly-review.js`, Mondays at 12 UTC. What changed, what stayed
+stable, actions completed, barriers reported, data limitations, next week's
+priorities.
+
+It must not claim causation, and that is enforced rather than requested. It has
+one person's numbers over one week, and the natural English sentence about that
+is causal. The sentences are assembled from templates that cannot say
+"because", and `reviewWeekly()` refuses any review whose text claims causation,
+including a model's.
+
+### 9. The research agent
+
+`functions/api/research-run.js`, daily at 9 UTC, before the planner, so a paper
+accepted today is in the library before the day's plans and briefs are written
+against it.
+
+It searches PubMed, Europe PMC and Crossref against a list of saved questions
+in `research_queries`, judges each new paper against the canonical positions,
+writes its own one-paragraph summary in the program's voice, and accepts into
+the library only what clears every bound in `functions/api/_research.js`.
+
+**It never changes the thesis.** The book is canonical and
+`docs/HBP-Canonical-Positions.md` is the operative extract: the agent reads
+them and does not write them. Anything that would change the thesis goes to
+Micah as a question. Protocol changes go to `canon_proposals` and nothing
+there applies itself: `RESEARCH_AUTONOMY_MODE` is held at `review_all`, and it
+is deliberately a separate constant from the trend agent's `AUTONOMY_MODE`,
+because a change driven by the literature moves the protocol for everyone at
+once and cannot be noticed by the member it is wrong for.
+
+Three things it may do alone: accept a peer-reviewed paper whose DOI is
+confirmed two ways, whose verdict is supports or refines, whose tier is
+emerging or above by the study-design rule, and whose summary passed the
+claim-shape audit; decline anything out of thesis, any preprint, and anything
+about a supplement, a device, a brand or a product; and record a contradiction.
+
+A contradiction is never auto-accepted AND never auto-declined. Auto-declining
+one would be a way of dropping it that looks like a decision.
+
+What it writes to the corpus is `kind = citation_summary`: our own tiered
+summary of a paper, never the paper's text. There is no kind for the paper
+itself, by design.
+
+Admin screen: `/portal/admin/research.html`. Approving a canon proposal is a
+security-definer function and not a browser update, because approval is a
+transformation and not a status change: a rule revision becomes a NEW version
+row and the old row is left exactly as it was.
 
 ---
 
