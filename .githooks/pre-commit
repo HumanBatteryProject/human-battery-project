@@ -63,6 +63,13 @@ run protected_paths     $PY .claude/hooks/tests/test_protected_paths.py
 # would make an agent file decorative.
 run directions_to_issues $PY scripts/directions_to_issues.py --seed
 
+# The JavaScript claim-shape audit has not fallen behind the Python one. There
+# are two copies because the research agent writes prose straight into the
+# database, where the Python audit will never see it, and by then the coach has
+# already said it. Two copies of a rule drift, and the copy that drifts is the
+# one nobody is reading. This is what makes the drift loud.
+run claimshape_parity   $PY scripts/check_claimshape_parity.py
+
 # ALL NINE fixture suites. Until 2026-09-25 only three of the nine ran here and
 # the other six ran nowhere at all: they passed, but nothing would have noticed
 # if they stopped. A suite wired into no gate is a suite that is green until the
@@ -108,6 +115,7 @@ run planner_fixtures    node tests/planner_fixtures.mjs
 run adaptation_fixtures node tests/adaptation_fixtures.mjs
 run dashboard_fixtures  node tests/dashboard_fixtures.mjs
 run review_fixtures     node tests/review_fixtures.mjs
+run research_fixtures   node tests/research_fixtures.mjs
 # Daylight saving. Every scheduled job asks what date it is where the member
 # lives, and two days a year are not 24 hours long.
 run dst_fixtures        node tests/dst_fixtures.mjs

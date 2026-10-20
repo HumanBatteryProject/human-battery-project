@@ -61,6 +61,13 @@ SCAN = [
 EXEMPT = {
     "docs/HBP-Canonical-Positions.md": "is the prohibition",
     "functions/api/_canon.js":         "compiled copy of the prohibition",
+    # The runtime half of this audit. It has to carry the banned brand names
+    # and the banned phrases in order to detect them, exactly as _canon.js has
+    # to carry the positions. Exempting a whole file IS a hole, and what keeps
+    # this one honest is not trust: auditCanaries() fires every pattern in it
+    # against its own canary, and scripts/check_claimshape_parity.py fails the
+    # gate if this file and the PATTERNS below stop agreeing.
+    "functions/api/_claimshape.js":    "the same prohibition, compiled for the runtime",
     "CLAUDE.md":                       "is the rules",
     "scripts/check_prohibitions.py":   "is this check",
 }
