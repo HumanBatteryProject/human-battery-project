@@ -241,15 +241,18 @@ async function run(env) {
   let tokensIn = 0, tokensOut = 0, calls = 0;
 
   try {
+    // db().select builds the PostgREST operator itself: a plain value
+    // becomes eq., an array becomes in.(). Passing 'eq.true' here produced
+    // `is_active=eq.eq.true` and a 22P02 from Postgres on the first run.
     const queries = await sb.select('research_queries', {
-      where: { is_active: 'eq.true' }, order: 'position_key',
+      where: { is_active: true }, order: 'position_key',
     });
     if (!queries.length) {
       await finishRun(env, runId, 'ok', { error: 'no active queries' });
       return { ran: AGENT, queries: 0, note: 'no active research_queries. Seed them first.' };
     }
 
-    const flag = await sb.one('program_settings', { where: { key: 'eq.' + BACKFILL_KEY } });
+    const flag = await sb.one('program_settings', { where: { key: BACKFILL_KEY } });
     const backfilling = !(flag && String(flag.value) === 'true');
     const windowDays = backfilling ? Math.round(BACKFILL_MONTHS * 30.44) : DAILY_WINDOW_DAYS;
 
@@ -273,7 +276,7 @@ async function run(env) {
     for (let i = 0; i < allIds.length; i += 100) {
       const chunk = allIds.slice(i, i + 100);
       const rows = await sb.select('research_findings', {
-        columns: 'pmid', where: { pmid: 'in.(' + chunk.join(',') + ')' },
+        columns: 'pmid', where: { pmid: chunk },
       });
       for (const r of rows) known.add(String(r.pmid));
     }
@@ -454,7 +457,7 @@ async function run(env) {
             tier_reviewed: false,
             subsystems: [],
           });
-          await sb.update('research_findings', { id: 'eq.' + saved.id }, { source_id: src.id });
+          await sb.update('research_findings', { id: saved.id }, { source_id: src.id });
         } catch (e) {
           console.warn('[research] library write failed for ' + pmid + ': ' + String(e).slice(0, 160));
         }
@@ -607,8 +610,8 @@ async function sendDigest(env, sb, s) {
 
   // The growth line, per the appendix. Counts come from the table, not from
   // this run's memory, so they describe the library and not the batch.
-  const inLibrary = await sb.count('research_findings', { status: 'eq.accepted' });
-  const proposalsWaiting = await sb.count('canon_proposals', { status: 'eq.waiting' });
+  const inLibrary = await sb.count('research_findings', { status: 'accepted' });
+  const proposalsWaiting = await sb.count('canon_proposals', { status: 'waiting' });
 
   const lines = [
     `Papers seen: ${s.results.length} judged, from ${s.queries} queries over the last ${s.windowDays} days.`,
