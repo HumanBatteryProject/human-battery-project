@@ -37,7 +37,7 @@ if ! "$PY" -c 'import weasyprint' 2>/dev/null; then
   exit 1
 fi
 
-DOCS="${1:-tier_doc diet_doc tests_doc first_steps_doc kitchen_doc approvals_doc documents_doc}"
+DOCS="${1:-tier_doc diet_doc tests_doc first_steps_doc kitchen_doc approvals_doc documents_doc agents_doc}"
 
 cd program-docs
 FAILED=0
