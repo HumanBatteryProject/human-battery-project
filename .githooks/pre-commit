@@ -70,6 +70,12 @@ run directions_to_issues $PY scripts/directions_to_issues.py --seed
 # one nobody is reading. This is what makes the drift loud.
 run claimshape_parity   $PY scripts/check_claimshape_parity.py
 
+# The seeded research queries are well formed: 30 to 50, every one tied to a
+# position, every pillar covered, and NO query aimed at a frontier dimension.
+# charge, redox and leak have no instrument, so a query hunting one would
+# return real work that could never change anything here, every day, forever.
+run research_queries    $PY scripts/seed_research_queries.py --seed
+
 # ALL NINE fixture suites. Until 2026-09-25 only three of the nine ran here and
 # the other six ran nowhere at all: they passed, but nothing would have noticed
 # if they stopped. A suite wired into no gate is a suite that is green until the

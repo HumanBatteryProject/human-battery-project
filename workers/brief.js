@@ -39,6 +39,11 @@ export default {
     const due = [];
     due.push('/api/brief-run');                        // every hour, for every timezone's morning
     due.push('/api/wearable-sync');                    // every hour, the pull half of wearables
+    // The research agent, at an hour of its own and before the plan, so an
+    // accepted finding is in the library before the day's plans and briefs are
+    // written against it. 9 UTC was free: 11, 15 and 16 are taken, and Monday
+    // 12 and 13 belong to the weekly review and the trend agent.
+    if (hour === 9) due.push('/api/research-run');
     if (hour === 11) due.push('/api/plan-run');        // the plan before the brief
     if (hour === 15) due.push('/api/cycle-boundary');  // day ninety
     if (hour === 16) due.push('/api/billing-run');     // what is due today
