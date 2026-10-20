@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Research | The Human Battery Project</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1424">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Spectral:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css?v=20">
+<style>
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-sm)}
+th,td{text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--rule-line);vertical-align:top}
+th{font-family:var(--display);font-size:var(--fs-label);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+.pill{font-family:var(--display);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule-line);border-radius:2px;padding:.1rem .3rem;white-space:nowrap}
+.empty{color:var(--ink-muted);font-size:var(--fs-sm)}
+.item{border-top:1px solid var(--rule-line);padding:.8rem 0}
+.item:first-of-type{border-top:0}
+.item p{margin:0 0 .3rem;line-height:var(--lh-card)}
+.item .meta{font-size:var(--fs-xs);color:var(--ink-muted)}
+.note{font-size:var(--fs-xs);color:var(--ink-muted);border-left:2px solid var(--rule-line);
+  padding-left:.6rem;margin:.4rem 0}
+.acts{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.acts button,.acts select{min-height:38px;font-size:var(--fs-xs)}
+.summary{border-left:2px solid var(--rule-line);padding-left:.6rem;margin:.4rem 0;
+  font-size:var(--fs-sm);line-height:var(--lh-card)}
+.counter{border-left:2px solid var(--amber,#E8A24A);padding-left:.6rem;margin:.4rem 0;
+  font-size:var(--fs-sm)}
+.growth{font-size:var(--fs-xs);color:var(--ink-muted);margin-top:.4rem}
+</style>
+</head><body>
+<header class="bar" style="position:static"><div class="wrap">
+  <span class="mk"><img class="portal-mark" src="/assets/wordmark.png?v=2" alt="The Human Battery Project"><span class="tm">&#8482;</span></span>
+  <span class="who">OWNER</span>
+</div></header>
+<main class="wrap">
+  <h1 class="vh">Research</h1>
+  <div id="loading" class="card center"><span class="spinner"></span></div>
+  <div id="denied" class="card" style="display:none">
+    <h2>Not for you</h2>
+    <p class="quiet">This screen is for the owner. <a href="/portal/">Back to your dashboard</a>.</p>
+  </div>
+  <div id="body" style="display:none">
+
+    <section class="card">
+      <h2>Today's findings</h2>
+      <p class="tiny" style="margin:0 0 .5rem">
+        What the research agent judged. Accepted papers are already in the library.
+        Everything else is waiting for you.
+      </p>
+      <div id="findings"></div>
+      <p class="growth" id="growth"></p>
+    </section>
+
+    <section class="card">
+      <h2>Contradictions</h2>
+      <p class="tiny" style="margin:0 0 .5rem">
+        Papers that argue against a position, with the counter-evidence. These are
+        kept and never dropped. A library that only records agreement is one that
+        will eventually be wrong with confidence.
+      </p>
+      <div id="contradictions"></div>
+    </section>
+
+    <section class="card">
+      <h2>Canon proposals waiting for you</h2>
+      <p class="tiny" style="margin:0 0 .5rem">
+        The research agent is at review_all, so nothing here has applied itself and
+        nothing will. An approved rule revision becomes a new version row and
+        leaves the old one exactly as it was.
+      </p>
+      <div id="proposals"></div>
+    </section>
+
+    <section class="card">
+      <h2>The saved queries</h2>
+      <p class="tiny" style="margin:0 0 .5rem">
+        Yours to edit. The agent never adds a query on its own, and every query ties
+        to a position, a pillar and where it fits a scored dimension.
+      </p>
+      <div class="tw"><table id="queries"></table></div>
+    </section>
+
+  </div>
+</main>
+<script type="module">
+import { sb, requireAuth, el, esc } from '../app.js?v=f108d284';
+
+const session = await requireAuth();
+if (session) {
+  const { data: me } = await sb.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+  if (!me || me.role !== 'admin') {
+    el('#loading').style.display = 'none';
+    el('#denied').style.display = 'block';
+  } else {
+    await render();
+    el('#loading').style.display = 'none';
+    el('#body').style.display = 'block';
+  }
+}
+
+async function render() {
+  const [{ data: findings }, { data: contra }, { data: props }, { data: queries },
+         { count: inLibrary }] = await Promise.all([
+    sb.from('research_findings').select('*')
+      .order('seen_at', { ascending: false }).limit(60),
+    sb.from('research_findings').select('*')
+      .eq('verdict', 'contradicts').order('seen_at', { ascending: false }).limit(30),
+    sb.from('canon_proposals').select('*')
+      .eq('status', 'waiting').order('created_at', { ascending: false }).limit(40),
+    sb.from('research_queries').select('*')
+      .order('position_key').order('pillar_key'),
+    sb.from('research_findings').select('id', { count: 'exact', head: true })
+      .eq('status', 'accepted'),
+  ]);
+
+  // ---- findings -----------------------------------------------------
+  const waiting = (findings || []).filter((f) => f.status === 'candidate');
+  const decided = (findings || []).filter((f) => f.status !== 'candidate');
+  el('#findings').innerHTML =
+    (waiting.length ? waiting.map(findingRow).join('') : '') +
+    (decided.length
+      ? '<p class="note">Already decided, newest first.</p>' + decided.map(findingRow).join('')
+      : '') ||
+    '<p class="empty">Nothing judged yet. The research agent runs at 9 UTC.</p>';
+
+  // The growth line, from the table rather than from one run.
+  const acceptedThisWeek = (findings || []).filter(
+    (f) => f.status === 'accepted' && daysAgo(f.decided_at) <= 7).length;
+  el('#growth').textContent =
+    `Findings in the library: ${inLibrary || 0}. Accepted this week: ${acceptedThisWeek}. ` +
+    `Proposals waiting on you: ${(props || []).length}.`;
+
+  // ---- contradictions ------------------------------------------------
+  el('#contradictions').innerHTML = (contra || []).length
+    ? (contra || []).map((f) =>
+        '<div class="item"><p><strong>' + esc(f.title) + '</strong></p>' +
+        '<p class="meta">' + esc(f.journal || '') + ' ' + esc(String(f.year || '')) +
+        ' &middot; ' + esc(f.position_key || 'no position') + '</p>' +
+        (f.counter_evidence
+          ? '<div class="counter">' + esc(f.counter_evidence) + '</div>'
+          : '<p class="note">No counter-evidence recorded on this row.</p>') +
+        doiLink(f) + '</div>').join('')
+    : '<p class="empty">No contradictions recorded.</p>';
+
+  // ---- proposals -----------------------------------------------------
+  el('#proposals').innerHTML = (props || []).length
+    ? (props || []).map((p) =>
+        '<div class="item" data-proposal="' + esc(p.id) + '">' +
+        '<p><span class="pill">' + esc(p.kind) + '</span> ' + esc(p.target) + '</p>' +
+        (p.from_value || p.to_value
+          ? '<p class="meta">' + esc(p.from_value || '?') + ' to ' + esc(p.to_value || '?') + '</p>'
+          : '') +
+        '<div class="summary">' + esc(p.rationale) + '</div>' +
+        (p.counter_evidence ? '<div class="counter">' + esc(p.counter_evidence) + '</div>' : '') +
+        '<p class="meta">' + esc(p.autonomy_blocked_by || 'queued') + '</p>' +
+        '<div class="acts">' +
+        '<button data-approve="' + esc(p.id) + '">Approve</button>' +
+        '<button data-decline="' + esc(p.id) + '">Decline</button>' +
+        '</div></div>').join('')
+    : '<p class="empty">Nothing proposed.</p>';
+
+  // ---- the query table -----------------------------------------------
+  el('#queries').innerHTML =
+    '<thead><tr><th>Query</th><th>Position</th><th>Pillar</th><th>Dimension</th>' +
+    '<th>On</th></tr></thead><tbody>' +
+    (queries || []).map((q) =>
+      '<tr data-query="' + esc(q.id) + '">' +
+      '<td>' + esc(q.query) + '</td>' +
+      '<td>' + esc(q.position_key) + '</td>' +
+      '<td>' + esc(q.pillar_key || '') + '</td>' +
+      '<td>' + esc(q.dimension || '') + '</td>' +
+      '<td><button data-toggle="' + esc(q.id) + '" data-on="' + (q.is_active ? '1' : '0') + '">' +
+      (q.is_active ? 'on' : 'off') + '</button></td></tr>').join('') +
+    '</tbody>';
+}
+
+function findingRow(f) {
+  const tier = f.proposed_tier ? '<span class="pill">' + esc(f.proposed_tier) + '</span> ' : '';
+  return '<div class="item" data-finding="' + esc(f.id) + '">' +
+    '<p>' + tier + '<span class="pill">' + esc(f.verdict) + '</span> ' +
+    '<span class="pill">' + esc(f.status) + '</span></p>' +
+    '<p><strong>' + esc(f.title) + '</strong></p>' +
+    '<p class="meta">' + esc(f.journal || '') + ' ' + esc(String(f.year || '')) +
+    (f.study_type ? ' &middot; ' + esc(f.study_type) : '') +
+    (f.is_preprint ? ' &middot; PREPRINT' : '') + '</p>' +
+    (f.summary ? '<div class="summary">' + esc(f.summary) + '</div>'
+               : '<p class="note">No summary. It did not pass the claim-shape audit.</p>') +
+    (f.tier_reason ? '<p class="meta">' + esc(f.tier_reason) + '</p>' : '') +
+    doiLink(f) +
+    (f.status === 'candidate' ? '<div class="acts">' +
+      '<button data-accept="' + esc(f.id) + '">Accept</button>' +
+      '<button data-declinef="' + esc(f.id) + '">Decline</button>' +
+      '<select data-tier="' + esc(f.id) + '">' +
+      ['established', 'strong', 'emerging', 'contested', 'hypothesis'].map((t) =>
+        '<option value="' + t + '"' + (t === f.proposed_tier ? ' selected' : '') + '>' +
+        t + '</option>').join('') +
+      '</select></div>' : '') +
+    '</div>';
+}
+
+function doiLink(f) {
+  if (!f.doi) return '<p class="meta">No DOI.</p>';
+  return '<p class="meta"><a href="https://doi.org/' + esc(f.doi) + '" rel="noopener">' +
+    esc(f.doi) + '</a></p>';
+}
+
+function daysAgo(ts) {
+  if (!ts) return 9999;
+  return Math.floor((Date.now() - new Date(ts).getTime()) / 86400000);
+}
+
+// Every action records who and when. The row is never deleted: a declined
+// finding is kept, because the set of papers we looked at and did not take is
+// the only way to see a systematic blind spot later.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const me = (await sb.auth.getUser()).data.user;
+  const now = new Date().toISOString();
+
+  const accept = btn.getAttribute('data-accept');
+  const declineF = btn.getAttribute('data-declinef');
+  const approve = btn.getAttribute('data-approve');
+  const decline = btn.getAttribute('data-decline');
+  const toggle = btn.getAttribute('data-toggle');
+
+  btn.disabled = true;
+  try {
+    if (accept || declineF) {
+      const id = accept || declineF;
+      const sel = document.querySelector('[data-tier="' + id + '"]');
+      const patch = {
+        status: accept ? 'accepted' : 'declined',
+        decided_by: me ? me.id : null,
+        decided_at: now,
+      };
+      if (accept && sel) patch.proposed_tier = sel.value;
+      const { error } = await sb.from('research_findings').update(patch).eq('id', id);
+      if (error) throw error;
+    } else if (approve || decline) {
+      // An RPC, not an update. Approving a rule revision is a transformation
+      // with a safety property, not a status change: the new version is a NEW
+      // ROW and the old row is left exactly as it was. A browser that could
+      // write that could also write half of it, so the whole thing happens
+      // server side in one transaction under one admin check. Migration 088.
+      const id = approve || decline;
+      const reason = prompt(approve ? 'Why are you approving this?'
+                                    : 'Why are you declining this?');
+      if (reason === null) { btn.disabled = false; return; }
+      const { data, error } = await sb.rpc(
+        approve ? 'approve_canon_proposal' : 'decline_canon_proposal',
+        { p_id: id, p_reason: reason || null });
+      if (error) throw error;
+      // The function reports its own refusals rather than throwing, so a
+      // false `ok` has to be surfaced or a refusal looks like a success.
+      if (data && data.ok === false) throw new Error(data.message || 'refused');
+    } else if (toggle) {
+      const on = btn.getAttribute('data-on') === '1';
+      const { error } = await sb.from('research_queries')
+        .update({ is_active: !on, updated_at: now }).eq('id', toggle);
+      if (error) throw error;
+    } else {
+      btn.disabled = false;
+      return;
+    }
+    await render();
+  } catch (err) {
+    btn.disabled = false;
+    // Say what went wrong rather than silently doing nothing. A portal write
+    // that returns an error is almost always RLS, not the JavaScript.
+    alert('That did not save: ' + (err && err.message ? err.message : String(err)));
+  }
+});
+</script>
+</body></html>
